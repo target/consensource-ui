@@ -2,15 +2,15 @@ FROM node:8 as builder
 
 WORKDIR /project/client
 
-COPY . /client/
+COPY . /client
 
-RUN cd /client \
-    && npm install \
+WORKDIR /client
+RUN npm install \
     && npm run build-dev
 
 FROM httpd:2.4-alpine
 
-COPY --from=builder /client/ /client/
+COPY --from=builder /client /client
 
 # Remove default index.html
 RUN rm /usr/local/apache2/htdocs/index.html
