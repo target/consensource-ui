@@ -1,7 +1,7 @@
 {
-  "name": "consensource-client",
+  "name": "consensource-ui",
   "version": "0.1.0",
-  "description": "ConsenSource Client",
+  "description": "ConsenSource UI",
   "main": "dist/retailer.js",
   "scripts": {
     "clean": "rm -f src/compiled_protobufs.json public/js/*.js",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/target/ConsenSource"
+    "url": "https://github.com/target/consensource-ui"
   },
   "keywords": [
     "webclient"
