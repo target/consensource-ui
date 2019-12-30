@@ -1,4 +1,4 @@
-# Client
+# Client [![Build Status](https://travis-ci.org/target/consensource-ui.svg?branch=master)](https://travis-ci.org/target/consensource-ui)
 
 The ConsenSource UI is comprised of a number of Mithril applications under the same router. The default application that is served from the `index.html` page is for retailers. To access the other apps, specify the relative .html file in [/public](/client/public) such as `localhost:8080/index_auditor.html`.
 
