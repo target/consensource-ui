@@ -1,22 +1,22 @@
 FROM node:8 as builder
 
-WORKDIR /project/client
+WORKDIR /project/ui
 
-COPY . /client
+COPY . /ui
 
-WORKDIR /client
+WORKDIR /ui
 RUN npm install \
     && npm run build-dev
 
 FROM httpd:2.4-alpine
 
-COPY --from=builder /client /client
+COPY --from=builder /ui /ui
 
 # Remove default index.html
 RUN rm /usr/local/apache2/htdocs/index.html
 
-# Copy client over
-RUN cp -rf /client/public/* /usr/local/apache2/htdocs
+# Copy UI over
+RUN cp -rf /ui/public/* /usr/local/apache2/htdocs
 
 RUN echo -e "\
     \n\

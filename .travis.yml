@@ -10,7 +10,7 @@ before_script:
     - echo $TRAVIS_REPO_SLUG
   
 script:
-    # Lint, build client
+    # Lint, build UI
     - npm install
     - npm run lint
     - npm run build-dev
