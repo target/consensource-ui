@@ -16,7 +16,8 @@ const getFeatureFlagVal = (val) => {
 }
 
 const featureFlagConfigs = {
-    "enableTestingBanner": getFeatureFlagVal(process.env.ENABLE_TESTING_BANNER)
+    "enableTestingBanner": getFeatureFlagVal(process.env.ENABLE_TESTING_BANNER),
+    "enableSignup": getFeatureFlagVal(process.env.ENABLE_SIGNUP)
 }
 
 module.exports = {
