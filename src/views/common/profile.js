@@ -16,11 +16,9 @@ const _orgView = (vnode) => [
 ]
 
 const _noOrgView = () => [
-      m('p', "You are not currently associated with an organization. Would you like to create one?"),
-      m('a.btn.btn-success[href=/organizationCreate]',
-        { oncreate: m.route.link },
-        "Create an Organization")
+  m('p', "You are not currently associated with an organization.")
 ]
+
 
 const _renderTimestamp = (unixTimestamp) => {
   if (unixTimestamp) {
@@ -76,15 +74,15 @@ const AgentProfile = {
 
     return AuthService.getUserData()
       .then((user) => agentService.fetchAgent(user.public_key)
-          .then((agent) => {
-            vnode.state.loading = false
-            vnode.state.agent = agent.data
-            PasswordUpdate.setUpdatePassword(user)
-            m.redraw()
-          })
-          .catch(() => {
-            vnode.state.loading = false
-          }))
+        .then((agent) => {
+          vnode.state.loading = false
+          vnode.state.agent = agent.data
+          PasswordUpdate.setUpdatePassword(user)
+          m.redraw()
+        })
+        .catch(() => {
+          vnode.state.loading = false
+        }))
 
   },
   view: (vnode) => {
@@ -94,7 +92,6 @@ const AgentProfile = {
       return [
         PasswordUpdate.errorMsg ? m('p.text-danger', PasswordUpdate.errorMsg) : null,
         m('h1', "Agent Profile"),
-        m('dl.row', [_term('Public Key', vnode.state.agent.public_key)]),
         m('dl.row', [_term('Name', vnode.state.agent.name)]),
         m('dl.row', [_term('Member Since', _renderTimestamp(vnode.state.agent.created_on))]),
         m('.row', [
@@ -115,18 +112,18 @@ const AgentProfile = {
               oninput: m.withAttr("value", PasswordUpdate.setConfirmPassword),
               value: PasswordUpdate.confirmPassword,
             })]),
-          m('.row', [
-            m("button.btn.password-fields.updatePassword.m-2.hide",
-              {
-                onclick: () => {
-                  PasswordUpdate.submit()
-                  _toggleEditPassword(true)
-                },
-                disabled: PasswordUpdate.submitting || PasswordUpdate.invalidPassword(),
-              }, "Update"),
-              m('btn.btn.password-fields.cancelUpdate.m-2.hide', { onclick: () => _toggleEditPassword(false) }, 'Cancel')
-          ]),
-        m('dl.row', [m("btn.dt-sm-2.btn.password-fields.updatePassword.m-2.show", {onclick: () => _toggleEditPassword(true)}, "Update Password")]),
+        m('.row', [
+          m("button.btn.password-fields.updatePassword.m-2.hide",
+            {
+              onclick: () => {
+                PasswordUpdate.submit()
+                _toggleEditPassword(true)
+              },
+              disabled: PasswordUpdate.submitting || PasswordUpdate.invalidPassword(),
+            }, "Update"),
+          m('btn.btn.password-fields.cancelUpdate.m-2.hide', { onclick: () => _toggleEditPassword(false) }, 'Cancel')
+        ]),
+        m('dl.row', [m("btn.dt-sm-2.btn.password-fields.updatePassword.m-2.show", { onclick: () => _toggleEditPassword(true) }, "Update Password")]),
         m(modals.ModalContainer, { show: modals.displayModal() }),
         m('h4', 'My Organization'),
         vnode.state.agent.organization ? _orgView(vnode) : _noOrgView(vnode)

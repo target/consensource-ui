@@ -87,7 +87,7 @@ const App = {
             m('div.collapse.navbar-collapse', [
               m('ul.navbar-nav.ml-auto',
                 [
-                  m(AuthedComponent, _navLink('/requests', 'certified-factories-icon.svg', 'inactive-cert-factories.svg', 'Request Certification')),
+                  m(AuthedComponent, _navLink('/requests', 'certified-factories-icon.svg', 'inactive-cert-factories.svg', 'Certifications')),
                   m(AuthedComponent, _navLink('/profile', 'active-profile.svg', 'profile-icon.svg', 'Profile')),
                   _authButtons()
                 ]),
