@@ -42,7 +42,7 @@ const App = {
               m('ul.navbar-nav.ml-auto',
                 [
                   _navLink('/certifications', 'certified-factories-icon.svg', 'inactive-cert-factories.svg', 'Certified Factories'),
-                  _navLink('/agents', 'active-agents.svg', 'inactive-agents.svg', 'Agents'),
+                  // _navLink('/agents', 'active-agents.svg', 'inactive-agents.svg', 'Agents'),
                 ]),
 
             ])
@@ -75,7 +75,7 @@ const Welcome = {
             m('li', '+ View important certifications, licenses, and contact information for each retailer'),
             m('li', '+ Rest assured that both past and current data are accurate, verified, and up-to-date')
           ]),
-          m('a.btn.landing-page-action-btn[href=/certifications]', { oncreate: m.route.link }, 'Create a new standard'),
+          m('a.btn.landing-page-action-btn[href=/certifications]', { oncreate: m.route.link }, 'Start the search for certified factories'),
         ])
       ])
     ],
