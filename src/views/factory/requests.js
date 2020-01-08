@@ -122,11 +122,11 @@ const _formatDate = (requestDate) => {
 }
 
 const _renderRows = (items, renderer, emptyElement) => {
-    if (items.length > 0) {
-        return items.map(renderer)
-    } else {
-        return emptyElement
-    }
+  if (items.length > 0) {
+    return items.map(renderer)
+  } else {
+    return emptyElement
+  }
 }
 
 const _renderActionButton = (status, requestId, vnode) => {
@@ -144,7 +144,7 @@ const _renderActionButton = (status, requestId, vnode) => {
     actions.push(m("button.btn.action-btn.mt-1[type=submit]", {
       onclick: (e) => {
         e.preventDefault()
-        _close(requestId).then(() =>  FactoryRequestForm.loadData(vnode))
+        _close(requestId).then(() => FactoryRequestForm.loadData(vnode))
       },
       disabled: CertificateRequest.closing
     }, "Withdraw Request"))
@@ -206,10 +206,10 @@ const FactoryRequestForm = {
       return [
         m('p.request-title', 'Open Certificate Requests'),
         m('p.request-explanation',
-        'By opening a certification request, you are indicating that you have or will have arranged for an audit of your premises. ' +
-        'An auditor will review your request and respond by assigning a status of “Verified” or “Not Verified”. You may withdraw requests at any time.'),
-        m('table.table.request-table',[
-          m('thead',  m('tr', [
+          'By opening a certification request, you are indicating that you have or will have arranged for an audit of your premises. ' +
+          'An auditor will review your request and respond by assigning a status of “Verified” or “Not Verified”. You may withdraw requests at any time.'),
+        m('table.table.request-table', [
+          m('thead', m('tr', [
             m('th[scope=col]', "Request Date"),
             m('th[scope=col]', "Standard"),
             m('th[scope=col]', "Status"),
@@ -218,7 +218,7 @@ const FactoryRequestForm = {
           m('tbody',
             m(`tr.select-row.form-group`, [
               m('td[align=center]', m('span.dash', '—')),
-              m('td.pl-5',m('select.form-control.standard-select', {
+              m('td.pl-5', m('select.form-control.standard-select', {
                 oninput: m.withAttr("value", CertificateRequest.setStandardId),
                 value: CertificateRequest.standardId
               }, m('option[selected="selected"][value=""][disabled="disabled"]', 'Choose Standard'), CertificationStandards.list)),
@@ -243,7 +243,7 @@ const FactoryRequestForm = {
               ])]),
               m('tr', m('td[colspan=4]', 'No open requests found')))
 
-            )
+          )
         ]),
       ]
     } else {
@@ -255,40 +255,40 @@ const FactoryRequestForm = {
 const ListCertifications = {
   _viewName: 'Certifications',
   oninit: (vnode) => {
-      vnode.state.certRequests = null;
-      AuthService.getUserData()
-        .then((user) => Promise.all([
-          user,
-          agentService.fetchAgent(user.public_key)
-        ]))
-        .then(([user, agent]) => Promise.all([
-          user,
-          factoryService.fetchFactory(agent.data.organization.id)
-        ]))
-        .then(([user, factoryResult]) => {
+    vnode.state.certRequests = null;
+    AuthService.getUserData()
+      .then((user) => Promise.all([
+        user,
+        agentService.fetchAgent(user.public_key)
+      ]))
+      .then(([user, agent]) => Promise.all([
+        user,
+        factoryService.fetchFactory(agent.data.organization.id)
+      ]))
+      .then(([user, factoryResult]) => {
 
-          vnode.state.loading = false
-          vnode.state.user = user
-          vnode.state.factory = factoryResult.data
-          m.redraw()
-        })
-        .catch((e) => {
-          console.log(e)
-          // sign-up or -in required
-          vnode.state.loading = false
-          vnode.state.user = null
-          m.redraw()
-        })
+        vnode.state.loading = false
+        vnode.state.user = user
+        vnode.state.factory = factoryResult.data
+        m.redraw()
+      })
+      .catch((e) => {
+        console.log(e)
+        // sign-up or -in required
+        vnode.state.loading = false
+        vnode.state.user = null
+        m.redraw()
+      })
   },
-  view: (vnode) =>  {
+  view: (vnode) => {
     if (vnode.state.loading) {
       return [m('.row', 'Loading...')]
     } else if (vnode.state.factory) {
       return [
-     m('.container', [
-          m('.row', m('.col-10.offset-md-1', m(FactoryRequestForm, {factory: vnode.state.factory}))),
-          m('.row',  m('.col-10.offset-md-1', m(CertificateList, { factory: vnode.state.factory })))
-       ])
+        m('.container', [
+          m('.row', m('.col-10.offset-md-1', m(CertificateList, { factory: vnode.state.factory }))),
+          m('.row', m('.col-10.offset-md-1', m(FactoryRequestForm, { factory: vnode.state.factory })))
+        ])
       ]
     } else {
       return [m('.row', "Unable to load details")]

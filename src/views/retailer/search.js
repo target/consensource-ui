@@ -6,7 +6,7 @@ const retailerSearchService = require('App/services/retailer_search')
 
 const _searchForm = (vnode) => m('.form-row', [
   m('div.col-10',
-    m(`input.form-control.searchBar[type=text][name="searchFactories"][placeholder="Search by Factory Name, Supplier ID, Certification Type or Location"]`, {
+    m(`input.form-control.searchBar[type=text][name="searchFactories"][placeholder="Search by Factory Name, Certification Type or Location"]`, {
       oninput: m.withAttr('value', (v) => {
         vnode.state.value = v
       }),
@@ -57,7 +57,6 @@ const FactoryTable = {
     m('table.table.table-bordered.factory-table', [
       m('thead.thead-dark', m('tr', [
         m('th[scope=col]', "Factory Name"),
-        m('th[scope=col]', "Supplier ID"),
         m('th[scope=col]', "Certification Type(s)"),
         m('th[scope=col]', "Location"),
         m('th[scope=col]', "Details"),
@@ -67,7 +66,6 @@ const FactoryTable = {
           vnode.attrs.factories,
           ((factory, index) => [m(`tr.select-row.factory-info#factory-${index}`, [
             m('td.pl-5', factory.name),
-            m('td.pl-5', factory.target_id ? factory.target_id : "Not Current Supplier"),
             m('td.pl-5', _renderCertificationTypes(factory.certificates)),
             m('td.pl-5', _renderLocation(factory.address)),
             m(`td.pl-5.toggle-factory-details`, { onclick: (vnode) => toggleFactoryDetails(vnode, index) }, [
@@ -162,7 +160,6 @@ const _doSearch = (vnode) => {
   results = results.concat(ss.filter((factory) => _match(factory.address.country, searchInput)))
   results = results.concat(ss.filter((factory) => _match(factory.address.city, searchInput)))
   results = results.concat(ss.filter((factory) => _match(factory.address.state_province, searchInput)))
-  results = results.concat(ss.filter((factory) => _match(factory.target_id, searchInput)))
   results = results.concat(ss.filter((factory) => _searchCertificateId(factory.certificates, searchInput)))
   results = results.concat(ss.filter((factory) => _searchStandardType(factory.certificates, searchInput)))
   let unique_results = new Set(results)

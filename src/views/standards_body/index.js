@@ -57,7 +57,7 @@ const App = {
               m('ul.navbar-nav.ml-auto',
                 [
                   m(AuthedComponent, _navLink('/profile', 'My Profile')),
-                  m(AuthedComponent, _navLink('/standardsCreate', 'New Standard')),
+                  m(AuthedComponent, _navLink('/standardsCreate', 'Create Standard')),
                   m(AuthedComponent, _navLink('/standardsList', 'View Standards')),
                   m(AuthedComponent, _navLink('/certifyingBodyList', 'View Certifying Bodies')),
                   _authButtons()
@@ -83,16 +83,15 @@ const Welcome = {
       m('div.landing-page.landing-page-standards-body', [
         m('div.landing-page-info', [
           m('p.landing-page-info-section.landing-page-info-header', [
-            'Use ',
+            'Promote your standards to relevant parties and accredit Certifying Bodies using',
             m('strong', 'ConsenSource'),
-            ' to help retailers and brands ensure a transparent and responsible supply chain, from source to shelf'
           ]),
           m('ul.landing-page-info-section', [
-            m('li', '+ Search for a variety of certified factories'),
-            m('li', '+ View important certifications, licenses, and contact information for each retailer'),
+            m('li', '+ Create and promote your standard to factories, suppliers, brands, and retailers'),
+            m('li', '+ View and accredit certifying bodies for your standard'),
             m('li', '+ Rest assured that both past and current data are accurate, verified, and up-to-date')
           ]),
-          m('a.btn.landing-page-action-btn', { role: 'button', href: `${AuthService.isSignedIn() ? '/standardsCreate' : '/signIn'}`, oncreate: m.route.link }, 'Start the search for certified factories'),
+          m('a.btn.landing-page-action-btn', { role: 'button', href: `${AuthService.isSignedIn() ? '/standardsCreate' : '/signIn'}`, oncreate: m.route.link }, 'Create a standard'),
         ])
       ])
     ]
