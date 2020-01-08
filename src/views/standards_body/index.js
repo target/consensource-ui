@@ -2,6 +2,8 @@
 
 const m = require('mithril')
 const AuthService = require('App/services/auth')
+const FeatureFlagService = require('App/services/feature_flag')
+const { testingNotificationBanner } = require('App/components/testing_banner')
 const { AuthedComponent } = require('App/views/common/auth')
 
 const _navLink = (route, label) =>
@@ -63,6 +65,7 @@ const App = {
             ])
           ]),
         m('main.container', { role: 'main' }, [vnode.children]),
+        FeatureFlagService.isTestBannerEnabled() && testingNotificationBanner()
       ]
     }
   },

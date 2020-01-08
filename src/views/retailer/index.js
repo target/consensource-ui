@@ -2,6 +2,8 @@
 
 const m = require('mithril')
 const modals = require('App/components/modals')
+const { testingNotificationBanner } = require('App/components/testing_banner')
+const FeatureFlagService = require('App/services/feature_flag')
 
 const _navLink = (route, asset_active, asset_inactive, label) =>
   m('li.nav-item.retailer_nav',
@@ -48,7 +50,8 @@ const App = {
             ])
           ]),
         m('main.container.mt-5', { role: 'main' }, [vnode.children]),
-        m(modals.ModalContainer, { show: modals.displayModal() })
+        m(modals.ModalContainer, { show: modals.displayModal() }),
+        FeatureFlagService.isTestBannerEnabled() && testingNotificationBanner()
       ]
     }
   },

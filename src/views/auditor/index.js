@@ -2,8 +2,10 @@
 
 const m = require('mithril')
 const AuthService = require('App/services/auth')
-const { AuthedComponent } = require('App/views/common/auth')
 const agentService = require('App/services/agent')
+const FeatureFlagService = require('App/services/feature_flag')
+const { testingNotificationBanner } = require('App/components/testing_banner')
+const { AuthedComponent } = require('App/views/common/auth')
 
 const _navLink = (route, asset_active, asset_inactive, label) =>
   m('li.nav-item.auditor_nav',
@@ -94,6 +96,7 @@ const App = {
             ])
           ]),
         m('main.container.mt-5', { role: 'main' }, [vnode.children]),
+        FeatureFlagService.isTestBannerEnabled() && testingNotificationBanner()
       ]
     }
   },
