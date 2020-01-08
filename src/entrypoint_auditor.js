@@ -1,6 +1,7 @@
 'use strict'
 
 const m = require('mithril')
+const FeatureFlagService = require('App/services/feature_flag')
 
 const { App, Welcome } = require('App/views/auditor')
 const { AgentProfile } = require('App/views/common/profile')
@@ -18,7 +19,7 @@ m.route(element, '/', {
   '/': App.subpage(Welcome),
 
   '/signIn': App.subpage(SignInForm),
-  '/signUp': App.subpage(AgentSignUpForm),
+  '/signUp': App.subpage(FeatureFlagService.isSignupEnabled() && AgentSignUpForm),
   '/profile': App.subpage(AgentProfile),
 
   '/organizationCreate': App.subpage(CreateCertifyingBody),
