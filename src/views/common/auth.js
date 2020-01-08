@@ -4,7 +4,7 @@ const m = require('mithril')
 const { inputField } = require('App/components/forms')
 const AuthService = require('App/services/auth')
 const agentService = require('App/services/agent')
-
+const FeatureFlagService = require('App/services/feature_flag')
 
 const AuthedComponent = {
   view(vnode) {
@@ -75,7 +75,7 @@ const SignInForm = {
               onclick: SignIn.submit,
               disabled: SignIn.submitting,
             }, "Sign In"),
-          m('a.btn.btn-link.small.text-muted[href=/signUp]', {
+          FeatureFlagService.isSignupEnabled() && m('a.btn.btn-link.small.text-muted[href=/signUp]', {
             oncreate: m.route.link
           }, 'Not a member? Sign Up')
         ])

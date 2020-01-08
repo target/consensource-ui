@@ -8,7 +8,6 @@ const modals = require('App/components/modals')
 const { AuthedComponent } = require('App/views/common/auth')
 const { testingNotificationBanner } = require('App/components/testing_banner')
 
-
 const _navLink = (route, asset_active, asset_inactive, label) =>
   m('li.nav-item.retailer_nav',
     m(`a.nav-link.retailer_nav_link[href=${route}]`,
