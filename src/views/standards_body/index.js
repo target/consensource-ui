@@ -20,7 +20,6 @@ const _greeting = (vnode) => {
 }
 
 
-
 const _authButtons = () => {
   if (AuthService.isSignedIn()) {
     return m('li.nav-item',
