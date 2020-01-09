@@ -24,6 +24,8 @@ RUN echo -e "\
     AddDefaultCharset utf-8\n\
     LoadModule proxy_module modules/mod_proxy.so\n\
     LoadModule proxy_http_module modules/mod_proxy_http.so\n\
+    LogFormat \"%h %l %u %t \\\"%r\\\" %>s %b \\\"%{Referer}i\\\" \\\"%{User-agent}i\\\"\" combined\n\
+    CustomLog logs/access_log combined\n\
     ProxyPass /api/block-stream http://consensource-api:9010/push/0\n\
     ProxyPassReverse /api/block-stream http://consensource-api:9010/push/0\n\
     ProxyPass /api http://consensource-api:9009/api connectiontimeout=300 timeout=300\n\
