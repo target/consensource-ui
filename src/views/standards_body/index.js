@@ -11,8 +11,15 @@ const _navLink = (route, label) =>
     { class: m.route.get() === route ? 'active' : '' },
     m(`a.nav-link.standards_body_nav_link[href=${route}]`, { oncreate: m.route.link, }, label))
 
-const _greeting = () =>
-  'Welcome, Standards Body team member!'
+const _greeting = (vnode) => {
+  if (vnode.state.agent) {
+    return m(AuthedComponent, `Hi, ${vnode.state.agent.name}`)
+  } else {
+    return 'Welcome, Standards Body team member!'
+  }
+}
+
+
 
 const _authButtons = () => {
   if (AuthService.isSignedIn()) {
@@ -52,7 +59,7 @@ const App = {
                 )
               ]
             ),
-            m('span.ml-3.greeting_text', _greeting()),
+            m('span.ml-3.greeting_text', _greeting(vnode)),
             m('div.collapse.navbar-collapse', [
               m('ul.navbar-nav.ml-auto',
                 [
@@ -83,7 +90,7 @@ const Welcome = {
       m('div.landing-page.landing-page-standards-body', [
         m('div.landing-page-info', [
           m('p.landing-page-info-section.landing-page-info-header', [
-            'Promote your standards to relevant parties and accredit Certifying Bodies using',
+            'Promote your standards to relevant parties and accredit Certifying Bodies using ',
             m('strong', 'ConsenSource'),
           ]),
           m('ul.landing-page-info-section', [

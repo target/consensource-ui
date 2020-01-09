@@ -35,8 +35,9 @@ const _authButtons = () => {
 const _greeting = (vnode) => {
   if (vnode.state.agent) {
     return m(AuthedComponent, `Hi, ${vnode.state.agent.name}`)
+  } else {
+    return `Welcome, auditing team member!`
   }
-  return `Welcome, auditing team member!`
 }
 
 const _getAgentData = (vnode) => AuthService.getUserData()
