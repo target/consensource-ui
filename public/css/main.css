@@ -155,7 +155,7 @@ display: inline-block;
 
 main.container {
     padding-top: 5rem;
-    padding-bottom: 1.5rem;
+    padding-bottom: 75px;
 }
 
 #app  > nav.navbar-light {
@@ -595,11 +595,18 @@ label.form-label {
 }
 
 .test-banner-footer {
-  position: sticky;
+  position: fixed;
+  background-attachment: scroll;
   bottom: 0;
   width: 100%;
   height: 60px;
   background-color: #FFCC00;
+  background-image: none;
+  background-repeat: repeat;
+  background-attachment: scroll;
+  bottom: 0pt;
+  left: 0pt;
+
 }
 
 .test-banner-text {
