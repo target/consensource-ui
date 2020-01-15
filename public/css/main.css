@@ -134,19 +134,19 @@ nav.navbar {
 }
 
 .org-logo {
-width: 55px;
-height: 55px;
-left: 7px;
-top: 7px;
-position: relative;
+  width: 40px;
+  height: 40px;
+  left: 9px;
+  top: 9px;
+  position: relative;
 }
 
 .logo-circle {
-height: 70px;
-width: 70px;
-background-color: #f7f7f7;
-border-radius: 50%;
-display: inline-block;
+  height: 60px;
+  width: 60px;
+  background-color: #f7f7f7;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .org-brand {
@@ -154,7 +154,7 @@ display: inline-block;
 }
 
 main.container {
-    padding-top: 5rem;
+    padding-top: 7.5rem;
 }
 
 #app  > nav.navbar-light {

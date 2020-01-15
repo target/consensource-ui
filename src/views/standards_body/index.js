@@ -80,7 +80,7 @@ const Welcome = {
       m('div.landing-page.landing-page-standards-body', [
         m('div.landing-page-info', [
           m('p.landing-page-info-section.landing-page-info-header', [
-            'Promote your standards to relevant parties and accredit Certifying Bodies using',
+            'Promote your standards to relevant parties and accredit Certifying Bodies using ',
             m('strong', 'ConsenSource'),
           ]),
           m('ul.landing-page-info-section', [

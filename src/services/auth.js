@@ -15,7 +15,6 @@ const CRYPTO_FACTORY = new CryptoFactory(CRYPTO_CONTEXT)
 
 let _authStore_cachedSigner = null;
 
-
 const _localStoreSave = (key, value) =>
   localStorage.setItem(`${AuthService.namespace}/${key}`, value)
 
@@ -58,7 +57,7 @@ const displaySuccessDialog = () => {
 
 
 const AuthService = {
-  namespace: 'creg',
+  namespace: 'consensource',
 
   isSignedIn: () => Boolean(_localStoreGet(STORE_USER)),
 
