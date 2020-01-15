@@ -53,7 +53,7 @@ const requestPassword = () => {
 }
 
 const displaySuccessDialog = () => {
-  modals.show(modals.DialogSuccessModal, {content: 'Password successfully updated'})
+  modals.show(modals.DialogSuccessModal, { content: 'Password successfully updated' })
 }
 
 
@@ -138,7 +138,7 @@ const AuthService = {
 
     let encryptedPrivateKey = sjcl.encrypt(password, privateKey.asHex())
 
-    return Promise.resolve({signer, encryptedPrivateKey})
+    return Promise.resolve({ signer, encryptedPrivateKey })
   },
 
   /**
@@ -160,14 +160,14 @@ const AuthService = {
       url: '/api/users/authenticate',
       data: { username, password }
     })
-    .then((user) => AuthService.setUserData(user, password))
-    .catch((e) => {
-      if (e.error && e.error.status === 401) {
-        return Promise.reject('User not found')
-      } else {
-        return Promise.reject('Unable to sign in at this time.')
-      }
-    }),
+      .then((user) => AuthService.setUserData(user, password))
+      .catch((e) => {
+        if (e.error && e.error.status === 401) {
+          return Promise.reject('User not found')
+        } else {
+          return Promise.reject('Unable to sign in at this time.')
+        }
+      }),
 
   updateUser: (update, signer) => {
     let userUpdate = pluck(update, 'username', 'old_password', 'password', 'encrypted_private_key')
@@ -180,19 +180,19 @@ const AuthService = {
       url: `/api/users/${public_key}`,
       data: userUpdate
     })
-    .catch((e) => {
-      if (e.error && e.error.status === 401) {
-        return Promise.reject('Unauthorized to change password')
-      } else {
-        return Promise.reject('Unable to change password at this time.')
-      }
-    })
-    .then((result) => {
-      if (result.status === 'ok') {
-        AuthService.updateUserData(userUpdate)
-        displaySuccessDialog()
-      }
-    })
+      .catch((e) => {
+        if (e.error && e.error.status === 401) {
+          return Promise.reject('Unauthorized to change password')
+        } else {
+          return Promise.reject('Unable to change password at this time.')
+        }
+      })
+      .then((result) => {
+        if (result.status === 'ok') {
+          AuthService.updateUserData(userUpdate)
+          displaySuccessDialog()
+        }
+      })
   },
 
   /**
@@ -202,36 +202,33 @@ const AuthService = {
    * The function is a (Signer) => Promise, where the promise is resolved when
    * the transaction completes.
    */
-  createUser: (user, submitTransactionFn) =>  {
+  createUser: (user, submitTransactionFn) => {
     let userCreate = pluck(user, 'username', 'password', 'email')
     return AuthService.createSigner(userCreate.password)
-      .then(({signer, encryptedPrivateKey}) => {
+      .then(({ signer, encryptedPrivateKey }) => {
         userCreate.public_key = signer.getPublicKey().asHex()
         userCreate.encrypted_private_key = encryptedPrivateKey
-        // These should be removed
-        userCreate.batch_id = ''
-        userCreate.transaction_id = ''
 
         return m.request({
           method: 'POST',
           url: '/api/users',
           data: userCreate
         })
-        .catch((e) => {
-          if (e.error && e.error.status === 400) {
-            return Promise.reject(e.error.message)
-          } else {
-            return Promise.reject("Unable to sign up at this time")
-          }
-        })
-        .then((result) => {
-          if (result.status === 'ok') {
-            return submitTransactionFn(signer)
-          } else {
-            return Promise.reject("Unable to sign up at this time")
-          }
-        })
-        .then(() => AuthService.setUserData(userCreate, userCreate.password))
+          .catch((e) => {
+            if (e.error && e.error.status === 400) {
+              return Promise.reject(e.error.message)
+            } else {
+              return Promise.reject("Unable to sign up at this time")
+            }
+          })
+          .then((result) => {
+            if (result.status === 'ok') {
+              return submitTransactionFn(signer)
+            } else {
+              return Promise.reject("Unable to sign up at this time")
+            }
+          })
+          .then(() => AuthService.setUserData(userCreate, userCreate.password))
       })
   }
 }
