@@ -48,7 +48,7 @@ const _getAgentData = (vnode) => AuthService.getUserData()
       m.redraw()
     })
     .catch((e) => {
-      console.log(e)
+      console.error(e)
       vnode.state.loading = false
     }))
 
