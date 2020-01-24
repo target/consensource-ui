@@ -2,6 +2,8 @@
 
 const m = require('mithril')
 const AuthService = require('App/services/auth')
+const FeatureFlagService = require('App/services/feature_flag')
+const { testingNotificationBanner } = require('App/components/testing_banner')
 const { AuthedComponent } = require('App/views/common/auth')
 
 const _navLink = (route, label) =>
@@ -9,8 +11,14 @@ const _navLink = (route, label) =>
     { class: m.route.get() === route ? 'active' : '' },
     m(`a.nav-link.standards_body_nav_link[href=${route}]`, { oncreate: m.route.link, }, label))
 
-const _greeting = () =>
-  'Welcome, Standards Body team member!'
+const _greeting = (vnode) => {
+  if (vnode.state.agent) {
+    return m(AuthedComponent, `Hi, ${vnode.state.agent.name}`)
+  } else {
+    return 'Welcome, Standards Body team member!'
+  }
+}
+
 
 const _authButtons = () => {
   if (AuthService.isSignedIn()) {
@@ -24,7 +32,7 @@ const _authButtons = () => {
   } else {
     return [
       m('a.btn.navbar-signin[href=/signIn]', { oncreate: m.route.link }, 'Sign In'),
-      m('a.btn.btn-link.small.text-muted[href=/signUp]', { oncreate: m.route.link }, 'Not a member? Sign Up')
+      FeatureFlagService.isSignupEnabled() && m('a.btn.btn-link.small.text-muted[href=/signUp]', { oncreate: m.route.link }, 'Not a member? Sign Up')
     ]
   }
 }
@@ -50,7 +58,7 @@ const App = {
                 )
               ]
             ),
-            m('span.ml-3.greeting_text', _greeting()),
+            m('span.ml-3.greeting_text', _greeting(vnode)),
             m('div.collapse.navbar-collapse', [
               m('ul.navbar-nav.ml-auto',
                 [
@@ -63,6 +71,7 @@ const App = {
             ])
           ]),
         m('main.container', { role: 'main' }, [vnode.children]),
+        FeatureFlagService.isTestBannerEnabled() && testingNotificationBanner()
       ]
     }
   },
