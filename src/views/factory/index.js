@@ -3,9 +3,10 @@
 const m = require('mithril')
 const AuthService = require('App/services/auth')
 const agentService = require('App/services/agent')
+const FeatureFlagService = require('App/services/feature_flag')
 const modals = require('App/components/modals')
 const { AuthedComponent } = require('App/views/common/auth')
-
+const { testingNotificationBanner } = require('App/components/testing_banner')
 
 const _navLink = (route, asset_active, asset_inactive, label) =>
   m('li.nav-item.retailer_nav',
@@ -27,7 +28,7 @@ const _authButtons = () => {
   } else {
     return [
       m('a.btn.btn-outline-success[href=/signIn]', { oncreate: m.route.link }, 'Sign In'),
-      m('a.btn.btn-link.small.text-muted[href=/signUp]', { oncreate: m.route.link }, 'Not a member? Sign Up')
+      FeatureFlagService.isSignupEnabled() && m('a.btn.btn-link.small.text-muted[href=/signUp]', { oncreate: m.route.link }, 'Not a member? Sign Up')
     ]
   }
 }
@@ -36,8 +37,9 @@ const _authButtons = () => {
 const _greeting = (vnode) => {
   if (vnode.state.agent) {
     return m(AuthedComponent, `Hi, ${vnode.state.agent.name}`)
+  } else {
+    return `Welcome, factory team member!`
   }
-  return `Welcome, factory team member!`
 }
 
 const _getAgentData = (vnode) => AuthService.getUserData()
@@ -95,7 +97,8 @@ const App = {
             ])
           ]),
         m('main.container.mt-5', { role: 'main' }, [vnode.children]),
-        m(modals.ModalContainer, { show: modals.displayModal() })
+        m(modals.ModalContainer, { show: modals.displayModal() }),
+        FeatureFlagService.isTestBannerEnabled() && testingNotificationBanner()
       ]
     }
   },

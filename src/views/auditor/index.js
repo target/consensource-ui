@@ -2,8 +2,10 @@
 
 const m = require('mithril')
 const AuthService = require('App/services/auth')
-const { AuthedComponent } = require('App/views/common/auth')
 const agentService = require('App/services/agent')
+const FeatureFlagService = require('App/services/feature_flag')
+const { testingNotificationBanner } = require('App/components/testing_banner')
+const { AuthedComponent } = require('App/views/common/auth')
 
 const _navLink = (route, asset_active, asset_inactive, label) =>
   m('li.nav-item.auditor_nav',
@@ -25,7 +27,7 @@ const _authButtons = () => {
   } else {
     return [
       m('a.btn.btn-outline-success[href=/signIn]', { oncreate: m.route.link }, 'Sign In'),
-      m('a.btn.btn-link.small.text-muted[href=/signUp]', { oncreate: m.route.link }, 'Not a member? Sign Up')
+      FeatureFlagService.isSignupEnabled() && m('a.btn.btn-link.small.text-muted[href=/signUp]', { oncreate: m.route.link }, 'Not a member? Sign Up')
     ]
   }
 }
@@ -33,8 +35,9 @@ const _authButtons = () => {
 const _greeting = (vnode) => {
   if (vnode.state.agent) {
     return m(AuthedComponent, `Hi, ${vnode.state.agent.name}`)
+  } else {
+    return `Welcome, auditing team member!`
   }
-  return `Welcome, auditing team member!`
 }
 
 const _getAgentData = (vnode) => AuthService.getUserData()
@@ -94,6 +97,7 @@ const App = {
             ])
           ]),
         m('main.container.mt-5', { role: 'main' }, [vnode.children]),
+        FeatureFlagService.isTestBannerEnabled() && testingNotificationBanner()
       ]
     }
   },

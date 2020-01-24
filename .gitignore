@@ -2,4 +2,4 @@
 node_modules
 public/js
 src/compiled_protobufs.json
-package-lock.json
+.env.feature-flags

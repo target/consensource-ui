@@ -16,7 +16,10 @@ const _orgView = (vnode) => [
 ]
 
 const _noOrgView = () => [
-  m('p', "You are not currently associated with an organization.")
+  m('p', "You are not currently associated with an organization. Would you like to create one?"),
+  m('a.btn.btn-success[href=/organizationCreate]',
+    { oncreate: m.route.link },
+    "Create an Organization")
 ]
 
 

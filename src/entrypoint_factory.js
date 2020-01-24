@@ -1,6 +1,7 @@
 'use strict'
 
 const m = require('mithril')
+const FeatureFlagService = require('App/services/feature_flag')
 
 const { SignInForm } = require('App/views/common/auth')
 const { App, Welcome } = require('App/views/factory')
@@ -13,7 +14,7 @@ AuthService.namespace = 'factory'
 let element = document.getElementById("app")
 m.route(element, '/', {
     '/': App.subpage(Welcome),
-    '/signUp': App.subpage(FactorySignUpForm),
+    '/signUp': App.subpage(FeatureFlagService.isSignupEnabled() && FactorySignUpForm),
     '/signIn': App.subpage(SignInForm),
     '/profile': App.subpage(FactoryDetails),
     '/requests': App.subpage(ListCertifications)
