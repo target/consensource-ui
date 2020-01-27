@@ -616,3 +616,45 @@ label.form-label {
   padding-top: 15px;
 }
 
+.landing-page-header {
+  text-align: center;
+  position: fixed;
+  display: flex;
+  flex-flow: row wrap;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.landing-page-item {
+  flex: auto;
+  width: 100%;
+  color: white !important;
+}
+
+.landing-page-links {
+  display: flex;
+}
+
+.landing-page-links div {
+  display: table; 
+  flex: auto;
+  width: 200px;
+  height: 75px;
+  border-radius: 5px;
+  background-color: white;
+  opacity: 0.8;
+  box-shadow: inset 0 0 0 2px #e6e6e6;
+  cursor: pointer;
+  margin: 15px;
+}
+
+.landing-page-links div:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.landing-page-links div a {
+  display: table-cell;
+  vertical-align: middle;
+  color: black;
+}
