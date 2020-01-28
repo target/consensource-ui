@@ -13,4 +13,4 @@ script:
     # Lint, build UI
     - npm install
     - npm run lint
-    - npm run build-dev
+    - npm run build
