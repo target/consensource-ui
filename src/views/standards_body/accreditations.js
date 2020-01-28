@@ -33,6 +33,18 @@ var AccreditCertifyingBodyData = {
     submitting: false,
     errorMsg: null,
 
+    hasInvalidFields: () => {
+        let requiredFields = [
+          'validTo', 'validFrom', 'standardId'
+        ]
+    
+        if (requiredFields.reduce((acc, key) => acc || AccreditCertifyingBodyData[key] === '' || AccreditCertifyingBodyData[key] === 0, false)) {
+          return true
+        }
+
+        return false
+    },
+
     setCertifyingBodyId: (certifyingBodyId) => {
         AccreditCertifyingBodyData.certifyingBodyId = certifyingBodyId
     },
@@ -52,7 +64,7 @@ var AccreditCertifyingBodyData = {
     clear: () => {
         AccreditCertifyingBodyData.certifyingBodyId = ''
         AccreditCertifyingBodyData.standardId = ''
-        AccreditCertifyingBodyData.validTo = 0
+        AccreditCertifyingBodyData.validTo = new Date().setFullYear(new Date().getFullYear() + 1) 
         AccreditCertifyingBodyData.validFrom = new Date().getTime() / 1000
         AccreditCertifyingBodyData.submitting = false
         AccreditCertifyingBodyData.errorMsg = null
@@ -90,7 +102,6 @@ var AccreditCertifyingBody = {
         vnode.state.organization = null
         vnode.state.standards = null
 
-
         return AuthService.getUserData()
             .then((user) => Promise.all([
                 agentService.fetchAgent(user.public_key),
@@ -120,7 +131,7 @@ var AccreditCertifyingBody = {
                 console.log(e)
                 vnode.state.loading = false
             }))
-        },
+    },
 
         view: (vnode) => {
             if (vnode.state.loading) {
@@ -146,12 +157,17 @@ var AccreditCertifyingBody = {
                             oninit: Standards.get(vnode),
                             oninput: m.withAttr("value", AccreditCertifyingBodyData.setStandardId),
                             value: AccreditCertifyingBodyData.standardId
-                        }, Standards.list),
+                        }, [m('option', {
+                            disabled: true,
+                            text: "Choose A Standard",
+                            value: AccreditCertifyingBodyData.standardId
+                        }), ...Standards.list]),
                     ]),
                     m('div.form-group.row', [
                         m('div.col', [
                         m('label', 'Valid from'),
                         m(DatePicker, {
+                            date: new Date(),
                             onchange: (chosenDate) => {
                                 AccreditCertifyingBodyData.setValidFrom(chosenDate.getTime() / 1000)
                                 }
@@ -162,6 +178,7 @@ var AccreditCertifyingBody = {
                         m('div.col', [
                         m('label', 'Valid to'),
                         m(DatePicker, {
+                            date: new Date().setFullYear(new Date().getFullYear() + 1) ,
                             onchange: (chosenDate) => {
                                 AccreditCertifyingBodyData.setValidTo(chosenDate.getTime() / 1000)
                                 }
@@ -176,19 +193,19 @@ var AccreditCertifyingBody = {
                     ]),
                 ]),
 
-                m("button.btn.btn-primary", {
-                    onclick: () => {
-                        AccreditCertifyingBodyData.setCertifyingBodyId(vnode.state.organization.id)
-                        AccreditCertifyingBodyData.submit(vnode.state.organization.id, vnode.state.agent.organization.id)
-                    },
-                    disabled: AccreditCertifyingBodyData.submitting,
-                }, "Accredit Certifying Body"),
-            ]),
-        ]
-    } else {
-        return [m('p', "Unable to load details")]
+                    m("button.btn.btn-primary", {
+                        onclick: () => {
+                            AccreditCertifyingBodyData.setCertifyingBodyId(vnode.state.organization.id)
+                            AccreditCertifyingBodyData.submit(vnode.state.organization.id, vnode.state.agent.organization.id)
+                        },
+                        disabled: AccreditCertifyingBodyData.submitting || AccreditCertifyingBodyData.hasInvalidFields(),
+                    }, "Accredit Certifying Body"),
+                ]),
+            ]
+        } else {
+            return [m('p', "Unable to load details")]
+        }
     }
-}
 }
 
 module.exports = {
