@@ -6,11 +6,13 @@ const FeatureFlagService = require('App/services/feature_flag')
 const { testingNotificationBanner } = require('App/components/testing_banner')
 const { AuthedComponent } = require('App/views/common/auth')
 
-const _navLink = (route, label) =>
+const _navLink = (route, asset_active, asset_inactive, label) =>
   m('li.nav-item.standards_body_nav',
-    { class: m.route.get() === route ? 'active' : '' },
-    m(`a.nav-link.standards_body_nav_link[href=${route}]`, { oncreate: m.route.link, }, label))
+  m(`a.nav-link.standards_body_nav_link[href=${route}]`,
+      { class: m.route.get() === route ? 'active' : '', oncreate: m.route.link },
+      [m(`img.nav_icon[src=/assets/images/${m.route.get() === route ? asset_active : asset_inactive}]`), m('span.nav_label.p-1.ml-1', label)]))
 
+    
 const _greeting = (vnode) => {
   if (vnode.state.agent) {
     return m(AuthedComponent, `Hi, ${vnode.state.agent.name}`)
@@ -62,10 +64,10 @@ const App = {
             m('div.collapse.navbar-collapse', [
               m('ul.navbar-nav.ml-auto',
                 [
-                  m(AuthedComponent, _navLink('/profile', 'My Profile')),
-                  m(AuthedComponent, _navLink('/standardsCreate', 'Create Standard')),
-                  m(AuthedComponent, _navLink('/standardsList', 'View Standards')),
-                  m(AuthedComponent, _navLink('/certifyingBodyList', 'View Certifying Bodies')),
+                  m(AuthedComponent, _navLink('/standardsCreate', 'granted-certifications-active.svg', 'granted-certifications-inactive.svg', 'Create A Standard')),
+                  m(AuthedComponent, _navLink('/standardsList', 'certified-factories-icon.svg', 'inactive-cert-factories.svg', 'Standards')),
+                  m(AuthedComponent, _navLink('/certifyingBodyList', 'active-agents.svg', 'inactive-agents.svg', 'Certifying Bodies')),
+                  m(AuthedComponent, _navLink('/profile', 'active-profile.svg', 'profile-icon.svg', 'Profile')),
                   _authButtons()
                 ]),
             ])
