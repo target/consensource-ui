@@ -2,6 +2,7 @@
 
 const m = require('mithril')
 const AuthService = require('App/services/auth')
+const AgentService = require('App/services/agent')
 const FeatureFlagService = require('App/services/feature_flag')
 const { testingNotificationBanner } = require('App/components/testing_banner')
 const { AuthedComponent } = require('App/views/common/auth')
@@ -39,8 +40,29 @@ const _authButtons = () => {
   }
 }
 
+const _getAgentData = (vnode) => AuthService.getUserData()
+  .then((user) => Promise.all([AgentService.fetchAgent(user.public_key)])
+  .then(([agent]) => {
+      vnode.state.agent = agent.data
+      vnode.state.loading = false
+      m.redraw()
+  })
+  .catch((e) => { 
+    console.log(e)
+    vnode.state.loading = false
+  }))
+
 const App = {
   _viewName: 'App',
+  oninit: (vnode) => {
+    vnode.state.agent = null
+    vnode.state.loading = false
+  },
+  onupdate: (vnode) => {
+    if (AuthService.isSignedIn() &&  vnode.state.agent === null && vnode.state.loading === false) {
+        _getAgentData(vnode)
+    }
+  },
   view: (vnode) => {
     if (vnode.state.loading) {
       return [m('.row', 'Loading...')]
