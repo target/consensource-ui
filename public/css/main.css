@@ -12,11 +12,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  max-height: 100%;
-  padding-top: 75px;
-  max-width: 100%;
-  margin: auto;
-  overflow: auto;
+  padding-top: 7.5vh;
 }
 
 .landing-page-info {
@@ -24,10 +20,13 @@
   height: 80vh;
   word-wrap: break-word;
   color: white;
-  margin: 50px 0px 0px 30px;
-  padding-bottom: 300px;
+  margin-top: 7.5vh;
+  margin-left: 1.5vw;
+  padding-bottom: 5vw;
   font-weight: 100;
-  font-size: 1.5vw;
+  font-size: calc(16px + .5vw);
+  display: flex;
+  flex-flow: column wrap;
 }
 
 ul.landing-page-info-section {
@@ -41,8 +40,27 @@ ul.landing-page-info-section {
   margin-bottom: 30px;
 }
 
+.landing-page-info-header {
+  font-size: 2vw;
+}
+
 .landing-page-info-header > strong {
   font-weight: bold;
+}
+
+.landing-page-info-section {
+  padding-bottom: 2.5vh;
+}
+
+.landing-page-action-btn {
+  width: 100%;
+  font-size: 1.25vw;
+  background-color: white;
+}
+
+.landing-page-action-btn:hover {
+  text-decoration: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
 }
 
 .landing-page-factory {
@@ -65,18 +83,6 @@ ul.landing-page-info-section {
   background-size: cover;
 }
 
-.landing-page-action-btn {
-  width: 100%;
-  font-size: 1.25vw;
-  background-color: white;
-}
-
-
-.landing-page-action-btn:hover {
-  text-decoration: none;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
-}
-
 .landing-page-retailer .landing-page-action-btn {
   color: #50c37c;
 }
@@ -85,7 +91,7 @@ ul.landing-page-info-section {
   color: #0088f5;
 }
 
-.landing-page-auditor .landing-page-action-btnn {
+.landing-page-auditor .landing-page-action-btn {
   color: #86A588;
 }
 
@@ -93,13 +99,6 @@ ul.landing-page-info-section {
   color: #3fc2cd;
 }
 
-.landing-page-info-header {
-  font-size: 2vw;
-}
-
-.landing-page-info-section {
-  padding-bottom: 30px;
-}
 /* Override mithril-datepicker default styling */
 
 .mithril-date-picker *, .mithril-date-picker button {
