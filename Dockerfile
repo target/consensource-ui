@@ -6,7 +6,7 @@ COPY . /ui
 
 WORKDIR /ui
 RUN npm install \
-    && npm run build-dev
+    && npm run build
 
 FROM httpd:2.4-alpine
 
