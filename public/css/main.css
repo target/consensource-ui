@@ -16,7 +16,7 @@
 }
 
 .landing-page-info {
-  width: 35vw;
+  width: 40vw;
   height: 80vh;
   word-wrap: break-word;
   color: white;
@@ -53,7 +53,7 @@ ul.landing-page-info-section {
 }
 
 .landing-page-action-btn {
-  width: 100%;
+  width: 90%;
   font-size: 1.25vw;
   background-color: white;
 }
