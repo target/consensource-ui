@@ -25,9 +25,9 @@
     "eslint": "^5.4.0",
     "eslint-plugin-es-beautifier": "^1.0.1",
     "prebuild-install": "^5.0.0",
+    "terser-webpack-plugin": "1.4.2",
     "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0",
-    "terser-webpack-plugin": "1.4.2"
+    "webpack-cli": "^3.3.0"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
@@ -37,6 +37,7 @@
     "protobufjs": "^6.8.8",
     "sawtooth-sdk": "^1.0.5",
     "sjcl": "^1.0.7",
+    "typescript": "^3.8.3",
     "uuid": "^3.3.2"
   },
   "loglevel": "error"
