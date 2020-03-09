@@ -8,7 +8,7 @@ const {
     CertificateRegistryPayload,
     CreateStandardAction,
     UpdateStandardAction
-} = require('App/protobuf')
+} = require('App/protobuf/protos')
 
 
 const createStandard = (standardPayloadData, orgId, signer) => {
