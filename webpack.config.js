@@ -2,7 +2,7 @@ var path = require('path')
 var webpack = require('webpack')
 
 const featureFlags = require('dotenv').config({
-  path: __dirname + '/.env.feature-flags'
+  path: `${__dirname}/.env.feature-flags`
 });
 
 
@@ -27,6 +27,7 @@ module.exports = {
     alias: {
       App: path.resolve(__dirname, './src'),
       zeromq$: path.resolve(__dirname, './src/mock_zmq.js')
-    }
+    },
+    extensions: [".tsx", ".ts", ".js", ".jsx"],
   }
 }

@@ -4,7 +4,14 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "commonjs",
+    "moduleResolution": "node",
     "target": "es6",
+    "baseUrl": "./",
+    "paths": {
+      "App": [
+        "src/*"
+      ]
+    },
     // "jsx": "react" 
   }
 }

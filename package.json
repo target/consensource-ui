@@ -26,6 +26,7 @@
     "eslint-plugin-es-beautifier": "^1.0.1",
     "prebuild-install": "^5.0.0",
     "terser-webpack-plugin": "1.4.2",
+    "ts-loader": "^6.2.1",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0"
   },
