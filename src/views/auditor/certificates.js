@@ -4,7 +4,7 @@ const m = require('mithril')
 const AuthService = require('App/services/auth')
 const certificateService = require('App/services/certificate')
 const agentService = require('App/services/agent')
-const requestService = require('../../services/requests')
+const requestService = require('App/services/requests')
 const blockService = require('App/services/block')
 var DatePicker = require('mithril-datepicker')
 

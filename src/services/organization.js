@@ -3,10 +3,10 @@
 const m = require('mithril')
 const uuidv1 = require('uuid/v1');
 const { pluck } = require('App/utils')
-const addressing = require('../addressing')
-const transactionService = require('../services/transaction')
+const addressing = require('App/addressing')
+const transactionService = require('App/services/transaction')
 const { CertificateRegistryPayload, CreateOrganizationAction} = require('App/protobuf')
-const isoLangCodes = require('../views/common/ISO-639-1-language.json')
+const isoLangCodes = require('App/views/common/ISO-639-1-language.json')
 
 const loadOrganizations = (opts = {}) => {
     let params = pluck(opts, 'organization_type')

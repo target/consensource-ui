@@ -1,7 +1,7 @@
-const { AccreditCertifyingBodyAction } = require('../protobuf/protos')
+const { AccreditCertifyingBodyAction } = require('App/protobuf')
 
 // example code
-let message =  AccreditCertifyingBodyAction.create({
+let message = AccreditCertifyingBodyAction.create({
     certifyingBodyId: 'test',
     standardId: 'test',
     validFrom: 'test',
@@ -9,7 +9,7 @@ let message =  AccreditCertifyingBodyAction.create({
 })
 
 
-let buffer  = AccreditCertifyingBodyAction.encode(message).finish();
+let buffer = AccreditCertifyingBodyAction.encode(message).finish();
 
 let decoded = AccreditCertifyingBodyAction.decode(buffer);
 

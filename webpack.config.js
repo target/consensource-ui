@@ -22,12 +22,18 @@ module.exports = {
     filename: '[name].js',
     path: path.resolve(__dirname, 'public/js')
   },
-
   resolve: {
     alias: {
       App: path.resolve(__dirname, './src'),
       zeromq$: path.resolve(__dirname, './src/mock_zmq.js')
     },
-    extensions: [".tsx", ".ts", ".js", ".jsx"],
-  }
+    extensions: [".ts", ".tsx", ".js"]
+  },
+  devtool: "inline-source-map",
+  module: {
+    rules: [
+        { test: /\.tsx?$/, use: "ts-loader" },
+        { test: /\.js$/, use: "source-map-loader" }
+    ],
+  },
 }

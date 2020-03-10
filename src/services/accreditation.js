@@ -5,7 +5,7 @@ const addressing = require('App/addressing')
 const {
     CertificateRegistryPayload,
     AccreditCertifyingBodyAction,
-} = require('App/protobuf/proto')
+} = require('App/protobuf')
 
 const accreditCertifyingBody = (accreditationData, standardsBodyId, certifyingBodyId,  signer) => {
     if (!signer) {

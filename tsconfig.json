@@ -2,16 +2,21 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "sourceMap": true,
+    "allowJs": true,
     "noImplicitAny": true,
+    "noImplicitReturns": true,
     "module": "commonjs",
-    "moduleResolution": "node",
     "target": "es6",
-    "baseUrl": "./",
+    "sourceMap": true,
+    "jsx": "react",
+    "baseUrl": ".",
     "paths": {
       "App": [
-        "src/*"
+        "./src/*"
       ]
     },
-    // "jsx": "react" 
-  }
+  },
+  "include": [
+    "./src/**/*.ts"
+  ]
 }
