@@ -1,25 +1,19 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist/",
-    "sourceMap": true,
-    "allowJs": true,
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "target": "es6",
-    "jsx": "react",
-    "baseUrl": ".",
-    "paths": {
-      "App/*": [
-        "./src/*"
-      ]
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "allowJs": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "es6",
+        "jsx": "react",
+        "baseUrl": ".",
+        "paths": {
+            "App/*": ["./src/*"]
+        }
     },
-  },
-  "include": [
-    "./src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-  ]
+    "include": ["./src/**/*.ts"],
+    "exclude": ["node_modules"]
 }
