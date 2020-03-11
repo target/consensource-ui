@@ -8,16 +8,18 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "target": "es6",
-    "sourceMap": true,
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
-      "App": [
+      "App/*": [
         "./src/*"
       ]
     },
   },
   "include": [
     "./src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
   ]
 }
