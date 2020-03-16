@@ -5,15 +5,18 @@
         "allowJs": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
-        "module": "commonjs",
+        "module": "CommonJS",
         "moduleResolution": "node",
         "target": "es6",
         "jsx": "react",
         "baseUrl": ".",
+        "resolveJsonModule": true,
+        "typeRoots": ["src/types", "./node_modules/@types"],
         "paths": {
             "App/*": ["./src/*"]
         }
     },
+    "typeRoots": ["./types", "./node_modules/@types"],
     "include": ["./src/**/*.ts"],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "src/types"]
 }
