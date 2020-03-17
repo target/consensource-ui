@@ -4,7 +4,6 @@ import * as modals from 'App/components/modals';
 import { createContext, CryptoFactory } from 'sawtooth-sdk/signing';
 import { Secp256k1PrivateKey } from 'sawtooth-sdk/signing/secp256k1';
 import { pluck } from 'App/utils';
-import * as sawtooth from 'App/types/sawtooth-sdk';
 
 const STORE_PRIVATE_KEY = 'privateKey';
 const STORE_USER = 'user';
