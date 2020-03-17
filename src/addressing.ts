@@ -1,4 +1,4 @@
-import { crypto, Hash } from 'crypto';
+import { createHash, Hash } from 'crypto';
 
 /**
  * The address at which to store data in the Merkle State tree.
@@ -11,7 +11,6 @@ import { crypto, Hash } from 'crypto';
  * Read more at:
  * https://sawtooth.hyperledger.org/docs/core/releases/1.0/app_developers_guide/address_and_namespace.html
  */
-type address = string;
 
 const FAMILY_NAME = 'consensource';
 const FAMILY_VERSION = '0.1';
@@ -25,7 +24,7 @@ const PREFIX_SIZE = 6;
 const RESERVED_SPACE = '00';
 
 const hash = (val: string, len: number): string => {
-    const sha: Hash = crypto.createHash('sha256');
+    const sha: Hash = createHash('sha256');
     return sha
         .update(val)
         .digest('hex')
@@ -38,18 +37,18 @@ const ORGANIZATION_ADDRESS_PREFIX = FAMILY_NAMESPACE + RESERVED_SPACE + ORGANIZA
 
 const getFamilyNamespacePrefix = (): string => FAMILY_NAMESPACE;
 
-const makeAgentAddress = (agentPublicKey): address => AGENT_ADDRESS_PREFIX + hash(agentPublicKey, 60);
+const makeAgentAddress = (agentPublicKey: string): string => AGENT_ADDRESS_PREFIX + hash(agentPublicKey, 60);
 
-const makeOrganizationAddress = (organizationId): address =>
+const makeOrganizationAddress = (organizationId: string): string =>
     FAMILY_NAMESPACE + RESERVED_SPACE + ORGANIZATION + hash(organizationId, 60);
 
-const makeCertificateAddress = (certificateId): address =>
+const makeCertificateAddress = (certificateId: string): string =>
     FAMILY_NAMESPACE + RESERVED_SPACE + CERTIFICATE + hash(certificateId, 60);
 
-const makeCertificateRequestAddress = (certificateRequestId): address =>
+const makeCertificateRequestAddress = (certificateRequestId: string): string =>
     FAMILY_NAMESPACE + RESERVED_SPACE + CERTIFICATE_REQUEST + hash(certificateRequestId, 60);
 
-const makeStandardAddress = (standardId): address =>
+const makeStandardAddress = (standardId: string): string =>
     FAMILY_NAMESPACE + RESERVED_SPACE + STANDARD + hash(standardId, 60);
 
 export {
