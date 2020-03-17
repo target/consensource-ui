@@ -1,6 +1,6 @@
-import * as transactionService from './transaction';
-import { makeOrganizationAddress, makeAgentAddress, makeStandardAddress } from '../addressing';
-import { CertificateRegistryPayload, AccreditCertifyingBodyAction } from '../protobuf';
+import * as transactionService from 'App/services/transaction';
+import { makeOrganizationAddress, makeAgentAddress, makeStandardAddress } from 'App/addressing';
+import { CertificateRegistryPayload, AccreditCertifyingBodyAction } from 'App/protobuf';
 
 const accreditCertifyingBody = (
     accreditationData: AccreditCertifyingBodyAction,

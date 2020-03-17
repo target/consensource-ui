@@ -1,10 +1,10 @@
 import * as m from 'mithril';
-import * as addressing from '../addressing';
-import * as transactionService from './transaction';
-import * as isoLangCodes from '../views/common/ISO-639-1-language.json';
+import * as addressing from 'App/addressing';
+import * as transactionService from 'App/services/transaction';
+import * as isoLangCodes from 'App/views/common/ISO-639-1-language.json';
 import { v1 as uuidv1 } from 'uuid';
-import { CertificateRegistryPayload, CreateOrganizationAction } from '../protobuf';
-import { pluck } from '../utils';
+import { CertificateRegistryPayload, CreateOrganizationAction } from 'App/protobuf';
+import { pluck } from 'App/utils';
 
 /**
  * V1 UUID for an organization
@@ -22,7 +22,7 @@ const loadOrganizations = (opts = {}): Promise<any> => {
     });
 };
 
-const fetchOrganization = (organizationId: string): Promise<any> =>
+const fetchOrganization = (organizationId: OrganizationId): Promise<any> =>
     m.request({
         method: 'GET',
         url: `/api/organizations/${organizationId}`,
