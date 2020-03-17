@@ -1,10 +1,10 @@
-// Type definitions for Sawooth SDK library
+// Type definitions for Sawooth SDK
+// TypeScript: 3.8
 // Project: https://www.hyperledger.org/projects/sawtooth, https://github.com/hyperledger/sawtooth-core
-// Definitions by: Patrick Erichsen <https://github.com/Patrick-Erichsen>
-
-// Type definitions for Sawooth SDK Signing library
-// Project: https://www.hyperledger.org/projects/sawtooth, https://github.com/hyperledger/sawtooth-core
-// Definitions by: Patrick Erichsen <https://github.com/Patrick-Erichsen>
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/sawtooth-sdk
+// Definitions by:
+//  - Patrick Erichsen <https://github.com/Patrick-Erichsen>
+//  - Trevor McDonald  <https://github.com/trevormcdonald>
 
 /** Signing  */
 export import signing = require('./signing');

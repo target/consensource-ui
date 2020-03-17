@@ -1,5 +1,12 @@
-declare module core {
+// Type definitions for Sawooth SDK
+// TypeScript: 3.8
+// Project: https://www.hyperledger.org/projects/sawtooth, https://github.com/hyperledger/sawtooth-core
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/sawtooth-sdk
+// Definitions by:
+//  - Patrick Erichsen <https://github.com/Patrick-Erichsen>
+//  - Trevor McDonald  <https://github.com/trevormcdonald>
 
+declare module core {
     /** Thrown when trying to create a context for an algorithm which does not exist. */
     class NoSuchAlgorithmError extends Error {
         constructor(message?: string);

@@ -1,3 +1,11 @@
+// Type definitions for Sawooth SDK
+// TypeScript: 3.8
+// Project: https://www.hyperledger.org/projects/sawtooth, https://github.com/hyperledger/sawtooth-core
+// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/sawtooth-sdk
+// Definitions by:
+//  - Patrick Erichsen <https://github.com/Patrick-Erichsen>
+//  - Trevor McDonald  <https://github.com/trevormcdonald>
+
 import core = require('./core');
 import signing = require('./');
 
@@ -41,7 +49,6 @@ declare module secp256k1 {
     }
 
     class Secp256k1Context extends core.Context {
-
         /** Return a string of the algorithm name */
         getAlgorithmName(): string;
 
