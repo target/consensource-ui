@@ -1,14 +1,12 @@
-import * as transactionService from 'App/services/transaction';
-import { makeOrganizationAddress, makeAgentAddress, makeStandardAddress } from 'App/addressing';
-import { CertificateRegistryPayload, AccreditCertifyingBodyAction } from 'App/protobuf';
-import { OrganizationId } from 'App/services/organization';
-import { Signer } from 'sawtooth-sdk/signing';
+import * as transactionService from './transaction';
+import { makeOrganizationAddress, makeAgentAddress, makeStandardAddress } from '../addressing';
+import { CertificateRegistryPayload, AccreditCertifyingBodyAction } from '../protobuf';
 
 const accreditCertifyingBody = (
     accreditationData: AccreditCertifyingBodyAction,
-    standardsBodyId: OrganizationId,
-    certifyingBodyId: OrganizationId,
-    signer: Signer,
+    standardsBodyId: string,
+    certifyingBodyId: string,
+    signer: sawtooth.signing.Signer,
 ): Promise<any> => {
     if (!signer) {
         return Promise.reject('A signer must be provided');

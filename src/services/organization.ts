@@ -1,34 +1,39 @@
 import * as m from 'mithril';
-import * as addressing from 'App/addressing';
-import * as transactionService from 'App/services/transaction';
-import * as isoLangCodes from 'App/views/common/ISO-639-1-language.json';
+import * as addressing from '../addressing';
+import * as transactionService from './transaction';
+import * as isoLangCodes from '../views/common/ISO-639-1-language.json';
 import { v1 as uuidv1 } from 'uuid';
-import { CertificateRegistryPayload, CreateOrganizationAction } from 'App/protobuf';
-import { pluck } from 'App/utils';
+import { CertificateRegistryPayload, CreateOrganizationAction } from '../protobuf';
+import { pluck } from '../utils';
 
 /**
  * V1 UUID for an organization
  */
-interface OrganizationId {
+export interface OrganizationId {
     organizationId: typeof uuidv1;
 }
 
-const loadOrganizations = (opts = {}) => {
+const loadOrganizations = (opts = {}): Promise<any> => {
     const params = pluck(opts, 'organization_type');
     return m.request({
         method: 'GET',
         url: '/api/organizations',
-        data: params,
+        params: params,
     });
 };
 
-const fetchOrganization = organizationId =>
+const fetchOrganization = (organizationId: string): Promise<any> =>
     m.request({
         method: 'GET',
         url: `/api/organizations/${organizationId}`,
     });
 
-const createOrganization = (name, type, contact, signer) => {
+const createOrganization = (
+    name: string,
+    type: consensource.Organization.Type,
+    contact: consensource.Organization.Contact,
+    signer: sawtooth.signing.Signer,
+) => {
     if (!name) {
         throw new Error('An organization name must be provided.');
     } else if (!type) {
@@ -59,7 +64,7 @@ const createOrganization = (name, type, contact, signer) => {
     );
 };
 
-const languageLabel = currentCode => {
+const languageLabel = (currentCode: string) => {
     const langInfo = isoLangCodes.find(({ code }) => code === currentCode);
     if (langInfo) {
         return langInfo.name;
@@ -68,4 +73,4 @@ const languageLabel = currentCode => {
     }
 };
 
-export { createOrganization, loadOrganizations, fetchOrganization, languageLabel, OrganizationId };
+export { createOrganization, loadOrganizations, fetchOrganization, languageLabel };
