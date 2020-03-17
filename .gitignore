@@ -1,5 +1,4 @@
 node_modules
 public/js
-src/protobuf/index.d.ts
-src/protobuf/index.js
+src/protobuf/*
 .env.feature-flags
