@@ -1,21 +1,21 @@
-'use strict'
+'use strict';
 
-const m = require('mithril')
-const FeatureFlagService = require('App/services/feature_flag')
+const m = require('mithril');
+const FeatureFlagService = require('App/services/feature_flag');
 
-const { SignInForm } = require('App/views/common/auth')
-const { App, Welcome } = require('App/views/factory')
-const { FactorySignUpForm, FactoryDetails } = require('App/views/factory/details')
-const AuthService = require('App/services/auth')
-const { ListCertifications } = require('App/views/factory/requests')
+const { SignInForm } = require('App/views/common/auth');
+const { App, Welcome } = require('App/views/factory');
+const { FactorySignUpForm, FactoryDetails } = require('App/views/factory/details');
+const AuthService = require('App/services/auth');
+const { ListCertifications } = require('App/views/factory/requests');
 
-AuthService.namespace = 'factory'
+AuthService.namespace = 'factory';
 
-let element = document.getElementById("app")
+const element = document.getElementById('app');
 m.route(element, '/', {
     '/': App.subpage(Welcome),
     '/signUp': App.subpage(FeatureFlagService.isSignupEnabled() && FactorySignUpForm),
     '/signIn': App.subpage(SignInForm),
     '/profile': App.subpage(FactoryDetails),
-    '/requests': App.subpage(ListCertifications)
-})
+    '/requests': App.subpage(ListCertifications),
+});

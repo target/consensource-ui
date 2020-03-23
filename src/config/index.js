@@ -3,23 +3,23 @@
 
 /**
  * Check if `val` is non-falsey or zero - else return null
- * @param {*} val 
+ * @param {*} val
  */
-const getFeatureFlagVal = (val) => {
+const getFeatureFlagVal = val => {
     if (val === 0) {
-        return val
+        return val;
     } else if (val) {
-        return val
+        return val;
     } else {
-        return null
+        return null;
     }
-}
+};
 
 const featureFlagConfigs = {
-    "enableTestingBanner": getFeatureFlagVal(process.env.ENABLE_TESTING_BANNER),
-    "enableSignup": getFeatureFlagVal(process.env.ENABLE_SIGNUP)
-}
+    enableTestingBanner: getFeatureFlagVal(process.env.ENABLE_TESTING_BANNER),
+    enableSignup: getFeatureFlagVal(process.env.ENABLE_SIGNUP),
+};
 
 module.exports = {
-    featureFlagConfigs
+    featureFlagConfigs,
 };
