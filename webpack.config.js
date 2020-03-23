@@ -1,5 +1,5 @@
-import path from 'path';
-import webpack from 'webpack';
+const path = require('path');
+const webpack = require('webpack');
 
 const featureFlags = require('dotenv').config({
     path: `${__dirname}/.env.feature-flags`,

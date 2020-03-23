@@ -9,26 +9,31 @@ import { pluck } from 'App/utils';
 /**
  * V1 UUID for an organization
  */
-interface OrganizationId {
+export interface OrganizationId {
     organizationId: typeof uuidv1;
 }
 
-const loadOrganizations = (opts = {}) => {
+const loadOrganizations = (opts = {}): Promise<any> => {
     const params = pluck(opts, 'organization_type');
     return m.request({
         method: 'GET',
         url: '/api/organizations',
-        data: params,
+        params: params,
     });
 };
 
-const fetchOrganization = organizationId =>
+const fetchOrganization = (organizationId: OrganizationId): Promise<any> =>
     m.request({
         method: 'GET',
         url: `/api/organizations/${organizationId}`,
     });
 
-const createOrganization = (name, type, contact, signer) => {
+const createOrganization = (
+    name: string,
+    type: consensource.Organization.Type,
+    contact: consensource.Organization.Contact,
+    signer: sawtooth.signing.Signer,
+): Promise<any> => {
     if (!name) {
         throw new Error('An organization name must be provided.');
     } else if (!type) {
@@ -59,7 +64,7 @@ const createOrganization = (name, type, contact, signer) => {
     );
 };
 
-const languageLabel = currentCode => {
+const languageLabel = (currentCode: string): string => {
     const langInfo = isoLangCodes.find(({ code }) => code === currentCode);
     if (langInfo) {
         return langInfo.name;
@@ -68,4 +73,4 @@ const languageLabel = currentCode => {
     }
 };
 
-export { createOrganization, loadOrganizations, fetchOrganization, languageLabel, OrganizationId };
+export { createOrganization, loadOrganizations, fetchOrganization, languageLabel };

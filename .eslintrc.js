@@ -15,6 +15,10 @@ module.exports = {
     plugins: ['@typescript-eslint'],
     extends: ['plugin:@typescript-eslint/recommended', 'prettier/@typescript-eslint', 'plugin:prettier/recommended'],
     rules: {
-        "@typescript-eslint/prefer-namespace-keyword": "off"
-    }
+        '@typescript-eslint/prefer-namespace-keyword': 'off',
+        '@typescript-eslint/interface-name-prefix': 'off',
+        '@typescript-eslint/no-empty-interface': 'off',
+        '@typescript-eslint/no-use-before-define': 'off',
+        '@typescript-eslint/camelcase': 'off',
+    },
 };

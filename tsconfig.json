@@ -8,6 +8,7 @@
         "module": "CommonJS",
         "moduleResolution": "node",
         "target": "es6",
+        "lib": ["dom", "es7"],
         "jsx": "react",
         "baseUrl": ".",
         "resolveJsonModule": true,
@@ -16,7 +17,7 @@
             "App/*": ["./src/*"]
         }
     },
-    "typeRoots": ["./types", "./node_modules/@types"],
+    "typeRoots": ["src/types", "./node_modules/@types"],
     "include": ["./src/**/*.ts"],
     "exclude": ["node_modules", "src/types"]
 }

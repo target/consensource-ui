@@ -1,14 +1,12 @@
-import * as transactionService from 'App/services/transaction';
+import { submitTransaction } from 'App/services/transaction';
 import { makeOrganizationAddress, makeAgentAddress, makeStandardAddress } from 'App/addressing';
 import { CertificateRegistryPayload, AccreditCertifyingBodyAction } from 'App/protobuf';
-import { OrganizationId } from 'App/services/organization';
-import { Signer } from 'sawtooth-sdk/signing';
 
 const accreditCertifyingBody = (
     accreditationData: AccreditCertifyingBodyAction,
-    standardsBodyId: OrganizationId,
-    certifyingBodyId: OrganizationId,
-    signer: Signer,
+    standardsBodyId: string,
+    certifyingBodyId: string,
+    signer: sawtooth.signing.Signer,
 ): Promise<any> => {
     if (!signer) {
         return Promise.reject('A signer must be provided');
@@ -26,7 +24,7 @@ const accreditCertifyingBody = (
     const agentAddress = makeAgentAddress(signer.getPublicKey().asHex());
     const standardAddress = makeStandardAddress(accreditationData.standardId);
 
-    return transactionService.submitTransaction(
+    return submitTransaction(
         {
             payloadBytes,
             inputs: [agentAddress, standardAddress, agentOrganizationAddress, certifyingBodyAddress],
