@@ -1,4 +1,4 @@
-import * as transactionService from 'App/services/transaction';
+import { submitTransaction } from 'App/services/transaction';
 import { makeOrganizationAddress, makeAgentAddress, makeStandardAddress } from 'App/addressing';
 import { CertificateRegistryPayload, AccreditCertifyingBodyAction } from 'App/protobuf';
 
@@ -24,7 +24,7 @@ const accreditCertifyingBody = (
     const agentAddress = makeAgentAddress(signer.getPublicKey().asHex());
     const standardAddress = makeStandardAddress(accreditationData.standardId);
 
-    return transactionService.submitTransaction(
+    return submitTransaction(
         {
             payloadBytes,
             inputs: [agentAddress, standardAddress, agentOrganizationAddress, certifyingBodyAddress],

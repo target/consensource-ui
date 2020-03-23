@@ -41,6 +41,7 @@
         "webpack-cli": "^3.3.0"
     },
     "dependencies": {
+        "@types/eventsource": "^1.1.2",
         "@types/sjcl": "^1.0.29",
         "eventsource": "^1.0.7",
         "mithril": "^1.1.6",

@@ -33,7 +33,7 @@ const createOrganization = (
     type: consensource.Organization.Type,
     contact: consensource.Organization.Contact,
     signer: sawtooth.signing.Signer,
-) => {
+): Promise<any> => {
     if (!name) {
         throw new Error('An organization name must be provided.');
     } else if (!type) {
@@ -64,7 +64,7 @@ const createOrganization = (
     );
 };
 
-const languageLabel = (currentCode: string) => {
+const languageLabel = (currentCode: string): string => {
     const langInfo = isoLangCodes.find(({ code }) => code === currentCode);
     if (langInfo) {
         return langInfo.name;
