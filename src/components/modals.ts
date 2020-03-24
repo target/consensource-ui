@@ -1,10 +1,16 @@
-'use strict';
+import * as m from 'mithril';
 
-const m = require('mithril');
+const _noop = (): null => null;
 
-const _noop = () => null;
+interface DialogAttrs {
+    acceptLabel: string;
+    cancelLabel: string;
+    acceptFn: () => void;
+    cancelFn: () => void;
+    title: string;
+}
 
-const DialogModal = {
+const DialogModal: m.Component<DialogAttrs> = {
     view(vnode) {
         const acceptLabel = vnode.attrs.acceptLabel || 'Accept';
         const cancelLabel = vnode.attrs.cancelLabel || 'Cancel';
@@ -61,7 +67,12 @@ const DialogModal = {
     },
 };
 
-const DialogSuccessModal = {
+interface SuccessAttrs {
+    acceptFn: () => void;
+    content: string;
+}
+
+const DialogSuccessModal: m.Component<SuccessAttrs> = {
     view(vnode) {
         const acceptFn = vnode.attrs.acceptFn || _noop;
         return m(
@@ -93,7 +104,20 @@ const DialogSuccessModal = {
     },
 };
 
-const Modals = {
+interface Show {
+    show: boolean;
+}
+
+interface Modal {
+    _activeModal: { dialog: m.Component; attrs: m.Attributes; children: Array<m.ChildArray> };
+    displayModal: () => boolean;
+    DialogModal: m.Component;
+    DialogSuccessModal: m.Component;
+    ModalContainer: m.Component<Show>;
+    show: (dialog: m.Component, attrs: m.Attributes, ...children: Array<m.ChildArray>) => Promise<any>;
+}
+
+const Modals: Modal = {
     _activeModal: null,
 
     displayModal: () => Modals._activeModal !== null,
@@ -113,7 +137,7 @@ const Modals = {
         },
     },
 
-    show: (dialog, attrs, ...children) => {
+    show: (dialog: m.Component, attrs: m.Attributes, ...children: Array<m.ChildArray>) => {
         let acceptFn = null;
         let cancelFn = null;
 
@@ -142,4 +166,4 @@ const Modals = {
     },
 };
 
-module.exports = Modals;
+export default Modals;
