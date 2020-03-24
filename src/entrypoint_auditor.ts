@@ -7,7 +7,7 @@ import { CreateCertifyingBody } from 'App/views/auditor/organization';
 import { FactoryList } from 'App/views/auditor/factory';
 import { RequestList } from 'App/views/auditor/requests';
 import { CertificateCreate, CertificateList } from 'App/views/auditor/certificates';
-import AuthService from 'App/services/auth';
+import * as AuthService from 'App/services/auth';
 
 AuthService.setNamespace('auditor');
 
