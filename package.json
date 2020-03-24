@@ -9,8 +9,8 @@
         "test": "jest",
         "build": "npm run generate-protobuf && mkdir -p ./public/js && webpack",
         "watch": "npm run generate-protobuf && mkdir -p ./public/js && webpack --watch --progress --mode=development --env.ENVIRONMENT=development",
-        "lint": "npm run generate-protobuf && eslint './src/**/*.{js,ts,tsx}' --fix",
-        "format": "eslint --fix src"
+        "lint": "npm run generate-protobuf && eslint 'src/**/*.{js,ts,tsx}' --fix --ignore-pattern 'src/protobuf/*'",
+        "format": "eslint --fix --ignore-pattern 'src/protobuf/*' src"
     },
     "repository": {
         "type": "git",
@@ -27,6 +27,7 @@
         "@types/mithril": "^2.0.2",
         "@types/sjcl": "^1.0.29",
         "@types/uuid": "^7.0.0",
+        "@types/webpack": "^4.41.8",
         "@typescript-eslint/eslint-plugin": "^2.23.0",
         "@typescript-eslint/parser": "^2.23.0",
         "dotenv": "^8.2.0",

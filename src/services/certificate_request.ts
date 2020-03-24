@@ -1,5 +1,3 @@
-'use strict';
-
 import * as m from 'mithril';
 import { v1 as uuidv1 } from 'uuid';
 import * as addressing from 'App/addressing';

@@ -1,5 +1,3 @@
-'use strict';
-
 import * as m from 'mithril';
 import * as crypto from 'crypto';
 import * as addressing from 'App/addressing';

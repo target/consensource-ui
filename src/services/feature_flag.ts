@@ -1,9 +1,4 @@
 import { featureFlagConfigs } from 'App/config';
 
-const isTestBannerEnabled = () => featureFlagConfigs.enableTestingBanner;
-const isSignupEnabled = () => featureFlagConfigs.enableSignup;
-
-module.exports = {
-    isTestBannerEnabled,
-    isSignupEnabled,
-};
+export const isTestBannerEnabled = () => featureFlagConfigs.enableTestingBanner;
+export const isSignupEnabled = () => featureFlagConfigs.enableSignup;
