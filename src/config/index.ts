@@ -5,21 +5,15 @@
  * Check if `val` is non-falsey or zero - else return null
  * @param {*} val
  */
-const getFeatureFlagVal = val => {
-    if (val === 0) {
-        return val;
-    } else if (val) {
+const getFeatureFlagVal = (val: string): string | null => {
+    if (val) {
         return val;
     } else {
         return null;
     }
 };
 
-const featureFlagConfigs = {
+export const featureFlagConfigs = {
     enableTestingBanner: getFeatureFlagVal(process.env.ENABLE_TESTING_BANNER),
     enableSignup: getFeatureFlagVal(process.env.ENABLE_SIGNUP),
-};
-
-module.exports = {
-    featureFlagConfigs,
 };

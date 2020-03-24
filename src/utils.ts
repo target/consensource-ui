@@ -3,7 +3,7 @@
 /**
  * Selects keys from an object
  */
-const pluck = (obj, ...keys) =>
+export const pluck = (obj: any, ...keys: Array<any>): any =>
     keys.reduce((o, k) => {
         if (typeof obj[k] !== 'undefined') {
             o[k] = obj[k];
@@ -14,6 +14,3 @@ const pluck = (obj, ...keys) =>
 /**
  * Merges objects, starting from left to right
  */
-module.exports = {
-    pluck,
-};
