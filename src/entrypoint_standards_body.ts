@@ -7,10 +7,12 @@ import { CreateStandardsBody } from 'App/views/standards_body/organization';
 import { StandardCreate, StandardList, StandardUpdate } from 'App/views/standards_body/standard';
 import { CertifyingBodyList } from 'App/views/standards_body/certifying_body';
 import { AccreditCertifyingBody } from 'App/views/standards_body/accreditations';
-import * as AuthService from 'App/services/auth';
+import AuthService from 'App/services/auth';
 
 AuthService.setNamespace('standards_body');
+
 const element = document.getElementById('app');
+
 m.route(element, '/', {
     '/': App.subpage(Welcome),
 

@@ -2,16 +2,10 @@
 /* eslint no-undef: 0 */
 
 /**
- * Check if `val` is non-falsey or zero - else return null
- * @param {*} val
+ * Returns null if a passed feature flag doesn't exist
+ * @param val
  */
-const getFeatureFlagVal = (val: string): string | null => {
-    if (val) {
-        return val;
-    } else {
-        return null;
-    }
-};
+const getFeatureFlagVal = (val?: string): string | null => val || null;
 
 export const featureFlagConfigs = {
     enableTestingBanner: getFeatureFlagVal(process.env.ENABLE_TESTING_BANNER),

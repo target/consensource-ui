@@ -1,6 +1,4 @@
 node_modules
 public/js
-src/protobuf/*
-src/types/consensource/*
 dist/
 .env.feature-flags

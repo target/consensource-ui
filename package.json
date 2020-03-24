@@ -4,13 +4,13 @@
     "description": "ConsenSource UI",
     "main": "dist/retailer.js",
     "scripts": {
-        "clean": "rm -f src/protobuf/index.* public/js/*.js",
-        "generate-protobuf": "./scripts/compile_protobufs.sh",
+        "clean": "rm -f public/js/*.js",
+        "generate-protobufs": "./scripts/compile_protobufs.sh",
         "test": "jest",
-        "build": "npm run generate-protobuf && mkdir -p ./public/js && webpack",
-        "watch": "npm run generate-protobuf && mkdir -p ./public/js && webpack --watch --progress --mode=development --env.ENVIRONMENT=development",
-        "lint": "npm run generate-protobuf && eslint 'src/**/*.{js,ts,tsx}' --fix --ignore-pattern 'src/protobuf/*'",
-        "format": "eslint --fix --ignore-pattern 'src/protobuf/*' src"
+        "build": "npm run generate-protobufs && mkdir -p ./public/js && webpack",
+        "watch": "npm run generate-protobufs && mkdir -p ./public/js && webpack --watch --progress --mode=development --env.ENVIRONMENT=development",
+        "lint": "eslint 'src/**/*.{js,ts,tsx}' --fix",
+        "format": "eslint --fix src"
     },
     "repository": {
         "type": "git",

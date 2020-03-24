@@ -7,11 +7,12 @@ import { CreateCertifyingBody } from 'App/views/auditor/organization';
 import { FactoryList } from 'App/views/auditor/factory';
 import { RequestList } from 'App/views/auditor/requests';
 import { CertificateCreate, CertificateList } from 'App/views/auditor/certificates';
-import * as AuthService from 'App/services/auth';
+import AuthService from 'App/services/auth';
 
 AuthService.setNamespace('auditor');
 
 const element = document.getElementById('app');
+
 m.route(element, '/', {
     '/': App.subpage(Welcome),
 
