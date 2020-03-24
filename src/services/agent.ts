@@ -3,19 +3,22 @@ import * as addressing from 'App/addressing';
 import * as transactionService from 'App/services/transaction';
 import { CertificateRegistryPayload, CreateAgentAction } from 'App/protobuf';
 
-const loadAgents = (): Promise<any> =>
+export const loadAgents = (): Promise<any> =>
     m.request({
         method: 'GET',
         url: '/api/agents',
     });
 
-const fetchAgent = (public_key: string): Promise<any> =>
+export const fetchAgent = (public_key: string): Promise<any> =>
     m.request({
         method: 'GET',
         url: `/api/agents/${public_key}`,
     });
 
-const createAgentTransaction = (name: string, signer: sawtooth.signing.Signer): sawtooth.protobuf.Transaction => {
+export const createAgentTransaction = (
+    name: string,
+    signer: sawtooth.signing.Signer,
+): sawtooth.protobuf.Transaction => {
     if (!signer) {
         throw new Error('A signer must be provided');
     }
@@ -40,12 +43,5 @@ const createAgentTransaction = (name: string, signer: sawtooth.signing.Signer): 
     );
 };
 
-const createAgent = (name: string, signer: sawtooth.signing.Signer): Promise<any> =>
+export const createAgent = (name: string, signer: sawtooth.signing.Signer): Promise<any> =>
     transactionService.submitBatch([createAgentTransaction(name, signer)], signer);
-
-module.exports = {
-    createAgent,
-    createAgentTransaction,
-    loadAgents,
-    fetchAgent,
-};

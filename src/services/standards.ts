@@ -4,8 +4,16 @@ import * as addressing from 'App/addressing';
 import * as transactionService from 'App/services/transaction';
 import { CertificateRegistryPayload, CreateStandardAction, UpdateStandardAction } from 'App/protobuf';
 
-const createStandard = (
-    standardPayloadData: consensource.CreateStandardAction,
+interface Standard {
+    name: string;
+    version: string;
+    description: string;
+    link: string;
+    approvalDate: number;
+}
+
+export const createStandard = (
+    standardPayloadData: Standard,
     orgId: string,
     signer: sawtooth.signing.Signer,
 ): Promise<any> => {
@@ -49,7 +57,11 @@ const createStandard = (
     );
 };
 
-const updateStandard = (standardPayloadData: any, orgId: string, signer: sawtooth.signing.Signer): Promise<any> => {
+export const updateStandard = (
+    standardPayloadData: any,
+    orgId: string,
+    signer: sawtooth.signing.Signer,
+): Promise<any> => {
     if (!signer) {
         return Promise.reject('A signer must be provided');
     }
@@ -85,7 +97,7 @@ const updateStandard = (standardPayloadData: any, orgId: string, signer: sawtoot
     );
 };
 
-const fetchStandard = (organization_id: string, standard_id: string): Promise<any> =>
+export const fetchStandard = (organization_id: string, standard_id: string): Promise<any> =>
     m
         .request({
             method: 'GET',
@@ -93,22 +105,14 @@ const fetchStandard = (organization_id: string, standard_id: string): Promise<an
         })
         .then((standards: any) => standards.data.filter((standard: any) => standard.standard_id === standard_id)[0]);
 
-const loadStandards = (organization_id: string): Promise<any> =>
+export const loadStandards = (organization_id: string): Promise<any> =>
     m.request({
         method: 'GET',
         url: `/api/standards_body/standards?organization_id=${organization_id}`,
     });
 
-const listStandards = (): Promise<any> =>
+export const listStandards = (): Promise<any> =>
     m.request({
         method: 'GET',
         url: `/api/standards`,
     });
-
-module.exports = {
-    createStandard,
-    updateStandard,
-    listStandards,
-    loadStandards,
-    fetchStandard,
-};

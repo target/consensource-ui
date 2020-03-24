@@ -2,8 +2,12 @@ import { submitTransaction } from 'App/services/transaction';
 import { makeOrganizationAddress, makeAgentAddress, makeStandardAddress } from 'App/addressing';
 import { CertificateRegistryPayload, AccreditCertifyingBodyAction } from 'App/protobuf';
 
-const accreditCertifyingBody = (
-    accreditationData: AccreditCertifyingBodyAction,
+interface Accreditation {
+    standardId: string;
+}
+
+export const accreditCertifyingBody = (
+    accreditationData: Accreditation,
     standardsBodyId: string,
     certifyingBodyId: string,
     signer: sawtooth.signing.Signer,
@@ -33,5 +37,3 @@ const accreditCertifyingBody = (
         signer,
     );
 };
-
-export { accreditCertifyingBody };

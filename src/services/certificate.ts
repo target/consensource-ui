@@ -4,10 +4,17 @@ import * as addressing from 'App/addressing';
 import * as transactionService from 'App/services/transaction';
 import { CertificateRegistryPayload, IssueCertificateAction } from 'App/protobuf';
 
-const queryCertifications = (_queryParams: any) => Promise.resolve([]);
+export const queryCertifications = (_queryParams: any) => Promise.resolve([]);
 
-const issueCertificate = (
-    issueCertificateData: consensource.IssueCertificateAction,
+interface Issuance {
+    id: string;
+    requestId: string;
+    validFrom: number;
+    validTo: number;
+}
+
+export const issueCertificate = (
+    issueCertificateData: Issuance,
     orgId: string,
     factoryId: string,
     signer: sawtooth.signing.Signer,
@@ -49,17 +56,11 @@ const issueCertificate = (
     );
 };
 
-const loadCertificates = (opts = {}): Promise<any> => {
+export const loadCertificates = (opts = {}): Promise<any> => {
     const params = pluck(opts, 'factory_id');
     return m.request({
         method: 'GET',
         url: '/api/certificates',
         params: params,
     });
-};
-
-module.exports = {
-    queryCertifications,
-    issueCertificate,
-    loadCertificates,
 };
