@@ -8,4 +8,12 @@ module.exports = {
     roots: ['./src'],
     clearMocks: true,
     setupFiles: ['jest-localstorage-mock'],
+    globals: {
+        'ts-jest': {
+            tsConfig: 'tsconfig.json',
+        },
+    },
+    moduleNameMapper: {
+        '^App(.*)$': '<rootDir>/src/$1',
+    },
 };
