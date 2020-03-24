@@ -1,7 +1,4 @@
 /* global setImmediate */
-
-'use strict';
-
 import * as EventEmitter from 'events';
 import * as EventSourcePolyfill from 'eventsource';
 

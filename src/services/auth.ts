@@ -24,7 +24,7 @@ const _sessionStoreGet = (key: string) => sessionStorage.getItem(`${AuthService.
 
 const _sessionStoreRemove = (key: string) => sessionStorage.removeItem(`${AuthService.namespace}/${key}`);
 
-const requestPassword = (): Promise<any> => {
+const requestPassword = (): Promise<string> => {
     let password: string = null;
 
     return modals
@@ -53,6 +53,8 @@ const displaySuccessDialog = () => {
 const AuthService = {
     namespace: 'consensource',
 
+    setNamespace: (ns: string) => (AuthService.namespace = ns),
+
     isSignedIn: () => Boolean(_localStoreGet(STORE_USER)),
 
     setUserData: (user: any, password: string) => {
@@ -67,7 +69,7 @@ const AuthService = {
     },
 
     updateUserData: (update: any) => {
-        AuthService.getUserData().then(user => {
+        AuthService.getUserData().then((user: any) => {
             const currentUser = pluck(user, 'username', 'public_key', 'name', 'email', 'encrypted_private_key');
             currentUser.encrypted_private_key = update.encrypted_private_key;
             _localStoreSave(STORE_USER, JSON.stringify(currentUser));
@@ -106,7 +108,7 @@ const AuthService = {
 
         return AuthService.getUserData()
             .then((user: any) => Promise.all([user, requestPassword()]))
-            .then(([user, password]) => {
+            .then(([user, password]: Array<any>) => {
                 const decryptedKey = sjcl.decrypt(password, user.encrypted_private_key);
                 _sessionStoreSave(STORE_PRIVATE_KEY, decryptedKey);
                 const signer = CRYPTO_FACTORY.newSigner(Secp256k1PrivateKey.fromHex(decryptedKey));
@@ -118,7 +120,7 @@ const AuthService = {
     /**
      *  Returns a new Signer and the encrypted private key, to send to the server.
      */
-    createSigner: (password: string) => {
+    createSigner: (password: string): Promise<any> => {
         if (AuthService.isSignedIn()) {
             return Promise.reject('Already signed in');
         }
@@ -199,7 +201,7 @@ const AuthService = {
      */
     createUser: (user: any, submitTransactionFn: Function) => {
         const userCreate = pluck(user, 'username', 'password', 'email');
-        return AuthService.createSigner(userCreate.password).then(({ signer, encryptedPrivateKey }) => {
+        return AuthService.createSigner(userCreate.password).then(({ signer, encryptedPrivateKey }: any) => {
             userCreate.public_key = signer.getPublicKey().asHex();
             userCreate.encrypted_private_key = encryptedPrivateKey;
 
@@ -228,4 +230,4 @@ const AuthService = {
     },
 };
 
-module.exports = AuthService;
+export = AuthService;

@@ -1,5 +1,3 @@
-'use strict';
-
 import * as m from 'mithril';
 import { pluck } from 'App/utils';
 
