@@ -12,10 +12,10 @@ module.exports = {
         }),
     ],
     entry: {
-        auditor: './src/entrypoint_auditor.js',
-        retailer: './src/entrypoint_retailer.js',
-        factory: './src/entrypoint_factory.js',
-        standardsBody: './src/entrypoint_standards_body.js',
+        auditor: './src/entrypoint_auditor.ts',
+        retailer: './src/entrypoint_retailer.ts',
+        factory: './src/entrypoint_factory.ts',
+        standardsBody: './src/entrypoint_standards_body.ts',
     },
     output: {
         filename: '[name].js',
