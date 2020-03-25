@@ -1,16 +1,31 @@
-'use strict';
+import * as m from 'mithril';
+import * as AuthService from 'App/services/auth';
+import * as organizationService from 'App/services/organization';
+import { Organization as OrganizationProto } from 'App/protobuf';
+import * as isoLangCodes from 'App/views/common/ISO-639-1-language.json';
 
-const m = require('mithril');
-const AuthService = require('App/services/auth');
-const organizationService = require('App/services/organization');
-const { Organization: OrganizationProto } = require('App/protobuf');
-const isoLangCodes = require('App/views/common/ISO-639-1-language.json');
+interface Organization {
+    name: string;
+    id: string;
+    type: number;
+    contact: any;
+    submitting: boolean;
+    errorMsg: Error | null;
+    setName: (name: string) => void;
+    setType: (type: number) => void;
+    setContactName: (name: string) => void;
+    setContactPhoneNumber: (name: string) => void;
+    setContactLanguageCode: (name: string) => void;
+    clear: () => void;
+    submit: () => Promise<any>;
+}
 
 /**
  * Model/Controller for Organization Create Form
  */
-var Organization = {
+export const Organization: Organization = {
     name: '',
+    id: '',
     type: 0,
     contact: OrganizationProto.Contact.create(),
 
@@ -68,8 +83,11 @@ var Organization = {
     },
 };
 
-const OrganizationCreate = {
-    _viewName: 'OrganizationCreate',
+interface State {
+    organization: Organization;
+}
+
+export const OrganizationCreate: m.Component<{}, State> = {
     view: vnode => [
         m('div.form', [
             vnode.state.organization.errorMsg ? m('p.text-danger', vnode.state.organization.errorMsg) : null,
@@ -77,25 +95,25 @@ const OrganizationCreate = {
                 m('h3', 'Create An Organization'),
                 m('label[for=organizationName]', 'Name'),
                 m('input.form-control[type=text]', {
-                    oninput: m.withAttr('value', vnode.state.organization.setName),
+                    oninput: (e: any) => vnode.state.organization.setName(e.target.value),
                     value: vnode.state.organization.name,
                 }),
                 m('h5', 'Contact Information'),
                 m('label[for=contactName]', 'Contact Name'),
                 m('input.form-control[type=text]', {
-                    oninput: m.withAttr('value', vnode.state.organization.setContactName),
+                    oninput: (e: any) => vnode.state.organization.setContactName(e.target.value),
                     value: vnode.state.organization.contact.name,
                 }),
                 m('label[for=contactPhoneNumber]', 'Phone Number'),
                 m('input.form-control[type=text]', {
-                    oninput: m.withAttr('value', vnode.state.organization.setContactPhoneNumber),
+                    oninput: (e: any) => vnode.state.organization.setContactPhoneNumber(e.target.value),
                     value: vnode.state.organization.contact.phoneNumber,
                 }),
                 m('label[for=contactLanguageCode]', 'Language Code'),
                 m(
                     'select.form-control',
                     {
-                        oninput: m.withAttr('value', vnode.state.organization.setContactLanguageCode),
+                        oninput: (e: any) => vnode.state.organization.setContactLanguageCode(e.target.value),
                         value: vnode.state.organization.contact.languageCode,
                     },
                     isoLangCodes.map(({ code, name }) => m('option', { value: code, text: name })),
@@ -113,7 +131,7 @@ const OrganizationCreate = {
     ],
 };
 
-const _renderRows = (items, renderer, emptyElement) => {
+const _renderRows = (items: Array<OrganizationAPI>, renderer: any, emptyElement: m.Vnode) => {
     if (items.length > 0) {
         return items.map(renderer);
     } else {
@@ -121,8 +139,19 @@ const _renderRows = (items, renderer, emptyElement) => {
     }
 };
 
-const OrganizationList = {
-    _viewName: 'OrganizationList',
+interface OrganizationAPI {
+    id: string;
+    name: string;
+    organization_type: string;
+}
+
+interface ListState {
+    organizations: Array<OrganizationAPI>;
+    loading: boolean;
+    noRecordsElement: m.Vnode;
+}
+
+export const OrganizationList: m.Component<{}, ListState> = {
     view: vnode => [
         m('table.table', [
             m(
@@ -137,7 +166,7 @@ const OrganizationList = {
                 'tbody',
                 _renderRows(
                     vnode.state.organizations,
-                    organization =>
+                    (organization: OrganizationAPI) =>
                         m('tr', [
                             m('td', organization.id),
                             m('td', organization.name),
@@ -159,7 +188,7 @@ const OrganizationList = {
         organizationService
             .loadOrganizations()
             .then(organizations => {
-                organizations.data.sort((a, b) => a.name > b.name);
+                organizations.data.sort((a: any, b: any) => a.name > b.name);
                 vnode.state.organizations = organizations.data;
                 vnode.state.loading = false;
             })
@@ -170,10 +199,4 @@ const OrganizationList = {
                 );
             });
     },
-};
-
-module.exports = {
-    Organization,
-    OrganizationCreate,
-    OrganizationList,
 };
