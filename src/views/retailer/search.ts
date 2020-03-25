@@ -1,7 +1,5 @@
-'use strict';
-
-const m = require('mithril');
-const retailerSearchService = require('App/services/retailer_search');
+import * as m from 'mithril';
+import * as retailerSearchService from 'App/services/retailer_search';
 
 const _searchForm = vnode =>
     m('.form-row', [
@@ -10,9 +8,9 @@ const _searchForm = vnode =>
             m(
                 `input.form-control.searchBar[type=text][name="searchFactories"][placeholder="Search by Factory Name, Certification Type or Location"]`,
                 {
-                    oninput: m.withAttr('value', v => {
-                        vnode.state.value = v;
-                    }),
+                    oninput: (e: any) => {
+                        vnode.state.value = e.target.value;
+                    },
                     value: vnode.state.value,
                 },
             ),
@@ -45,10 +43,9 @@ const _renderLocation = address => [
 
 function toggleFactoryDetails(vnode, index) {
     const toggle = document.querySelectorAll(`.toggle-factory-${index}`);
-    Object.values(toggle).map(t => {
+    toggle.forEach(t => {
         t.classList.toggle('show');
         t.classList.toggle('hide');
-        return '';
     });
 
     const details_div = document.querySelector(`#factory-details-${index}`);
@@ -59,8 +56,11 @@ function toggleFactoryDetails(vnode, index) {
     row.classList.toggle('selected');
 }
 
-const FactoryTable = {
-    _viewName: 'FactoryTable',
+interface FactoryTable {
+    factories: consensource.Factory[];
+}
+
+const FactoryTable: m.Component<FactoryTable> = {
     view: vnode => [
         m('table.table.table-bordered.factory-table', [
             m(
@@ -98,7 +98,7 @@ const FactoryTable = {
                                 ],
                             ),
                         ]),
-                        m(`tr.factory-details.hide#factory-details-${index}`, _renderFactoryDetails(factory, index)),
+                        m(`tr.factory-details.hide#factory-details-${index}`, _renderFactoryDetails(factory)),
                     ],
                     m('tr', m('td[colspan=5]', 'No factories found for the specified details.')),
                 ),
@@ -113,16 +113,19 @@ const _renderCertificationTypes = certificates => {
         return 'No Certificates Found';
     }
 
-    const unique_types = new Set(certificateTypes);
-    return [...unique_types].map((certType, index) => `${certType}${index === unique_types.size - 1 ? '' : ', '}`);
+    const unique_types = Array.from(new Set(certificateTypes));
+    return [...unique_types].map((certType, index) => `${certType}${index === unique_types.length - 1 ? '' : ', '}`);
 };
 
 const _renderFactoryDetails = factory => [
     m(
         'td.factory-details.factory-profile-link',
         m(
-            `a[href=/certifications/factoryProfile?factory_id=${factory.id}].factory-profile-link`,
-            { oncreate: m.route.link },
+            m.route.Link,
+            {
+                selector: 'a',
+                href: `/certifications/factoryProfile?factory_id=${factory.id}`,
+            },
             "See this factory's profile ",
         ),
         m('img[src=/assets/images/arrow-go.svg]'),
@@ -168,9 +171,15 @@ const _renderCertificates = certData => {
     return m('ul.list-unstyled', [certData.map(cert => m('li', cert.id))]);
 };
 
-const SearchResults = {
-    _viewName: 'SearchResults',
+interface SearchResultsAttrs {
+    factories: consensource.Factory[];
+}
 
+interface SearchResultsState {
+    selectedFactory: consensource.Factory;
+}
+
+const SearchResults: m.Component<SearchResultsAttrs, SearchResultsState> = {
     oninit: vnode => {
         vnode.attrs.factories = vnode.attrs.factories || [];
         vnode.state.selectedFactory = null;
@@ -206,7 +215,7 @@ const _doSearch = vnode => {
     results = results.concat(ss.filter(factory => _match(factory.address.state_province, searchInput)));
     results = results.concat(ss.filter(factory => _searchCertificateId(factory.certificates, searchInput)));
     results = results.concat(ss.filter(factory => _searchStandardType(factory.certificates, searchInput)));
-    const unique_results = new Set(results);
+    const unique_results = Array.from(new Set(results).values());
     vnode.state.factories = [...unique_results];
 };
 
@@ -216,8 +225,14 @@ const _searchCertificateId = (certificates, searchInput) =>
 const _searchStandardType = (certificates, searchInput) =>
     Boolean(certificates.find(cert => _match(cert.standard_name, searchInput)));
 
-const Certifications = {
-    _viewName: 'Certifications',
+interface State {
+    value: string;
+    factories: consensource.Factory[];
+    searchSpace: consensource.Factory[];
+    loading: boolean;
+}
+
+export const Certifications: m.Component<{}, State> = {
     oninit: vnode => {
         vnode.state.value = '';
         retailerSearchService.loadFactories({ expand: true }).then(factories => {
@@ -233,8 +248,4 @@ const Certifications = {
             m('.row', m('.col-10.offset-md-1.mt-5', m(SearchResults, { factories: vnode.state.factories }))),
         ]),
     ],
-};
-
-module.exports = {
-    Certifications,
 };

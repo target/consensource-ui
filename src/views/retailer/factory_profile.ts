@@ -1,7 +1,5 @@
-'use strict';
-
-const m = require('mithril');
-const factoryService = require('App/services/factory');
+import * as m from 'mithril';
+import * as factoryService from 'App/services/factory';
 
 const _factoryProfile = vnode => [
     m('span.blank-circle', m('img.factory-overview-icon[src=/assets/images/overview-icon.svg]')),
@@ -77,8 +75,12 @@ const _renderContactInfo = (address, contact) =>
         contact.name,
     ]);
 
-const FactoryProfile = {
-    _viewName: 'FactoryProfile',
+interface FactoryProfileState {
+    loading: boolean;
+    factory: consensource.Factory;
+}
+
+export const FactoryProfile: m.Component<{}, FactoryProfileState> = {
     oninit: vnode => {
         vnode.state.loading = true;
         factoryService.fetchFactory(m.route.param('factory_id'), { expand: true }).then(factory => {
@@ -98,8 +100,8 @@ const FactoryProfile = {
                         m('.col-3', [
                             m('img[src=/assets/images/arrow-back.svg]'),
                             m(
-                                'a.back-link.pb-1[href=/certifications]',
-                                { oncreate: m.route.link },
+                                m.route.Link,
+                                { selector: 'a.back-link.pb-1', href: '/certifications' },
                                 'Back to all certified factories',
                             ),
                         ]),
@@ -109,8 +111,4 @@ const FactoryProfile = {
             ];
         }
     },
-};
-
-module.exports = {
-    FactoryProfile,
 };
