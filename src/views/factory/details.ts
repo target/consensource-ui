@@ -1,18 +1,16 @@
-'use strict';
-
-const m = require('mithril');
-const agentService = require('App/services/agent');
-const AuthService = require('App/services/auth');
-const factoryService = require('App/services/factory');
-const transactionService = require('App/services/transaction');
-const { inputField, languageSelector } = require('App/components/forms');
-const blockService = require('App/services/block');
-const isoLangCodes = require('App/views/common/ISO-639-1-language.json');
-const modals = require('App/components/modals');
+import * as m from 'mithril';
+import * as agentService from 'App/services/agent';
+import * as AuthService from 'App/services/auth';
+import * as factoryService from 'App/services/factory';
+import * as transactionService from 'App/services/transaction';
+import { inputField, languageSelector } from 'App/components/forms';
+import * as blockService from 'App/services/block';
+import * as isoLangCodes from 'App/views/common/ISO-639-1-language.json';
+import Modals from 'App/components/modals';
 
 const _toggleEditPassword = update => {
     const editFields = document.querySelectorAll(`.password-value`);
-    Object.values(editFields).map(t => {
+    editFields.forEach(t => {
         t.classList.toggle('form-control-plaintext');
         t.classList.toggle('form-control');
         t.classList.toggle('mt-2');
@@ -29,21 +27,18 @@ const _toggleEditPassword = update => {
         if (!update) {
             PasswordUpdate.clear();
         }
-
-        return '';
     });
 
     const passwordFields = document.querySelectorAll(`.password-fields`);
-    Object.values(passwordFields).map(t => {
+    passwordFields.forEach(t => {
         t.classList.toggle('show');
         t.classList.toggle('hide');
-        return '';
     });
 };
 
-const _toggleEditAddress = (vnode, updated) => {
+const _toggleEditAddress = (vnode, updated?) => {
     const editFields = document.querySelectorAll(`.address-value`);
-    Object.values(editFields).map(t => {
+    editFields.forEach(t => {
         t.classList.toggle('form-control-plaintext');
         t.classList.toggle('form-control');
         t.classList.toggle('mt-2');
@@ -61,20 +56,18 @@ const _toggleEditAddress = (vnode, updated) => {
                 FactoryUpdate.setFactory(vnode.state.factory);
             }
         }
-        return '';
     });
 
     const addressButtons = document.querySelectorAll(`.btn-address`);
-    Object.values(addressButtons).map(t => {
+    addressButtons.forEach(t => {
         t.classList.toggle('show');
         t.classList.toggle('hide');
-        return '';
     });
 };
 
-const _toggleEditContact = (vnode, updated) => {
+const _toggleEditContact = (vnode, updated?) => {
     const editFields = document.querySelectorAll(`.contact-value`);
-    Object.values(editFields).map(t => {
+    editFields.forEach(t => {
         t.classList.toggle('form-control-plaintext');
         t.classList.toggle('form-control');
         t.classList.toggle('mt-2');
@@ -100,15 +93,14 @@ const _toggleEditContact = (vnode, updated) => {
     });
 
     const contactButtons = document.querySelectorAll(`.btn-contact`);
-    Object.values(contactButtons).map(t => {
+    contactButtons.forEach(t => {
         t.classList.toggle('show');
         t.classList.toggle('hide');
         return '';
     });
 };
 
-const FactoryDetails = {
-    _viewName: 'FactoryDetails',
+export const FactoryDetails = {
     view: vnode => {
         if (!vnode.state.loading) {
             return [
@@ -119,7 +111,7 @@ const FactoryDetails = {
                     m(
                         "input.dt.col-sm-10.password-value.password-fields.form-control-plaintext.hide[type=password][name='currentPassword']",
                         {
-                            oninput: m.withAttr('value', PasswordUpdate.setOldPassword),
+                            oninput: (e: any) => PasswordUpdate.setOldPassword(e.target.value),
                             value: PasswordUpdate.old_password,
                         },
                     ),
@@ -128,7 +120,7 @@ const FactoryDetails = {
                     m(
                         "input.dt.col-sm-10.password-value.password-fields.agent-profile-value.form-control-plaintext.hide[type=password][name='password']",
                         {
-                            oninput: m.withAttr('value', PasswordUpdate.setPassword),
+                            oninput: (e: any) => PasswordUpdate.setPassword(e.target.value),
                             value: PasswordUpdate.password,
                         },
                     ),
@@ -137,7 +129,7 @@ const FactoryDetails = {
                     m(
                         "input.dt.col-sm-10.password-value.password-fields.form-control-plaintext.hide[type=password][name='confirmPassword']",
                         {
-                            oninput: m.withAttr('value', PasswordUpdate.setConfirmPassword),
+                            oninput: (e: any) => PasswordUpdate.setConfirmPassword(e.target.value),
                             value: PasswordUpdate.confirmPassword,
                         },
                     ),
@@ -175,7 +167,7 @@ const FactoryDetails = {
                 m(
                     "input#address-street-1.factory-profile-value.address-value.form-control-plaintext[type=text][readonly=true][name='Street Line 1 *']",
                     {
-                        oninput: m.withAttr('value', FactoryUpdate.setAddressStreetLine1),
+                        oninput: (e: any) => FactoryUpdate.setAddressStreetLine1(e.target.value),
                         value: FactoryUpdate.addressStreetLine1,
                     },
                 ),
@@ -183,7 +175,7 @@ const FactoryDetails = {
                 m(
                     `input#address-street-2.factory-profile-value.address-value.optional.form-control-plaintext[type=text][readonly=true][name='Street Line 2']`,
                     {
-                        oninput: m.withAttr('value', FactoryUpdate.setAddressStreetLine2),
+                        oninput: (e: any) => FactoryUpdate.setAddressStreetLine2(e.target.value),
                         value: FactoryUpdate.addressStreetLine2,
                         class: !vnode.state.factory.address.street_line_2 ? 'hide empty' : '',
                     },
@@ -192,7 +184,7 @@ const FactoryDetails = {
                 m(
                     "input#address-city.factory-profile-value.address-value.form-control-plaintext[type=text][readonly=true][name='City *']",
                     {
-                        oninput: m.withAttr('value', FactoryUpdate.setAddressCity),
+                        oninput: (e: any) => FactoryUpdate.setAddressCity(e.target.value),
                         value: FactoryUpdate.addressCity,
                     },
                 ),
@@ -200,7 +192,7 @@ const FactoryDetails = {
                 m(
                     `input#address-state-province.factory-profile-value.address-value.optional.form-control-plaintext[type=text][readonly=true][name='State/Province']`,
                     {
-                        oninput: m.withAttr('value', FactoryUpdate.setAddressStateProvince),
+                        oninput: (e: any) => FactoryUpdate.setAddressStateProvince(e.target.value),
                         value: FactoryUpdate.addressStateProvince,
                         class: !vnode.state.factory.address.state_province ? 'hide empty' : '',
                     },
@@ -209,7 +201,7 @@ const FactoryDetails = {
                 m(
                     "input#address-country.factory-profile-value.address-value.form-control-plaintext[type=text][readonly=true][name='Country *']",
                     {
-                        oninput: m.withAttr('value', FactoryUpdate.setAddressCountry),
+                        oninput: (e: any) => FactoryUpdate.setAddressCountry(e.target.value),
                         value: FactoryUpdate.addressCountry,
                     },
                 ),
@@ -217,7 +209,7 @@ const FactoryDetails = {
                 m(
                     `input#address-postal-code.factory-profile-value.address-value.optional.form-control-plaintext[type=text][readonly=true][name='Postal Code']`,
                     {
-                        oninput: m.withAttr('value', FactoryUpdate.setAddressPostalCode),
+                        oninput: (e: any) => FactoryUpdate.setAddressPostalCode(e.target.value),
                         value: FactoryUpdate.addressPostalCode,
                         class: !vnode.state.factory.address.postal_code ? 'hide empty' : '',
                     },
@@ -249,7 +241,7 @@ const FactoryDetails = {
                 m(
                     "input#contact-name.factory-profile-value.contact-value.form-control-plaintext[type=text][readonly=true][name='Name *']",
                     {
-                        oninput: m.withAttr('value', FactoryUpdate.setContactName),
+                        oninput: (e: any) => FactoryUpdate.setContactName(e.target.value),
                         value: FactoryUpdate.contactName,
                     },
                 ),
@@ -257,7 +249,7 @@ const FactoryDetails = {
                 m(
                     "input#contact-phone-num.factory-profile-value.contact-value.form-control-plaintext[type=text][readonly=true][name='Phone Number *']",
                     {
-                        oninput: m.withAttr('value', FactoryUpdate.setContactPhoneNumber),
+                        oninput: (e: any) => FactoryUpdate.setContactPhoneNumber(e.target.value),
                         value: FactoryUpdate.contactPhoneNumber,
                     },
                 ),
@@ -266,7 +258,7 @@ const FactoryDetails = {
                     "select#contact-lang-code.factory-profile-value.contact-value.select-language.form-control-plaintext[disabled='disabled'][readonly=true][name='Language *']",
                     {
                         name,
-                        oninput: m.withAttr('value', FactoryUpdate.setContactLanguageCode),
+                        oninput: (e: any) => FactoryUpdate.setContactLanguageCode(e.target.value),
                         value: FactoryUpdate.contactLanguageCode,
                     },
                     isoLangCodes.map(({ code, name }) => m('option', { value: code, text: name })),
@@ -290,7 +282,7 @@ const FactoryDetails = {
                         'Cancel',
                     ),
                 ]),
-                m(modals.ModalContainer, { show: modals.displayModal() }),
+                m(Modals.ModalContainer, { show: Modals.displayModal() }),
             ];
         } else {
             return [m('.row', 'Loading...')];
@@ -304,10 +296,11 @@ const FactoryDetails = {
     onremove: vnode => {
         blockService.removeBlockUpdateListener(vnode.state._listener);
     },
+
     oninit: vnode => {
         vnode.state.loading = true;
         return AuthService.getUserData()
-            .then(user => Promise.all([user, agentService.fetchAgent(user.public_key)]))
+            .then((user: any) => Promise.all([user, agentService.fetchAgent(user.public_key)]))
             .then(([user, agent]) => Promise.all([user, factoryService.fetchFactory(agent.data.organization.id)]))
             .then(([user, factoryResult]) => {
                 vnode.state.loading = false;
@@ -325,6 +318,7 @@ const FactoryDetails = {
                 m.redraw();
             });
     },
+
     loadData: vnode => {
         factoryService
             .fetchFactory(vnode.state.factory.id)
@@ -457,8 +451,7 @@ const FactorySignUp = {
 /**
  * Factory Sign Up form component
  */
-const FactorySignUpForm = {
-    _viewName: 'FactorySignUpForm',
+export const FactorySignUpForm = {
     oninit() {
         FactorySignUp.clear();
     },
@@ -479,7 +472,7 @@ const FactorySignUpForm = {
                     'password',
                 ),
 
-                inputField('orgName', 'Factory Name *', FactorySignUp.name, FactorySignUp.setOrgName),
+                inputField('orgName', 'Factory Name *', FactorySignUp.orgName, FactorySignUp.setOrgName),
 
                 m('h3', 'Address'),
                 inputField(
@@ -682,9 +675,4 @@ const PasswordUpdate = {
         }
         return false;
     },
-};
-
-module.exports = {
-    FactoryDetails,
-    FactorySignUpForm,
 };
