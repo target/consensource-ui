@@ -1,8 +1,6 @@
-'use strict';
-
-const m = require('mithril');
-const organizationService = require('App/services/organization');
-const blockService = require('App/services/block');
+import * as m from 'mithril';
+import * as organizationService from 'App/services/organization';
+import * as blockService from 'App/services/block';
 
 const _renderRows = (items, renderer, emptyElement) => {
     if (items.length > 0) {
@@ -28,8 +26,14 @@ const _loadCertifyingBodies = vnode => {
         });
 };
 
-const CertifyingBodyList = {
-    _viewName: 'CertifyingBodyList',
+interface State {
+    certifyingBodies: consensource.CertifyingBody[];
+    noRecordsElement: m.Vnode;
+    loading: boolean;
+    _listener: () => void;
+}
+
+export const CertifyingBodyList: m.Component<{}, State> = {
     view: vnode => [
         m('table.table', [
             m(
@@ -51,8 +55,11 @@ const CertifyingBodyList = {
                             m(
                                 'td',
                                 m(
-                                    `button.btn.btn-success.btn-sm[href=/accreditCertifyingBody?organization_id=${certifyingBody.id}]`,
-                                    { oncreate: m.route.link },
+                                    m.route.Link,
+                                    {
+                                        selector: 'button.btn.btn-success.btn-sm',
+                                        href: `/accreditCertifyingBody?organization_id=${certifyingBody.id}`,
+                                    },
                                     'Accredit',
                                 ),
                             ),
@@ -78,8 +85,4 @@ const CertifyingBodyList = {
     onremove: vnode => {
         blockService.removeBlockUpdateListener(vnode.state._listener);
     },
-};
-
-module.exports = {
-    CertifyingBodyList,
 };
