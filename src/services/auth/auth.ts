@@ -4,84 +4,85 @@ import * as modals from 'App/components/modals';
 import { createContext, CryptoFactory } from 'sawtooth-sdk/signing';
 import { Secp256k1PrivateKey } from 'sawtooth-sdk/signing/secp256k1';
 import { pluck } from 'App/utils';
-const STORE_PRIVATE_KEY = 'privateKey';
-const STORE_USER = 'user';
+
 const CRYPTO_CONTEXT = createContext('secp256k1');
 const CRYPTO_FACTORY = new CryptoFactory(CRYPTO_CONTEXT);
-
-let _authStore_cachedSigner: sawtooth.signing.Signer = null;
-
-const _localStoreSave = (key: string, value: string) => localStorage.setItem(`${AuthService.namespace}/${key}`, value);
-
-const _localStoreGet = (key: string) => localStorage.getItem(`${AuthService.namespace}/${key}`);
-
-const _localStoreRemove = (key: string) => localStorage.removeItem(`${AuthService.namespace}/${key}`);
-
-const _sessionStoreSave = (key: string, value: string) =>
-    sessionStorage.setItem(`${AuthService.namespace}/${key}`, value);
-
-const _sessionStoreGet = (key: string) => sessionStorage.getItem(`${AuthService.namespace}/${key}`);
-
-const _sessionStoreRemove = (key: string) => sessionStorage.removeItem(`${AuthService.namespace}/${key}`);
-
-const requestPassword = (): Promise<string> => {
-    let password: string = null;
-
-    return modals
-        .show(
-            modals.DialogModal,
-            {
-                title: 'Enter Password',
-                acceptText: 'Submit',
-            },
-            m('.container', [
-                m('.mb-4', 'Please confirm your password to unlock your private key.'),
-                m('input.format-control[type=password]', {
-                    oninput: (e: any) => {
-                        password = e.target.value;
-                    },
-                }),
-            ]),
-        )
-        .then(() => password);
-};
-
-const displaySuccessDialog = () => {
-    modals.show(modals.DialogSuccessModal, { content: 'Password successfully updated' });
-};
 
 const AuthService = {
     namespace: 'consensource',
 
+    STORE_PRIVATE_KEY: 'privateKey',
+    STORE_USER: 'user',
+
+    cachedSigner: null,
+
+    _localStoreSave: (key: string, value: string) => localStorage.setItem(`${AuthService.namespace}/${key}`, value),
+
+    _localStoreGet: (key: string) => localStorage.getItem(`${AuthService.namespace}/${key}`),
+
+    _localStoreRemove: (key: string) => localStorage.removeItem(`${AuthService.namespace}/${key}`),
+
+    _sessionStoreSave: (key: string, value: string) => sessionStorage.setItem(`${AuthService.namespace}/${key}`, value),
+
+    _sessionStoreGet: (key: string) => sessionStorage.getItem(`${AuthService.namespace}/${key}`),
+
+    _sessionStoreRemove: (key: string) => sessionStorage.removeItem(`${AuthService.namespace}/${key}`),
+
+    requestPassword: (): Promise<string> => {
+        let password: string = null;
+
+        return modals
+            .show(
+                modals.DialogModal,
+                {
+                    title: 'Enter Password',
+                    acceptText: 'Submit',
+                },
+                m('.container', [
+                    m('.mb-4', 'Please confirm your password to unlock your private key.'),
+                    m('input.format-control[type=password]', {
+                        oninput: (e: any) => {
+                            password = e.target.value;
+                        },
+                    }),
+                ]),
+            )
+            .then(() => password);
+    },
+
+    displaySuccessDialog: () => {
+        modals.show(modals.DialogSuccessModal, { content: 'Password successfully updated' });
+    },
+
     setNamespace: (ns: string) => (AuthService.namespace = ns),
 
-    isSignedIn: () => Boolean(_localStoreGet(STORE_USER)),
+    isSignedIn: () => Boolean(AuthService._localStoreGet(AuthService.STORE_USER)),
 
     setUserData: (user: any, password: string) => {
         // invalidate cache
-        _authStore_cachedSigner = null;
+        AuthService.cachedSigner = null;
 
         const storedUser = pluck(user, 'username', 'public_key', 'name', 'email', 'encrypted_private_key');
-        _localStoreSave(STORE_USER, JSON.stringify(storedUser));
+        AuthService._localStoreSave(AuthService.STORE_USER, JSON.stringify(storedUser));
 
         const decryptedKey = sjcl.decrypt(password, user.encrypted_private_key);
-        _sessionStoreSave(STORE_PRIVATE_KEY, decryptedKey);
+        AuthService._sessionStoreSave(AuthService.STORE_PRIVATE_KEY, decryptedKey);
     },
 
     updateUserData: (update: any) => {
         AuthService.getUserData().then((user: any) => {
             const currentUser = pluck(user, 'username', 'public_key', 'name', 'email', 'encrypted_private_key');
             currentUser.encrypted_private_key = update.encrypted_private_key;
-            _localStoreSave(STORE_USER, JSON.stringify(currentUser));
+            AuthService._localStoreSave(AuthService.STORE_USER, JSON.stringify(currentUser));
 
             const decryptedKey = sjcl.decrypt(update.password, update.encrypted_private_key);
-            _sessionStoreSave(STORE_PRIVATE_KEY, decryptedKey);
+            AuthService._sessionStoreSave(AuthService.STORE_PRIVATE_KEY, decryptedKey);
         });
     },
 
     getUserData: () =>
         new Promise((resolve, reject) => {
-            const userStr = _localStoreGet(STORE_USER);
+            const userStr = AuthService._localStoreGet(AuthService.STORE_USER);
             if (!userStr) {
                 reject('No User Data Available.  Sign-in required');
                 return;
@@ -95,24 +96,24 @@ const AuthService = {
         }),
 
     getSigner: () => {
-        if (_authStore_cachedSigner) {
-            return Promise.resolve(_authStore_cachedSigner);
+        if (AuthService.cachedSigner) {
+            return Promise.resolve(AuthService.cachedSigner);
         }
 
-        const sessionStoredKey = _sessionStoreGet(STORE_PRIVATE_KEY);
+        const sessionStoredKey = AuthService._sessionStoreGet(AuthService.STORE_PRIVATE_KEY);
         if (sessionStoredKey) {
             const signer = CRYPTO_FACTORY.newSigner(Secp256k1PrivateKey.fromHex(sessionStoredKey));
-            _authStore_cachedSigner = signer;
+            AuthService.cachedSigner = signer;
             return Promise.resolve(signer);
         }
 
         return AuthService.getUserData()
-            .then((user: any) => Promise.all([user, requestPassword()]))
+            .then((user: any) => Promise.all([user, AuthService.requestPassword()]))
             .then(([user, password]: Array<any>) => {
                 const decryptedKey = sjcl.decrypt(password, user.encrypted_private_key);
-                _sessionStoreSave(STORE_PRIVATE_KEY, decryptedKey);
+                AuthService._sessionStoreSave(AuthService.STORE_PRIVATE_KEY, decryptedKey);
                 const signer = CRYPTO_FACTORY.newSigner(Secp256k1PrivateKey.fromHex(decryptedKey));
-                _authStore_cachedSigner = signer;
+                AuthService.cachedSigner = signer;
                 return Promise.resolve(signer);
             });
     },
@@ -128,8 +129,8 @@ const AuthService = {
         const privateKey = CRYPTO_CONTEXT.newRandomPrivateKey();
         const signer = CRYPTO_FACTORY.newSigner(privateKey);
 
-        _authStore_cachedSigner = signer;
-        _sessionStoreSave(STORE_PRIVATE_KEY, privateKey.asHex());
+        AuthService.cachedSigner = signer;
+        AuthService._sessionStoreSave(AuthService.STORE_PRIVATE_KEY, privateKey.asHex());
 
         const encryptedPrivateKey = sjcl.encrypt(password, privateKey.asHex());
 
@@ -141,10 +142,10 @@ const AuthService = {
      */
     clear: () => {
         // invalidate cache
-        _authStore_cachedSigner = null;
+        AuthService.cachedSigner = null;
 
-        _localStoreRemove(STORE_USER);
-        _sessionStoreRemove(STORE_PRIVATE_KEY);
+        AuthService._localStoreRemove(AuthService.STORE_USER);
+        AuthService._sessionStoreRemove(AuthService.STORE_PRIVATE_KEY);
 
         m.redraw();
     },
@@ -187,7 +188,7 @@ const AuthService = {
             .then((result: any) => {
                 if (result.status === 'ok') {
                     AuthService.updateUserData(userUpdate);
-                    displaySuccessDialog();
+                    AuthService.displaySuccessDialog();
                 }
             });
     },
