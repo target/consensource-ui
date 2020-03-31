@@ -1,5 +1,5 @@
 import * as m from 'mithril';
-import * as AuthService from 'App/services/auth';
+import AuthService from 'App/services/auth';
 import * as blockService from 'App/services/block';
 import * as certRequestService from 'App/services/certificate_request';
 import * as standardService from 'App/services/standards';

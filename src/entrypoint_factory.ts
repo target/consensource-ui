@@ -3,7 +3,7 @@ import * as FeatureFlagService from 'App/services/feature_flag';
 import { SignInForm } from 'App/views/common/auth';
 import { App, Welcome } from 'App/views/factory';
 import { FactorySignUpForm, FactoryDetails } from 'App/views/factory/details';
-import * as AuthService from 'App/services/auth';
+import AuthService from 'App/services/auth';
 import { ListCertifications } from 'App/views/factory/requests';
 
 AuthService.setNamespace('factory');

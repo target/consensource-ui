@@ -1,5 +1,5 @@
 import * as m from 'mithril';
-import * as AuthService from 'App/services/auth';
+import AuthService from 'App/services/auth';
 import * as standardsService from 'App/services/standards';
 import * as agentService from 'App/services/agent';
 import * as DatePicker from 'mithril-datepicker';

@@ -1,6 +1,6 @@
 import * as m from 'mithril';
 import * as agentService from 'App/services/agent';
-import * as AuthService from 'App/services/auth';
+import AuthService from 'App/services/auth';
 import Modals from 'App/components/modals';
 
 const _term = (name: string, value: string) => [m('dt.col-sm-2', name), m('dd.col-sm-10', value)];

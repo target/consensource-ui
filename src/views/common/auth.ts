@@ -1,6 +1,6 @@
 import * as m from 'mithril';
 import { inputField } from 'App/components/forms';
-import * as AuthService from 'App/services/auth';
+import AuthService from 'App/services/auth';
 import * as agentService from 'App/services/agent';
 import * as FeatureFlagService from 'App/services/feature_flag';
 

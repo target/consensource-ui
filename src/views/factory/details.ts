@@ -1,6 +1,6 @@
 import * as m from 'mithril';
 import * as agentService from 'App/services/agent';
-import * as AuthService from 'App/services/auth';
+import AuthService from 'App/services/auth';
 import * as factoryService from 'App/services/factory';
 import * as transactionService from 'App/services/transaction';
 import { inputField, languageSelector } from 'App/components/forms';

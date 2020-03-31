@@ -1,5 +1,5 @@
 import * as m from 'mithril';
-import * as AuthService from 'App/services/auth';
+import AuthService from 'App/services/auth';
 import * as AgentService from 'App/services/agent';
 import * as FeatureFlagService from 'App/services/feature_flag';
 import { testingNotificationBanner } from 'App/components/testing_banner';

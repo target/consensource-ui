@@ -1,5 +1,5 @@
 import * as m from 'mithril';
-import * as AuthService from 'App/services/auth';
+import AuthService from 'App/services/auth';
 import * as organizationService from 'App/services/organization';
 import { Organization as OrganizationProto } from 'App/protobuf';
 import * as isoLangCodes from 'App/views/common/ISO-639-1-language.json';

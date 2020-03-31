@@ -231,4 +231,4 @@ const AuthService = {
     },
 };
 
-export = AuthService;
+export default AuthService;
