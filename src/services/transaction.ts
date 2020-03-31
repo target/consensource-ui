@@ -79,7 +79,7 @@ export const submitBatch = (
         .request({
             method: 'POST',
             url: '/api/batches',
-            params: batchListBytes,
+            body: batchListBytes,
             headers: { 'Content-Type': 'application/octet-stream' },
             serialize: x => x,
         })
