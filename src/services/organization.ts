@@ -6,14 +6,7 @@ import { v1 as uuidv1 } from 'uuid';
 import { CertificateRegistryPayload, CreateOrganizationAction } from 'App/protobuf';
 import { pluck } from 'App/utils';
 
-/**
- * V1 UUID for an organization
- */
-export interface OrganizationId {
-    organizationId: typeof uuidv1;
-}
-
-const loadOrganizations = (opts = {}): Promise<any> => {
+export const loadOrganizations = (opts = {}): Promise<any> => {
     const params = pluck(opts, 'organization_type');
     return m.request({
         method: 'GET',
@@ -22,16 +15,16 @@ const loadOrganizations = (opts = {}): Promise<any> => {
     });
 };
 
-const fetchOrganization = (organizationId: OrganizationId): Promise<any> =>
+export const fetchOrganization = (organizationId: string): Promise<any> =>
     m.request({
         method: 'GET',
         url: `/api/organizations/${organizationId}`,
     });
 
-const createOrganization = (
+export const createOrganization = (
     name: string,
     type: consensource.Organization.Type,
-    contact: consensource.Organization.Contact,
+    contact: any,
     signer: sawtooth.signing.Signer,
 ): Promise<any> => {
     if (!name) {
@@ -64,7 +57,7 @@ const createOrganization = (
     );
 };
 
-const languageLabel = (currentCode: string): string => {
+export const languageLabel = (currentCode: string): string => {
     const langInfo = isoLangCodes.find(({ code }) => code === currentCode);
     if (langInfo) {
         return langInfo.name;
@@ -72,5 +65,3 @@ const languageLabel = (currentCode: string): string => {
         return 'Unknown';
     }
 };
-
-export { createOrganization, loadOrganizations, fetchOrganization, languageLabel };

@@ -1,9 +1,7 @@
-'use strict';
-
-const m = require('mithril');
-const blockService = require('App/services/block');
-const factoryService = require('App/services/factory');
-const organizationService = require('App/services/organization');
+import * as m from 'mithril';
+import * as blockService from 'App/services/block';
+import * as factoryService from 'App/services/factory';
+import * as organizationService from 'App/services/organization';
 
 const _renderRows = (items, renderer, emptyElement) => {
     if (items.length > 0) {
@@ -24,8 +22,14 @@ const _loadFactories = vnode =>
             vnode.state.noRecordsElement = m('td.text-center.text-danger[colspan=9]', 'Failed to fetch factories');
         });
 
-const FactoryList = {
-    _viewName: 'FactoryList',
+interface State {
+    factories: consensource.Factory[];
+    loading: boolean;
+    noRecordsElement: m.Vnode;
+    _listener: () => void;
+}
+
+export const FactoryList: m.Component<{}, State> = {
     view: vnode => [
         m('table.table.table-bordered.auditor-table', [
             m(
@@ -79,8 +83,4 @@ const FactoryList = {
     onremove: vnode => {
         blockService.removeBlockUpdateListener(vnode.state._listener);
     },
-};
-
-module.exports = {
-    FactoryList,
 };

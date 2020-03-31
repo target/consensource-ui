@@ -1,20 +1,18 @@
-'use strict';
+import * as m from 'mithril';
+import AuthService from 'App/services/auth';
+import * as certificateService from 'App/services/certificate';
+import * as agentService from 'App/services/agent';
+import * as requestService from 'App/services/requests';
+import * as blockService from 'App/services/block';
+import * as DatePicker from 'mithril-datepicker';
 
-const m = require('mithril');
-const AuthService = require('App/services/auth');
-const certificateService = require('App/services/certificate');
-const agentService = require('App/services/agent');
-const requestService = require('App/services/requests');
-const blockService = require('App/services/block');
-const DatePicker = require('mithril-datepicker');
-
-var IssueCertificateData = {
+export const IssueCertificateData = {
     id: '',
     requestId: '',
     validFrom: new Date().getTime() / 1000,
     validTo: 0,
     certificateData: [],
-
+    factoryId: '',
     submitting: false,
     errorMsg: null,
 
@@ -39,7 +37,7 @@ var IssueCertificateData = {
     },
 
     clear: () => {
-        IssueCertificateData.id = '';
+        IssueCertificateData.factoryId = '';
         IssueCertificateData.requestId = '';
         IssueCertificateData.validFrom = new Date().getTime() / 1000;
         IssueCertificateData.validTo = 0;
@@ -66,15 +64,29 @@ var IssueCertificateData = {
     },
 };
 
-const CertificateCreate = {
-    _viewName: 'CertificateCreate',
+interface Agent extends consensource.Agent {
+    organization: consensource.Organization;
+}
+
+interface Request extends consensource.Request {
+    factory: consensource.Organization;
+    standard: consensource.Standard;
+}
+
+interface CertificateCreateState {
+    loading: boolean;
+    agent?: Agent;
+    request?: Request;
+}
+
+export const CertificateCreate: m.Component<{}, CertificateCreateState> = {
     oninit: vnode => {
         IssueCertificateData.clear();
         vnode.state.loading = true;
         vnode.state.agent = null;
         vnode.state.request = null;
 
-        return AuthService.getUserData().then(user =>
+        return AuthService.getUserData().then((user: any) =>
             Promise.all([
                 agentService.fetchAgent(user.public_key),
                 requestService.fetchRequest(m.route.param('request_id'), { expand: true }),
@@ -112,7 +124,7 @@ const CertificateCreate = {
                         m('div.form-group.row', [
                             m('label[for=certificateID]', 'Certificate ID'),
                             m('input.form-control[type=text]', {
-                                oninput: m.withAttr('value', IssueCertificateData.setID),
+                                oninput: (e: any) => IssueCertificateData.setID(e.target.value),
                                 value: IssueCertificateData.id,
                             }),
                         ]),
@@ -190,8 +202,14 @@ const _loadCertificates = vnode =>
             vnode.state.noRecordsElement = m('td.text-center.text-danger[colspan=6]', 'Failed to fetch Certificates');
         });
 
-const CertificateList = {
-    _viewName: 'CertificateList',
+interface CertificateListState {
+    certificates: consensource.Certificate[];
+    loading: boolean;
+    noRecordsElement: m.Vnode;
+    _listener: () => void;
+}
+
+export const CertificateList: m.Component<{}, CertificateListState> = {
     view: vnode => [
         m('table.table.table-bordered.auditor-table', [
             m(
@@ -248,10 +266,4 @@ const _renderTimestamp = timestamp => {
     } else {
         return 'Unknown';
     }
-};
-
-module.exports = {
-    CertificateCreate,
-    IssueCertificateData,
-    CertificateList,
 };

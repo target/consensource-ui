@@ -1,7 +1,5 @@
-'use strict';
-
-const m = require('mithril');
-const agentService = require('App/services/agent');
+import * as m from 'mithril';
+import * as agentService from 'App/services/agent';
 
 const _renderRows = (items, renderer, emptyElement) => {
     if (items.length > 0) {
@@ -18,9 +16,9 @@ const _searchForm = vnode =>
             m(
                 `input.form-control.searchBar[type=text][name="searchFactories"][placeholder="Search agents and organizations by name"]`,
                 {
-                    oninput: m.withAttr('value', v => {
-                        vnode.state.value = v;
-                    }),
+                    oninput: (e: any) => {
+                        vnode.state.value = e.target.value;
+                    },
                     value: vnode.state.value,
                 },
             ),
@@ -52,12 +50,11 @@ const _doSearch = vnode => {
         ss.filter(agent => _match(agent.organization ? agent.organization.name : '', searchInput)),
     );
     console.log(results);
-    const unique_results = new Set(results);
+    const unique_results = Array.from(new Set(results).values());
     vnode.state.agents = [...unique_results];
 };
 
 const SearchResults = {
-    _viewName: 'AgentList',
     view: vnode => [
         m('table.table.table-bordered.factory-table', [
             m(
@@ -89,8 +86,7 @@ const SearchResults = {
     },
 };
 
-const AgentList = {
-    _viewName: 'AgentList',
+export const AgentList = {
     oninit: vnode => {
         vnode.state.agents = [];
         vnode.state.loading = true;
@@ -116,8 +112,4 @@ const AgentList = {
             m('.row', m('.col-10.offset-md-1.mt-5', m(SearchResults, { agents: vnode.state.agents }))),
         ]),
     ],
-};
-
-module.exports = {
-    AgentList,
 };

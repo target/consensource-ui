@@ -1,12 +1,10 @@
-'use strict';
+import * as m from 'mithril';
+import { inputField } from 'App/components/forms';
+import AuthService from 'App/services/auth';
+import * as agentService from 'App/services/agent';
+import * as FeatureFlagService from 'App/services/feature_flag';
 
-const m = require('mithril');
-const { inputField } = require('App/components/forms');
-const AuthService = require('App/services/auth');
-const agentService = require('App/services/agent');
-const FeatureFlagService = require('App/services/feature_flag');
-
-const AuthedComponent = {
+export const AuthedComponent: m.Component = {
     view(vnode) {
         if (AuthService.isSignedIn()) {
             return vnode.children;
@@ -16,18 +14,29 @@ const AuthedComponent = {
     },
 };
 
-const SignIn = {
+interface SignIn {
+    submitting: boolean;
+    errorMsg: Error | null;
+    username: string;
+    password: string;
+    setUsername: (val: string) => void;
+    setPassword: (val: string) => void;
+    clear: () => void;
+    submit: () => void;
+}
+
+const SignIn: SignIn = {
     submitting: false,
     errorMsg: null,
 
     username: '',
     password: '',
 
-    setUsername: value => {
+    setUsername: (value: string) => {
         SignIn.username = value;
     },
 
-    setPassword: value => {
+    setPassword: (value: string) => {
         SignIn.password = value;
     },
 
@@ -45,7 +54,7 @@ const SignIn = {
                 SignIn.clear();
                 m.route.set('/');
             })
-            .catch(e => {
+            .catch((e: Error) => {
                 console.error(e);
                 SignIn.errorMsg = e;
                 SignIn.submitting = false;
@@ -56,7 +65,7 @@ const SignIn = {
 /**
  * Form for Signing in a User
  */
-const SignInForm = {
+export const SignInForm = {
     oninit() {
         SignIn.clear();
     },
@@ -79,9 +88,10 @@ const SignInForm = {
                     ),
                     FeatureFlagService.isSignupEnabled() &&
                         m(
-                            'a.btn.btn-link.small.text-muted[href=/signUp]',
+                            m.route.Link,
                             {
-                                oncreate: m.route.link,
+                                selector: 'a.btn.btn-link.small.text-muted',
+                                href: '/signUp',
                             },
                             'Not a member? Sign Up',
                         ),
@@ -91,7 +101,15 @@ const SignInForm = {
     },
 };
 
-const AgentSignUp = {
+interface SignUp extends SignIn {
+    confirmPassword: string;
+    name: string;
+    setConfirmPassword: (value: string) => void;
+    setName: (value: string) => void;
+    invalidFields: () => boolean;
+}
+
+const AgentSignUp: SignUp = {
     submitting: false,
     errorMsg: null,
 
@@ -100,25 +118,27 @@ const AgentSignUp = {
     confirmPassword: '',
     name: '',
 
-    setUsername: value => {
+    setUsername: (value: string) => {
         AgentSignUp.username = value;
     },
 
-    setPassword: value => {
+    setPassword: (value: string) => {
         AgentSignUp.password = value;
     },
 
-    setConfirmPassword: value => {
+    setConfirmPassword: (value: string) => {
         AgentSignUp.confirmPassword = value;
     },
 
-    setName: value => {
+    setName: (value: string) => {
         AgentSignUp.name = value;
     },
 
     submit: () => {
         AgentSignUp.submitting = true;
-        AuthService.createUser(AgentSignUp, signer => agentService.createAgent(AgentSignUp.name, signer))
+        AuthService.createUser(AgentSignUp, (signer: sawtooth.signing.Signer) =>
+            agentService.createAgent(AgentSignUp.name, signer),
+        )
             .then(() => {
                 AgentSignUp.clear();
                 m.route.set('/');
@@ -159,7 +179,7 @@ const AgentSignUp = {
 /**
  * Agent Sign Up form component
  */
-const AgentSignUpForm = {
+export const AgentSignUpForm = {
     oninit() {
         AgentSignUp.clear();
     },
@@ -195,10 +215,4 @@ const AgentSignUpForm = {
             ]),
         ];
     },
-};
-
-module.exports = {
-    SignInForm,
-    AuthedComponent,
-    AgentSignUpForm,
 };

@@ -1,19 +1,21 @@
-'use strict';
-
-const m = require('mithril');
-const AuthService = require('App/services/auth');
-const agentService = require('App/services/agent');
-const FeatureFlagService = require('App/services/feature_flag');
-const modals = require('App/components/modals');
-const { AuthedComponent } = require('App/views/common/auth');
-const { testingNotificationBanner } = require('App/components/testing_banner');
+import * as m from 'mithril';
+import AuthService from 'App/services/auth';
+import * as agentService from 'App/services/agent';
+import * as FeatureFlagService from 'App/services/feature_flag';
+import Modals from 'App/components/modals';
+import { AuthedComponent } from 'App/views/common/auth';
+import { testingNotificationBanner } from 'App/components/testing_banner';
 
 const _navLink = (route, asset_active, asset_inactive, label) =>
     m(
         'li.nav-item.retailer_nav',
         m(
-            `a.nav-link.retailer_nav_link[href=${route}]`,
-            { class: m.route.get() === route ? 'active' : '', oncreate: m.route.link },
+            m.route.Link,
+            {
+                selector: 'a.nav-link.retailer_nav_link',
+                href: `${route}`,
+                class: m.route.get() === route ? 'active' : '',
+            },
             [
                 m(`img.nav_icon[src=/assets/images/${m.route.get() === route ? asset_active : asset_inactive}]`),
                 m('span.nav_label.p-1.ml-1', label),
@@ -39,9 +41,13 @@ const _authButtons = () => {
         );
     } else {
         return [
-            m('a.btn.btn-outline-success[href=/signIn]', { oncreate: m.route.link }, 'Sign In'),
+            m(m.route.Link, { selector: 'a.btn.btn-outline-success', href: '/signIn' }, 'Sign In'),
             FeatureFlagService.isSignupEnabled() &&
-                m('a.btn.btn-link.small.text-muted[href=/signUp]', { oncreate: m.route.link }, 'Not a member? Sign Up'),
+                m(
+                    m.route.Link,
+                    { selector: 'a.btn.btn-link.small.text-muted', href: '/signUp' },
+                    'Not a member? Sign Up',
+                ),
         ];
     }
 };
@@ -55,7 +61,7 @@ const _greeting = vnode => {
 };
 
 const _getAgentData = vnode =>
-    AuthService.getUserData().then(user =>
+    AuthService.getUserData().then((user: any) =>
         Promise.all([agentService.fetchAgent(user.public_key)])
             .then(([agent]) => {
                 vnode.state.agent = agent.data;
@@ -68,8 +74,7 @@ const _getAgentData = vnode =>
             }),
     );
 
-const App = {
-    _viewName: 'App',
+export const App = {
     oninit: vnode => {
         vnode.state.agent = null;
         vnode.state.loading = false;
@@ -85,7 +90,7 @@ const App = {
         } else {
             return [
                 m('nav.navbar.navbar-expand-md.navbar-light.bg-light', [
-                    m('a.navbar-brand.org-brand.greeting_text[href=/]', { oncreate: m.route.link }, [
+                    m(m.route.Link, { selector: 'a.navbar-brand.org-brand.greeting_text', href: '/' }, [
                         m(
                             'span.logo-circle',
                             m('img.org-logo[src="/assets/images/all-factories-active.svg"].d-inline-block.align-top'),
@@ -112,7 +117,7 @@ const App = {
                     ]),
                 ]),
                 m('main.container.mt-5', { role: 'main' }, [vnode.children]),
-                m(modals.ModalContainer, { show: modals.displayModal() }),
+                m(Modals.ModalContainer, { show: Modals.displayModal() }),
                 FeatureFlagService.isTestBannerEnabled() && testingNotificationBanner(),
             ];
         }
@@ -124,8 +129,7 @@ const App = {
     }),
 };
 
-const Welcome = {
-    _viewName: 'Welcome',
+export const Welcome = {
     view: () => [
         m('div.landing-page.landing-page-factory', [
             m('div.landing-page-info', [
@@ -140,15 +144,14 @@ const Welcome = {
                     m('li', '+ Withdraw certification requests at any time and for any reason'),
                 ]),
                 m(
-                    'a.btn.landing-page-action-btn',
-                    { href: `${AuthService.isSignedIn() ? '/requests' : '/signIn'}`, oncreate: m.route.link },
+                    m.route.Link,
+                    {
+                        selector: 'a.btn.landing-page-action-btn',
+                        href: `${AuthService.isSignedIn() ? '/requests' : '/signIn'}`,
+                    },
                     'Open a new certification request',
                 ),
             ]),
         ]),
     ],
-};
-module.exports = {
-    App,
-    Welcome,
 };

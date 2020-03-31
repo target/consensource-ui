@@ -1,16 +1,14 @@
-'use strict';
-
-const m = require('mithril');
-const AuthService = require('App/services/auth');
-const accreditCertifyingBodyService = require('App/services/accreditation');
-const agentService = require('App/services/agent');
-const organizationService = require('App/services/organization');
-const standardsService = require('App/services/standards');
-const DatePicker = require('mithril-datepicker');
+import * as m from 'mithril';
+import AuthService from 'App/services/auth';
+import * as accreditCertifyingBodyService from 'App/services/accreditation';
+import * as agentService from 'App/services/agent';
+import * as organizationService from 'App/services/organization';
+import * as standardsService from 'App/services/standards';
+import * as DatePicker from 'mithril-datepicker';
 
 const Standards = {
     list: [],
-    get: vnode => {
+    oninit: vnode => {
         if (vnode.state.standards !== null) {
             if (Standards.list.length !== vnode.state.standards.length) {
                 Standards.list = [];
@@ -25,9 +23,19 @@ const Standards = {
             }
         }
     },
+    view: vnode => {
+        return m(
+            'select.form-control.mr-2',
+            {
+                oninput: (e: any) => AccreditCertifyingBodyData.setStandardId(e.target.value),
+                value: AccreditCertifyingBodyData.standardId,
+            },
+            vnode.children,
+        );
+    },
 };
 
-var AccreditCertifyingBodyData = {
+export const AccreditCertifyingBodyData = {
     certifyingBodyId: '',
     standardId: '',
     validTo: 0,
@@ -98,8 +106,24 @@ var AccreditCertifyingBodyData = {
     },
 };
 
-const AccreditCertifyingBody = {
-    _viewName: 'AccreditCertifyingBody',
+interface Agent extends consensource.Agent {
+    organization: consensource.Organization;
+}
+
+interface Standard extends consensource.Standard {
+    standard_id: string;
+}
+
+interface State {
+    loading: boolean;
+    agent: Agent;
+    organization: consensource.Organization;
+    standards: Standard[];
+    noRecordsElement: m.Vnode;
+    _listener: () => void;
+}
+
+export const AccreditCertifyingBody: m.Component<{}, State> = {
     oninit: vnode => {
         AccreditCertifyingBodyData.clear();
         vnode.state.loading = true;
@@ -107,7 +131,7 @@ const AccreditCertifyingBody = {
         vnode.state.organization = null;
         vnode.state.standards = null;
 
-        return AuthService.getUserData().then(user =>
+        return AuthService.getUserData().then((user: any) =>
             Promise.all([
                 agentService.fetchAgent(user.public_key),
                 organizationService.fetchOrganization(m.route.param('organization_id')),
@@ -167,8 +191,7 @@ const AccreditCertifyingBody = {
                             m(
                                 'select.form-control.mr-2',
                                 {
-                                    oninit: Standards.get(vnode),
-                                    oninput: m.withAttr('value', AccreditCertifyingBodyData.setStandardId),
+                                    oninput: (e: any) => AccreditCertifyingBodyData.setStandardId(e.target.value),
                                     value: AccreditCertifyingBodyData.standardId,
                                 },
                                 [
@@ -177,7 +200,14 @@ const AccreditCertifyingBody = {
                                         text: 'Choose A Standard',
                                         value: AccreditCertifyingBodyData.standardId,
                                     }),
-                                    ...Standards.list,
+                                    ...(vnode.state.standards
+                                        ? vnode.state.standards.map(standard =>
+                                              m('option', {
+                                                  value: standard.standard_id,
+                                                  text: standard.name,
+                                              }),
+                                          )
+                                        : []),
                                 ],
                             ),
                         ]),
@@ -234,9 +264,4 @@ const AccreditCertifyingBody = {
             return [m('p', 'Unable to load details')];
         }
     },
-};
-
-module.exports = {
-    AccreditCertifyingBodyData,
-    AccreditCertifyingBody,
 };

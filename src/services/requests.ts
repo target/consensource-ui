@@ -1,7 +1,7 @@
 import * as m from 'mithril';
 import { pluck } from 'App/utils';
 
-const loadRequests = (opts = {}): Promise<any> => {
+export const loadRequests = (opts = {}): Promise<any> => {
     const params = pluck(opts, 'factory_id', 'expand');
     return m.request({
         method: 'GET',
@@ -10,7 +10,7 @@ const loadRequests = (opts = {}): Promise<any> => {
     });
 };
 
-const fetchRequest = (requestId: string, opts = {}): Promise<any> => {
+export const fetchRequest = (requestId: string, opts = {}): Promise<any> => {
     const params = pluck(opts, 'expand');
 
     return m.request({
@@ -18,9 +18,4 @@ const fetchRequest = (requestId: string, opts = {}): Promise<any> => {
         url: `/api/requests/${requestId}`,
         params: params,
     });
-};
-
-module.exports = {
-    loadRequests,
-    fetchRequest,
 };

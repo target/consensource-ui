@@ -1,8 +1,6 @@
-'use strict';
-
-const m = require('mithril');
-const blockService = require('App/services/block');
-const certificateService = require('App/services/certificate');
+import * as m from 'mithril';
+import * as blockService from 'App/services/block';
+import * as certificateService from 'App/services/certificate';
 
 const _renderRows = (items, renderer, emptyElement) => {
     if (items.length > 0) {
@@ -23,8 +21,18 @@ const _loadCertificates = vnode =>
             vnode.state.noRecordsElement = m('td.text-center.text-danger[colspan=6]', 'Failed to fetch Certificates');
         });
 
-const CertificateList = {
-    _viewName: 'CertificateList',
+interface Attrs {
+    factory: consensource.Factory;
+}
+
+interface State {
+    certificates: consensource.Certificate[];
+    noRecordsElement: m.Vnode;
+    loading: boolean;
+    _listener: () => void;
+}
+
+export const CertificateList: m.Component<Attrs, State> = {
     view: vnode => [
         m('p.request-title', 'Current Certifications'),
         m('table.table.table-bordered', [
@@ -82,8 +90,4 @@ const _renderTimestamp = timestamp => {
     } else {
         return 'Unknown';
     }
-};
-
-module.exports = {
-    CertificateList,
 };

@@ -10,7 +10,6 @@ import { AccreditCertifyingBody } from 'App/views/standards_body/accreditations'
 import AuthService from 'App/services/auth';
 
 AuthService.setNamespace('standards_body');
-
 const element = document.getElementById('app');
 
 m.route(element, '/', {

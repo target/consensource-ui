@@ -1,52 +1,80 @@
-// Type definitions for Sawooth SDK
-// TypeScript: 3.8
-// Project: https://www.hyperledger.org/projects/sawtooth, https://github.com/hyperledger/sawtooth-core
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/sawtooth-sdk
-// Definitions by:
-//  - Patrick Erichsen <https://github.com/Patrick-Erichsen>
-//  - Trevor McDonald  <https://github.com/trevormcdonald>
+// Copyright (c) 2020 Target Brands, Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-import core = require('./core');
+/// <reference types="node" />
 
-declare module signing {
-    type message = string | Buffer | NodeJS.TypedArray | DataView;
+import { PrivateKey, PublicKey, Context } from './core';
 
-    class Signer {
-        /** Constructs a new Signer */
-        constructor(content: core.Context, privateKey: core.PrivateKey);
+export type message = string | Buffer | NodeJS.TypedArray | DataView;
 
-        /** A cryptographic context */
-        _context: core.Context;
+export class Signer {
+    /**
+     * Constructs a new Signer
+     *
+     * @param context - a cryptographic context
+     * @param privateKey - private key
+     */
+    constructor(content: Context, privateKey: PrivateKey);
 
-        /** Private key */
-        _privateKey: core.PrivateKey;
+    _context: Context;
 
-        /** Public key */
-        _publicKey?: core.PublicKey;
+    _privateKey: PrivateKey;
 
-        /** Signs the given message. */
-        sign(message: Buffer): string;
+    _publicKey?: PublicKey;
 
-        /** Return the public key for this Signer instance. */
-        getPublicKey(): core.PublicKey;
-    }
+    /**
+     * Signs the given message.
+     *
+     * @param message - the message bytes
+     * @throws {SigningError} - if any error occurs during the signing process
+     */
+    sign(message: Buffer): string;
 
-    class CryptoFactory {
-        /** Constructs a CryptoFactory. */
-        constructor(context: core.Context);
-
-        /** A cryptographic context */
-        _context: core.Context;
-
-        /** Returns the context associated with this factory */
-        getContext(): core.Context;
-
-        /** Create a new signer for the given private key. */
-        newSigner(privateKey: core.PrivateKey): Signer;
-    }
-
-    /** Returns an Context instance by algorithm name. */
-    function createContext(algorithmName: string): core.Context;
+    /**
+     * Return the public key for this Signer instance.
+     *
+     */
+    getPublicKey(): PublicKey;
 }
 
-export = signing;
+export class CryptoFactory {
+    /**
+     * Constructs a CryptoFactory.
+     *
+     * @param context - a cryptographic context
+     */
+    constructor(context: Context);
+
+    /** A cryptographic context */
+    _context: Context;
+
+    /**
+     * Returns the context associated with this factory
+     *
+     */ getContext(): Context;
+
+    /**
+     * Create a new signer for the given private key.
+     *
+     * @param privateKey - a private key
+     */
+    newSigner(privateKey: PrivateKey): Signer;
+}
+
+/**
+ * Returns an Context instance by algorithm name.
+ *
+ * @param algorithmName - the algorithm name
+ * @throws {NoSuchAlgorithmError} if the algorithm is unknown
+ */ export function createContext(algorithmName: string): Context;

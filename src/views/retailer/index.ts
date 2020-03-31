@@ -1,16 +1,18 @@
-'use strict';
-
-const m = require('mithril');
-const modals = require('App/components/modals');
-const { testingNotificationBanner } = require('App/components/testing_banner');
-const FeatureFlagService = require('App/services/feature_flag');
+import * as m from 'mithril';
+import Modals from 'App/components/modals';
+import { testingNotificationBanner } from 'App/components/testing_banner';
+import * as FeatureFlagService from 'App/services/feature_flag';
 
 const _navLink = (route, asset_active, asset_inactive, label) =>
     m(
         'li.nav-item.retailer_nav',
         m(
-            `a.nav-link.retailer_nav_link[href=${route}]`,
-            { class: m.route.get().startsWith(route) ? 'active' : '', oncreate: m.route.link },
+            m.route.Link,
+            {
+                selector: 'a.nav-link.retailer_nav_link',
+                href: route,
+                class: m.route.get().startsWith(route) ? 'active' : '',
+            },
             [
                 m(
                     `img.nav_icon[src=/assets/images/${
@@ -24,8 +26,7 @@ const _navLink = (route, asset_active, asset_inactive, label) =>
 
 const _greeting = () => 'Welcome, retail or brand member!';
 
-const App = {
-    _viewName: 'App',
+export const App = {
     oninit: vnode => {
         vnode.state.loading = false;
     },
@@ -35,7 +36,7 @@ const App = {
         } else {
             return [
                 m('nav.navbar.navbar-expand-md.navbar-light.bg-light', [
-                    m('a.navbar-brand.org-brand.greeting_text[href=/]', { oncreate: m.route.link }, [
+                    m(m.route.Link, { selector: 'a.navbar-brand.org-brand.greeting_text', href: '/' }, [
                         m(
                             'span.logo-circle',
                             m(
@@ -57,7 +58,7 @@ const App = {
                     ]),
                 ]),
                 m('main.container.mt-5', { role: 'main' }, [vnode.children]),
-                m(modals.ModalContainer, { show: modals.displayModal() }),
+                m(Modals.ModalContainer, { show: Modals.displayModal() }),
                 FeatureFlagService.isTestBannerEnabled() && testingNotificationBanner(),
             ];
         }
@@ -69,8 +70,7 @@ const App = {
     }),
 };
 
-const Welcome = {
-    _viewName: 'Welcome',
+export const Welcome = {
     view: () => [
         m('div.landing-page.landing-page-retailer', [
             m('div.landing-page-info', [
@@ -85,15 +85,14 @@ const Welcome = {
                     m('li', '+ Rest assured that both past and current data are accurate, verified, and up-to-date'),
                 ]),
                 m(
-                    'a.btn.landing-page-action-btn[href=/certifications]',
-                    { oncreate: m.route.link },
+                    m.route.Link,
+                    {
+                        selector: 'a.btn.landing-page-action-btn',
+                        href: '/certifications',
+                    },
                     'Start the search for certified factories',
                 ),
             ]),
         ]),
     ],
-};
-module.exports = {
-    App,
-    Welcome,
 };

@@ -1,8 +1,6 @@
-'use strict';
-
-const m = require('mithril');
-const requestService = require('App/services/requests');
-const blockService = require('App/services/block');
+import * as m from 'mithril';
+import * as requestService from 'App/services/requests';
+import * as blockService from 'App/services/block';
 
 const _renderRows = (items, renderer, emptyElement) => {
     if (items.length > 0) {
@@ -44,8 +42,14 @@ const _renderTimestamp = unixTimestamp => {
     }
 };
 
-const RequestList = {
-    _viewName: 'RequestList',
+interface State {
+    requests: consensource.Request[];
+    noRecordsElement: m.Vnode;
+    loading: boolean;
+    _listener: () => void;
+}
+
+export const RequestList: m.Component<{}, State> = {
     view: vnode => [
         m('table.table.table-boredered.auditor-table', [
             m(
@@ -75,8 +79,12 @@ const RequestList = {
                             m(
                                 'td.pl-5',
                                 m(
-                                    `button.btn.btn-success.btn-sm#auditor-btn[href=/certificateCreate?request_id=${request.id}]`,
-                                    { oncreate: m.route.link, disabled: !(request.status === 'InProgress') },
+                                    m.route.Link,
+                                    {
+                                        selector: 'button.btn.btn-success.btn-sm#auditor-btn',
+                                        href: `/certificateCreate?request_id=${request.id}`,
+                                        disabled: !(request.status === 'InProgress'),
+                                    },
                                     'Certify',
                                 ),
                             ),
@@ -102,8 +110,4 @@ const RequestList = {
     onremove: vnode => {
         blockService.removeBlockUpdateListener(vnode.state._listener);
     },
-};
-
-module.exports = {
-    RequestList,
 };

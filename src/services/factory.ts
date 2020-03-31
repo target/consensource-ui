@@ -19,7 +19,7 @@ function create_factory_id(name: string): string {
         .substring(0, 60);
 }
 
-const loadFactories = (opts = {}): Promise<any> => {
+export const loadFactories = (opts = {}): Promise<any> => {
     const args = pluck(opts, 'name');
     return m.request({
         method: 'GET',
@@ -28,7 +28,7 @@ const loadFactories = (opts = {}): Promise<any> => {
     });
 };
 
-const fetchFactory = (organization_id: string, opts = {}): Promise<any> => {
+export const fetchFactory = (organization_id: string, opts = {}): Promise<any> => {
     const params = pluck(opts, 'expand');
     return m.request({
         method: 'GET',
@@ -37,9 +37,13 @@ const fetchFactory = (organization_id: string, opts = {}): Promise<any> => {
     });
 };
 
-const createFactoryTransaction = (factory: any, signer: sawtooth.signing.Signer): sawtooth.protobuf.Transaction => {
+export const createFactoryTransaction = (
+    factory: any,
+    signer: sawtooth.signing.Signer,
+): sawtooth.protobuf.Transaction | null => {
     if (!signer) {
-        return Promise.reject('A signer must be provided');
+        console.error('A signer must be provided');
+        return;
     }
 
     const factory_id = create_factory_id(factory.orgName);
@@ -83,10 +87,10 @@ const createFactoryTransaction = (factory: any, signer: sawtooth.signing.Signer)
     );
 };
 
-const createFactory = (factory: any, signer: sawtooth.signing.Signer): Promise<any> =>
+export const createFactory = (factory: any, signer: sawtooth.signing.Signer): Promise<any> =>
     transactionService.submitBatch([createFactoryTransaction(factory, signer)], signer);
 
-const updateFactory = (factory: any, signer: sawtooth.signing.Signer): Promise<any> => {
+export const updateFactory = (factory: any, signer: sawtooth.signing.Signer): Promise<any> => {
     if (!signer) {
         return Promise.reject('A signer must be provided');
     }
@@ -125,12 +129,4 @@ const updateFactory = (factory: any, signer: sawtooth.signing.Signer): Promise<a
         },
         signer,
     );
-};
-
-module.exports = {
-    loadFactories,
-    fetchFactory,
-    createFactoryTransaction,
-    createFactory,
-    updateFactory,
 };

@@ -1,12 +1,10 @@
-'use strict';
+import * as m from 'mithril';
+import AuthService from 'App/services/auth';
+import * as standardsService from 'App/services/standards';
+import * as agentService from 'App/services/agent';
+import * as DatePicker from 'mithril-datepicker';
 
-const m = require('mithril');
-const AuthService = require('App/services/auth');
-const standardsService = require('App/services/standards');
-const agentService = require('App/services/agent');
-const DatePicker = require('mithril-datepicker');
-
-var StandardPayloadData = {
+export const StandardPayloadData = {
     id: '',
     name: '',
     version: '',
@@ -82,14 +80,23 @@ var StandardPayloadData = {
     },
 };
 
-const StandardCreate = {
-    _viewName: 'StandardCreate',
+interface Agent extends consensource.Agent {
+    organization: consensource.Organization;
+}
+
+interface StandardState {
+    loading: boolean;
+    agent: Agent;
+    standard: consensource.Standard;
+}
+
+export const StandardCreate: m.Component<{}, StandardState> = {
     oninit: vnode => {
         StandardPayloadData.clear();
         vnode.state.loading = true;
         vnode.state.agent = null;
 
-        return AuthService.getUserData().then(user =>
+        return AuthService.getUserData().then((user: any) =>
             Promise.all([agentService.fetchAgent(user.public_key)])
                 .then(([agent]) => {
                     vnode.state.loading = false;
@@ -122,25 +129,25 @@ const StandardCreate = {
                     m('div.form-group', [
                         m('label[for=name]', 'Standard Name'),
                         m('input.form-control[type=text]', {
-                            oninput: m.withAttr('value', StandardPayloadData.setName),
+                            oninput: (e: any) => StandardPayloadData.setName(e.target.value),
                             value: StandardPayloadData.name,
                         }),
 
                         m('label[for=version]', 'Version'),
                         m('input.form-control[type=text]', {
-                            oninput: m.withAttr('value', StandardPayloadData.setVersion),
+                            oninput: (e: any) => StandardPayloadData.setVersion(e.target.value),
                             value: StandardPayloadData.version,
                         }),
 
                         m('label[for=description]', 'Description'),
                         m('input.form-control[type=text]', {
-                            oninput: m.withAttr('value', StandardPayloadData.setDescription),
+                            oninput: (e: any) => StandardPayloadData.setDescription(e.target.value),
                             value: StandardPayloadData.description,
                         }),
 
                         m('label[for=link]', 'Link'),
                         m('input.form-control[type=text]', {
-                            oninput: m.withAttr('value', StandardPayloadData.setLink),
+                            oninput: (e: any) => StandardPayloadData.setLink(e.target.value),
                             value: StandardPayloadData.link,
                         }),
 
@@ -170,13 +177,12 @@ const StandardCreate = {
     },
 };
 
-const StandardUpdate = {
-    _viewName: 'StandardUpdate',
+export const StandardUpdate: m.Component<{}, StandardState> = {
     oninit: vnode => {
         StandardPayloadData.clear();
         vnode.state.loading = true;
         vnode.state.agent = null;
-        return AuthService.getUserData().then(user =>
+        return AuthService.getUserData().then((user: any) =>
             Promise.all([agentService.fetchAgent(user.public_key)])
                 .then(([agent]) => {
                     vnode.state.agent = agent.data;
@@ -223,19 +229,19 @@ const StandardUpdate = {
 
                         m('label[for=version]', 'Version'),
                         m('input.form-control[type=text]', {
-                            oninput: m.withAttr('value', StandardPayloadData.setVersion),
+                            oninput: (e: any) => StandardPayloadData.setVersion(e.target.value),
                             value: StandardPayloadData.version,
                         }),
 
                         m('label[for=description]', 'Description'),
                         m('input.form-control[type=text]', {
-                            oninput: m.withAttr('value', StandardPayloadData.setDescription),
+                            oninput: (e: any) => StandardPayloadData.setDescription(e.target.value),
                             value: StandardPayloadData.description,
                         }),
 
                         m('label[for=link]', 'Link'),
                         m('input.form-control[type=text]', {
-                            oninput: m.withAttr('value', StandardPayloadData.setLink),
+                            oninput: (e: any) => StandardPayloadData.setLink(e.target.value),
                             value: StandardPayloadData.link,
                         }),
 
@@ -266,8 +272,14 @@ const StandardUpdate = {
     },
 };
 
-const StandardList = {
-    _viewName: 'StandardList',
+interface State {
+    standards: consensource.Standard[];
+    noRecordsElement: m.Vnode;
+    loading: boolean;
+    _listener: () => void;
+}
+
+export const StandardList: m.Component<{}, State> = {
     view: vnode => [
         m('table.table', [
             m(
@@ -295,9 +307,10 @@ const StandardList = {
                             m(
                                 'td',
                                 m(
-                                    `button.btn.btn-success.btn-sm[href=/standardsUpdate?standard_id=${standard.standard_id}]`,
+                                    m.route.Link,
                                     {
-                                        oncreate: m.route.link,
+                                        selector: 'button.btn.btn-success.btn-sm',
+                                        href: `/standardsUpdate?standard_id=${standard.standard_id}`,
                                     },
                                     'Create New Version',
                                 ),
@@ -316,7 +329,7 @@ const StandardList = {
     },
 
     oncreate: vnode => {
-        AuthService.getUserData().then(user =>
+        AuthService.getUserData().then((user: any) =>
             Promise.all([agentService.fetchAgent(user.public_key)])
                 .then(([agent]) => {
                     standardsService
@@ -355,11 +368,4 @@ const _renderRows = (items, renderer, emptyElement) => {
     } else {
         return emptyElement;
     }
-};
-
-module.exports = {
-    StandardPayloadData,
-    StandardCreate,
-    StandardUpdate,
-    StandardList,
 };

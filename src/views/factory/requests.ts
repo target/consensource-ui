@@ -1,16 +1,14 @@
-'use strict';
+import * as m from 'mithril';
+import AuthService from 'App/services/auth';
+import * as blockService from 'App/services/block';
+import * as certRequestService from 'App/services/certificate_request';
+import * as standardService from 'App/services/standards';
+import { Request as RequestProto } from 'App/protobuf';
+import * as agentService from 'App/services/agent';
+import * as factoryService from 'App/services/factory';
+import { CertificateList } from 'App/views/factory/certificates';
 
-const m = require('mithril');
-const AuthService = require('App/services/auth');
-const blockService = require('App/services/block');
-const certRequestService = require('App/services/certificate_request');
-const standardService = require('App/services/standards');
-const { Request: RequestProto } = require('App/protobuf');
-const agentService = require('App/services/agent');
-const factoryService = require('App/services/factory');
-const { CertificateList } = require('App/views/factory/certificates');
-
-var CertificateRequest = {
+const CertificateRequest = {
     requestId: '',
     status: 0,
     standardId: '',
@@ -181,7 +179,7 @@ const FactoryRequestForm = {
         vnode.state.loading = true;
         const { factory } = vnode.attrs;
         if (!factory) {
-            return Promise.resolve([]);
+            return Promise.resolve();
         }
 
         return certRequestService
@@ -241,10 +239,10 @@ const FactoryRequestForm = {
                                 m(
                                     'select.form-control.standard-select',
                                     {
-                                        oninput: m.withAttr('value', CertificateRequest.setStandardId),
+                                        oninput: (e: any) => CertificateRequest.setStandardId(e.target.value),
                                         value: CertificateRequest.standardId,
                                     },
-                                    m('option[selected="selected"][value=""][disabled="disabled"]', 'Choose Standard'),
+                                    m('option[value=""][disabled="disabled"]', 'Choose Standard'),
                                     CertificationStandards.list,
                                 ),
                             ),
@@ -285,12 +283,18 @@ const FactoryRequestForm = {
     },
 };
 
-const ListCertifications = {
-    _viewName: 'Certifications',
+interface State {
+    certRequests: consensource.Request[];
+    loading: boolean;
+    user: any;
+    factory: consensource.Factory;
+}
+
+export const ListCertifications: m.Component<{}, State> = {
     oninit: vnode => {
         vnode.state.certRequests = null;
         AuthService.getUserData()
-            .then(user => Promise.all([user, agentService.fetchAgent(user.public_key)]))
+            .then((user: any) => Promise.all([user, agentService.fetchAgent(user.public_key)]))
             .then(([user, agent]) => Promise.all([user, factoryService.fetchFactory(agent.data.organization.id)]))
             .then(([user, factoryResult]) => {
                 vnode.state.loading = false;
@@ -320,8 +324,4 @@ const ListCertifications = {
             return [m('.row', 'Unable to load details')];
         }
     },
-};
-
-module.exports = {
-    ListCertifications,
 };

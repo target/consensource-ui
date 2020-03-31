@@ -1,20 +1,18 @@
-'use strict';
+import * as m from 'mithril';
+import * as agentService from 'App/services/agent';
+import AuthService from 'App/services/auth';
+import Modals from 'App/components/modals';
 
-const m = require('mithril');
-const agentService = require('App/services/agent');
-const AuthService = require('App/services/auth');
-const modals = require('App/components/modals');
+const _term = (name: string, value: string) => [m('dt.col-sm-2', name), m('dd.col-sm-10', value)];
 
-const _term = (name, value) => [m('dt.col-sm-2', name), m('dd.col-sm-10', value)];
-
-const _orgView = vnode => [m('dl.row', [_term('Name', vnode.state.agent.organization.name)])];
+const _orgView = (vnode: m.Vnode<{}, State>) => [m('dl.row', [_term('Name', vnode.state.agent.organization.name)])];
 
 const _noOrgView = () => [
     m('p', 'You are not currently associated with an organization. Would you like to create one?'),
-    m('a.btn.btn-success[href=/organizationCreate]', { oncreate: m.route.link }, 'Create an Organization'),
+    m(m.route.Link, { selector: 'a.btn.btn-success', href: '/organizationCreate' }, 'Create an Organization'),
 ];
 
-const _renderTimestamp = unixTimestamp => {
+const _renderTimestamp = (unixTimestamp: number) => {
     if (unixTimestamp) {
         const d = new Date(unixTimestamp * 1000);
         return `${d.toLocaleDateString()}`;
@@ -23,13 +21,13 @@ const _renderTimestamp = unixTimestamp => {
     }
 };
 
-const _updatePasswordSetter = key => value => {
+const _updatePasswordSetter = (key: string) => (value: string) => {
     PasswordUpdate[key] = value;
 };
 
-const _toggleEditPassword = update => {
+const _toggleEditPassword = (update: boolean) => {
     const editFields = document.querySelectorAll(`.password-value`);
-    Object.values(editFields).map(t => {
+    editFields.forEach(t => {
         t.classList.toggle('form-control-plaintext');
         t.classList.toggle('form-control');
         t.classList.toggle('mt-2');
@@ -46,25 +44,31 @@ const _toggleEditPassword = update => {
         if (!update) {
             PasswordUpdate.clear();
         }
-
-        return '';
     });
 
     const passwordFields = document.querySelectorAll(`.password-fields`);
-    Object.values(passwordFields).map(t => {
+    passwordFields.forEach(t => {
         t.classList.toggle('show');
         t.classList.toggle('hide');
-        return '';
     });
 };
 
-const AgentProfile = {
-    _viewName: 'AgentProfile',
+interface Agent extends consensource.Agent {
+    created_on: number;
+    organization: consensource.Organization;
+}
+
+interface State {
+    loading: boolean;
+    agent: Agent;
+}
+
+export const AgentProfile: m.Component<{}, State> = {
     oninit: vnode => {
         vnode.state.loading = true;
         vnode.state.agent = null;
 
-        return AuthService.getUserData().then(user =>
+        return AuthService.getUserData().then((user: any) =>
             agentService
                 .fetchAgent(user.public_key)
                 .then(agent => {
@@ -91,7 +95,9 @@ const AgentProfile = {
                     m(
                         "input.dt.col-sm-10.password-value.password-fields.form-control-plaintext.hide[type=password][name='currentPassword']",
                         {
-                            oninput: m.withAttr('value', PasswordUpdate.setOldPassword),
+                            oninput: (e: any) => {
+                                PasswordUpdate.setOldPassword(e.target.value);
+                            },
                             value: PasswordUpdate.old_password,
                         },
                     ),
@@ -100,7 +106,9 @@ const AgentProfile = {
                     m(
                         "input.dt.col-sm-10.password-value.password-fields.form-control-plaintext.hide[type=password][name='password']",
                         {
-                            oninput: m.withAttr('value', PasswordUpdate.setPassword),
+                            oninput: (e: any) => {
+                                PasswordUpdate.setPassword(e.target.value);
+                            },
                             value: PasswordUpdate.password,
                         },
                     ),
@@ -109,7 +117,9 @@ const AgentProfile = {
                     m(
                         "input.dt.col-sm-10.password-value.password-fields.form-control-plaintext.hide[type=password][name='confirmPassword']",
                         {
-                            oninput: m.withAttr('value', PasswordUpdate.setConfirmPassword),
+                            oninput: (e: any) => {
+                                PasswordUpdate.setConfirmPassword(e.target.value);
+                            },
                             value: PasswordUpdate.confirmPassword,
                         },
                     ),
@@ -139,9 +149,9 @@ const AgentProfile = {
                         'Update Password',
                     ),
                 ]),
-                m(modals.ModalContainer, { show: modals.displayModal() }),
+                m(Modals.ModalContainer, { show: Modals.displayModal() }),
                 m('h4', 'My Organization'),
-                vnode.state.agent.organization ? _orgView(vnode) : _noOrgView(vnode),
+                vnode.state.agent.organization ? _orgView(vnode) : _noOrgView(),
             ];
         } else {
             return [m('.row', 'Unable to load details')];
@@ -149,7 +159,26 @@ const AgentProfile = {
     },
 };
 
-const PasswordUpdate = {
+interface PasswordUpdate {
+    [id: string]: any;
+    submitting: boolean;
+    errorMsg: Error | null;
+    public_key: string;
+    encrypted_private_key: string;
+    old_password: string;
+    username: string;
+    password: string;
+    confirmPassword: string;
+    setOldPassword: (value: string) => void;
+    setPassword: (value: string) => void;
+    setConfirmPassword: (value: string) => void;
+    submit: () => void;
+    setUpdatePassword: (user: any) => void;
+    clear: () => void;
+    invalidPassword: () => boolean;
+}
+
+const PasswordUpdate: PasswordUpdate = {
     submitting: false,
     errorMsg: null,
 
@@ -185,7 +214,7 @@ const PasswordUpdate = {
             });
     },
 
-    setUpdatePassword: user => {
+    setUpdatePassword: (user: any) => {
         PasswordUpdate.public_key = user.public_key;
         PasswordUpdate.username = user.username;
     },
@@ -205,8 +234,4 @@ const PasswordUpdate = {
         }
         return false;
     },
-};
-
-module.exports = {
-    AgentProfile,
 };

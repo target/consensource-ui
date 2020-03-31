@@ -5,7 +5,7 @@ import * as transactionService from 'App/services/transaction';
 import { CertificateRegistryPayload, ChangeRequestStatusAction, OpenRequestAction } from 'App/protobuf';
 import { pluck } from 'App/utils';
 
-const loadCertificateRequests = (opts = {}): Promise<any> => {
+export const loadCertificateRequests = (opts = {}): Promise<any> => {
     const args = pluck(opts, 'factory_id', 'expand');
     return m.request({
         method: 'GET',
@@ -14,7 +14,13 @@ const loadCertificateRequests = (opts = {}): Promise<any> => {
     });
 };
 
-const openCertificateRequest = (certRequest: consensource.Request, signer: sawtooth.signing.Signer): Promise<any> => {
+interface Request {
+    standardId: string;
+    requestDate: number;
+    factoryId: string;
+}
+
+export const openCertificateRequest = (certRequest: Request, signer: sawtooth.signing.Signer): Promise<any> => {
     if (!signer) {
         return Promise.reject('A signer must be provided');
     }
@@ -50,7 +56,12 @@ const openCertificateRequest = (certRequest: consensource.Request, signer: sawto
     );
 };
 
-const changeCertificateRequest = (certRequest: any, signer: sawtooth.signing.Signer): Promise<any> => {
+interface ChangeRequest extends Request {
+    requestId: string;
+    status: number;
+}
+
+export const changeCertificateRequest = (certRequest: ChangeRequest, signer: sawtooth.signing.Signer): Promise<any> => {
     if (!signer) {
         return Promise.reject('A signer must be provided');
     }
@@ -80,10 +91,4 @@ const changeCertificateRequest = (certRequest: any, signer: sawtooth.signing.Sig
         },
         signer,
     );
-};
-
-module.exports = {
-    changeCertificateRequest,
-    loadCertificateRequests,
-    openCertificateRequest,
 };

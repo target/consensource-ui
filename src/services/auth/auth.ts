@@ -1,6 +1,6 @@
 import * as m from 'mithril';
 import * as sjcl from 'sjcl';
-import * as modals from 'App/components/modals';
+import Modals from 'App/components/modals';
 import { createContext, CryptoFactory } from 'sawtooth-sdk/signing';
 import { Secp256k1PrivateKey } from 'sawtooth-sdk/signing/secp256k1';
 import { pluck } from 'App/utils';
@@ -31,13 +31,13 @@ const AuthService = {
     requestPassword: (): Promise<string> => {
         let password: string = null;
 
-        return modals
-            .show(
-                modals.DialogModal,
-                {
-                    title: 'Enter Password',
-                    acceptText: 'Submit',
-                },
+        return Modals.show(
+            Modals.DialogModal,
+            {
+                title: 'Enter Password',
+                acceptText: 'Submit',
+            },
+            [
                 m('.container', [
                     m('.mb-4', 'Please confirm your password to unlock your private key.'),
                     m('input.format-control[type=password]', {
@@ -46,12 +46,12 @@ const AuthService = {
                         },
                     }),
                 ]),
-            )
-            .then(() => password);
+            ],
+        ).then(() => password);
     },
 
     displaySuccessDialog: () => {
-        modals.show(modals.DialogSuccessModal, { content: 'Password successfully updated' });
+        Modals.show(Modals.DialogSuccessModal, { content: 'Password successfully updated' });
     },
 
     setNamespace: (ns: string) => (AuthService.namespace = ns),
@@ -155,7 +155,7 @@ const AuthService = {
             .request({
                 method: 'POST',
                 url: '/api/users/authenticate',
-                params: { username, password },
+                body: { username, password },
             })
             .then(user => AuthService.setUserData(user, password))
             .catch(e => {
@@ -176,7 +176,7 @@ const AuthService = {
             .request({
                 method: 'PATCH',
                 url: `/api/users/${public_key}`,
-                params: userUpdate,
+                body: userUpdate,
             })
             .catch(e => {
                 if (e.error && e.error.status === 401) {
@@ -210,7 +210,7 @@ const AuthService = {
                 .request({
                     method: 'POST',
                     url: '/api/users',
-                    params: userCreate,
+                    body: userCreate,
                 })
                 .catch(e => {
                     if (e.error && e.error.status === 400) {

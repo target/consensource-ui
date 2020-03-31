@@ -1,18 +1,21 @@
-'use strict';
-
-const m = require('mithril');
-const AuthService = require('App/services/auth');
-const AgentService = require('App/services/agent');
-const FeatureFlagService = require('App/services/feature_flag');
-const { testingNotificationBanner } = require('App/components/testing_banner');
-const { AuthedComponent } = require('App/views/common/auth');
+import * as m from 'mithril';
+import AuthService from 'App/services/auth';
+import * as agentService from 'App/services/agent';
+import * as FeatureFlagService from 'App/services/feature_flag';
+import { testingNotificationBanner } from 'App/components/testing_banner';
+import { AuthedComponent } from 'App/views/common/auth';
 
 const _navLink = (route, asset_active, asset_inactive, label) =>
     m(
-        'li.nav-item.standards_body_nav',
+        'li.nav-item.auditor_nav',
+
         m(
-            `a.nav-link.standards_body_nav_link[href=${route}]`,
-            { class: m.route.get() === route ? 'active' : '', oncreate: m.route.link },
+            m.route.Link,
+            {
+                selector: 'a.nav-link.auditor_nav_link',
+                href: `${route}`,
+                class: m.route.get() === route ? 'active' : '',
+            },
             [
                 m(`img.nav_icon[src=/assets/images/${m.route.get() === route ? asset_active : asset_inactive}]`),
                 m('span.nav_label.p-1.ml-1', label),
@@ -20,20 +23,12 @@ const _navLink = (route, asset_active, asset_inactive, label) =>
         ),
     );
 
-const _greeting = vnode => {
-    if (vnode.state.agent) {
-        return m(AuthedComponent, `Hi, ${vnode.state.agent.name}`);
-    } else {
-        return 'Welcome, Standards Body team member!';
-    }
-};
-
 const _authButtons = () => {
     if (AuthService.isSignedIn()) {
         return m(
             'li.nav-item',
             m(
-                `a.nav-link[href=/index_standards_body.html].standards_body_nav_link#sign_out`,
+                `a.nav-link[href=/index_auditor.html].auditor_nav_link#sign_out`,
                 {
                     onclick: () => {
                         AuthService.clear();
@@ -46,16 +41,28 @@ const _authButtons = () => {
         );
     } else {
         return [
-            m('a.btn.navbar-signin[href=/signIn]', { oncreate: m.route.link }, 'Sign In'),
+            m(m.route.Link, { selector: 'a.btn.btn-outline-success', href: '/signIn' }, 'Sign In'),
             FeatureFlagService.isSignupEnabled() &&
-                m('a.btn.btn-link.small.text-muted[href=/signUp]', { oncreate: m.route.link }, 'Not a member? Sign Up'),
+                m(
+                    m.route.Link,
+                    { selector: 'a.btn.btn-link.small.text-muted', href: '/signUp' },
+                    'Not a member? Sign Up',
+                ),
         ];
     }
 };
 
+const _greeting = vnode => {
+    if (vnode.state.agent) {
+        return m(AuthedComponent, `Hi, ${vnode.state.agent.name}`);
+    } else {
+        return `Welcome, auditing team member!`;
+    }
+};
+
 const _getAgentData = vnode =>
-    AuthService.getUserData().then(user =>
-        Promise.all([AgentService.fetchAgent(user.public_key)])
+    AuthService.getUserData().then((user: any) =>
+        Promise.all([agentService.fetchAgent(user.public_key)])
             .then(([agent]) => {
                 vnode.state.agent = agent.data;
                 vnode.state.loading = false;
@@ -67,27 +74,28 @@ const _getAgentData = vnode =>
             }),
     );
 
-const App = {
-    _viewName: 'App',
+export const App = {
     oninit: vnode => {
         vnode.state.agent = null;
         vnode.state.loading = false;
     },
+
     onupdate: vnode => {
         if (AuthService.isSignedIn() && vnode.state.agent === null && vnode.state.loading === false) {
             _getAgentData(vnode);
         }
     },
+
     view: vnode => {
         if (vnode.state.loading) {
             return [m('.row', 'Loading...')];
         } else {
             return [
                 m('nav.navbar.navbar-expand-md.navbar-light.bg-light', [
-                    m('a.navbar-brand.org-brand.greeting_text[href=/]', { oncreate: m.route.link }, [
+                    m(m.route.Link, { selector: 'a.navbar-brand.org-brand.greeting_text', href: '/' }, [
                         m(
                             'span.logo-circle',
-                            m('img.org-logo[src="/assets/images/pencil.svg"].d-inline-block.align-top'),
+                            m('img.org-logo[src="/assets/images/active-agents.svg"].d-inline-block.align-top'),
                         ),
                     ]),
                     m('span.ml-3.greeting_text', _greeting(vnode)),
@@ -96,28 +104,28 @@ const App = {
                             m(
                                 AuthedComponent,
                                 _navLink(
-                                    '/standardsCreate',
-                                    'granted-certifications-active.svg',
-                                    'granted-certifications-inactive.svg',
-                                    'Create A Standard',
-                                ),
-                            ),
-                            m(
-                                AuthedComponent,
-                                _navLink(
-                                    '/standardsList',
+                                    '/requests',
                                     'certified-factories-icon.svg',
                                     'inactive-cert-factories.svg',
-                                    'Standards',
+                                    'Certification Requests',
                                 ),
                             ),
                             m(
                                 AuthedComponent,
                                 _navLink(
-                                    '/certifyingBodyList',
-                                    'active-agents.svg',
-                                    'inactive-agents.svg',
-                                    'Certifying Bodies',
+                                    '/certificates',
+                                    'granted-certifications-active.svg',
+                                    'granted-certifications-inactive.svg',
+                                    'Granted Certifications',
+                                ),
+                            ),
+                            m(
+                                AuthedComponent,
+                                _navLink(
+                                    '/factories',
+                                    'all-factories-active.svg',
+                                    'all-factories-inactive.svg',
+                                    'All Factories',
                                 ),
                             ),
                             m(
@@ -128,7 +136,7 @@ const App = {
                         ]),
                     ]),
                 ]),
-                m('main.container', { role: 'main' }, [vnode.children]),
+                m('main.container.mt-5', { role: 'main' }, [vnode.children]),
                 FeatureFlagService.isTestBannerEnabled() && testingNotificationBanner(),
             ];
         }
@@ -140,35 +148,29 @@ const App = {
     }),
 };
 
-const Welcome = {
-    _viewName: 'Welcome',
+export const Welcome = {
     view: () => [
-        m('div.landing-page.landing-page-standards-body', [
+        m('div.landing-page.landing-page-auditor', [
             m('div.landing-page-info', [
                 m('p.landing-page-info-section.landing-page-info-header', [
-                    'Promote your standards to relevant parties and accredit Certifying Bodies using ',
+                    'Ensure that sustainable practices are upheld by using  ',
                     m('strong', 'ConsenSource'),
+                    ' to audit factories against industry standards',
                 ]),
                 m('ul.landing-page-info-section', [
-                    m('li', '+ Create and promote your standard to factories, suppliers, brands, and retailers'),
-                    m('li', '+ View and accredit certifying bodies for your standard'),
-                    m('li', '+ Rest assured that both past and current data are accurate, verified, and up-to-date'),
+                    m('li', '+ See requests for audits and issue certifications'),
+                    m('li', '+ Search a list of factories that have been audited and certified'),
+                    m('li', '+ Rest assured that both past and current date are accurate and up-to-date'),
                 ]),
                 m(
-                    'a.btn.landing-page-action-btn',
+                    m.route.Link,
                     {
-                        role: 'button',
-                        href: `${AuthService.isSignedIn() ? '/standardsCreate' : '/signIn'}`,
-                        oncreate: m.route.link,
+                        selector: 'a.btn.landing-page-action-btn',
+                        href: `${AuthService.isSignedIn() ? '/organizationCreate' : '/signIn'}`,
                     },
-                    'Create a standard',
+                    'Audit and certify a new factory',
                 ),
             ]),
         ]),
     ],
-};
-
-module.exports = {
-    App,
-    Welcome,
 };

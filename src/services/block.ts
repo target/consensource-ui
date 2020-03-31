@@ -25,15 +25,10 @@ eventSource.addEventListener('block-event', (event: any) => {
     });
 });
 
-const addBlockUpdateListener = (f: VoidFunction) => {
+export const addBlockUpdateListener = (f: VoidFunction) => {
     eventEmitter.on('block-event', f);
 };
 
-const removeBlockUpdateListener = (f: VoidFunction) => {
+export const removeBlockUpdateListener = (f: VoidFunction) => {
     eventEmitter.removeListener('block-event', f);
-};
-
-module.exports = {
-    addBlockUpdateListener,
-    removeBlockUpdateListener,
 };
