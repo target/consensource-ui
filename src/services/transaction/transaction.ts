@@ -4,21 +4,26 @@ import { Transaction, TransactionHeader, Batch, BatchHeader, BatchList } from 's
 
 import * as addressing from 'App/addressing';
 
+export interface PayloadInfo {
+    payloadBytes: string | Buffer | NodeJS.TypedArray | DataView;
+    inputs: string[];
+    outputs: string[];
+}
+
 /**
  * Given a payload descriptor and a signer, create a transaction that can be
  * added to a batch.
- *
- * Args
- *  payloadInfo (:obj:): an object consisting of
- *    - payloadBytes: the bytes of the transaction content
- *    - inputs: the list of input addresses used by the payload
- *    - outputs: the list of output addresses used by the payload
- *
- *  signer (:Signer:): the signer to use with the transaction
  */
-export const createTransaction = (payloadInfo: any, signer: sawtooth.signing.Signer): sawtooth.protobuf.Transaction => {
+export const createTransaction = (
+    payloadInfo: PayloadInfo,
+    signer: sawtooth.signing.Signer,
+): sawtooth.protobuf.Transaction => {
     const { payloadBytes, inputs, outputs } = payloadInfo;
+
     const pubkey = signer.getPublicKey().asHex();
+    const payloadSha512 = createHash('sha512')
+        .update(payloadBytes)
+        .digest('hex');
 
     const transactionHeaderBytes = TransactionHeader.encode({
         familyName: addressing.familyName,
@@ -28,9 +33,7 @@ export const createTransaction = (payloadInfo: any, signer: sawtooth.signing.Sig
         signerPublicKey: pubkey,
         batcherPublicKey: pubkey,
         dependencies: [],
-        payloadSha512: createHash('sha512')
-            .update(payloadBytes)
-            .digest('hex'),
+        payloadSha512,
     }).finish();
 
     const signature = signer.sign(transactionHeaderBytes as Buffer);
@@ -44,13 +47,7 @@ export const createTransaction = (payloadInfo: any, signer: sawtooth.signing.Sig
 
 /**
  * Submits a batch of the given transactions
- *
- * Args:
- *   transactions (Array:Transaction:) an array of Transaction protobuf objects
- *   signer (:Signer:): the signer to use with the transaction
- *
- * Returns:
- *   Promise which will resolve on batch commit
+ * @return Promise which will resolve on batch commit
  */
 export const submitBatch = (
     transactions: Array<sawtooth.protobuf.Transaction>,
@@ -68,7 +65,7 @@ export const submitBatch = (
     const batch = Batch.create({
         header: batchHeaderBytes,
         headerSignature: signature,
-        transactions: transactions,
+        transactions,
     });
 
     const batchListBytes = BatchList.encode({
@@ -89,14 +86,6 @@ export const submitBatch = (
 /**
  * Given a payload descriptor and a signer, submit a transaction to the
  * validator.
- *
- * Args:
- *  payloadInfo (:obj:): an object consisting of
- *    - payloadBytes: the bytes of the transaction content
- *    - inputs: the list of input addresses used by the payload
- *    - outputs: the list of output addresses used by the payload
- *
- *  signer (:Signer:): the signer to use with the transaction
  */
 export const submitTransaction = (payloadInfo: any, signer: sawtooth.signing.Signer): Promise<any> => {
     const transactions = [createTransaction(payloadInfo, signer)];
@@ -107,7 +96,7 @@ export const submitTransaction = (payloadInfo: any, signer: sawtooth.signing.Sig
  * This is to fix the URL's returned from the sawtooth rest api, which doesn't
  * render URL's for proxied environments
  */
-const _formatStatusUrl = (url: string): string => `/api${url}`;
+export const _formatStatusUrl = (url: string): string => `/api${url}`;
 
 /**
  * This function will wait for commit, by polling the statusUrl provided.
@@ -115,7 +104,7 @@ const _formatStatusUrl = (url: string): string => `/api${url}`;
  * - the error message from an invalid transaction
  * - the response message on a HTTP error
  */
-const _waitForCommit = (transactionIds: Array<string>, statusUrl: string): Promise<any> =>
+export const _waitForCommit = (transactionIds: Array<string>, statusUrl: string): Promise<any> =>
     m
         .request({
             url: `${statusUrl}&wait=60`,

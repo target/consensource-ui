@@ -3,7 +3,7 @@ import * as m from 'mithril';
 import { createContext, CryptoFactory, Signer } from 'sawtooth-sdk/signing';
 import { pluck } from 'App/utils';
 import AuthService from 'App/services/auth';
-import { mocked } from 'ts-jest';
+import { mocked } from 'ts-jest/utils';
 
 jest.mock('mithril');
 const mockedMithril = mocked(m, true);
