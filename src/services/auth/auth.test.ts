@@ -333,8 +333,8 @@ describe('AuthService', () => {
 
         describe('given a successful response', () => {
             it('calls AuthService.updateUserData() and AuthService.displaySuccessDialog()', async () => {
-                const updateSpy = jest.spyOn(AuthService, 'updateUserData');
-                const dialogSpy = jest.spyOn(AuthService, 'displaySuccessDialog');
+                const updateSpy = jest.spyOn(AuthService, 'updateUserData').mockImplementation();
+                const dialogSpy = jest.spyOn(AuthService, 'displaySuccessDialog').mockImplementation();
                 mockedMithril.request.mockImplementationOnce(() => new Promise(resolve => resolve({ status: 'ok' })));
 
                 await AuthService.updateUser(userUpdate, signer);
