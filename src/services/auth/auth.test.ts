@@ -123,19 +123,18 @@ describe('AuthService', () => {
         });
 
         describe('given the user data in local storage is not valid json', () => {
-            it('returns a rejected promise', async () => {
+            it('returns a rejected promise with an error', async () => {
                 expect.assertions(1);
-
                 localStorage.setItem(getStorageKey(AuthService.STORE_USER), 'bad-json');
-
-                await AuthService.getUserData().catch(e => expect(e).toBeTruthy());
+                await AuthService.getUserData().catch(e => expect(e).toEqual(expect.any(Error)));
             });
         });
 
         describe('given there is no user in local storage', () => {
-            it('returns a rejected promise', async () => {
+            it('returns a rejected promise with a string', async () => {
                 expect.assertions(1);
-                await AuthService.getUserData().catch(e => expect(e).toBeTruthy());
+                // TODO: Use a snapshot here
+                await AuthService.getUserData().catch(e => expect(e).toEqual(expect.any(String)));
             });
         });
     });
@@ -170,7 +169,7 @@ describe('AuthService', () => {
                 jest.spyOn(AuthService, 'getUserData').mockResolvedValueOnce(user);
             });
 
-            it('fails to decrypt the private key and throws an error if an incorrect password entered', async () => {
+            it('when an incorrect password entered, then it fails to decrypt the private key and returns a rejected promise', async () => {
                 expect.assertions(1);
                 jest.spyOn(AuthService, 'requestPassword').mockResolvedValueOnce('wrong-password');
                 await AuthService.getSigner().catch(e => expect(e).toBeTruthy());
@@ -193,10 +192,11 @@ describe('AuthService', () => {
 
     describe('AuthService.createSigner()', () => {
         describe('given a user is signed in', () => {
-            it('returns a rejected promise', async () => {
+            it('returns a rejected promise with an error message', async () => {
                 expect.assertions(1);
                 jest.spyOn(AuthService, 'isSignedIn').mockReturnValueOnce(true);
-                await AuthService.createSigner(password).catch(e => expect(e).toBeTruthy());
+                // TODO: Use a snapshot here
+                await AuthService.createSigner(password).catch(e => expect(e).toEqual(expect.any(String)));
             });
         });
 
@@ -232,13 +232,15 @@ describe('AuthService', () => {
 
                 mockedMithril.request.mockRejectedValueOnce({ error: { status: 401 } });
                 const failure401 = await AuthService.authenticate(user.username, password).catch(e => {
-                    expect(e).toBeTruthy();
+                    // TODO: Use a snapshot here
+                    expect(e).toEqual(expect.any(String));
                     return e;
                 });
 
                 mockedMithril.request.mockRejectedValueOnce({ error: new Error() });
                 const failureGeneric = await AuthService.authenticate(user.username, password).catch(e => {
-                    expect(e).toBeTruthy();
+                    // TODO: Use a snapshot here
+                    expect(e).toEqual(expect.any(String));
                     return e;
                 });
 
@@ -273,13 +275,15 @@ describe('AuthService', () => {
 
                 mockedMithril.request.mockRejectedValueOnce({ error: { status: 401 } });
                 const failure401 = await AuthService.updateUser(userUpdate, signer).catch(e => {
-                    expect(e).toBeTruthy();
+                    // TODO: Use a snapshot here
+                    expect(e).toEqual(expect.any(String));
                     return e;
                 });
 
                 mockedMithril.request.mockRejectedValueOnce({ error: new Error() });
                 const failureGeneric = await AuthService.updateUser(userUpdate, signer).catch(e => {
-                    expect(e).toBeTruthy();
+                    // TODO: Use a snapshot here
+                    expect(e).toEqual(expect.any(String));
                     return e;
                 });
 
@@ -324,13 +328,15 @@ describe('AuthService', () => {
 
                 mockedMithril.request.mockRejectedValueOnce({ error: { status: 400, message: '400 error' } });
                 const failure400 = await AuthService.createUser(userCreate, submitTransactionFn).catch(e => {
-                    expect(e).toBeTruthy();
+                    // TODO: Use a snapshot here
+                    expect(e).toEqual(expect.any(String));
                     return e;
                 });
 
                 mockedMithril.request.mockRejectedValueOnce({ error: new Error() });
                 const failureGeneric = await AuthService.createUser(userCreate, submitTransactionFn).catch(e => {
-                    expect(e).toBeTruthy();
+                    // TODO: Use a snapshot here
+                    expect(e).toEqual(expect.any(String));
                     return e;
                 });
 
@@ -343,7 +349,8 @@ describe('AuthService', () => {
                 expect.assertions(1);
                 mockedMithril.request.mockResolvedValueOnce({ status: 'not-ok' });
                 await AuthService.createUser(userCreate, submitTransactionFn).catch(e => {
-                    expect(e).toBeTruthy();
+                    // TODO: Use a snapshot here
+                    expect(e).toEqual(expect.any(String));
                     return e;
                 });
             });
