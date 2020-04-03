@@ -24,10 +24,11 @@
   "devDependencies": {
     "eslint": "^5.4.0",
     "eslint-plugin-es-beautifier": "^1.0.1",
+    "kind-of": ">=6.0.3",
     "prebuild-install": "^5.0.0",
+    "terser-webpack-plugin": "1.4.2",
     "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0",
-    "terser-webpack-plugin": "1.4.2"
+    "webpack-cli": "^3.3.0"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
