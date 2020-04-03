@@ -182,7 +182,7 @@ export const waitForCommit = async (transactionIds: string[], statusUrl: string)
 
     switch (batch.status) {
         case BATCH_STATUS.COMMITTED:
-            return Promise.resolve(transactionIds);
+            return transactionIds;
         case BATCH_STATUS.INVALID:
             return Promise.reject(getInvalidBatchResult(batch, transactionIds));
         default:

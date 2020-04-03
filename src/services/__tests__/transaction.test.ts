@@ -1,4 +1,4 @@
-import * as TransactionService from './transaction';
+import * as TransactionService from '../transaction';
 import * as m from 'mithril';
 import * as addressing from 'App/addressing';
 import { makeOrganizationAddress } from 'App/addressing';
@@ -88,8 +88,6 @@ describe('Transaction Service', () => {
 
     describe('submitTransaction()', () => {
         it('creates a Transaction and submits it in a BatchList', async () => {
-            expect.assertions(3);
-
             const submitTxnSpy = jest
                 .spyOn(TransactionService, 'createTransaction')
                 .mockReturnValueOnce(mockTransaction);
@@ -99,7 +97,7 @@ describe('Transaction Service', () => {
 
             const res = await TransactionService.submitTransaction(mockTransactionPayload, signer);
 
-            expect(submitTxnSpy).toBeCalledWith(mockTransactionPayload, signer);
+            expect(submitTxnSpy).toHaveBeenCalledWith(mockTransactionPayload, signer);
             expect(submitBatchSpy).toHaveBeenCalledWith([mockTransaction], signer);
             expect(res).toEqual([mockTransaction.headerSignature]);
         });
@@ -127,8 +125,6 @@ describe('Transaction Service', () => {
 
         describe('given an unsuccessful call to "api/batches"', () => {
             it('returns a rejected promise with an error message', async () => {
-                expect.assertions(1);
-
                 const errMsg = 'error';
                 mockedMithril.request.mockRejectedValueOnce(errMsg);
                 // TODO: Use a snapshot here
@@ -138,8 +134,6 @@ describe('Transaction Service', () => {
 
         describe('given a successful call to "api/batches"', () => {
             it('returns a response object with a link to wait on and confirms the correct request params were used', async () => {
-                expect.assertions(2);
-
                 // TODO: We should create an interface for returns from this endpoint
                 const res = { link: 'link' };
                 const url = '/api/batches';
@@ -166,7 +160,6 @@ describe('Transaction Service', () => {
             const errMsg = 'failure';
 
             it('returns a rejected promise with the error message', async () => {
-                expect.assertions(1);
                 jest.spyOn(TransactionService, 'postBatches').mockRejectedValue(errMsg);
                 await expect(TransactionService.submitBatch([mockTransaction], signer)).rejects.toBe(errMsg);
             });
@@ -174,8 +167,6 @@ describe('Transaction Service', () => {
 
         describe('given a successful call to "postBatches()"', () => {
             it('returns a promise that will resolve when the transactionIds have been committed', async () => {
-                expect.assertions(4);
-
                 const link = 'test-link';
 
                 const postSpy = jest.spyOn(TransactionService, 'postBatches').mockResolvedValueOnce({ link });
@@ -239,8 +230,6 @@ describe('Transaction Service', () => {
 
         describe('given a successful call to "api/batches"', () => {
             it('returns a response object with a link to wait on and confirms the correct request params were used', async () => {
-                expect.assertions(2);
-
                 // TODO: We should create an interface for returns from this endpoint
                 const res = { data: [] };
                 const url = `${statusUrl}&wait=${TransactionService.BATCH_STATUS_WAIT}`;
@@ -261,8 +250,6 @@ describe('Transaction Service', () => {
 
         describe('given a batch status of "COMMITTED"', () => {
             it('returns a resolved promise with the array of transaction IDs', async () => {
-                expect.assertions(1);
-
                 jest.spyOn(TransactionService, 'getBatchStatus').mockResolvedValueOnce({
                     data: [{ status: TransactionService.BATCH_STATUS.COMMITTED }],
                 });
@@ -275,8 +262,6 @@ describe('Transaction Service', () => {
 
         describe('given a batch status of "INVALID"', () => {
             it('returns a rejected promise with an error message', async () => {
-                expect.assertions(1);
-
                 const errMsg = 'test';
 
                 jest.spyOn(TransactionService, 'getBatchStatus').mockResolvedValueOnce({
@@ -290,8 +275,6 @@ describe('Transaction Service', () => {
 
         describe('given a batch status other than "COMMITTED" or "INVALID"', () => {
             it('recursively calls waitForCommit()', async () => {
-                expect.assertions(1);
-
                 // Calls the original method once, and then ends the recursive loop
                 const waitSpy = jest
                     .spyOn(TransactionService, 'waitForCommit')
