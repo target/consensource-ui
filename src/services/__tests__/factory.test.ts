@@ -131,7 +131,7 @@ describe('factoryService', () => {
         const payloadBytes = CertificateRegistryPayload.encode({
             action: CertificateRegistryPayload.Action.CREATE_ORGANIZATION,
             createOrganization: createAction,
-        });
+        }).finish();
 
         const factoryAddress = addressing.makeOrganizationAddress(factory_id);
         const agentAddress = addressing.makeAgentAddress(signer.getPublicKey().asHex());
