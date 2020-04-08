@@ -1,39 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <title>ConsenSource Factory</title>
-    <link rel="stylesheet" href="/css/vendor/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/vendor/flat-ui.css" />
-    <link rel="stylesheet" href="/css/main.css" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://fonts.googleapis.com/css?family=Open+Sans:400,800"
-    />
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=UA-158864115-1"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      window.ga_measurement_id = "UA-158864115-1";
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
+        <title>ConsenSource Factory</title>
+        <link rel="stylesheet" href="/css/vendor/bootstrap.min.css" />
+        <link rel="stylesheet" href="/css/vendor/flat-ui.css" />
+        <link rel="stylesheet" href="/css/main.css" />
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,800" />
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-158864115-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            window.ga_measurement_id = 'UA-158864115-1';
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            window.gtag = gtag;
+            gtag('js', new Date());
 
-      gtag("config", ga_measurement_id);
-    </script>
-  </head>
-  <body>
-    <div id="app" class="factory"></div>
-    <script src="js/factory.js"></script>
-  </body>
+            gtag('config', ga_measurement_id);
+        </script>
+    </head>
+    <body>
+        <div id="app" class="factory"></div>
+        <script src="js/factory.js"></script>
+    </body>
 </html>

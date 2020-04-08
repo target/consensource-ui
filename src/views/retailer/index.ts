@@ -3,6 +3,13 @@ import Modals from 'App/components/modals';
 import { testingNotificationBanner } from 'App/components/testing_banner';
 import * as FeatureFlagService from 'App/services/feature_flag';
 
+declare global {
+    interface Window {
+        gtag: Function;
+        ga_measurement_id: string;
+    }
+}
+
 const _navLink = (route, asset_active, asset_inactive, label) =>
     m(
         'li.nav-item.retailer_nav',
@@ -65,7 +72,10 @@ export const App = {
     },
 
     subpage: element => ({
-        onmatch: (_args, _requestedPath) => element,
+        onmatch: (_args, _requestedPath) => {
+            window.gtag('config', window.ga_measurement_id, { page_path: _requestedPath });
+            return element;
+        },
         render: vnode => m(App, vnode),
     }),
 };
