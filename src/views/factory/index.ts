@@ -6,6 +6,13 @@ import Modals from 'App/components/modals';
 import { AuthedComponent } from 'App/views/common/auth';
 import { testingNotificationBanner } from 'App/components/testing_banner';
 
+declare global {
+    interface Window {
+        gtag: Function;
+        ga_measurement_id: string;
+    }
+}
+
 const navLink = (route, assetActive, assetInactive, label): m.Vnode<any, any> =>
     m(
         'li.nav-item.retailer_nav',
@@ -124,7 +131,10 @@ export const App = {
     },
 
     subpage: (element): any => ({
-        onmatch: (_args, _requestedPath): any => element,
+        onmatch: (_args, _requestedPath): any => {
+            window.gtag('config', window.ga_measurement_id, { page_path: _requestedPath });
+            return element;
+        },
         render: (vnode): m.Vnode<unknown, unknown> => m(App, vnode),
     }),
 };

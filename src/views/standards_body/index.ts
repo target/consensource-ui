@@ -5,6 +5,13 @@ import * as FeatureFlagService from 'App/services/feature_flag';
 import { testingNotificationBanner } from 'App/components/testing_banner';
 import { AuthedComponent } from 'App/views/common/auth';
 
+declare global {
+    interface Window {
+        gtag: Function;
+        ga_measurement_id: string;
+    }
+}
+
 const navLink = (route, assetActive, assetInactive, label): m.Vnode<any, any> =>
     m(
         'li.nav-item.standards_body_nav',
@@ -140,7 +147,10 @@ export const App = {
     },
 
     subpage: (element): any => ({
-        onmatch: (_args, _requestedPath): any => element,
+        onmatch: (_args, _requestedPath): any => {
+            window.gtag('config', window.ga_measurement_id, { page_path: _requestedPath });
+            return element;
+        },
         render: (vnode): m.Vnode<unknown, unknown> => m(App, vnode),
     }),
 };
