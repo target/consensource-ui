@@ -4,6 +4,40 @@ import * as standardsService from 'App/services/standards';
 import * as agentService from 'App/services/agent';
 import * as DatePicker from 'mithril-datepicker';
 
+interface Agent extends consensource.Agent {
+    organization: consensource.Organization;
+}
+
+interface StandardState {
+    loading: boolean;
+    agent: Agent;
+    standard: consensource.Standard;
+}
+
+interface State {
+    standards: consensource.Standard[];
+    noRecordsElement: m.Vnode;
+    loading: boolean;
+    _listener: () => void;
+}
+
+const renderTimestamp = (timestamp): string => {
+    if (timestamp) {
+        const d = new Date(timestamp * 1000);
+        return `${d.toLocaleDateString()}`;
+    } else {
+        return 'Unknown';
+    }
+};
+
+const renderRows = (items, renderer, emptyElement): any => {
+    if (items.length > 0) {
+        return items.map(renderer);
+    } else {
+        return emptyElement;
+    }
+};
+
 export const StandardPayloadData = {
     id: '',
     name: '',
@@ -15,31 +49,31 @@ export const StandardPayloadData = {
     submitting: false,
     errorMsg: null,
 
-    setID: id => {
+    setID: (id): void => {
         StandardPayloadData.id = id;
     },
 
-    setName: name => {
+    setName: (name): void => {
         StandardPayloadData.name = name;
     },
 
-    setVersion: version => {
+    setVersion: (version): void => {
         StandardPayloadData.version = version;
     },
 
-    setLink: link => {
+    setLink: (link): void => {
         StandardPayloadData.link = link;
     },
 
-    setDescription: description => {
+    setDescription: (description): void => {
         StandardPayloadData.description = description;
     },
 
-    setApprovalDate: approvalDate => {
+    setApprovalDate: (approvalDate): void => {
         StandardPayloadData.approvalDate = approvalDate;
     },
 
-    clear: () => {
+    clear: (): void => {
         StandardPayloadData.id = '';
         StandardPayloadData.name = '';
         StandardPayloadData.version = '';
@@ -50,7 +84,7 @@ export const StandardPayloadData = {
         StandardPayloadData.errorMsg = null;
     },
 
-    submitCreateStandard: organizationId => {
+    submitCreateStandard: (organizationId): Promise<any> => {
         StandardPayloadData.submitting = true;
         return AuthService.getSigner()
             .then(signer => standardsService.createStandard(StandardPayloadData, organizationId, signer))
@@ -64,7 +98,7 @@ export const StandardPayloadData = {
                 m.redraw();
             });
     },
-    submitUpdateStandard: organizationId => {
+    submitUpdateStandard: (organizationId): Promise<any> => {
         StandardPayloadData.submitting = true;
         return AuthService.getSigner()
             .then(signer => standardsService.updateStandard(StandardPayloadData, organizationId, signer))
@@ -79,16 +113,6 @@ export const StandardPayloadData = {
             });
     },
 };
-
-interface Agent extends consensource.Agent {
-    organization: consensource.Organization;
-}
-
-interface StandardState {
-    loading: boolean;
-    agent: Agent;
-    standard: consensource.Standard;
-}
 
 export const StandardCreate: m.Component<{}, StandardState> = {
     oninit: vnode => {
@@ -272,13 +296,6 @@ export const StandardUpdate: m.Component<{}, StandardState> = {
     },
 };
 
-interface State {
-    standards: consensource.Standard[];
-    noRecordsElement: m.Vnode;
-    loading: boolean;
-    _listener: () => void;
-}
-
 export const StandardList: m.Component<{}, State> = {
     view: vnode => [
         m('table.table', [
@@ -295,7 +312,7 @@ export const StandardList: m.Component<{}, State> = {
             ),
             m(
                 'tbody',
-                _renderRows(
+                renderRows(
                     vnode.state.standards,
                     standard =>
                         m('tr', [
@@ -303,7 +320,7 @@ export const StandardList: m.Component<{}, State> = {
                             m('td', standard.versions[standard.versions.length - 1].version),
                             m('td', standard.versions[standard.versions.length - 1].description),
                             m('td', standard.versions[standard.versions.length - 1].external_link),
-                            m('td', _renderTimestamp(standard.versions[standard.versions.length - 1].approval_date)),
+                            m('td', renderTimestamp(standard.versions[standard.versions.length - 1].approval_date)),
                             m(
                                 'td',
                                 m(
@@ -351,21 +368,4 @@ export const StandardList: m.Component<{}, State> = {
                 }),
         );
     },
-};
-
-const _renderTimestamp = timestamp => {
-    if (timestamp) {
-        const d = new Date(timestamp * 1000);
-        return `${d.toLocaleDateString()}`;
-    } else {
-        return 'Unknown';
-    }
-};
-
-const _renderRows = (items, renderer, emptyElement) => {
-    if (items.length > 0) {
-        return items.map(renderer);
-    } else {
-        return emptyElement;
-    }
 };

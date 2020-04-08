@@ -20,6 +20,22 @@ interface Organization {
     submit: () => Promise<any>;
 }
 
+interface State {
+    organization: Organization;
+}
+
+interface OrganizationAPI {
+    id: string;
+    name: string;
+    organization_type: string;
+}
+
+interface ListState {
+    organizations: Array<OrganizationAPI>;
+    loading: boolean;
+    noRecordsElement: m.Vnode;
+}
+
 /**
  * Model/Controller for Organization Create Form
  */
@@ -83,10 +99,6 @@ export const Organization: Organization = {
     },
 };
 
-interface State {
-    organization: Organization;
-}
-
 export const OrganizationCreate: m.Component<{}, State> = {
     view: vnode => [
         m('div.form', [
@@ -131,25 +143,17 @@ export const OrganizationCreate: m.Component<{}, State> = {
     ],
 };
 
-const _renderRows = (items: Array<OrganizationAPI>, renderer: any, emptyElement: m.Vnode) => {
+const renderRows = (
+    items: Array<OrganizationAPI>,
+    renderer: any,
+    emptyElement: m.Vnode,
+): unknown[] | m.Vnode<{}, {}> => {
     if (items.length > 0) {
         return items.map(renderer);
     } else {
         return emptyElement;
     }
 };
-
-interface OrganizationAPI {
-    id: string;
-    name: string;
-    organization_type: string;
-}
-
-interface ListState {
-    organizations: Array<OrganizationAPI>;
-    loading: boolean;
-    noRecordsElement: m.Vnode;
-}
 
 export const OrganizationList: m.Component<{}, ListState> = {
     view: vnode => [
@@ -164,7 +168,7 @@ export const OrganizationList: m.Component<{}, ListState> = {
             ),
             m(
                 'tbody',
-                _renderRows(
+                renderRows(
                     vnode.state.organizations,
                     (organization: OrganizationAPI) =>
                         m('tr', [

@@ -1,7 +1,26 @@
 import * as m from 'mithril';
 import * as agentService from 'App/services/agent';
 
-const _renderRows = (items, renderer, emptyElement) => {
+const match = (s, partial): boolean => {
+    if (s) {
+        return s.toLowerCase().startsWith(partial.toLowerCase());
+    } else {
+        return false;
+    }
+};
+
+const doSearch = (vnode): void => {
+    const searchInput = vnode.state.value;
+    const ss = vnode.state.searchSpace;
+    let results = [];
+    results = results.concat(ss.filter(agent => match(agent.name, searchInput)));
+    results = results.concat(ss.filter(agent => match(agent.organization ? agent.organization.name : '', searchInput)));
+    console.log(results);
+    const unique_results = Array.from(new Set(results).values());
+    vnode.state.agents = [...unique_results];
+};
+
+const renderRows = (items, renderer, emptyElement): any => {
     if (items.length > 0) {
         return items.map(renderer);
     } else {
@@ -9,7 +28,7 @@ const _renderRows = (items, renderer, emptyElement) => {
     }
 };
 
-const _searchForm = vnode =>
+const searchForm = (vnode): m.Vnode<any, any> =>
     m('.form-row', [
         m(
             'div.col-10',
@@ -27,35 +46,14 @@ const _searchForm = vnode =>
             'div.col-2',
             m(
                 'button.btn.btn-success#searchFactory-btn',
-                { onclick: () => _doSearch(vnode) },
+                { onclick: () => doSearch(vnode) },
                 m('img.search-icon[src=/assets/images/search-icon.svg]'),
             ),
         ),
     ]);
 
-const _match = (s, partial) => {
-    if (s) {
-        return s.toLowerCase().startsWith(partial.toLowerCase());
-    } else {
-        return false;
-    }
-};
-
-const _doSearch = vnode => {
-    const searchInput = vnode.state.value;
-    const ss = vnode.state.searchSpace;
-    let results = [];
-    results = results.concat(ss.filter(agent => _match(agent.name, searchInput)));
-    results = results.concat(
-        ss.filter(agent => _match(agent.organization ? agent.organization.name : '', searchInput)),
-    );
-    console.log(results);
-    const unique_results = Array.from(new Set(results).values());
-    vnode.state.agents = [...unique_results];
-};
-
 const SearchResults = {
-    view: vnode => [
+    view: (vnode): m.Vnode<any, any>[] => [
         m('table.table.table-bordered.factory-table', [
             m(
                 'thead.thead-dark',
@@ -67,7 +65,7 @@ const SearchResults = {
             ),
             m(
                 'tbody',
-                _renderRows(
+                renderRows(
                     vnode.attrs.agents,
                     agent =>
                         m('tr', [
@@ -81,19 +79,19 @@ const SearchResults = {
         ]),
     ],
 
-    oninit: vnode => {
+    oninit: (vnode): void => {
         vnode.attrs.agents = vnode.attrs.agents || [];
     },
 };
 
 export const AgentList = {
-    oninit: vnode => {
+    oninit: (vnode): void => {
         vnode.state.agents = [];
         vnode.state.loading = true;
         vnode.state.noRecordsElement = m('td.text-center[colspan=3]', 'No Agents Found');
     },
 
-    oncreate: vnode => {
+    oncreate: (vnode): void => {
         agentService
             .loadAgents()
             .then(agents => {
@@ -106,9 +104,9 @@ export const AgentList = {
                 vnode.state.noRecordsElement = m('td.text-center.text-danger[colspan=3]', 'Failed to fetch Agents');
             });
     },
-    view: vnode => [
+    view: (vnode): m.Vnode<any, any>[] => [
         m('.container', [
-            m('.row', m('.col-8.offset-md-2', _searchForm(vnode))),
+            m('.row', m('.col-8.offset-md-2', searchForm(vnode))),
             m('.row', m('.col-10.offset-md-1.mt-5', m(SearchResults, { agents: vnode.state.agents }))),
         ]),
     ],

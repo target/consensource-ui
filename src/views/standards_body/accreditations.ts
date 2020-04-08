@@ -6,34 +6,22 @@ import * as organizationService from 'App/services/organization';
 import * as standardsService from 'App/services/standards';
 import * as DatePicker from 'mithril-datepicker';
 
-const Standards = {
-    list: [],
-    oninit: vnode => {
-        if (vnode.state.standards !== null) {
-            if (Standards.list.length !== vnode.state.standards.length) {
-                Standards.list = [];
-                for (const standard of vnode.state.standards) {
-                    Standards.list.push(
-                        m('option', {
-                            value: standard.standard_id,
-                            text: standard.name,
-                        }),
-                    );
-                }
-            }
-        }
-    },
-    view: vnode => {
-        return m(
-            'select.form-control.mr-2',
-            {
-                oninput: (e: any) => AccreditCertifyingBodyData.setStandardId(e.target.value),
-                value: AccreditCertifyingBodyData.standardId,
-            },
-            vnode.children,
-        );
-    },
-};
+interface Agent extends consensource.Agent {
+    organization: consensource.Organization;
+}
+
+interface Standard extends consensource.Standard {
+    standard_id: string;
+}
+
+interface State {
+    loading: boolean;
+    agent: Agent;
+    organization: consensource.Organization;
+    standards: Standard[];
+    noRecordsElement: m.Vnode;
+    _listener: () => void;
+}
 
 export const AccreditCertifyingBodyData = {
     certifyingBodyId: '',
@@ -43,7 +31,7 @@ export const AccreditCertifyingBodyData = {
     submitting: false,
     errorMsg: null,
 
-    hasInvalidFields: () => {
+    hasInvalidFields: (): boolean => {
         const requiredFields = ['validTo', 'validFrom', 'standardId'];
 
         if (
@@ -58,23 +46,23 @@ export const AccreditCertifyingBodyData = {
         return false;
     },
 
-    setCertifyingBodyId: certifyingBodyId => {
+    setCertifyingBodyId: (certifyingBodyId): void => {
         AccreditCertifyingBodyData.certifyingBodyId = certifyingBodyId;
     },
 
-    setStandardId: standardId => {
+    setStandardId: (standardId): void => {
         AccreditCertifyingBodyData.standardId = standardId;
     },
 
-    setValidTo: timestamp => {
+    setValidTo: (timestamp): void => {
         AccreditCertifyingBodyData.validTo = timestamp;
     },
 
-    setValidFrom: timestamp => {
+    setValidFrom: (timestamp): void => {
         AccreditCertifyingBodyData.validFrom = timestamp;
     },
 
-    clear: () => {
+    clear: (): void => {
         AccreditCertifyingBodyData.certifyingBodyId = '';
         AccreditCertifyingBodyData.standardId = '';
         AccreditCertifyingBodyData.validTo = new Date().setFullYear(new Date().getFullYear() + 1);
@@ -83,7 +71,7 @@ export const AccreditCertifyingBodyData = {
         AccreditCertifyingBodyData.errorMsg = null;
     },
 
-    submit: (certifyingBodyId, standardsBodyId) => {
+    submit: (certifyingBodyId, standardsBodyId): Promise<any> => {
         AccreditCertifyingBodyData.submitting = true;
         return AuthService.getSigner()
             .then(signer =>
@@ -106,22 +94,34 @@ export const AccreditCertifyingBodyData = {
     },
 };
 
-interface Agent extends consensource.Agent {
-    organization: consensource.Organization;
-}
-
-interface Standard extends consensource.Standard {
-    standard_id: string;
-}
-
-interface State {
-    loading: boolean;
-    agent: Agent;
-    organization: consensource.Organization;
-    standards: Standard[];
-    noRecordsElement: m.Vnode;
-    _listener: () => void;
-}
+const Standards = {
+    list: [],
+    oninit: (vnode): void => {
+        if (vnode.state.standards !== null) {
+            if (Standards.list.length !== vnode.state.standards.length) {
+                Standards.list = [];
+                for (const standard of vnode.state.standards) {
+                    Standards.list.push(
+                        m('option', {
+                            value: standard.standard_id,
+                            text: standard.name,
+                        }),
+                    );
+                }
+            }
+        }
+    },
+    view: (vnode): m.Vnode<any, any> => {
+        return m(
+            'select.form-control.mr-2',
+            {
+                oninput: (e: any) => AccreditCertifyingBodyData.setStandardId(e.target.value),
+                value: AccreditCertifyingBodyData.standardId,
+            },
+            vnode.children,
+        );
+    },
+};
 
 export const AccreditCertifyingBody: m.Component<{}, State> = {
     oninit: vnode => {

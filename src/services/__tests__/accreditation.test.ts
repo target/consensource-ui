@@ -1,11 +1,8 @@
-import * as m from 'mithril';
 import { createContext, Signer } from 'sawtooth-sdk/signing';
 import * as transactionService from 'App/services/transaction';
 import * as accreditationService from 'App/services/accreditation';
 import { mocked } from 'ts-jest/utils';
 
-jest.mock('mithril');
-const mockedMithril = mocked(m, true);
 jest.mock('App/services/transaction');
 const mockedTransactionService = mocked(transactionService, true);
 

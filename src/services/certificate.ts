@@ -4,14 +4,14 @@ import * as addressing from 'App/addressing';
 import * as transactionService from 'App/services/transaction';
 import { CertificateRegistryPayload, IssueCertificateAction } from 'App/protobuf';
 
-export const queryCertifications = (_queryParams: any) => Promise.resolve([]);
-
 interface Issuance {
     id: string;
     requestId: string;
     validFrom: number;
     validTo: number;
 }
+
+export const queryCertifications = (_queryParams: any): Promise<any[]> => Promise.resolve([]);
 
 export const issueCertificate = (
     issueCertificateData: Issuance,

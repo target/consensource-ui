@@ -2,25 +2,6 @@ import * as m from 'mithril';
 import * as blockService from 'App/services/block';
 import * as certificateService from 'App/services/certificate';
 
-const _renderRows = (items, renderer, emptyElement) => {
-    if (items.length > 0) {
-        return items.map(renderer);
-    } else {
-        return emptyElement;
-    }
-};
-
-const _loadCertificates = vnode =>
-    certificateService
-        .loadCertificates({ factory_id: vnode.attrs.factory.id })
-        .then(certificates => {
-            vnode.state.certificates = certificates.data;
-            vnode.state.loading = false;
-        })
-        .catch(() => {
-            vnode.state.noRecordsElement = m('td.text-center.text-danger[colspan=6]', 'Failed to fetch Certificates');
-        });
-
 interface Attrs {
     factory: consensource.Factory;
 }
@@ -31,6 +12,34 @@ interface State {
     loading: boolean;
     _listener: () => void;
 }
+
+const renderRows = (items, renderer, emptyElement): any => {
+    if (items.length > 0) {
+        return items.map(renderer);
+    } else {
+        return emptyElement;
+    }
+};
+
+const renderTimestamp = (timestamp): string => {
+    if (timestamp) {
+        const d = new Date(timestamp * 1000);
+        return `${d.toLocaleDateString()}`;
+    } else {
+        return 'Unknown';
+    }
+};
+
+const loadCertificates = (vnode): Promise<void> =>
+    certificateService
+        .loadCertificates({ factory_id: vnode.attrs.factory.id })
+        .then(certificates => {
+            vnode.state.certificates = certificates.data;
+            vnode.state.loading = false;
+        })
+        .catch(() => {
+            vnode.state.noRecordsElement = m('td.text-center.text-danger[colspan=6]', 'Failed to fetch Certificates');
+        });
 
 export const CertificateList: m.Component<Attrs, State> = {
     view: vnode => [
@@ -49,7 +58,7 @@ export const CertificateList: m.Component<Attrs, State> = {
             ),
             m(
                 'tbody',
-                _renderRows(
+                renderRows(
                     vnode.state.certificates,
                     certificate =>
                         m('tr', [
@@ -57,8 +66,8 @@ export const CertificateList: m.Component<Attrs, State> = {
                             m('td', certificate.standard_name),
                             m('td', certificate.standard_version),
                             m('td', certificate.id),
-                            m('td', _renderTimestamp(certificate.valid_from)),
-                            m('td', _renderTimestamp(certificate.valid_to)),
+                            m('td', renderTimestamp(certificate.valid_from)),
+                            m('td', renderTimestamp(certificate.valid_to)),
                         ]),
                     m('tr', vnode.state.noRecordsElement),
                 ),
@@ -73,21 +82,12 @@ export const CertificateList: m.Component<Attrs, State> = {
     },
 
     oncreate: vnode => {
-        _loadCertificates(vnode);
-        vnode.state._listener = () => _loadCertificates(vnode);
+        loadCertificates(vnode);
+        vnode.state._listener = (): Promise<void> => loadCertificates(vnode);
         blockService.addBlockUpdateListener(vnode.state._listener);
     },
 
     onremove: vnode => {
         blockService.removeBlockUpdateListener(vnode.state._listener);
     },
-};
-
-const _renderTimestamp = timestamp => {
-    if (timestamp) {
-        const d = new Date(timestamp * 1000);
-        return `${d.toLocaleDateString()}`;
-    } else {
-        return 'Unknown';
-    }
 };

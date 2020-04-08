@@ -2,7 +2,14 @@ import * as m from 'mithril';
 import * as organizationService from 'App/services/organization';
 import * as blockService from 'App/services/block';
 
-const _renderRows = (items, renderer, emptyElement) => {
+interface State {
+    certifyingBodies: consensource.CertifyingBody[];
+    noRecordsElement: m.Vnode;
+    loading: boolean;
+    _listener: () => void;
+}
+
+const renderRows = (items, renderer, emptyElement): any => {
     if (items.length > 0) {
         return items.map(renderer);
     } else {
@@ -10,7 +17,7 @@ const _renderRows = (items, renderer, emptyElement) => {
     }
 };
 
-const _loadCertifyingBodies = vnode => {
+const loadCertifyingBodies = (vnode): void => {
     organizationService
         .loadOrganizations({ organization_type: 1 })
         .then(certifyingBodies => {
@@ -26,13 +33,6 @@ const _loadCertifyingBodies = vnode => {
         });
 };
 
-interface State {
-    certifyingBodies: consensource.CertifyingBody[];
-    noRecordsElement: m.Vnode;
-    loading: boolean;
-    _listener: () => void;
-}
-
 export const CertifyingBodyList: m.Component<{}, State> = {
     view: vnode => [
         m('table.table', [
@@ -46,7 +46,7 @@ export const CertifyingBodyList: m.Component<{}, State> = {
             ),
             m(
                 'tbody',
-                _renderRows(
+                renderRows(
                     vnode.state.certifyingBodies,
                     certifyingBody =>
                         m('tr', [
@@ -70,19 +70,19 @@ export const CertifyingBodyList: m.Component<{}, State> = {
         ]),
     ],
 
-    oninit: vnode => {
+    oninit: (vnode): void => {
         vnode.state.certifyingBodies = [];
         vnode.state.loading = true;
         vnode.state.noRecordsElement = m('td.text-center[colspan=6]', 'No Certifying Bodies Found');
     },
 
-    oncreate: vnode => {
-        _loadCertifyingBodies(vnode);
-        vnode.state._listener = () => _loadCertifyingBodies(vnode);
+    oncreate: (vnode): void => {
+        loadCertifyingBodies(vnode);
+        vnode.state._listener = (): void => loadCertifyingBodies(vnode);
         blockService.addBlockUpdateListener(vnode.state._listener);
     },
 
-    onremove: vnode => {
+    onremove: (vnode): void => {
         blockService.removeBlockUpdateListener(vnode.state._listener);
     },
 };

@@ -2,7 +2,14 @@ import * as m from 'mithril';
 import * as requestService from 'App/services/requests';
 import * as blockService from 'App/services/block';
 
-const _renderRows = (items, renderer, emptyElement) => {
+interface State {
+    requests: consensource.Request[];
+    noRecordsElement: m.Vnode;
+    loading: boolean;
+    _listener: () => void;
+}
+
+const renderRows = (items, renderer, emptyElement): any => {
     if (items.length > 0) {
         return items.map(renderer);
     } else {
@@ -10,7 +17,7 @@ const _renderRows = (items, renderer, emptyElement) => {
     }
 };
 
-const _renderRequestStatus = status => {
+const renderRequestStatus = (status): any => {
     switch (status) {
         case 'InProgress':
             return 'In Progress';
@@ -21,7 +28,7 @@ const _renderRequestStatus = status => {
     }
 };
 
-const _loadRequests = vnode => {
+const loadRequests = (vnode): void => {
     requestService
         .loadRequests({ expand: true })
         .then(requests => {
@@ -33,7 +40,7 @@ const _loadRequests = vnode => {
         });
 };
 
-const _renderTimestamp = unixTimestamp => {
+const renderTimestamp = (unixTimestamp): string => {
     if (unixTimestamp) {
         const d = new Date(unixTimestamp * 1000);
         return `${d.toLocaleDateString()}`;
@@ -41,13 +48,6 @@ const _renderTimestamp = unixTimestamp => {
         return 'Unknown';
     }
 };
-
-interface State {
-    requests: consensource.Request[];
-    noRecordsElement: m.Vnode;
-    loading: boolean;
-    _listener: () => void;
-}
 
 export const RequestList: m.Component<{}, State> = {
     view: vnode => [
@@ -66,16 +66,16 @@ export const RequestList: m.Component<{}, State> = {
             ),
             m(
                 'tbody',
-                _renderRows(
+                renderRows(
                     vnode.state.requests,
                     request =>
                         m('tr', [
                             m('td.pl-5', request.factory.name),
-                            m('td.pl-5', _renderTimestamp(request.request_date)),
+                            m('td.pl-5', renderTimestamp(request.request_date)),
                             m('td.pl-5', request.standard.name),
                             m('td.pl-5', request.factory.contacts[0].name),
                             m('td.pl-5', request.factory.contacts[0].phone_number),
-                            m('td.pl-5', _renderRequestStatus(request.status)),
+                            m('td.pl-5', renderRequestStatus(request.status)),
                             m(
                                 'td.pl-5',
                                 m(
@@ -102,8 +102,8 @@ export const RequestList: m.Component<{}, State> = {
     },
 
     oncreate: vnode => {
-        _loadRequests(vnode);
-        vnode.state._listener = () => _loadRequests(vnode);
+        loadRequests(vnode);
+        vnode.state._listener = (): void => loadRequests(vnode);
         blockService.addBlockUpdateListener(vnode.state._listener);
     },
 

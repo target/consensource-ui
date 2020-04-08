@@ -8,6 +8,13 @@ import * as agentService from 'App/services/agent';
 import * as factoryService from 'App/services/factory';
 import { CertificateList } from 'App/views/factory/certificates';
 
+interface State {
+    certRequests: consensource.Request[];
+    loading: boolean;
+    user: any;
+    factory: consensource.Factory;
+}
+
 const CertificateRequest = {
     requestId: '',
     status: 0,
@@ -20,15 +27,15 @@ const CertificateRequest = {
     inProgress: false,
     errorMsg: null,
 
-    setStandardId: standardId => {
+    setStandardId: (standardId): void => {
         CertificateRequest.standardId = standardId;
     },
 
-    initialize: factory => {
+    initialize: (factory): void => {
         CertificateRequest.factoryId = factory.id;
     },
 
-    clear: () => {
+    clear: (): void => {
         CertificateRequest.submitting = false;
         CertificateRequest.closing = false;
         CertificateRequest.inProgress = false;
@@ -40,7 +47,7 @@ const CertificateRequest = {
         CertificateRequest.requestDate = 0;
     },
 
-    submit: () => {
+    submit: (): Promise<void> => {
         CertificateRequest.submitting = true;
         CertificateRequest.requestDate = new Date().getTime() / 1000;
         return AuthService.getSigner()
@@ -56,7 +63,7 @@ const CertificateRequest = {
             });
     },
 
-    close: requestId => {
+    close: (requestId): Promise<void> => {
         CertificateRequest.closing = true;
         CertificateRequest.requestId = requestId;
         CertificateRequest.status = RequestProto.Status.CLOSED;
@@ -73,7 +80,7 @@ const CertificateRequest = {
             });
     },
 
-    putInProgress: requestId => {
+    putInProgress: (requestId): Promise<void> => {
         CertificateRequest.inProgress = true;
         CertificateRequest.requestId = requestId;
         CertificateRequest.status = RequestProto.Status.IN_PROGRESS;
@@ -91,13 +98,9 @@ const CertificateRequest = {
     },
 };
 
-const _putInProgress = requestId => CertificateRequest.putInProgress(requestId);
-
-const _close = requestId => CertificateRequest.close(requestId);
-
 const CertificationStandards = {
     list: [],
-    get: () => {
+    get: (): void => {
         standardService.listStandards().then(standards => {
             standards.data.map(standard =>
                 CertificationStandards.list.push(
@@ -111,7 +114,11 @@ const CertificationStandards = {
     },
 };
 
-const _formatDate = requestDate => {
+const putInProgress = (requestId): Promise<void> => CertificateRequest.putInProgress(requestId);
+
+const close = (requestId): Promise<void> => CertificateRequest.close(requestId);
+
+const formatDate = (requestDate): string => {
     // Convert back to milli
     const currentdate = new Date(requestDate * 1000);
     const date = currentdate.getDate();
@@ -120,7 +127,7 @@ const _formatDate = requestDate => {
     return `${month}-${date}-${year}`;
 };
 
-const _renderRows = (items, renderer, emptyElement) => {
+const renderRows = (items, renderer, emptyElement): any => {
     if (items.length > 0) {
         return items.map(renderer);
     } else {
@@ -128,42 +135,7 @@ const _renderRows = (items, renderer, emptyElement) => {
     }
 };
 
-const _renderActionButton = (status, requestId, vnode) => {
-    const actions = [];
-    if (status === 'Open') {
-        actions.push(
-            m(
-                'button.btn.action-btn[type=submit]',
-                {
-                    onclick: e => {
-                        e.preventDefault();
-                        _putInProgress(requestId).then(() => FactoryRequestForm.loadData(vnode));
-                    },
-                    disabled: CertificateRequest.inProgress,
-                },
-                'Set In Progress',
-            ),
-        );
-    }
-    if (status !== 'Closed') {
-        actions.push(
-            m(
-                'button.btn.action-btn.mt-1[type=submit]',
-                {
-                    onclick: e => {
-                        e.preventDefault();
-                        _close(requestId).then(() => FactoryRequestForm.loadData(vnode));
-                    },
-                    disabled: CertificateRequest.closing,
-                },
-                'Withdraw Request',
-            ),
-        );
-    }
-    return actions;
-};
-
-const _renderRequestStatus = status => {
+const renderRequestStatus = (status): any => {
     switch (status) {
         case 'InProgress':
             return 'In Progress';
@@ -175,7 +147,7 @@ const _renderRequestStatus = status => {
 };
 
 const FactoryRequestForm = {
-    loadData: vnode => {
+    loadData: (vnode): Promise<void> => {
         vnode.state.loading = true;
         const { factory } = vnode.attrs;
         if (!factory) {
@@ -198,18 +170,18 @@ const FactoryRequestForm = {
                 m.redraw();
             });
     },
-    oncreate: vnode => {
-        vnode.state._listener = () => FactoryRequestForm.loadData(vnode);
+    oncreate: (vnode): void => {
+        vnode.state._listener = (): Promise<void> => FactoryRequestForm.loadData(vnode);
         blockService.addBlockUpdateListener(vnode.state._listener);
         FactoryRequestForm.loadData(vnode);
         CertificationStandards.get();
     },
 
-    onremove: vnode => {
+    onremove: (vnode): void => {
         blockService.removeBlockUpdateListener(vnode.state._listener);
     },
 
-    view: vnode => {
+    view: (vnode): m.Vnode<any, any>[] => {
         if (vnode.state.loading) {
             return [m('.row', 'Loading...')];
         } else if (vnode.state.certRequests) {
@@ -262,14 +234,14 @@ const FactoryRequestForm = {
                                 ),
                             ),
                         ]),
-                        _renderRows(
+                        renderRows(
                             vnode.state.certRequests,
                             request => [
                                 m(`tr.select-row`, [
-                                    m('td.pl-5', _formatDate(request.request_date)),
+                                    m('td.pl-5', formatDate(request.request_date)),
                                     m('td.pl-5', request.standard.name),
-                                    m('td.pl-5', _renderRequestStatus(request.status)),
-                                    m('td.pl-5', _renderActionButton(request.status, request.id, vnode)),
+                                    m('td.pl-5', renderRequestStatus(request.status)),
+                                    m('td.pl-5', renderActionButton(request.status, request.id, vnode)),
                                 ]),
                             ],
                             m('tr', m('td[colspan=4]', 'No open requests found')),
@@ -283,12 +255,40 @@ const FactoryRequestForm = {
     },
 };
 
-interface State {
-    certRequests: consensource.Request[];
-    loading: boolean;
-    user: any;
-    factory: consensource.Factory;
-}
+const renderActionButton = (status, requestId, vnode): any[] => {
+    const actions = [];
+    if (status === 'Open') {
+        actions.push(
+            m(
+                'button.btn.action-btn[type=submit]',
+                {
+                    onclick: e => {
+                        e.preventDefault();
+                        putInProgress(requestId).then(() => FactoryRequestForm.loadData(vnode));
+                    },
+                    disabled: CertificateRequest.inProgress,
+                },
+                'Set In Progress',
+            ),
+        );
+    }
+    if (status !== 'Closed') {
+        actions.push(
+            m(
+                'button.btn.action-btn.mt-1[type=submit]',
+                {
+                    onclick: e => {
+                        e.preventDefault();
+                        close(requestId).then(() => FactoryRequestForm.loadData(vnode));
+                    },
+                    disabled: CertificateRequest.closing,
+                },
+                'Withdraw Request',
+            ),
+        );
+    }
+    return actions;
+};
 
 export const ListCertifications: m.Component<{}, State> = {
     oninit: vnode => {

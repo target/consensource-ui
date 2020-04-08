@@ -2,7 +2,7 @@ import { Organization as OrganizationProto } from 'App/protobuf';
 import { Organization, OrganizationCreate } from 'App/views/common/organization';
 
 export const CreateStandardsBody = {
-    oninit: vnode => {
+    oninit: (vnode): void => {
         vnode.state.organization = Organization;
         vnode.state.organization.setType(OrganizationProto.Type.STANDARDS_BODY);
     },

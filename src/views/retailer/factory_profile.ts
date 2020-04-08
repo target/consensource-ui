@@ -1,61 +1,12 @@
 import * as m from 'mithril';
 import * as factoryService from 'App/services/factory';
 
-const _factoryProfile = vnode => [
-    m('span.blank-circle', m('img.factory-overview-icon[src=/assets/images/overview-icon.svg]')),
-    m('.box-factory-details.pl-5.pt-4', [
-        m('h5.box-factory-name', vnode.state.factory.name),
-        m('p.box-factory-address', _renderContactInfo(vnode.state.factory.address, vnode.state.factory.contacts[0])),
-    ]),
-];
+interface FactoryProfileState {
+    loading: boolean;
+    factory: consensource.Factory;
+}
 
-const _renderRows = (items, renderer, emptyElement) => {
-    if (items && items.length > 0) {
-        return items.map(renderer);
-    } else {
-        return emptyElement;
-    }
-};
-
-const _certificateTable = vnode => [
-    m('table.table.table-bordered.factory-table', [
-        m(
-            'thead.thead-dark',
-            m('tr', [
-                m('th[scope=col]', 'Standard'),
-                m('th[scope=col]', 'Standard Version'),
-                m('th[scope=col]', 'License Number'),
-                m('th[scope=col]', 'Expiration Date'),
-            ]),
-        ),
-        m(
-            'tbody',
-            _renderRows(
-                vnode.state.factory.certificates,
-                (certificate, index) => [
-                    m(`tr.select-row.factory-info#factory-${index}`, [
-                        m('td.pl-5', certificate.standard_name),
-                        m('td.pl-5', certificate.standard_version),
-                        m('td.pl-5', certificate.id),
-                        m('td.pl-5', _renderTimestamp(certificate.valid_to)),
-                    ]),
-                ],
-                m('tr', m('td[colspan=4]', 'No certificates found.')),
-            ),
-        ),
-    ]),
-];
-
-const _renderTimestamp = timestamp => {
-    if (timestamp) {
-        const d = new Date(timestamp * 1000);
-        return `${d.toLocaleDateString()}`;
-    } else {
-        return 'Unknown';
-    }
-};
-
-const _renderContactInfo = (address, contact) =>
+const renderContactInfo = (address, contact): m.Vnode<any, any> =>
     m('span.factory-contact-info', [
         address.street_line_1,
         m('br'),
@@ -75,10 +26,59 @@ const _renderContactInfo = (address, contact) =>
         contact.name,
     ]);
 
-interface FactoryProfileState {
-    loading: boolean;
-    factory: consensource.Factory;
-}
+const renderRows = (items, renderer, emptyElement): any => {
+    if (items && items.length > 0) {
+        return items.map(renderer);
+    } else {
+        return emptyElement;
+    }
+};
+
+const renderTimestamp = (timestamp): string => {
+    if (timestamp) {
+        const d = new Date(timestamp * 1000);
+        return `${d.toLocaleDateString()}`;
+    } else {
+        return 'Unknown';
+    }
+};
+
+const factoryProfile = (vnode): m.Vnode<any, any>[] => [
+    m('span.blank-circle', m('img.factory-overview-icon[src=/assets/images/overview-icon.svg]')),
+    m('.box-factory-details.pl-5.pt-4', [
+        m('h5.box-factory-name', vnode.state.factory.name),
+        m('p.box-factory-address', renderContactInfo(vnode.state.factory.address, vnode.state.factory.contacts[0])),
+    ]),
+];
+
+const certificateTable = (vnode): m.Vnode<any, any>[] => [
+    m('table.table.table-bordered.factory-table', [
+        m(
+            'thead.thead-dark',
+            m('tr', [
+                m('th[scope=col]', 'Standard'),
+                m('th[scope=col]', 'Standard Version'),
+                m('th[scope=col]', 'License Number'),
+                m('th[scope=col]', 'Expiration Date'),
+            ]),
+        ),
+        m(
+            'tbody',
+            renderRows(
+                vnode.state.factory.certificates,
+                (certificate, index) => [
+                    m(`tr.select-row.factory-info#factory-${index}`, [
+                        m('td.pl-5', certificate.standard_name),
+                        m('td.pl-5', certificate.standard_version),
+                        m('td.pl-5', certificate.id),
+                        m('td.pl-5', renderTimestamp(certificate.valid_to)),
+                    ]),
+                ],
+                m('tr', m('td[colspan=4]', 'No certificates found.')),
+            ),
+        ),
+    ]),
+];
 
 export const FactoryProfile: m.Component<{}, FactoryProfileState> = {
     oninit: vnode => {
@@ -106,7 +106,7 @@ export const FactoryProfile: m.Component<{}, FactoryProfileState> = {
                             ),
                         ]),
                     ),
-                    m('.row', [m('.col-3', _factoryProfile(vnode)), m('.col-8.mt-5', _certificateTable(vnode))]),
+                    m('.row', [m('.col-3', factoryProfile(vnode)), m('.col-8.mt-5', certificateTable(vnode))]),
                 ]),
             ];
         }
