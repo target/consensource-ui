@@ -67,7 +67,7 @@ export const App = {
         }
     },
 
-    subpage: (element): void => ({
+    subpage: (element): any => ({
         onmatch: (_args, _requestedPath): any => {
             window.gtag('config', window.ga_measurement_id, { page_path: _requestedPath });
             return element;

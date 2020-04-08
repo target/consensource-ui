@@ -17,6 +17,7 @@ module.exports = {
     rules: {
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/camelcase': 'off', // Needed due to snake casing in protos
+        '@typescript-eslint/no-use-before-define': 'off', // Delete after React refactor
         '@typescript-eslint/no-unused-vars': ['error', { 
             "argsIgnorePattern": "^_" 
         }]
