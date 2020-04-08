@@ -1,42 +1,79 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <title>ConsenSource</title>
-    <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/vendor/flat-ui.css">
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,800"/>
+    <link rel="stylesheet" href="/css/vendor/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/vendor/flat-ui.css" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,800"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+    />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-158864115-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      window.ga_measurement_id = "UA-158864115-1";
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", ga_measurement_id);
+    </script>
   </head>
-  <body  
-    background="assets/images/landing-page-background.png" 
+  <body
+    background="assets/images/landing-page-background.png"
     style="background-size: cover; height: 100vh;"
   >
     <div id="app" class="landing-page">
-        <div class="landing-page-header landing-page-text">
-            <h1 class="landing-page-item">
-                ConsenSource
-            </h1>
-            <h4 class="landing-page-item">
-                Certification Transparency and Authenticity using Blockchain Technology
-            </h4>
-            <div class="landing-page-item landing-page-links">
-                <div>
-                    <a href="/index_retailer.html" target="_blank">Retailer View</a>
-                </div>
-                <div>
-                    <a href="/index_auditor.html" target="_blank">Auditor View</a>
-                </div>
-                <div>
-                    <a href="/index_standards_body.html" target="_blank">Standards Body View</a>
-                </div>
-                <div>
-                    <a href="/index_factory.html" target="_blank">Factory View</a>
-                </div>
-            </div>
+      <div class="landing-page-header landing-page-text">
+        <h1 class="landing-page-item">
+          ConsenSource
+        </h1>
+        <h6 class="landing-page-item">
+          Certification transparency and authenticity to empower responsible
+          sourcing
+        </h6>
+        <h5 class="landing-page-item">
+          <a
+            href="http://consensource.io"
+            target="_blank"
+            class="landing-page-external-link"
+            >View the docs <i class="fas fa-external-link-square-alt"></i
+          ></a>
+        </h5>
+        <div class="landing-page-item landing-page-links">
+          <div>
+            <a href="/index_standards_body.html" target="_blank"
+              >Standards Body View</a
+            >
+          </div>
+          <div>
+            <a href="/index_auditor.html" target="_blank">Auditor View</a>
+          </div>
+          <div>
+            <a href="/index_factory.html" target="_blank">Factory View</a>
+          </div>
+          <div>
+            <a href="/index_retailer.html" target="_blank">Retailer View</a>
+          </div>
         </div>
+      </div>
     </div>
   </body>
 </html>
