@@ -3,7 +3,7 @@ import Modals from 'App/components/modals';
 import { testingNotificationBanner } from 'App/components/testing_banner';
 import * as FeatureFlagService from 'App/services/feature_flag';
 
-const _navLink = (route, asset_active, asset_inactive, label) =>
+const navLink = (route, assetActive, assetInactive, label): m.Vnode<any, any> =>
     m(
         'li.nav-item.retailer_nav',
         m(
@@ -14,23 +14,19 @@ const _navLink = (route, asset_active, asset_inactive, label) =>
                 class: m.route.get().startsWith(route) ? 'active' : '',
             },
             [
-                m(
-                    `img.nav_icon[src=/assets/images/${
-                        m.route.get().startsWith(route) ? asset_active : asset_inactive
-                    }]`,
-                ),
+                m(`img.nav_icon[src=/assets/images/${m.route.get().startsWith(route) ? assetActive : assetInactive}]`),
                 m('span.nav_label.p-1.ml-1', label),
             ],
         ),
     );
 
-const _greeting = () => 'Welcome, retail or brand member!';
+const greeting = (): string => 'Welcome, retail or brand member!';
 
 export const App = {
-    oninit: vnode => {
+    oninit: (vnode): void => {
         vnode.state.loading = false;
     },
-    view: vnode => {
+    view: (vnode): m.Vnode<any, any>[] => {
         if (vnode.state.loading) {
             return [m('.row', 'Loading...')];
         } else {
@@ -44,16 +40,16 @@ export const App = {
                             ),
                         ),
                     ]),
-                    m('span.ml-3.greeting_text', _greeting()),
+                    m('span.ml-3.greeting_text', greeting()),
                     m('div.collapse.navbar-collapse', [
                         m('ul.navbar-nav.ml-auto', [
-                            _navLink(
+                            navLink(
                                 '/certifications',
                                 'certified-factories-icon.svg',
                                 'inactive-cert-factories.svg',
                                 'Certified Factories',
                             ),
-                            // _navLink('/agents', 'active-agents.svg', 'inactive-agents.svg', 'Agents'),
+                            // navLink('/agents', 'active-agents.svg', 'inactive-agents.svg', 'Agents'),
                         ]),
                     ]),
                 ]),
@@ -64,14 +60,14 @@ export const App = {
         }
     },
 
-    subpage: element => ({
-        onmatch: (_args, _requestedPath) => element,
-        render: vnode => m(App, vnode),
+    subpage: (element): void => ({
+        onmatch: (_args, _requestedPath): any => element,
+        render: (vnode): m.Vnode<unknown, unknown> => m(App, vnode),
     }),
 };
 
 export const Welcome = {
-    view: () => [
+    view: (): m.Vnode<any, any>[] => [
         m('div.landing-page.landing-page-retailer', [
             m('div.landing-page-info', [
                 m('p.landing-page-info-section.landing-page-info-header', [

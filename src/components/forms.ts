@@ -1,7 +1,13 @@
 import * as m from 'mithril';
 import * as isoLangCodes from 'App/views/common/ISO-639-1-language.json';
 
-export const inputField = (name: string, label: string, value: string, oninput: Function, type = 'text') =>
+export const inputField = (
+    name: string,
+    label: string,
+    value: string,
+    oninput: Function,
+    type = 'text',
+): m.Vnode<any, any> =>
     m('div.form-group', [
         m(`label[for=${name}]`, label),
         m('input.form-control', {
@@ -12,7 +18,7 @@ export const inputField = (name: string, label: string, value: string, oninput: 
         }),
     ]);
 
-export const languageSelector = (name: string, label: string, value: string, onchange: Function) =>
+export const languageSelector = (name: string, label: string, value: string, onchange: Function): m.Vnode<any, any> =>
     m('div.form-group', [
         m(`label[for=${name}]`, label),
         m(

@@ -8,7 +8,19 @@ import * as blockService from 'App/services/block';
 import * as isoLangCodes from 'App/views/common/ISO-639-1-language.json';
 import Modals from 'App/components/modals';
 
-const _toggleEditPassword = update => {
+const signUpSetter = key => (value): void => {
+    FactorySignUp[key] = value;
+};
+
+const updateSetter = key => (value): void => {
+    FactoryUpdate[key] = value;
+};
+
+const updatePasswordSetter = key => (value): void => {
+    PasswordUpdate[key] = value;
+};
+
+const toggleEditPassword = (update): void => {
     const editFields = document.querySelectorAll(`.password-value`);
     editFields.forEach(t => {
         t.classList.toggle('form-control-plaintext');
@@ -36,7 +48,7 @@ const _toggleEditPassword = update => {
     });
 };
 
-const _toggleEditAddress = (vnode, updated?) => {
+const toggleEditAddress = (vnode, updated?): void => {
     const editFields = document.querySelectorAll(`.address-value`);
     editFields.forEach(t => {
         t.classList.toggle('form-control-plaintext');
@@ -65,7 +77,7 @@ const _toggleEditAddress = (vnode, updated?) => {
     });
 };
 
-const _toggleEditContact = (vnode, updated?) => {
+const toggleEditContact = (vnode, updated?): void => {
     const editFields = document.querySelectorAll(`.contact-value`);
     editFields.forEach(t => {
         t.classList.toggle('form-control-plaintext');
@@ -100,8 +112,246 @@ const _toggleEditContact = (vnode, updated?) => {
     });
 };
 
+const FactorySignUp = {
+    submitting: false,
+    errorMsg: null,
+
+    username: '',
+    password: '',
+    confirmPassword: '',
+
+    // Transaction Fields
+    agentName: '',
+    orgName: '',
+    addressStreetLine1: '',
+    addressStreetLine2: '',
+    addressCity: '',
+    addressStateProvince: '',
+    addressCountry: '',
+    addressPostalCode: '',
+    contactName: '',
+    contactPhoneNumber: '',
+    contactLanguageCode: '',
+
+    setUsername: signUpSetter('username'),
+    setPassword: signUpSetter('password'),
+    setConfirmPassword: signUpSetter('confirmPassword'),
+
+    setAgentName: signUpSetter('agentName'),
+    setOrgName: signUpSetter('orgName'),
+    setAddressStreetLine1: signUpSetter('addressStreetLine1'),
+    setAddressStreetLine2: signUpSetter('addressStreetLine2'),
+    setAddressCity: signUpSetter('addressCity'),
+    setAddressStateProvince: signUpSetter('addressStateProvince'),
+    setAddressCountry: signUpSetter('addressCountry'),
+    setAddressPostalCode: signUpSetter('addressPostalCode'),
+    setContactName: signUpSetter('contactName'),
+    setContactPhoneNumber: signUpSetter('contactPhoneNumber'),
+    setContactLanguageCode: signUpSetter('contactLanguageCode'),
+
+    submit: (): void => {
+        FactorySignUp.submitting = true;
+        AuthService.createUser(FactorySignUp, signer =>
+            transactionService.submitBatch(
+                [
+                    agentService.createAgentTransaction(FactorySignUp.agentName, signer),
+                    factoryService.createFactoryTransaction(FactorySignUp, signer),
+                ],
+                signer,
+            ),
+        )
+            .then(() => {
+                FactorySignUp.clear();
+                m.route.set('/');
+            })
+            .catch(e => {
+                console.error(e);
+                FactorySignUp.submitting = false;
+                FactorySignUp.errorMsg = e;
+            });
+    },
+
+    clear: (): void => {
+        FactorySignUp.submitting = false;
+        FactorySignUp.errorMsg = null;
+
+        FactorySignUp.agentName = '';
+        FactorySignUp.username = '';
+        FactorySignUp.password = '';
+        FactorySignUp.confirmPassword = '';
+        FactorySignUp.orgName = '';
+        FactorySignUp.addressStreetLine1 = '';
+        FactorySignUp.addressStreetLine2 = '';
+        FactorySignUp.addressCity = '';
+        FactorySignUp.addressStateProvince = '';
+        FactorySignUp.addressCountry = '';
+        FactorySignUp.addressPostalCode = '';
+        FactorySignUp.contactName = '';
+        FactorySignUp.contactPhoneNumber = '';
+        FactorySignUp.contactLanguageCode = '';
+    },
+
+    invalidFields: (): boolean => {
+        // check the required fields
+        const requiredFields = [
+            'agentName',
+            'username',
+            'password',
+            'orgMame',
+            'addressStreetLine1',
+            'addressCity',
+            'addressCountry',
+            'contactName',
+            'contactPhoneNumber',
+            'contactLanguageCode',
+        ];
+
+        if (requiredFields.reduce((acc, key) => acc || FactorySignUp[key] === '', false)) {
+            return true;
+        }
+
+        if (FactorySignUp.password !== FactorySignUp.confirmPassword) {
+            return true;
+        }
+
+        return false;
+    },
+};
+
+const FactoryUpdate = {
+    submitting: false,
+    errorMsg: null,
+
+    // Transaction Fields
+
+    // Name is read-only
+    name: '',
+
+    // modifiable fields
+    addressStreetLine1: '',
+    addressStreetLine2: '',
+    addressCity: '',
+    addressStateProvince: '',
+    addressCountry: '',
+    addressPostalCode: '',
+    contactName: '',
+    contactPhoneNumber: '',
+    contactLanguageCode: '',
+
+    setAddressStreetLine1: updateSetter('addressStreetLine1'),
+    setAddressStreetLine2: updateSetter('addressStreetLine2'),
+    setAddressCity: updateSetter('addressCity'),
+    setAddressStateProvince: updateSetter('addressStateProvince'),
+    setAddressCountry: updateSetter('addressCountry'),
+    setAddressPostalCode: updateSetter('addressPostalCode'),
+    setContactName: updateSetter('contactName'),
+    setContactPhoneNumber: updateSetter('contactPhoneNumber'),
+    setContactLanguageCode: updateSetter('contactLanguageCode'),
+
+    submit: (): void => {
+        FactoryUpdate.submitting = true;
+        AuthService.getSigner()
+            .then(signer => factoryService.updateFactory(FactoryUpdate, signer))
+            .then(() => {
+                FactoryUpdate.submitting = false;
+                m.redraw();
+            })
+            .catch(e => {
+                console.error(e);
+                FactoryUpdate.submitting = false;
+                FactoryUpdate.errorMsg = e;
+                m.redraw();
+            });
+    },
+
+    setFactory: (factory): void => {
+        FactoryUpdate.name = factory.name;
+
+        FactoryUpdate.addressStreetLine1 = factory.address.street_line_1;
+        FactoryUpdate.addressStreetLine2 = factory.address.street_line_2 || '';
+        FactoryUpdate.addressCity = factory.address.city;
+        FactoryUpdate.addressStateProvince = factory.address.state_province || '';
+        FactoryUpdate.addressCountry = factory.address.country;
+        FactoryUpdate.addressPostalCode = factory.address.postal_code || '';
+        FactoryUpdate.contactName = factory.contacts[0].name;
+        FactoryUpdate.contactPhoneNumber = factory.contacts[0].phone_number;
+        FactoryUpdate.contactLanguageCode = factory.contacts[0].language_code;
+    },
+
+    invalidFields: (): boolean => {
+        // check the required fields
+        const requiredFields = [
+            'addressStreetLine1',
+            'addressCity',
+            'addressCountry',
+            'contactName',
+            'contactPhoneNumber',
+            'contactLanguageCode',
+        ];
+        return requiredFields.reduce((acc, key) => acc || FactoryUpdate[key] === '', false);
+    },
+};
+
+const PasswordUpdate = {
+    submitting: false,
+    errorMsg: null,
+
+    public_key: '',
+    encrypted_private_key: '',
+
+    old_password: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
+
+    setOldPassword: updatePasswordSetter('old_password'),
+    setPassword: updatePasswordSetter('password'),
+    setConfirmPassword: updatePasswordSetter('confirmPassword'),
+
+    submit: (): void => {
+        PasswordUpdate.submitting = true;
+        AuthService.getSigner()
+            .then(signer => {
+                AuthService.updateUser(PasswordUpdate, signer);
+            })
+            .then(() => {
+                PasswordUpdate.submitting = false;
+                PasswordUpdate.clear();
+                m.redraw();
+            })
+            .catch(e => {
+                console.error(e);
+                PasswordUpdate.submitting = false;
+                PasswordUpdate.errorMsg = e;
+                PasswordUpdate.clear();
+                m.redraw();
+            });
+    },
+
+    setUpdatePassword: (user): void => {
+        PasswordUpdate.public_key = user.public_key;
+        PasswordUpdate.username = user.username;
+    },
+
+    clear: (): void => {
+        PasswordUpdate.old_password = '';
+        PasswordUpdate.password = '';
+        PasswordUpdate.confirmPassword = '';
+    },
+
+    invalidPassword: (): boolean => {
+        if (!PasswordUpdate.old_password || !PasswordUpdate.password || !PasswordUpdate.confirmPassword) {
+            return true;
+        }
+        if (PasswordUpdate.password !== PasswordUpdate.confirmPassword) {
+            return true;
+        }
+        return false;
+    },
+};
+
 export const FactoryDetails = {
-    view: vnode => {
+    view: (vnode): m.Vnode<any, any>[] => {
         if (!vnode.state.loading) {
             return [
                 FactoryUpdate.errorMsg ? m('p.text-danger', FactoryUpdate.errorMsg) : null,
@@ -140,7 +390,7 @@ export const FactoryDetails = {
                         {
                             onclick: () => {
                                 PasswordUpdate.submit();
-                                _toggleEditPassword(true);
+                                toggleEditPassword(true);
                             },
                             disabled: PasswordUpdate.submitting || PasswordUpdate.invalidPassword(),
                         },
@@ -148,19 +398,19 @@ export const FactoryDetails = {
                     ),
                     m(
                         'btn.btn.password-fields.cancelUpdate.m-2.hide',
-                        { onclick: () => _toggleEditPassword(false) },
+                        { onclick: () => toggleEditPassword(false) },
                         'Cancel',
                     ),
                 ]),
                 m('dl.row', [
                     m(
                         'btn.dt-sm-2.btn.password-fields.updatePassword.m-2.show',
-                        { onclick: () => _toggleEditPassword(true) },
+                        { onclick: () => toggleEditPassword(true) },
                         'Update Password',
                     ),
                 ]),
                 m('div.mt-5', [
-                    m('img.edit-icon[src=/assets/images/pencil.svg]', { onclick: () => _toggleEditAddress(vnode) }),
+                    m('img.edit-icon[src=/assets/images/pencil.svg]', { onclick: () => toggleEditAddress(vnode) }),
                     m('span.factory-profile-field.ml-2', 'Address'),
                 ]),
                 m("label.form-label[for='address-street-1']", 'Street Address 1'),
@@ -220,7 +470,7 @@ export const FactoryDetails = {
                         {
                             onclick: () => {
                                 FactoryUpdate.submit();
-                                _toggleEditAddress(vnode, true);
+                                toggleEditAddress(vnode, true);
                             },
                             disabled: FactoryUpdate.submitting || FactoryUpdate.invalidFields(),
                         },
@@ -228,13 +478,13 @@ export const FactoryDetails = {
                     ),
                     m(
                         'btn.btn.cancelUpdate.m-2.btn-address.hide',
-                        { onclick: () => _toggleEditAddress(vnode) },
+                        { onclick: () => toggleEditAddress(vnode) },
                         'Cancel',
                     ),
                 ]),
 
                 m('div.mt-5', [
-                    m('img.edit-icon[src=/assets/images/pencil.svg]', { onclick: () => _toggleEditContact(vnode) }),
+                    m('img.edit-icon[src=/assets/images/pencil.svg]', { onclick: () => toggleEditContact(vnode) }),
                     m('span.factory-profile-field.ml-2', 'Contact Info'),
                 ]),
                 m("label.form-label[for='contact-name']", 'Name *'),
@@ -270,7 +520,7 @@ export const FactoryDetails = {
                         {
                             onclick: () => {
                                 FactoryUpdate.submit();
-                                _toggleEditContact(vnode, true);
+                                toggleEditContact(vnode, true);
                             },
                             disabled: FactoryUpdate.submitting || FactoryUpdate.invalidFields(),
                         },
@@ -278,7 +528,7 @@ export const FactoryDetails = {
                     ),
                     m(
                         'btn.btn.btn-contact.cancelUpdate.m-2.hide',
-                        { onclick: () => _toggleEditContact(vnode) },
+                        { onclick: () => toggleEditContact(vnode) },
                         'Cancel',
                     ),
                 ]),
@@ -288,16 +538,16 @@ export const FactoryDetails = {
             return [m('.row', 'Loading...')];
         }
     },
-    oncreate: vnode => {
-        vnode.state._listener = () => FactoryDetails.loadData(vnode);
+    oncreate: (vnode): void => {
+        vnode.state._listener = (): void => FactoryDetails.loadData(vnode);
         blockService.addBlockUpdateListener(vnode.state._listener);
     },
 
-    onremove: vnode => {
+    onremove: (vnode): void => {
         blockService.removeBlockUpdateListener(vnode.state._listener);
     },
 
-    oninit: vnode => {
+    oninit: (vnode): Promise<void> => {
         vnode.state.loading = true;
         return AuthService.getUserData()
             .then((user: any) => Promise.all([user, agentService.fetchAgent(user.public_key)]))
@@ -319,7 +569,7 @@ export const FactoryDetails = {
             });
     },
 
-    loadData: vnode => {
+    loadData: (vnode): void => {
         factoryService
             .fetchFactory(vnode.state.factory.id)
             .then(factoryResult => {
@@ -338,124 +588,14 @@ export const FactoryDetails = {
     },
 };
 
-const _signUpSetter = key => value => {
-    FactorySignUp[key] = value;
-};
-
-const FactorySignUp = {
-    submitting: false,
-    errorMsg: null,
-
-    username: '',
-    password: '',
-    confirmPassword: '',
-
-    // Transaction Fields
-    agentName: '',
-    orgName: '',
-    addressStreetLine1: '',
-    addressStreetLine2: '',
-    addressCity: '',
-    addressStateProvince: '',
-    addressCountry: '',
-    addressPostalCode: '',
-    contactName: '',
-    contactPhoneNumber: '',
-    contactLanguageCode: '',
-
-    setUsername: _signUpSetter('username'),
-    setPassword: _signUpSetter('password'),
-    setConfirmPassword: _signUpSetter('confirmPassword'),
-
-    setAgentName: _signUpSetter('agentName'),
-    setOrgName: _signUpSetter('orgName'),
-    setAddressStreetLine1: _signUpSetter('addressStreetLine1'),
-    setAddressStreetLine2: _signUpSetter('addressStreetLine2'),
-    setAddressCity: _signUpSetter('addressCity'),
-    setAddressStateProvince: _signUpSetter('addressStateProvince'),
-    setAddressCountry: _signUpSetter('addressCountry'),
-    setAddressPostalCode: _signUpSetter('addressPostalCode'),
-    setContactName: _signUpSetter('contactName'),
-    setContactPhoneNumber: _signUpSetter('contactPhoneNumber'),
-    setContactLanguageCode: _signUpSetter('contactLanguageCode'),
-
-    submit: () => {
-        FactorySignUp.submitting = true;
-        AuthService.createUser(FactorySignUp, signer =>
-            transactionService.submitBatch(
-                [
-                    agentService.createAgentTransaction(FactorySignUp.agentName, signer),
-                    factoryService.createFactoryTransaction(FactorySignUp, signer),
-                ],
-                signer,
-            ),
-        )
-            .then(() => {
-                FactorySignUp.clear();
-                m.route.set('/');
-            })
-            .catch(e => {
-                console.error(e);
-                FactorySignUp.submitting = false;
-                FactorySignUp.errorMsg = e;
-            });
-    },
-
-    clear: () => {
-        FactorySignUp.submitting = false;
-        FactorySignUp.errorMsg = null;
-
-        FactorySignUp.agentName = '';
-        FactorySignUp.username = '';
-        FactorySignUp.password = '';
-        FactorySignUp.confirmPassword = '';
-        FactorySignUp.orgName = '';
-        FactorySignUp.addressStreetLine1 = '';
-        FactorySignUp.addressStreetLine2 = '';
-        FactorySignUp.addressCity = '';
-        FactorySignUp.addressStateProvince = '';
-        FactorySignUp.addressCountry = '';
-        FactorySignUp.addressPostalCode = '';
-        FactorySignUp.contactName = '';
-        FactorySignUp.contactPhoneNumber = '';
-        FactorySignUp.contactLanguageCode = '';
-    },
-
-    invalidFields: () => {
-        // check the required fields
-        const requiredFields = [
-            'agentName',
-            'username',
-            'password',
-            'orgMame',
-            'addressStreetLine1',
-            'addressCity',
-            'addressCountry',
-            'contactName',
-            'contactPhoneNumber',
-            'contactLanguageCode',
-        ];
-
-        if (requiredFields.reduce((acc, key) => acc || FactorySignUp[key] === '', false)) {
-            return true;
-        }
-
-        if (FactorySignUp.password !== FactorySignUp.confirmPassword) {
-            return true;
-        }
-
-        return false;
-    },
-};
-
 /**
  * Factory Sign Up form component
  */
 export const FactorySignUpForm = {
-    oninit() {
+    oninit: (): void => {
         FactorySignUp.clear();
     },
-    view() {
+    view: (): m.Vnode<any, any>[] => {
         return [
             m('h2', 'Sign Up'),
             m('.form', [
@@ -534,145 +674,5 @@ export const FactorySignUpForm = {
                 ),
             ]),
         ];
-    },
-};
-
-const _updateSetter = key => value => {
-    FactoryUpdate[key] = value;
-};
-
-const FactoryUpdate = {
-    submitting: false,
-    errorMsg: null,
-
-    // Transaction Fields
-
-    // Name is read-only
-    name: '',
-
-    // modifiable fields
-    addressStreetLine1: '',
-    addressStreetLine2: '',
-    addressCity: '',
-    addressStateProvince: '',
-    addressCountry: '',
-    addressPostalCode: '',
-    contactName: '',
-    contactPhoneNumber: '',
-    contactLanguageCode: '',
-
-    setAddressStreetLine1: _updateSetter('addressStreetLine1'),
-    setAddressStreetLine2: _updateSetter('addressStreetLine2'),
-    setAddressCity: _updateSetter('addressCity'),
-    setAddressStateProvince: _updateSetter('addressStateProvince'),
-    setAddressCountry: _updateSetter('addressCountry'),
-    setAddressPostalCode: _updateSetter('addressPostalCode'),
-    setContactName: _updateSetter('contactName'),
-    setContactPhoneNumber: _updateSetter('contactPhoneNumber'),
-    setContactLanguageCode: _updateSetter('contactLanguageCode'),
-
-    submit: () => {
-        FactoryUpdate.submitting = true;
-        AuthService.getSigner()
-            .then(signer => factoryService.updateFactory(FactoryUpdate, signer))
-            .then(() => {
-                FactoryUpdate.submitting = false;
-                m.redraw();
-            })
-            .catch(e => {
-                console.error(e);
-                FactoryUpdate.submitting = false;
-                FactoryUpdate.errorMsg = e;
-                m.redraw();
-            });
-    },
-
-    setFactory: factory => {
-        FactoryUpdate.name = factory.name;
-
-        FactoryUpdate.addressStreetLine1 = factory.address.street_line_1;
-        FactoryUpdate.addressStreetLine2 = factory.address.street_line_2 || '';
-        FactoryUpdate.addressCity = factory.address.city;
-        FactoryUpdate.addressStateProvince = factory.address.state_province || '';
-        FactoryUpdate.addressCountry = factory.address.country;
-        FactoryUpdate.addressPostalCode = factory.address.postal_code || '';
-        FactoryUpdate.contactName = factory.contacts[0].name;
-        FactoryUpdate.contactPhoneNumber = factory.contacts[0].phone_number;
-        FactoryUpdate.contactLanguageCode = factory.contacts[0].language_code;
-    },
-
-    invalidFields: () => {
-        // check the required fields
-        const requiredFields = [
-            'addressStreetLine1',
-            'addressCity',
-            'addressCountry',
-            'contactName',
-            'contactPhoneNumber',
-            'contactLanguageCode',
-        ];
-        return requiredFields.reduce((acc, key) => acc || FactoryUpdate[key] === '', false);
-    },
-};
-
-const _updatePasswordSetter = key => value => {
-    PasswordUpdate[key] = value;
-};
-
-const PasswordUpdate = {
-    submitting: false,
-    errorMsg: null,
-
-    public_key: '',
-    encrypted_private_key: '',
-
-    old_password: '',
-    username: '',
-    password: '',
-    confirmPassword: '',
-
-    setOldPassword: _updatePasswordSetter('old_password'),
-    setPassword: _updatePasswordSetter('password'),
-    setConfirmPassword: _updatePasswordSetter('confirmPassword'),
-
-    submit: () => {
-        PasswordUpdate.submitting = true;
-        AuthService.getSigner()
-            .then(signer => {
-                AuthService.updateUser(PasswordUpdate, signer);
-            })
-            .then(() => {
-                PasswordUpdate.submitting = false;
-                PasswordUpdate.clear();
-                m.redraw();
-            })
-            .catch(e => {
-                console.error(e);
-                PasswordUpdate.submitting = false;
-                PasswordUpdate.errorMsg = e;
-                PasswordUpdate.clear();
-                m.redraw();
-            });
-    },
-
-    setUpdatePassword: user => {
-        PasswordUpdate.public_key = user.public_key;
-        PasswordUpdate.username = user.username;
-    },
-
-    clear: () => {
-        PasswordUpdate.old_password = '';
-        PasswordUpdate.password = '';
-        PasswordUpdate.confirmPassword = '';
-    },
-
-    invalidPassword: () => {
-        if (!PasswordUpdate.old_password || !PasswordUpdate.password || !PasswordUpdate.confirmPassword) {
-            return true;
-        }
-        if (PasswordUpdate.password !== PasswordUpdate.confirmPassword) {
-            return true;
-        }
-        return false;
     },
 };

@@ -4,16 +4,6 @@ import AuthService from 'App/services/auth';
 import * as agentService from 'App/services/agent';
 import * as FeatureFlagService from 'App/services/feature_flag';
 
-export const AuthedComponent: m.Component = {
-    view(vnode) {
-        if (AuthService.isSignedIn()) {
-            return vnode.children;
-        } else {
-            return [];
-        }
-    },
-};
-
 interface SignIn {
     submitting: boolean;
     errorMsg: Error | null;
@@ -23,6 +13,14 @@ interface SignIn {
     setPassword: (val: string) => void;
     clear: () => void;
     submit: () => void;
+}
+
+interface SignUp extends SignIn {
+    confirmPassword: string;
+    name: string;
+    setConfirmPassword: (value: string) => void;
+    setName: (value: string) => void;
+    invalidFields: () => boolean;
 }
 
 const SignIn: SignIn = {
@@ -62,15 +60,25 @@ const SignIn: SignIn = {
     },
 };
 
+export const AuthedComponent: m.Component = {
+    view(vnode) {
+        if (AuthService.isSignedIn()) {
+            return vnode.children;
+        } else {
+            return [];
+        }
+    },
+};
+
 /**
  * Form for Signing in a User
  */
 export const SignInForm = {
-    oninit() {
+    oninit: (): void => {
         SignIn.clear();
     },
 
-    view() {
+    view: (): m.Vnode<any, any>[] => {
         return [
             m('h2', 'Sign In'),
             m('.form', [
@@ -100,14 +108,6 @@ export const SignInForm = {
         ];
     },
 };
-
-interface SignUp extends SignIn {
-    confirmPassword: string;
-    name: string;
-    setConfirmPassword: (value: string) => void;
-    setName: (value: string) => void;
-    invalidFields: () => boolean;
-}
 
 const AgentSignUp: SignUp = {
     submitting: false,
@@ -180,10 +180,10 @@ const AgentSignUp: SignUp = {
  * Agent Sign Up form component
  */
 export const AgentSignUpForm = {
-    oninit() {
+    oninit: (): void => {
         AgentSignUp.clear();
     },
-    view() {
+    view: (): m.Vnode<any, any>[] => {
         return [
             m('h2', 'Sign Up'),
             m('.form', [

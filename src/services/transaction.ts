@@ -25,50 +25,6 @@ export const getTransactionIds = (transactions: sawtooth.protobuf.Transaction[])
     transactions.map(transaction => transaction.headerSignature);
 
 /**
- * Creates a serialized `TransactionHeader`, signs the message,
- * and creates a `Transaction` with the header, signature and payload
- */
-export const createTransaction = (
-    payloadInfo: PayloadInfo,
-    signer: sawtooth.signing.Signer,
-): sawtooth.protobuf.Transaction => {
-    const { payloadBytes, inputs, outputs } = payloadInfo;
-
-    const pubkey = signer.getPublicKey().asHex();
-    const payloadSha512 = createHash('sha512')
-        .update(payloadBytes)
-        .digest('hex');
-
-    const transactionHeaderBytes = TransactionHeader.encode({
-        familyName: addressing.familyName,
-        familyVersion: addressing.familyVersion,
-        inputs,
-        outputs,
-        signerPublicKey: pubkey,
-        batcherPublicKey: pubkey,
-        dependencies: [],
-        payloadSha512,
-    }).finish();
-
-    const signature = signer.sign(transactionHeaderBytes as Buffer);
-
-    return Transaction.create({
-        header: transactionHeaderBytes,
-        headerSignature: signature,
-        payload: payloadBytes as Buffer,
-    });
-};
-
-/**
- * Create a `Transaction` with the payloadInfo and submit it in a `Batch`.
- * @returns `Promise` that will resolve when the transactions have been committed.
- */
-export const submitTransaction = (payloadInfo: any, signer: sawtooth.signing.Signer): Promise<any> => {
-    const transactions = [createTransaction(payloadInfo, signer)];
-    return submitBatch(transactions, signer);
-};
-
-/**
  * Creates a serialized `BatchHeader`, signs the message,
  * and creates a `Batch` with the header, signature and transactions
  */
@@ -109,27 +65,6 @@ export const postBatches = (batchListBytes: Uint8Array): Promise<any> => {
     } catch (e) {
         return Promise.reject(`Failed to POST ${url}: ${e.message}`);
     }
-};
-
-/**
- * Builds a batch and includes it in a `BatchList` that is submitted to the
- * validator.
- *
- * @return Promise which will resolve when the batch is determined to be either committed or invalid
- */
-export const submitBatch = async (
-    transactions: sawtooth.protobuf.Transaction[],
-    signer: sawtooth.signing.Signer,
-): Promise<string | string[]> => {
-    const transactionIds = getTransactionIds(transactions);
-    const batch = createBatch(transactions, signer);
-    const batchListBytes = BatchList.encode({
-        batches: [batch],
-    }).finish();
-
-    const res = await postBatches(batchListBytes);
-
-    return waitForCommit(transactionIds, formatStatusUrl(res.link));
 };
 
 /**
@@ -188,4 +123,69 @@ export const waitForCommit = async (transactionIds: string[], statusUrl: string)
         default:
             return waitForCommit(transactionIds, statusUrl);
     }
+};
+
+/**
+ * Builds a batch and includes it in a `BatchList` that is submitted to the
+ * validator.
+ *
+ * @return Promise which will resolve when the batch is determined to be either committed or invalid
+ */
+export const submitBatch = async (
+    transactions: sawtooth.protobuf.Transaction[],
+    signer: sawtooth.signing.Signer,
+): Promise<string | string[]> => {
+    const transactionIds = getTransactionIds(transactions);
+    const batch = createBatch(transactions, signer);
+    const batchListBytes = BatchList.encode({
+        batches: [batch],
+    }).finish();
+
+    const res = await postBatches(batchListBytes);
+
+    return waitForCommit(transactionIds, formatStatusUrl(res.link));
+};
+
+/**
+ * Creates a serialized `TransactionHeader`, signs the message,
+ * and creates a `Transaction` with the header, signature and payload
+ */
+export const createTransaction = (
+    payloadInfo: PayloadInfo,
+    signer: sawtooth.signing.Signer,
+): sawtooth.protobuf.Transaction => {
+    const { payloadBytes, inputs, outputs } = payloadInfo;
+
+    const pubkey = signer.getPublicKey().asHex();
+    const payloadSha512 = createHash('sha512')
+        .update(payloadBytes)
+        .digest('hex');
+
+    const transactionHeaderBytes = TransactionHeader.encode({
+        familyName: addressing.familyName,
+        familyVersion: addressing.familyVersion,
+        inputs,
+        outputs,
+        signerPublicKey: pubkey,
+        batcherPublicKey: pubkey,
+        dependencies: [],
+        payloadSha512,
+    }).finish();
+
+    const signature = signer.sign(transactionHeaderBytes as Buffer);
+
+    return Transaction.create({
+        header: transactionHeaderBytes,
+        headerSignature: signature,
+        payload: payloadBytes as Buffer,
+    });
+};
+
+/**
+ * Create a `Transaction` with the payloadInfo and submit it in a `Batch`.
+ * @returns `Promise` that will resolve when the transactions have been committed.
+ */
+export const submitTransaction = (payloadInfo: any, signer: sawtooth.signing.Signer): Promise<any> => {
+    const transactions = [createTransaction(payloadInfo, signer)];
+    return submitBatch(transactions, signer);
 };

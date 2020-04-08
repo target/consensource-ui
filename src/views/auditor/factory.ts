@@ -3,7 +3,14 @@ import * as blockService from 'App/services/block';
 import * as factoryService from 'App/services/factory';
 import * as organizationService from 'App/services/organization';
 
-const _renderRows = (items, renderer, emptyElement) => {
+interface State {
+    factories: consensource.Factory[];
+    loading: boolean;
+    noRecordsElement: m.Vnode;
+    _listener: () => void;
+}
+
+const renderRows = (items, renderer, emptyElement): any => {
     if (items.length > 0) {
         return items.map(renderer);
     } else {
@@ -11,7 +18,7 @@ const _renderRows = (items, renderer, emptyElement) => {
     }
 };
 
-const _loadFactories = vnode =>
+const loadFactories = (vnode): Promise<void> =>
     factoryService
         .loadFactories()
         .then(factories => {
@@ -21,13 +28,6 @@ const _loadFactories = vnode =>
         .catch(() => {
             vnode.state.noRecordsElement = m('td.text-center.text-danger[colspan=9]', 'Failed to fetch factories');
         });
-
-interface State {
-    factories: consensource.Factory[];
-    loading: boolean;
-    noRecordsElement: m.Vnode;
-    _listener: () => void;
-}
 
 export const FactoryList: m.Component<{}, State> = {
     view: vnode => [
@@ -48,7 +48,7 @@ export const FactoryList: m.Component<{}, State> = {
             ),
             m(
                 'tbody',
-                _renderRows(
+                renderRows(
                     vnode.state.factories,
                     factory =>
                         m('tr', [
@@ -75,8 +75,8 @@ export const FactoryList: m.Component<{}, State> = {
     },
 
     oncreate: vnode => {
-        _loadFactories(vnode);
-        vnode.state._listener = () => _loadFactories(vnode);
+        loadFactories(vnode);
+        vnode.state._listener = (): Promise<void> => loadFactories(vnode);
         blockService.addBlockUpdateListener(vnode.state._listener);
     },
 

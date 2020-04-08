@@ -1,5 +1,4 @@
 import * as m from 'mithril';
-import * as crypto from 'crypto';
 import * as addressing from 'App/addressing';
 import { createContext, Signer } from 'sawtooth-sdk/signing';
 import { CertificateRegistryPayload, CreateAgentAction } from 'App/protobuf';

@@ -6,6 +6,56 @@ import * as requestService from 'App/services/requests';
 import * as blockService from 'App/services/block';
 import * as DatePicker from 'mithril-datepicker';
 
+interface Agent extends consensource.Agent {
+    organization: consensource.Organization;
+}
+
+interface Request extends consensource.Request {
+    factory: consensource.Organization;
+    standard: consensource.Standard;
+}
+
+interface CertificateCreateState {
+    loading: boolean;
+    agent?: Agent;
+    request?: Request;
+}
+
+interface CertificateListState {
+    certificates: consensource.Certificate[];
+    loading: boolean;
+    noRecordsElement: m.Vnode;
+    _listener: () => void;
+}
+
+const loadCertificates = (vnode): Promise<void> =>
+    certificateService
+        .loadCertificates()
+        .then(certificates => {
+            vnode.state.certificates = certificates.data;
+            vnode.state.loading = false;
+        })
+        .catch(() => {
+            vnode.state.noRecordsElement = m('td.text-center.text-danger[colspan=6]', 'Failed to fetch Certificates');
+        });
+
+const renderRows = (items, renderer, emptyElement): any => {
+    if (items.length > 0) {
+        return items.map(renderer);
+    } else {
+        return emptyElement;
+    }
+};
+
+const renderTimestamp = (timestamp): string => {
+    if (timestamp) {
+        const d = new Date(timestamp * 1000);
+        return `${d.toLocaleDateString()}`;
+    } else {
+        return 'Unknown';
+    }
+};
+
 export const IssueCertificateData = {
     id: '',
     requestId: '',
@@ -16,27 +66,27 @@ export const IssueCertificateData = {
     submitting: false,
     errorMsg: null,
 
-    setID: id => {
+    setID: (id): void => {
         IssueCertificateData.id = id;
     },
 
-    setRequestId: requestId => {
+    setRequestId: (requestId): void => {
         IssueCertificateData.requestId = requestId;
     },
 
-    setValidFrom: timestamp => {
+    setValidFrom: (timestamp): void => {
         IssueCertificateData.validFrom = timestamp;
     },
 
-    setValidTo: timestamp => {
+    setValidTo: (timestamp): void => {
         IssueCertificateData.validTo = timestamp;
     },
 
-    setCertificateDate: certificateData => {
+    setCertificateDate: (certificateData): void => {
         IssueCertificateData.certificateData = certificateData;
     },
 
-    clear: () => {
+    clear: (): void => {
         IssueCertificateData.factoryId = '';
         IssueCertificateData.requestId = '';
         IssueCertificateData.validFrom = new Date().getTime() / 1000;
@@ -46,7 +96,7 @@ export const IssueCertificateData = {
         IssueCertificateData.errorMsg = null;
     },
 
-    submit: (organizationId, factoryId) => {
+    submit: (organizationId, factoryId): Promise<void> => {
         IssueCertificateData.submitting = true;
         return AuthService.getSigner()
             .then(signer =>
@@ -63,21 +113,6 @@ export const IssueCertificateData = {
             });
     },
 };
-
-interface Agent extends consensource.Agent {
-    organization: consensource.Organization;
-}
-
-interface Request extends consensource.Request {
-    factory: consensource.Organization;
-    standard: consensource.Standard;
-}
-
-interface CertificateCreateState {
-    loading: boolean;
-    agent?: Agent;
-    request?: Request;
-}
 
 export const CertificateCreate: m.Component<{}, CertificateCreateState> = {
     oninit: vnode => {
@@ -183,32 +218,6 @@ export const CertificateCreate: m.Component<{}, CertificateCreateState> = {
     },
 };
 
-const _renderRows = (items, renderer, emptyElement) => {
-    if (items.length > 0) {
-        return items.map(renderer);
-    } else {
-        return emptyElement;
-    }
-};
-
-const _loadCertificates = vnode =>
-    certificateService
-        .loadCertificates()
-        .then(certificates => {
-            vnode.state.certificates = certificates.data;
-            vnode.state.loading = false;
-        })
-        .catch(() => {
-            vnode.state.noRecordsElement = m('td.text-center.text-danger[colspan=6]', 'Failed to fetch Certificates');
-        });
-
-interface CertificateListState {
-    certificates: consensource.Certificate[];
-    loading: boolean;
-    noRecordsElement: m.Vnode;
-    _listener: () => void;
-}
-
 export const CertificateList: m.Component<{}, CertificateListState> = {
     view: vnode => [
         m('table.table.table-bordered.auditor-table', [
@@ -225,7 +234,7 @@ export const CertificateList: m.Component<{}, CertificateListState> = {
             ),
             m(
                 'tbody',
-                _renderRows(
+                renderRows(
                     vnode.state.certificates,
                     certificate =>
                         m('tr', [
@@ -233,8 +242,8 @@ export const CertificateList: m.Component<{}, CertificateListState> = {
                             m('td.pl-5', certificate.certifying_body),
                             m('td.pl-5', certificate.factory_name),
                             m('td.pl-5', certificate.standard_name),
-                            m('td.pl-5', _renderTimestamp(certificate.valid_from)),
-                            m('td.pl-5', _renderTimestamp(certificate.valid_to)),
+                            m('td.pl-5', renderTimestamp(certificate.valid_from)),
+                            m('td.pl-5', renderTimestamp(certificate.valid_to)),
                         ]),
                     m('tr', vnode.state.noRecordsElement),
                 ),
@@ -249,21 +258,12 @@ export const CertificateList: m.Component<{}, CertificateListState> = {
     },
 
     oncreate: vnode => {
-        _loadCertificates(vnode);
-        vnode.state._listener = () => _loadCertificates(vnode);
+        loadCertificates(vnode);
+        vnode.state._listener = (): Promise<void> => loadCertificates(vnode);
         blockService.addBlockUpdateListener(vnode.state._listener);
     },
 
     onremove: vnode => {
         blockService.removeBlockUpdateListener(vnode.state._listener);
     },
-};
-
-const _renderTimestamp = timestamp => {
-    if (timestamp) {
-        const d = new Date(timestamp * 1000);
-        return `${d.toLocaleDateString()}`;
-    } else {
-        return 'Unknown';
-    }
 };

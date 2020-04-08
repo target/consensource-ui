@@ -6,7 +6,7 @@ import Modals from 'App/components/modals';
 import { AuthedComponent } from 'App/views/common/auth';
 import { testingNotificationBanner } from 'App/components/testing_banner';
 
-const _navLink = (route, asset_active, asset_inactive, label) =>
+const navLink = (route, assetActive, assetInactive, label): m.Vnode<any, any> =>
     m(
         'li.nav-item.retailer_nav',
         m(
@@ -17,13 +17,13 @@ const _navLink = (route, asset_active, asset_inactive, label) =>
                 class: m.route.get() === route ? 'active' : '',
             },
             [
-                m(`img.nav_icon[src=/assets/images/${m.route.get() === route ? asset_active : asset_inactive}]`),
+                m(`img.nav_icon[src=/assets/images/${m.route.get() === route ? assetActive : assetInactive}]`),
                 m('span.nav_label.p-1.ml-1', label),
             ],
         ),
     );
 
-const _authButtons = () => {
+const authButtons = (): m.Vnode<any, any> | m.Vnode<m.RouteLinkAttrs, {}>[] => {
     if (AuthService.isSignedIn()) {
         return m(
             'li.nav-item',
@@ -52,7 +52,7 @@ const _authButtons = () => {
     }
 };
 
-const _greeting = vnode => {
+const greeting = (vnode): m.Vnode<{}, {}> | string => {
     if (vnode.state.agent) {
         return m(AuthedComponent, `Hi, ${vnode.state.agent.name}`);
     } else {
@@ -60,7 +60,7 @@ const _greeting = vnode => {
     }
 };
 
-const _getAgentData = vnode =>
+const getAgentData = (vnode): Promise<void> =>
     AuthService.getUserData().then((user: any) =>
         Promise.all([agentService.fetchAgent(user.public_key)])
             .then(([agent]) => {
@@ -75,16 +75,16 @@ const _getAgentData = vnode =>
     );
 
 export const App = {
-    oninit: vnode => {
+    oninit: (vnode): void => {
         vnode.state.agent = null;
         vnode.state.loading = false;
     },
-    onupdate: vnode => {
+    onupdate: (vnode): void => {
         if (AuthService.isSignedIn() && vnode.state.agent === null && vnode.state.loading === false) {
-            _getAgentData(vnode);
+            getAgentData(vnode);
         }
     },
-    view: vnode => {
+    view: (vnode): m.Vnode<any, any>[] => {
         if (vnode.state.loading) {
             return [m('.row', 'Loading...')];
         } else {
@@ -96,12 +96,12 @@ export const App = {
                             m('img.org-logo[src="/assets/images/all-factories-active.svg"].d-inline-block.align-top'),
                         ),
                     ]),
-                    m('span.ml-3.greeting_text', _greeting(vnode)),
+                    m('span.ml-3.greeting_text', greeting(vnode)),
                     m('div.collapse.navbar-collapse', [
                         m('ul.navbar-nav.ml-auto', [
                             m(
                                 AuthedComponent,
-                                _navLink(
+                                navLink(
                                     '/requests',
                                     'certified-factories-icon.svg',
                                     'inactive-cert-factories.svg',
@@ -110,9 +110,9 @@ export const App = {
                             ),
                             m(
                                 AuthedComponent,
-                                _navLink('/profile', 'active-profile.svg', 'profile-icon.svg', 'Profile'),
+                                navLink('/profile', 'active-profile.svg', 'profile-icon.svg', 'Profile'),
                             ),
-                            _authButtons(),
+                            authButtons(),
                         ]),
                     ]),
                 ]),
@@ -123,14 +123,14 @@ export const App = {
         }
     },
 
-    subpage: element => ({
-        onmatch: (_args, _requestedPath) => element,
-        render: vnode => m(App, vnode),
+    subpage: (element): any => ({
+        onmatch: (_args, _requestedPath): any => element,
+        render: (vnode): m.Vnode<unknown, unknown> => m(App, vnode),
     }),
 };
 
 export const Welcome = {
-    view: () => [
+    view: (): m.Vnode<any, any>[] => [
         m('div.landing-page.landing-page-factory', [
             m('div.landing-page-info', [
                 m('p.landing-page-info-section.landing-page-info-header', [

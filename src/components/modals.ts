@@ -1,7 +1,5 @@
 import * as m from 'mithril';
 
-const _noop = (): null => null;
-
 interface DialogAttrs {
     acceptLabel: string;
     cancelLabel: string;
@@ -10,12 +8,32 @@ interface DialogAttrs {
     title: string;
 }
 
+interface SuccessAttrs {
+    acceptFn: () => void;
+    content: string;
+}
+
+interface Show {
+    show: boolean;
+}
+
+interface Modal {
+    _activeModal: { dialog: m.Component; attrs: m.Attributes; children: Array<m.ChildArray> };
+    displayModal: () => boolean;
+    DialogModal: m.Component;
+    DialogSuccessModal: m.Component;
+    ModalContainer: m.Component<Show>;
+    show: (dialog: m.Component, attrs: m.Attributes, ...children: Array<m.ChildArray>) => Promise<any>;
+}
+
+const noop = (): null => null;
+
 const DialogModal: m.Component<DialogAttrs> = {
     view(vnode) {
         const acceptLabel = vnode.attrs.acceptLabel || 'Accept';
         const cancelLabel = vnode.attrs.cancelLabel || 'Cancel';
-        const acceptFn = vnode.attrs.acceptFn || _noop;
-        const cancelFn = vnode.attrs.cancelFn || _noop;
+        const acceptFn = vnode.attrs.acceptFn || noop;
+        const cancelFn = vnode.attrs.cancelFn || noop;
         return m(
             `.modal.fade${Modals.displayModal() ? '.show' : ''}`,
             {
@@ -67,14 +85,9 @@ const DialogModal: m.Component<DialogAttrs> = {
     },
 };
 
-interface SuccessAttrs {
-    acceptFn: () => void;
-    content: string;
-}
-
 const DialogSuccessModal: m.Component<SuccessAttrs> = {
     view(vnode) {
-        const acceptFn = vnode.attrs.acceptFn || _noop;
+        const acceptFn = vnode.attrs.acceptFn || noop;
         return m(
             `.modal.fade${Modals.displayModal() ? '.show' : ''}`,
             {
@@ -104,19 +117,6 @@ const DialogSuccessModal: m.Component<SuccessAttrs> = {
     },
 };
 
-interface Show {
-    show: boolean;
-}
-
-interface Modal {
-    _activeModal: { dialog: m.Component; attrs: m.Attributes; children: Array<m.ChildArray> };
-    displayModal: () => boolean;
-    DialogModal: m.Component;
-    DialogSuccessModal: m.Component;
-    ModalContainer: m.Component<Show>;
-    show: (dialog: m.Component, attrs: m.Attributes, ...children: Array<m.ChildArray>) => Promise<any>;
-}
-
 const Modals: Modal = {
     _activeModal: null,
 
@@ -127,7 +127,7 @@ const Modals: Modal = {
     DialogSuccessModal,
 
     ModalContainer: {
-        view: vnode => {
+        view: (vnode): any => {
             if (vnode.attrs.show) {
                 const { dialog, attrs, children } = Modals._activeModal;
                 return m(dialog, attrs, children);
@@ -142,12 +142,12 @@ const Modals: Modal = {
         let cancelFn = null;
 
         const modalPromise = new Promise((resolve, reject) => {
-            acceptFn = () => {
+            acceptFn = (): any => {
                 Modals._activeModal = null;
                 m.redraw();
                 resolve();
             };
-            cancelFn = () => {
+            cancelFn = (): any => {
                 Modals._activeModal = null;
                 m.redraw();
                 reject();
