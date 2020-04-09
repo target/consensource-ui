@@ -8,9 +8,10 @@ before_script:
     - echo $TRAVIS_BRANCH
     - echo $TRAVIS_BUILD_NUMBER
     - echo $TRAVIS_REPO_SLUG
-  
+
 script:
     # Lint, build UI
     - npm install
     - npm run lint
+    - npm run test
     - npm run build

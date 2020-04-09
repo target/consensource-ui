@@ -1,5 +1,5 @@
-# NPM artifacts and auto-generated files
 node_modules
 public/js
-src/compiled_protobufs.json
+dist/
 .env.feature-flags
+coverage/

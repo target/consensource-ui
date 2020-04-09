@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        // "strict": true,
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "allowJs": true,
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "target": "ES5",
+        "lib": ["DOM", "ES7"],
+        "jsx": "react",
+        "baseUrl": ".",
+        "resolveJsonModule": true,
+        "typeRoots": ["src/types", "node_modules/@types"],
+        "paths": {
+            "App/*": ["src/*"]
+        }
+    },
+    "include": ["./src/**/*.ts"],
+    "exclude": ["node_modules", "src/types"]
+}
