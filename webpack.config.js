@@ -28,6 +28,9 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js'],
     },
     devtool: 'inline-source-map',
+    devServer: {
+        contentBase: './public',
+    },
     module: {
         rules: [
             { test: /\.tsx?$/, use: 'ts-loader' },
