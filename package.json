@@ -10,8 +10,7 @@
         "test:coverage": "jest --collect-coverage",
         "build": "npm run generate-protobufs && mkdir -p ./public/js && webpack",
         "watch": "npm run generate-protobufs && mkdir -p ./public/js && webpack --watch --progress --mode=development --env.ENVIRONMENT=development",
-        "lint": "npm run generate-protobufs && eslint 'src/**/*.{js,ts,tsx}' --fix --ignore-pattern 'src/protobuf/*'",
-        "format": "eslint --fix --ignore-pattern 'src/protobuf/*' src"
+        "lint": "npm run generate-protobufs && eslint 'src/**/*.{js,ts,tsx}' --fix --ignore-pattern 'src/protobuf/*'"
     },
     "repository": {
         "type": "git",
