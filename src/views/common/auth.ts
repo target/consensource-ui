@@ -112,7 +112,6 @@ export const SignInForm = {
 const AgentSignUp: SignUp = {
     submitting: false,
     errorMsg: null,
-
     username: '',
     password: '',
     confirmPassword: '',
@@ -183,36 +182,33 @@ export const AgentSignUpForm = {
     oninit: (): void => {
         AgentSignUp.clear();
     },
-    view: (): m.Vnode<any, any>[] => {
-        return [
-            m('h2', 'Sign Up'),
-            m('.form', [
-                AgentSignUp.errorMsg ? m('p.text-danger', AgentSignUp.errorMsg) : null,
 
-                inputField('username', 'Email', AgentSignUp.username, AgentSignUp.setUsername),
-                inputField('password', 'Password', AgentSignUp.password, AgentSignUp.setPassword, 'password'),
-                inputField(
-                    'confirmPassword',
-                    'Confirm Password',
-                    AgentSignUp.confirmPassword,
-                    AgentSignUp.setConfirmPassword,
-                    'password',
-                ),
+    view: (): m.Vnode<any, any>[] => [
+        m('h2', 'Sign Up'),
+        m('.form', [
+            AgentSignUp.errorMsg ? m('p.text-danger', AgentSignUp.errorMsg) : null,
 
-                inputField('name', 'Name', AgentSignUp.name, AgentSignUp.setName),
-
+            inputField('username', 'Email', AgentSignUp.username, AgentSignUp.setUsername),
+            inputField('password', 'Password', AgentSignUp.password, AgentSignUp.setPassword, 'password'),
+            inputField(
+                'confirmPassword',
+                'Confirm Password',
+                AgentSignUp.confirmPassword,
+                AgentSignUp.setConfirmPassword,
+                'password',
+            ),
+            inputField('name', 'Name', AgentSignUp.name, AgentSignUp.setName),
+            m(
+                '.row',
                 m(
-                    '.row',
-                    m(
-                        'button.btn.btn-primary',
-                        {
-                            onclick: AgentSignUp.submit,
-                            disabled: AgentSignUp.submitting || AgentSignUp.invalidFields(),
-                        },
-                        'Sign Up',
-                    ),
+                    'button.btn.btn-primary',
+                    {
+                        onclick: AgentSignUp.submit,
+                        disabled: AgentSignUp.submitting || AgentSignUp.invalidFields(),
+                    },
+                    'Sign Up',
                 ),
-            ]),
-        ];
-    },
+            ),
+        ]),
+    ],
 };

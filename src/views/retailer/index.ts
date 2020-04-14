@@ -2,6 +2,9 @@ import * as m from 'mithril';
 import Modals from 'App/components/modals';
 import { testingNotificationBanner } from 'App/components/testing_banner';
 import * as FeatureFlagService from 'App/services/feature_flag';
+import { AuthedComponent } from 'App/views/common/auth';
+import AuthService from 'App/services/auth';
+import * as AgentService from 'App/services/agent';
 
 declare global {
     interface Window {
@@ -27,11 +30,66 @@ const navLink = (route, assetActive, assetInactive, label): m.Vnode<any, any> =>
         ),
     );
 
-const greeting = (): string => 'Welcome, retail or brand member!';
+const greeting = (vnode): m.Vnode<{}, {}> | string => {
+    if (vnode.state.agent) {
+        return m(AuthedComponent, `Hi, ${vnode.state.agent.name}`);
+    } else {
+        return 'Welcome, retail or brand member!';
+    }
+};
+
+const authButtons = (): m.Vnode<any, any> | m.Vnode<m.RouteLinkAttrs, {}>[] => {
+    if (AuthService.isSignedIn()) {
+        return m(
+            'li.nav-item',
+            m(
+                `a.nav-link[href=/index_retailer.html].retailer_nav_link#sign_out`,
+                {
+                    onclick: () => {
+                        AuthService.clear();
+                        m.route.set('/');
+                    },
+                },
+                m('img.nav_icon.mr-1[src=/assets/images/logout-icon.svg]'),
+                'Log Out',
+            ),
+        );
+    } else {
+        return [
+            m(m.route.Link, { selector: 'a.btn.navbar-signin', href: '/signIn' }, 'Sign In'),
+            FeatureFlagService.isSignupEnabled() &&
+                m(
+                    m.route.Link,
+                    { selector: 'a.btn.btn-link.small.text-muted', href: '/signUp' },
+                    'Not a member? Sign Up',
+                ),
+        ];
+    }
+};
+
+const getAgentData = (vnode): Promise<any> =>
+    AuthService.getUserData().then((user: any) =>
+        Promise.all([AgentService.fetchAgent(user.public_key)])
+            .then(([agent]) => {
+                vnode.state.agent = agent.data;
+                vnode.state.loading = false;
+                m.redraw();
+            })
+            .catch(e => {
+                console.log(e);
+                vnode.state.loading = false;
+            }),
+    );
 
 export const App = {
     oninit: (vnode): void => {
+        vnode.state.agent = null;
         vnode.state.loading = false;
+    },
+    onupdate: (vnode): void => {
+        if (AuthService.isSignedIn() && vnode.state.agent === null && vnode.state.loading === false) {
+            getAgentData(vnode);
+        }
     },
     view: (vnode): m.Vnode<any, any>[] => {
         if (vnode.state.loading) {
@@ -47,15 +105,23 @@ export const App = {
                             ),
                         ),
                     ]),
-                    m('span.ml-3.greeting_text', greeting()),
+                    m('span.ml-3.greeting_text', greeting(vnode)),
                     m('div.collapse.navbar-collapse', [
                         m('ul.navbar-nav.ml-auto', [
-                            navLink(
-                                '/certifications',
-                                'certified-factories-icon.svg',
-                                'inactive-cert-factories.svg',
-                                'Certified Factories',
+                            m(
+                                AuthedComponent,
+                                navLink(
+                                    '/certifications',
+                                    'certified-factories-icon.svg',
+                                    'inactive-cert-factories.svg',
+                                    'Certified Factories',
+                                ),
                             ),
+                            m(
+                                AuthedComponent,
+                                navLink('/profile', 'active-profile.svg', 'profile-icon.svg', 'Profile'),
+                            ),
+                            authButtons(),
                             // navLink('/agents', 'active-agents.svg', 'inactive-agents.svg', 'Agents'),
                         ]),
                     ]),
