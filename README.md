@@ -39,7 +39,7 @@ The ConsenSource UI is comprised of a number of Mithril applications under the s
 
 ```
 brew install node@8
-npm install
+yarn
 ```
 
 ### Running the app
@@ -59,7 +59,7 @@ Once you have all of the images, you can run the following command to start the 
 To enable hot module reloading while developing, run the following command:
 
 ```
-npm run watch
+yarn start
 ```
 
 #### TypeScript compilation
@@ -73,13 +73,13 @@ Note that this will also generate source map files to enable TypeScript debuggin
 Tests can be run with the following command:
 
 ```
-npm run test
+yarn test
 ```
 
 To generate a code coverage report:
 
 ```
-npm run test:coverage
+yarn test:coverage
 ```
 
 ### Linting
@@ -87,7 +87,7 @@ npm run test:coverage
 Linting errors will fail in our CI, so it is important to verify that your code is linty before opening a PR.
 
 ```
-npm run lint
+yarn lint
 ```
 
 #### Recommended VSCode plugins for linting
@@ -104,7 +104,7 @@ In order to build the protobuf messages that get sent to the API, we have a [scr
 This script can be ran with the following command:
 
 ```
-npm run generate-protobufs
+yarn generate-protobufs
 ```
 
 **Note: This script is automatically ran before any other dependent scripts (`test`, `build`, etc.)**
@@ -112,6 +112,6 @@ npm run generate-protobufs
 ## Building / Release
 
 ```
-npm install
-npm run build
+yarn
+yarn build
 ```
