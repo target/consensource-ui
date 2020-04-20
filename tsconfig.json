@@ -1,24 +1,37 @@
 {
-    "compilerOptions": {
-        "outDir": "./dist/",
-        "sourceMap": true,
-        "allowJs": true,
-        "module": "esnext",
-        "moduleResolution": "node",
-        "target": "ES5",
-        "lib": ["DOM", "ES7"],
-        "jsx": "react",
-        "baseUrl": ".",
-        "resolveJsonModule": true,
-        "esModuleInterop": true,
-        "typeRoots": ["src/types", "node_modules/@types"],
-        "skipLibCheck": true,
-        "allowSyntheticDefaultImports": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "isolatedModules": true,
-        "noEmit": true
-    },
-    "include": ["./src/**/*.ts"],
-    "exclude": ["node_modules", "src/types", "src/services"]
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "allowJs": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "ES5",
+    "lib": [
+      "DOM",
+      "ES7"
+    ],
+    "jsx": "react",
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "typeRoots": [
+      "src/types",
+      "node_modules/@types"
+    ],
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "strict": true
+  },
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/types",
+    "src/services"
+  ]
 }
