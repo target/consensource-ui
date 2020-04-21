@@ -17,9 +17,9 @@ module.exports = {
     rules: {
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/camelcase': 'off', // Needed due to snake casing in protos
-        '@typescript-eslint/explicit-function-return-type': 'off' // Ignore for use with function components
+        '@typescript-eslint/explicit-function-return-type': 'off', // Ignore for use with function components
         '@typescript-eslint/no-unused-vars': ['error', { 
             "argsIgnorePattern": "^_" 
         }]
-    },
+    }
 };

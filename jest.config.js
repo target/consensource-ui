@@ -13,7 +13,4 @@ module.exports = {
             tsConfig: 'tsconfig.json',
         },
     },
-    moduleNameMapper: {
-        '^App(.*)$': '<rootDir>/src/$1',
-    },
 };

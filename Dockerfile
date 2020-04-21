@@ -5,8 +5,8 @@ WORKDIR /project/ui
 COPY . /ui
 
 WORKDIR /ui
-RUN npm install \
-    && npm run build
+RUN yarn install \
+    && yarn run build
 
 FROM httpd:2.4-alpine
 
