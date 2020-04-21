@@ -9,7 +9,8 @@ jest.mock('mithril');
 const mockedMithril = mocked(m, true);
 
 describe('AuthService', () => {
-    const getStorageKey = (key: string): string => `${AuthService.namespace}/${key}`;
+    const getStorageKey = (key: string): string =>
+        `${AuthService.namespace}/${key}`;
 
     const password = 'password';
     const cryptoContext = createContext('secp256k1');
@@ -53,7 +54,10 @@ describe('AuthService', () => {
 
         describe('given there is a user in local storage', () => {
             it('returns true', () => {
-                localStorage.setItem(getStorageKey(AuthService.STORE_USER), JSON.stringify(user));
+                localStorage.setItem(
+                    getStorageKey(AuthService.STORE_USER),
+                    JSON.stringify(user),
+                );
                 expect(AuthService.isSignedIn()).toEqual(true);
             });
         });
@@ -62,13 +66,17 @@ describe('AuthService', () => {
     describe('AuthService.setUserData()', () => {
         it('invalidates the cache, sets user data in local storage, and sets the decrypted private key in session storage', () => {
             const oldCachedUser = { ...user, username: 'old-user' };
-            localStorage.setItem(getStorageKey(AuthService.STORE_USER), JSON.stringify(oldCachedUser));
+            localStorage.setItem(
+                getStorageKey(AuthService.STORE_USER),
+                JSON.stringify(oldCachedUser),
+            );
 
             AuthService.setUserData(user, password);
 
-            expect(localStorage.getItem(getStorageKey(AuthService.STORE_USER)) === JSON.stringify(oldCachedUser)).toBe(
-                false,
-            );
+            expect(
+                localStorage.getItem(getStorageKey(AuthService.STORE_USER)) ===
+                    JSON.stringify(oldCachedUser),
+            ).toBe(false);
 
             expect(localStorage.setItem).toHaveBeenCalledWith(
                 getStorageKey(AuthService.STORE_USER),
@@ -86,12 +94,29 @@ describe('AuthService', () => {
         it('updates user data in local storage and the decrypted private key in session storage', async () => {
             const newPassword = 'new-password';
             const newPrivateKey = cryptoContext.newRandomPrivateKey();
-            const newEncryptedPrivateKey = sjcl.encrypt(newPassword, newPrivateKey.asHex());
+            const newEncryptedPrivateKey = sjcl.encrypt(
+                newPassword,
+                newPrivateKey.asHex(),
+            );
 
-            const updates = { ...user, encrypted_private_key: newEncryptedPrivateKey, password: newPassword };
-            const updatedUser = pluck(updates, 'username', 'public_key', 'name', 'email', 'encrypted_private_key');
+            const updates = {
+                ...user,
+                encrypted_private_key: newEncryptedPrivateKey,
+                password: newPassword,
+            };
+            const updatedUser = pluck(
+                updates,
+                'username',
+                'public_key',
+                'name',
+                'email',
+                'encrypted_private_key',
+            );
 
-            const decryptedPrivateKey = sjcl.decrypt(newPassword, newEncryptedPrivateKey);
+            const decryptedPrivateKey = sjcl.decrypt(
+                newPassword,
+                newEncryptedPrivateKey,
+            );
 
             jest.spyOn(AuthService, 'getUserData').mockResolvedValueOnce(user);
 
@@ -113,11 +138,16 @@ describe('AuthService', () => {
         describe('given there is a user in local storage', () => {
             it('returns a resolved promise with user data from local storage', async () => {
                 const userStr = JSON.stringify(user);
-                localStorage.setItem(getStorageKey(AuthService.STORE_USER), userStr);
+                localStorage.setItem(
+                    getStorageKey(AuthService.STORE_USER),
+                    userStr,
+                );
 
                 const userFromStorage = await AuthService.getUserData();
 
-                expect(localStorage.getItem).toHaveBeenCalledWith(getStorageKey(AuthService.STORE_USER));
+                expect(localStorage.getItem).toHaveBeenCalledWith(
+                    getStorageKey(AuthService.STORE_USER),
+                );
                 expect(userFromStorage).toEqual(JSON.parse(userStr));
             });
         });
@@ -125,8 +155,13 @@ describe('AuthService', () => {
         describe('given the user data in local storage is not valid json', () => {
             it('returns a rejected promise with an error', async () => {
                 expect.assertions(1);
-                localStorage.setItem(getStorageKey(AuthService.STORE_USER), 'bad-json');
-                await AuthService.getUserData().catch(e => expect(e).toEqual(expect.any(Error)));
+                localStorage.setItem(
+                    getStorageKey(AuthService.STORE_USER),
+                    'bad-json',
+                );
+                await AuthService.getUserData().catch(e =>
+                    expect(e).toEqual(expect.any(Error)),
+                );
             });
         });
 
@@ -134,7 +169,9 @@ describe('AuthService', () => {
             it('returns a rejected promise with a string', async () => {
                 expect.assertions(1);
                 // TODO: Use a snapshot here
-                await AuthService.getUserData().catch(e => expect(e).toEqual(expect.any(String)));
+                await AuthService.getUserData().catch(e =>
+                    expect(e).toEqual(expect.any(String)),
+                );
             });
         });
     });
@@ -153,12 +190,20 @@ describe('AuthService', () => {
 
         describe('given there is a private key in session storage', () => {
             it('creates a new signer with the key, stores the signer in cache and returns a resolved promise with the signer', async () => {
-                const decryptedKey = sjcl.decrypt(password, user.encrypted_private_key);
-                sessionStorage.setItem(getStorageKey(AuthService.STORE_PRIVATE_KEY), decryptedKey);
+                const decryptedKey = sjcl.decrypt(
+                    password,
+                    user.encrypted_private_key,
+                );
+                sessionStorage.setItem(
+                    getStorageKey(AuthService.STORE_PRIVATE_KEY),
+                    decryptedKey,
+                );
 
                 const signer = await AuthService.getSigner();
 
-                expect(sessionStorage.getItem).toHaveBeenCalledWith(getStorageKey(AuthService.STORE_PRIVATE_KEY));
+                expect(sessionStorage.getItem).toHaveBeenCalledWith(
+                    getStorageKey(AuthService.STORE_PRIVATE_KEY),
+                );
                 expect(AuthService.cachedSigner).toEqual(signer);
                 expect(signer._privateKey).toEqual(privateKey);
             });
@@ -166,17 +211,27 @@ describe('AuthService', () => {
 
         describe('given there is no cached signer or private key in session storage, but there is a user in local storage', () => {
             beforeEach(() => {
-                jest.spyOn(AuthService, 'getUserData').mockResolvedValueOnce(user);
+                jest.spyOn(AuthService, 'getUserData').mockResolvedValueOnce(
+                    user,
+                );
             });
 
             it('when an incorrect password entered, then it fails to decrypt the private key and returns a rejected promise', async () => {
                 expect.assertions(1);
-                jest.spyOn(AuthService, 'requestPassword').mockResolvedValueOnce('wrong-password');
-                await AuthService.getSigner().catch(e => expect(e).toBeTruthy());
+                jest.spyOn(
+                    AuthService,
+                    'requestPassword',
+                ).mockResolvedValueOnce('wrong-password');
+                await AuthService.getSigner().catch(e =>
+                    expect(e).toBeTruthy(),
+                );
             });
 
             it('stores the private key in session storage, caches the user in local storage, and returns a resolved promise with the new signer when the correct password is entered', async () => {
-                jest.spyOn(AuthService, 'requestPassword').mockResolvedValueOnce(password);
+                jest.spyOn(
+                    AuthService,
+                    'requestPassword',
+                ).mockResolvedValueOnce(password);
 
                 const signer = await AuthService.getSigner();
 
@@ -196,17 +251,29 @@ describe('AuthService', () => {
                 expect.assertions(1);
                 jest.spyOn(AuthService, 'isSignedIn').mockReturnValueOnce(true);
                 // TODO: Use a snapshot here
-                await AuthService.createSigner(password).catch(e => expect(e).toEqual(expect.any(String)));
+                await AuthService.createSigner(password).catch(e =>
+                    expect(e).toEqual(expect.any(String)),
+                );
             });
         });
 
         describe('given a user is not signed in', () => {
             it('creates a new private key to store in session, a new signer to store in cache, and returns a resolved promsie with the signer and encrypted key', async () => {
-                const { signer, encryptedPrivateKey } = await AuthService.createSigner(password);
-                const decryptedKey = sjcl.decrypt(password, encryptedPrivateKey);
+                const {
+                    signer,
+                    encryptedPrivateKey,
+                } = await AuthService.createSigner(password);
+                const decryptedKey = sjcl.decrypt(
+                    password,
+                    encryptedPrivateKey,
+                );
 
                 expect(AuthService.cachedSigner).toEqual(signer);
-                expect(sessionStorage.getItem(getStorageKey(AuthService.STORE_PRIVATE_KEY))).toEqual(decryptedKey);
+                expect(
+                    sessionStorage.getItem(
+                        getStorageKey(AuthService.STORE_PRIVATE_KEY),
+                    ),
+                ).toEqual(decryptedKey);
             });
         });
     });
@@ -218,8 +285,12 @@ describe('AuthService', () => {
 
             AuthService.clear();
 
-            expect(localStorage.removeItem).toHaveBeenCalledWith(getStorageKey(AuthService.STORE_USER));
-            expect(sessionStorage.removeItem).toHaveBeenCalledWith(getStorageKey(AuthService.STORE_PRIVATE_KEY));
+            expect(localStorage.removeItem).toHaveBeenCalledWith(
+                getStorageKey(AuthService.STORE_USER),
+            );
+            expect(sessionStorage.removeItem).toHaveBeenCalledWith(
+                getStorageKey(AuthService.STORE_PRIVATE_KEY),
+            );
             expect(AuthService.cachedSigner).toBe(null);
             expect(spy).toHaveBeenCalled();
         });
@@ -230,15 +301,25 @@ describe('AuthService', () => {
             it('rejects the prmomise a unique failure message on a 401, and a generic message on all other failures', async () => {
                 expect.assertions(3);
 
-                mockedMithril.request.mockRejectedValueOnce({ error: { status: 401 } });
-                const failure401 = await AuthService.authenticate(user.username, password).catch(e => {
+                mockedMithril.request.mockRejectedValueOnce({
+                    error: { status: 401 },
+                });
+                const failure401 = await AuthService.authenticate(
+                    user.username,
+                    password,
+                ).catch(e => {
                     // TODO: Use a snapshot here
                     expect(e).toEqual(expect.any(String));
                     return e;
                 });
 
-                mockedMithril.request.mockRejectedValueOnce({ error: new Error() });
-                const failureGeneric = await AuthService.authenticate(user.username, password).catch(e => {
+                mockedMithril.request.mockRejectedValueOnce({
+                    error: new Error(),
+                });
+                const failureGeneric = await AuthService.authenticate(
+                    user.username,
+                    password,
+                ).catch(e => {
                     // TODO: Use a snapshot here
                     expect(e).toEqual(expect.any(String));
                     return e;
@@ -273,15 +354,25 @@ describe('AuthService', () => {
             it('rejects the promise with a unique failure message on a 401, and a generic message on all other failures', async () => {
                 expect.assertions(3);
 
-                mockedMithril.request.mockRejectedValueOnce({ error: { status: 401 } });
-                const failure401 = await AuthService.updateUser(userUpdate, signer).catch(e => {
+                mockedMithril.request.mockRejectedValueOnce({
+                    error: { status: 401 },
+                });
+                const failure401 = await AuthService.updateUser(
+                    userUpdate,
+                    signer,
+                ).catch(e => {
                     // TODO: Use a snapshot here
                     expect(e).toEqual(expect.any(String));
                     return e;
                 });
 
-                mockedMithril.request.mockRejectedValueOnce({ error: new Error() });
-                const failureGeneric = await AuthService.updateUser(userUpdate, signer).catch(e => {
+                mockedMithril.request.mockRejectedValueOnce({
+                    error: new Error(),
+                });
+                const failureGeneric = await AuthService.updateUser(
+                    userUpdate,
+                    signer,
+                ).catch(e => {
                     // TODO: Use a snapshot here
                     expect(e).toEqual(expect.any(String));
                     return e;
@@ -293,8 +384,12 @@ describe('AuthService', () => {
 
         describe('given a successful response', () => {
             it('calls AuthService.updateUserData() and AuthService.displaySuccessDialog()', async () => {
-                const updateSpy = jest.spyOn(AuthService, 'updateUserData').mockImplementation();
-                const dialogSpy = jest.spyOn(AuthService, 'displaySuccessDialog').mockImplementation();
+                const updateSpy = jest
+                    .spyOn(AuthService, 'updateUserData')
+                    .mockImplementation();
+                const dialogSpy = jest
+                    .spyOn(AuthService, 'displaySuccessDialog')
+                    .mockImplementation();
                 mockedMithril.request.mockResolvedValueOnce({ status: 'ok' });
 
                 await AuthService.updateUser(userUpdate, signer);
@@ -308,7 +403,10 @@ describe('AuthService', () => {
     describe('AuthService.createUser()', () => {
         const submitTransactionFn = jest.fn().mockResolvedValueOnce(null);
         const signer = new Signer(cryptoContext, privateKey);
-        const encryptedPrivateKey = sjcl.encrypt(password, signer._privateKey.asHex());
+        const encryptedPrivateKey = sjcl.encrypt(
+            password,
+            signer._privateKey.asHex(),
+        );
         const publicKey = signer.getPublicKey().asHex();
         const userCreate = {
             username: user.username,
@@ -319,22 +417,35 @@ describe('AuthService', () => {
         };
 
         beforeAll(() => {
-            jest.spyOn(AuthService, 'createSigner').mockResolvedValue({ signer, encryptedPrivateKey });
+            jest.spyOn(AuthService, 'createSigner').mockResolvedValue({
+                signer,
+                encryptedPrivateKey,
+            });
         });
 
         describe('given an unsuccessful response', () => {
             it('rejects the promise with a unique failure message on a 400, and a generic message on all other status codes', async () => {
                 expect.assertions(3);
 
-                mockedMithril.request.mockRejectedValueOnce({ error: { status: 400, message: '400 error' } });
-                const failure400 = await AuthService.createUser(userCreate, submitTransactionFn).catch(e => {
+                mockedMithril.request.mockRejectedValueOnce({
+                    error: { status: 400, message: '400 error' },
+                });
+                const failure400 = await AuthService.createUser(
+                    userCreate,
+                    submitTransactionFn,
+                ).catch(e => {
                     // TODO: Use a snapshot here
                     expect(e).toEqual(expect.any(String));
                     return e;
                 });
 
-                mockedMithril.request.mockRejectedValueOnce({ error: new Error() });
-                const failureGeneric = await AuthService.createUser(userCreate, submitTransactionFn).catch(e => {
+                mockedMithril.request.mockRejectedValueOnce({
+                    error: new Error(),
+                });
+                const failureGeneric = await AuthService.createUser(
+                    userCreate,
+                    submitTransactionFn,
+                ).catch(e => {
                     // TODO: Use a snapshot here
                     expect(e).toEqual(expect.any(String));
                     return e;
@@ -347,8 +458,13 @@ describe('AuthService', () => {
         describe('given an successful response', () => {
             it('rejects the promise when the response status is not "ok"', async () => {
                 expect.assertions(1);
-                mockedMithril.request.mockResolvedValueOnce({ status: 'not-ok' });
-                await AuthService.createUser(userCreate, submitTransactionFn).catch(e => {
+                mockedMithril.request.mockResolvedValueOnce({
+                    status: 'not-ok',
+                });
+                await AuthService.createUser(
+                    userCreate,
+                    submitTransactionFn,
+                ).catch(e => {
                     // TODO: Use a snapshot here
                     expect(e).toEqual(expect.any(String));
                     return e;
@@ -362,7 +478,10 @@ describe('AuthService', () => {
                 await AuthService.createUser(userCreate, submitTransactionFn);
 
                 expect(submitTransactionFn).toHaveBeenCalledWith(signer);
-                expect(spy).toHaveBeenCalledWith(userCreate, userCreate.password);
+                expect(spy).toHaveBeenCalledWith(
+                    userCreate,
+                    userCreate.password,
+                );
             });
         });
     });

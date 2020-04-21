@@ -1,8 +1,13 @@
-import * as m from 'mithril';
 import { createHash } from 'crypto';
-import { Transaction, TransactionHeader, Batch, BatchHeader, BatchList } from 'sawtooth-sdk/protobuf';
-
-import * as addressing from 'App/addressing';
+import {
+    Transaction,
+    TransactionHeader,
+    Batch,
+    BatchHeader,
+    BatchList,
+} from 'sawtooth-sdk/protobuf';
+import * as addressing from 'services/addressing';
+import axios from 'axios';
 
 export const BATCH_STATUS_WAIT = 60;
 
@@ -21,8 +26,9 @@ export interface PayloadInfo {
  * Create an array of transaction IDs, where each ID is the `headerSignature`
  * of the transaction
  */
-export const getTransactionIds = (transactions: sawtooth.protobuf.Transaction[]): string[] =>
-    transactions.map(transaction => transaction.headerSignature);
+export const getTransactionIds = (
+    transactions: sawtooth.protobuf.Transaction[],
+): string[] => transactions.map(transaction => transaction.headerSignature);
 
 /**
  * Creates a serialized `BatchHeader`, signs the message,
@@ -55,12 +61,10 @@ export const postBatches = (batchListBytes: Uint8Array): Promise<any> => {
     const url = '/api/batches';
 
     try {
-        return m.request({
-            method: 'POST',
-            url,
-            body: batchListBytes,
+        return axios.post(url, {
             headers: { 'Content-Type': 'application/octet-stream' },
-            serialize: x => x,
+            data: batchListBytes,
+            paramsSerializer: (x: Record<string, any>) => x,
         });
     } catch (e) {
         return Promise.reject(`Failed to POST ${url}: ${e.message}`);
@@ -77,12 +81,17 @@ export const formatStatusUrl = (url: string): string => `/api${url}`;
  * Iterates over the list of invalid transactions in the batch and returns the error message
  * from the first invalid transaction that is in our array of `transactionIds`.
  */
-export const getInvalidBatchResult = (batchResult: any, transactionIds: string[]): string => {
-    const transaction_result = batchResult.invalid_transactions.find((transaction: any) =>
-        transactionIds.indexOf(transaction.id),
+export const getInvalidBatchResult = (
+    batchResult: any,
+    transactionIds: string[],
+): string => {
+    const transaction_result = batchResult.invalid_transactions.find(
+        (transaction: any) => transactionIds.indexOf(transaction.id),
     );
 
-    return transaction_result ? transaction_result.message : 'Invalid Transaction';
+    return transaction_result
+        ? transaction_result.message
+        : 'Invalid Transaction';
 };
 
 /**
@@ -92,10 +101,7 @@ export const getBatchStatus = (statusUrl: string): Promise<any> => {
     const url = `${statusUrl}&wait=${BATCH_STATUS_WAIT}`;
 
     try {
-        return m.request({
-            url,
-            method: 'GET',
-        });
+        return axios.get(url);
     } catch (e) {
         return Promise.reject(`Failed to GET ${url}: ${e.message}`);
     }
@@ -108,7 +114,10 @@ export const getBatchStatus = (statusUrl: string): Promise<any> => {
  * - an HTTP response error message
  */
 
-export const waitForCommit = async (transactionIds: string[], statusUrl: string): Promise<string | string[]> => {
+export const waitForCommit = async (
+    transactionIds: string[],
+    statusUrl: string,
+): Promise<string | string[]> => {
     const res = await getBatchStatus(statusUrl);
 
     // Because we currently only submit a single batch at a time
@@ -185,7 +194,10 @@ export const createTransaction = (
  * Create a `Transaction` with the payloadInfo and submit it in a `Batch`.
  * @returns `Promise` that will resolve when the transactions have been committed.
  */
-export const submitTransaction = (payloadInfo: any, signer: sawtooth.signing.Signer): Promise<any> => {
+export const submitTransaction = (
+    payloadInfo: any,
+    signer: sawtooth.signing.Signer,
+): Promise<any> => {
     const transactions = [createTransaction(payloadInfo, signer)];
     return submitBatch(transactions, signer);
 };

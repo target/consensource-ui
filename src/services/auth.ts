@@ -1,90 +1,129 @@
-import * as m from 'mithril';
-import * as sjcl from 'sjcl';
-import Modals from 'App/components/modals';
 import { createContext, CryptoFactory } from 'sawtooth-sdk/signing';
 import { Secp256k1PrivateKey } from 'sawtooth-sdk/signing/secp256k1';
-import { pluck } from 'App/utils';
+import { pluck } from 'services/utils';
+import * as sjcl from 'sjcl';
+import axios from 'axios';
 
-const CRYPTO_CONTEXT = createContext('secp256k1');
-const CRYPTO_FACTORY = new CryptoFactory(CRYPTO_CONTEXT);
+interface AuthService {
+    namespace: string;
+    storePrivateKey: string;
+    storeUser: string;
+    cachedSigner: Record<string, any> | null;
+    cryptoFactory: sawtooth.signing.CryptoFactory;
+}
+class AuthService implements AuthService {
+    constructor() {
+        this.namespace = 'consensource';
+        this.storePrivateKey = 'privateKey';
+        this.storeUser = 'user';
+        this.cachedSigner = null;
+        this.cryptoFactory = new CryptoFactory(createContext('secp256k1'));
+    }
 
-const AuthService = {
-    namespace: 'consensource',
+    localStoreSave(key: string, value: string) {
+        return localStorage.setItem(`${this.namespace}/${key}`, value);
+    }
 
-    STORE_PRIVATE_KEY: 'privateKey',
-    STORE_USER: 'user',
+    localStoreGet(key: string): string | null {
+        return localStorage.getItem(`${this.namespace}/${key}`);
+    }
 
-    cachedSigner: null,
+    localStoreRemove(key: string): void {
+        localStorage.removeItem(`${this.namespace}/${key}`);
+    }
 
-    localStoreSave: (key: string, value: string): void =>
-        localStorage.setItem(`${AuthService.namespace}/${key}`, value),
+    sessionStoreSave(key: string, value: string): void {
+        sessionStorage.setItem(`${this.namespace}/${key}`, value);
+    }
 
-    localStoreGet: (key: string): string => localStorage.getItem(`${AuthService.namespace}/${key}`),
+    sessionStoreGet(key: string): string | null {
+        return sessionStorage.getItem(`${this.namespace}/${key}`);
+    }
 
-    localStoreRemove: (key: string): void => localStorage.removeItem(`${AuthService.namespace}/${key}`),
+    sessionStoreRemove(key: string): void {
+        sessionStorage.removeItem(`${this.namespace}/${key}`);
+    }
 
-    sessionStoreSave: (key: string, value: string): void =>
-        sessionStorage.setItem(`${AuthService.namespace}/${key}`, value),
+    setNamespace(ns: string): void {
+        this.namespace = ns;
+    }
 
-    sessionStoreGet: (key: string): string => sessionStorage.getItem(`${AuthService.namespace}/${key}`),
+    isSignedIn(): boolean {
+        return Boolean(this.localStoreGet(this.storeUser));
+    }
 
-    sessionStoreRemove: (key: string): void => sessionStorage.removeItem(`${AuthService.namespace}/${key}`),
+    getNewPrivateKey() {
+        return this.cryptoFactory.getContext().newRandomPrivateKey();
+    }
 
-    requestPassword: (): Promise<string> => {
-        let password: string = null;
+    requestPassword(): Promise<string> {
+        const password = '';
 
-        return Modals.show(
-            Modals.DialogModal,
-            {
-                title: 'Enter Password',
-                acceptText: 'Submit',
-            },
-            [
-                m('.container', [
-                    m('.mb-4', 'Please confirm your password to unlock your private key.'),
-                    m('input.format-control[type=password]', {
-                        oninput: (e: any) => {
-                            password = e.target.value;
-                        },
-                    }),
-                ]),
-            ],
-        ).then(() => password);
-    },
+        return new Promise(resolve => resolve('test'));
+        // return Modals.show(
+        //     Modals.DialogModal,
+        //     {
+        //         title: 'Enter Password',
+        //         acceptText: 'Submit',
+        //     },
+        //     [
+        //         m('.container', [
+        //             m(
+        //                 '.mb-4',
+        //                 'Please confirm your password to unlock your private key.',
+        //             ),
+        //             m('input.format-control[type=password]', {
+        //                 oninput: (e: any) => {
+        //                     password = e.target.value;
+        //                 },
+        //             }),
+        //         ]),
+        //     ],
+        // ).then(() => password);
+    }
 
-    displaySuccessDialog: (): void => {
-        Modals.show(Modals.DialogSuccessModal, { content: 'Password successfully updated' });
-    },
-
-    setNamespace: (ns: string): string => (AuthService.namespace = ns),
-
-    isSignedIn: (): boolean => Boolean(AuthService.localStoreGet(AuthService.STORE_USER)),
-
-    setUserData: (user: any, password: string): void => {
+    setUserData(user: any, password: string): void {
         // invalidate cache
-        AuthService.cachedSigner = null;
+        this.cachedSigner = null;
 
-        const storedUser = pluck(user, 'username', 'public_key', 'name', 'email', 'encrypted_private_key');
-        AuthService.localStoreSave(AuthService.STORE_USER, JSON.stringify(storedUser));
+        const storedUser = pluck(
+            user,
+            'username',
+            'public_key',
+            'name',
+            'email',
+            'encrypted_private_key',
+        );
+        this.localStoreSave(this.storeUser, JSON.stringify(storedUser));
 
         const decryptedKey = sjcl.decrypt(password, user.encrypted_private_key);
-        AuthService.sessionStoreSave(AuthService.STORE_PRIVATE_KEY, decryptedKey);
-    },
+        this.sessionStoreSave(this.storePrivateKey, decryptedKey);
+    }
 
-    updateUserData: (update: any): void => {
-        AuthService.getUserData().then((user: any) => {
-            const currentUser = pluck(user, 'username', 'public_key', 'name', 'email', 'encrypted_private_key');
+    updateUserData(update: any): void {
+        this.getUserData().then((user: any) => {
+            const currentUser = pluck(
+                user,
+                'username',
+                'public_key',
+                'name',
+                'email',
+                'encrypted_private_key',
+            );
             currentUser.encrypted_private_key = update.encrypted_private_key;
-            AuthService.localStoreSave(AuthService.STORE_USER, JSON.stringify(currentUser));
+            this.localStoreSave(this.storeUser, JSON.stringify(currentUser));
 
-            const decryptedKey = sjcl.decrypt(update.password, update.encrypted_private_key);
-            AuthService.sessionStoreSave(AuthService.STORE_PRIVATE_KEY, decryptedKey);
+            const decryptedKey = sjcl.decrypt(
+                update.password,
+                update.encrypted_private_key,
+            );
+            this.sessionStoreSave(this.storePrivateKey, decryptedKey);
         });
-    },
+    }
 
-    getUserData: (): Promise<unknown> =>
-        new Promise((resolve, reject) => {
-            const userStr = AuthService.localStoreGet(AuthService.STORE_USER);
+    getUserData(): Promise<unknown> {
+        return new Promise((resolve, reject) => {
+            const userStr = this.localStoreGet(this.storeUser);
             if (!userStr) {
                 reject('No User Data Available.  Sign-in required');
                 return;
@@ -95,104 +134,115 @@ const AuthService = {
             } catch (e) {
                 reject(e);
             }
-        }),
+        });
+    }
 
-    getSigner: (): Promise<any> => {
-        if (AuthService.cachedSigner) {
-            return Promise.resolve(AuthService.cachedSigner);
+    getSigner(): Promise<any> {
+        if (this.cachedSigner) {
+            return Promise.resolve(this.cachedSigner);
         }
 
-        const sessionStoredKey = AuthService.sessionStoreGet(AuthService.STORE_PRIVATE_KEY);
+        const sessionStoredKey = this.sessionStoreGet(this.storePrivateKey);
         if (sessionStoredKey) {
-            const signer = CRYPTO_FACTORY.newSigner(Secp256k1PrivateKey.fromHex(sessionStoredKey));
-            AuthService.cachedSigner = signer;
+            const signer = this.cryptoFactory.newSigner(
+                Secp256k1PrivateKey.fromHex(sessionStoredKey),
+            );
+            this.cachedSigner = signer;
             return Promise.resolve(signer);
         }
 
-        return AuthService.getUserData()
-            .then((user: any) => Promise.all([user, AuthService.requestPassword()]))
+        return this.getUserData()
+            .then((user: any) => Promise.all([user, this.requestPassword()]))
             .then(([user, password]: Array<any>) => {
-                const decryptedKey = sjcl.decrypt(password, user.encrypted_private_key);
-                AuthService.sessionStoreSave(AuthService.STORE_PRIVATE_KEY, decryptedKey);
-                const signer = CRYPTO_FACTORY.newSigner(Secp256k1PrivateKey.fromHex(decryptedKey));
-                AuthService.cachedSigner = signer;
+                const decryptedKey = sjcl.decrypt(
+                    password,
+                    user.encrypted_private_key,
+                );
+                this.sessionStoreSave(this.storePrivateKey, decryptedKey);
+                const signer = this.cryptoFactory.newSigner(
+                    Secp256k1PrivateKey.fromHex(decryptedKey),
+                );
+                this.cachedSigner = signer;
                 return Promise.resolve(signer);
             });
-    },
+    }
 
     /**
      *  Returns a new Signer and the encrypted private key, to send to the server.
      */
-    createSigner: (password: string): Promise<any> => {
-        if (AuthService.isSignedIn()) {
+    createSigner(password: string): Promise<any> {
+        if (this.isSignedIn()) {
             return Promise.reject('Already signed in');
         }
 
-        const privateKey = CRYPTO_CONTEXT.newRandomPrivateKey();
-        const signer = CRYPTO_FACTORY.newSigner(privateKey);
+        const privateKey = this.getNewPrivateKey();
+        const signer = this.cryptoFactory.newSigner(privateKey);
 
-        AuthService.cachedSigner = signer;
-        AuthService.sessionStoreSave(AuthService.STORE_PRIVATE_KEY, privateKey.asHex());
+        this.cachedSigner = signer;
+        this.sessionStoreSave(this.storePrivateKey, privateKey.asHex());
 
         const encryptedPrivateKey = sjcl.encrypt(password, privateKey.asHex());
 
         return Promise.resolve({ signer, encryptedPrivateKey });
-    },
+    }
 
     /**
      * Effectively a sign-out method
      */
-    clear: (): void => {
-        AuthService.cachedSigner = null;
+    clear(): void {
+        this.cachedSigner = null;
+        this.localStoreRemove(this.storeUser);
+        this.sessionStoreRemove(this.storePrivateKey);
+    }
 
-        AuthService.localStoreRemove(AuthService.STORE_USER);
-        AuthService.sessionStoreRemove(AuthService.STORE_PRIVATE_KEY);
-
-        m.redraw();
-    },
-
-    authenticate: (username: string, password: string): Promise<void> =>
-        m
-            .request({
-                method: 'POST',
-                url: '/api/users/authenticate',
-                body: { username, password },
+    authenticate(username: string, password: string): Promise<void> {
+        return axios
+            .post('/api/users/authenticate', {
+                username,
+                password,
             })
-            .then(user => AuthService.setUserData(user, password))
+            .then(user => this.setUserData(user, password))
             .catch(e => {
                 if (e.error && e.error.status === 401) {
                     return Promise.reject('User not found');
                 } else {
                     return Promise.reject('Unable to sign in at this time.');
                 }
-            }),
+            });
+    }
 
-    updateUser: (update: any, signer: sawtooth.signing.Signer): Promise<void> => {
-        const userUpdate = pluck(update, 'username', 'old_password', 'password', 'encrypted_private_key');
-        const updatedEncryptedKey = sjcl.encrypt(update.password, signer._privateKey.asHex());
+    updateUser(update: any, signer: sawtooth.signing.Signer): Promise<void> {
+        const userUpdate = pluck(
+            update,
+            'username',
+            'old_password',
+            'password',
+            'encrypted_private_key',
+        );
+        const updatedEncryptedKey = sjcl.encrypt(
+            update.password,
+            signer._privateKey.asHex(),
+        );
         userUpdate.encrypted_private_key = updatedEncryptedKey;
         const public_key = update.public_key;
 
-        return m
-            .request({
-                method: 'PATCH',
-                url: `/api/users/${public_key}`,
-                body: userUpdate,
-            })
+        return axios
+            .patch(`/api/users/${public_key}`, { userUpdate })
             .catch(e => {
                 if (e.error && e.error.status === 401) {
                     return Promise.reject('Unauthorized to change password');
                 } else {
-                    return Promise.reject('Unable to change password at this time.');
+                    return Promise.reject(
+                        'Unable to change password at this time.',
+                    );
                 }
             })
             .then((result: any) => {
                 if (result.status === 'ok') {
-                    AuthService.updateUserData(userUpdate);
-                    AuthService.displaySuccessDialog();
+                    this.updateUserData(userUpdate);
                 }
             });
-    },
+    }
 
     /**
      * Creates a user, then uses the submitTransactionFn to submit a followup
@@ -201,35 +251,39 @@ const AuthService = {
      * The function is a (Signer) => Promise, where the promise is resolved when
      * the transaction completes.
      */
-    createUser: (user: any, submitTransactionFn: Function): Promise<void> => {
+    createUser(user: any, submitTransactionFn: Function): Promise<void> {
         const userCreate = pluck(user, 'username', 'password', 'email');
-        return AuthService.createSigner(userCreate.password).then(({ signer, encryptedPrivateKey }: any) => {
-            userCreate.public_key = signer.getPublicKey().asHex();
-            userCreate.encrypted_private_key = encryptedPrivateKey;
+        return this.createSigner(userCreate.password).then(
+            ({ signer, encryptedPrivateKey }: any) => {
+                userCreate.public_key = signer.getPublicKey().asHex();
+                userCreate.encrypted_private_key = encryptedPrivateKey;
 
-            return m
-                .request({
-                    method: 'POST',
-                    url: '/api/users',
-                    body: userCreate,
-                })
-                .catch(e => {
-                    if (e.error && e.error.status === 400) {
-                        return Promise.reject(e.error.message);
-                    } else {
-                        return Promise.reject('Unable to sign up at this time');
-                    }
-                })
-                .then((result: any) => {
-                    if (result.status === 'ok') {
-                        return submitTransactionFn(signer);
-                    } else {
-                        return Promise.reject('Unable to sign up at this time');
-                    }
-                })
-                .then(() => AuthService.setUserData(userCreate, userCreate.password));
-        });
-    },
-};
+                return axios
+                    .post('/api/users', { userCreate })
+                    .catch(e => {
+                        if (e.error && e.error.status === 400) {
+                            return Promise.reject(e.error.message);
+                        } else {
+                            return Promise.reject(
+                                'Unable to sign up at this time',
+                            );
+                        }
+                    })
+                    .then((result: any) => {
+                        if (result.status === 'ok') {
+                            return submitTransactionFn(signer);
+                        } else {
+                            return Promise.reject(
+                                'Unable to sign up at this time',
+                            );
+                        }
+                    })
+                    .then(() =>
+                        this.setUserData(userCreate, userCreate.password),
+                    );
+            },
+        );
+    }
+}
 
-export default AuthService;
+export default new AuthService();

@@ -35,8 +35,12 @@ describe('agentService', () => {
     describe('loadAgents()', () => {
         describe('when called', () => {
             it('will return all agents in an array', async () => {
-                mockedMithril.request.mockResolvedValueOnce({ data: [agent_1, agent_2] });
-                await expect(agentService.loadAgents()).resolves.toEqual({ data: [agent_1, agent_2] });
+                mockedMithril.request.mockResolvedValueOnce({
+                    data: [agent_1, agent_2],
+                });
+                await expect(agentService.loadAgents()).resolves.toEqual({
+                    data: [agent_1, agent_2],
+                });
             });
         });
     });
@@ -44,7 +48,9 @@ describe('agentService', () => {
         describe('when given a valid public key', () => {
             it('will return the agent associated with the key', async () => {
                 mockedMithril.request.mockResolvedValueOnce({ data: agent_1 });
-                await expect(agentService.fetchAgent('public_key_1')).resolves.toEqual({ data: agent_1 });
+                await expect(
+                    agentService.fetchAgent('public_key_1'),
+                ).resolves.toEqual({ data: agent_1 });
             });
         });
     });
@@ -60,7 +66,9 @@ describe('agentService', () => {
             createAgent,
         }).finish();
 
-        const agentAddress = addressing.makeAgentAddress(signer.getPublicKey().asHex());
+        const agentAddress = addressing.makeAgentAddress(
+            signer.getPublicKey().asHex(),
+        );
         const transaction = transactionService.createTransaction(
             {
                 payloadBytes,
@@ -72,22 +80,28 @@ describe('agentService', () => {
 
         describe('when given a null signer', () => {
             it('will throw an error', () => {
-                expect(() => agentService.createAgentTransaction('name', null)).toThrowError(
-                    'A signer must be provided',
-                );
+                expect(() =>
+                    agentService.createAgentTransaction('name', null),
+                ).toThrowError('A signer must be provided');
             });
         });
         describe('when given a valid name and signer', () => {
             it('will return a CreateAgent transaction', () => {
-                expect(agentService.createAgentTransaction('name', signer)).toEqual(transaction);
+                expect(
+                    agentService.createAgentTransaction('name', signer),
+                ).toEqual(transaction);
             });
         });
     });
     describe('createAgent()', () => {
         describe('when given a valid name and signer', () => {
             it('will submit a batch and return an array of txn ids', async () => {
-                mockedTransactionService.submitBatch.mockResolvedValueOnce(['txn_id']);
-                await expect(agentService.createAgent('name', signer)).resolves.toEqual(['txn_id']);
+                mockedTransactionService.submitBatch.mockResolvedValueOnce([
+                    'txn_id',
+                ]);
+                await expect(
+                    agentService.createAgent('name', signer),
+                ).resolves.toEqual(['txn_id']);
             });
         });
     });

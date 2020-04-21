@@ -92,13 +92,13 @@ $root.Agent = (function() {
     Agent.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.publicKey != null && message.hasOwnProperty("publicKey"))
+        if (message.publicKey != null && Object.hasOwnProperty.call(message, "publicKey"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.publicKey);
-        if (message.name != null && message.hasOwnProperty("name"))
+        if (message.name != null && Object.hasOwnProperty.call(message, "name"))
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
-        if (message.organizationId != null && message.hasOwnProperty("organizationId"))
+        if (message.organizationId != null && Object.hasOwnProperty.call(message, "organizationId"))
             writer.uint32(/* id 3, wireType 2 =*/26).string(message.organizationId);
-        if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+        if (message.timestamp != null && Object.hasOwnProperty.call(message, "timestamp"))
             writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.timestamp);
         return writer;
     };
@@ -605,22 +605,22 @@ $root.Certificate = (function() {
     Certificate.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.id != null && message.hasOwnProperty("id"))
+        if (message.id != null && Object.hasOwnProperty.call(message, "id"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-        if (message.certifyingBodyId != null && message.hasOwnProperty("certifyingBodyId"))
+        if (message.certifyingBodyId != null && Object.hasOwnProperty.call(message, "certifyingBodyId"))
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.certifyingBodyId);
-        if (message.factoryId != null && message.hasOwnProperty("factoryId"))
+        if (message.factoryId != null && Object.hasOwnProperty.call(message, "factoryId"))
             writer.uint32(/* id 3, wireType 2 =*/26).string(message.factoryId);
-        if (message.standardId != null && message.hasOwnProperty("standardId"))
+        if (message.standardId != null && Object.hasOwnProperty.call(message, "standardId"))
             writer.uint32(/* id 4, wireType 2 =*/34).string(message.standardId);
-        if (message.standardVersion != null && message.hasOwnProperty("standardVersion"))
+        if (message.standardVersion != null && Object.hasOwnProperty.call(message, "standardVersion"))
             writer.uint32(/* id 5, wireType 2 =*/42).string(message.standardVersion);
         if (message.certificateData != null && message.certificateData.length)
             for (var i = 0; i < message.certificateData.length; ++i)
                 $root.Certificate.CertificateData.encode(message.certificateData[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
-        if (message.validFrom != null && message.hasOwnProperty("validFrom"))
+        if (message.validFrom != null && Object.hasOwnProperty.call(message, "validFrom"))
             writer.uint32(/* id 7, wireType 0 =*/56).uint64(message.validFrom);
-        if (message.validTo != null && message.hasOwnProperty("validTo"))
+        if (message.validTo != null && Object.hasOwnProperty.call(message, "validTo"))
             writer.uint32(/* id 8, wireType 0 =*/64).uint64(message.validTo);
         return writer;
     };
@@ -939,9 +939,9 @@ $root.Certificate = (function() {
         CertificateData.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.field != null && message.hasOwnProperty("field"))
+            if (message.field != null && Object.hasOwnProperty.call(message, "field"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.field);
-            if (message.data != null && message.hasOwnProperty("data"))
+            if (message.data != null && Object.hasOwnProperty.call(message, "data"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.data);
             return writer;
         };
@@ -1387,15 +1387,15 @@ $root.Request = (function() {
     Request.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.id != null && message.hasOwnProperty("id"))
+        if (message.id != null && Object.hasOwnProperty.call(message, "id"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-        if (message.status != null && message.hasOwnProperty("status"))
+        if (message.status != null && Object.hasOwnProperty.call(message, "status"))
             writer.uint32(/* id 2, wireType 0 =*/16).int32(message.status);
-        if (message.standardId != null && message.hasOwnProperty("standardId"))
+        if (message.standardId != null && Object.hasOwnProperty.call(message, "standardId"))
             writer.uint32(/* id 3, wireType 2 =*/26).string(message.standardId);
-        if (message.factoryId != null && message.hasOwnProperty("factoryId"))
+        if (message.factoryId != null && Object.hasOwnProperty.call(message, "factoryId"))
             writer.uint32(/* id 4, wireType 2 =*/34).string(message.factoryId);
-        if (message.requestDate != null && message.hasOwnProperty("requestDate"))
+        if (message.requestDate != null && Object.hasOwnProperty.call(message, "requestDate"))
             writer.uint32(/* id 5, wireType 0 =*/40).uint64(message.requestDate);
         return writer;
     };
@@ -1613,7 +1613,7 @@ $root.Request = (function() {
     /**
      * Status enum.
      * @name Request.Status
-     * @enum {string}
+     * @enum {number}
      * @property {number} UNSET_STATUS=0 UNSET_STATUS value
      * @property {number} OPEN=1 OPEN value
      * @property {number} IN_PROGRESS=2 IN_PROGRESS value
@@ -1962,9 +1962,9 @@ $root.Organization = (function() {
     Organization.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.id != null && message.hasOwnProperty("id"))
+        if (message.id != null && Object.hasOwnProperty.call(message, "id"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-        if (message.name != null && message.hasOwnProperty("name"))
+        if (message.name != null && Object.hasOwnProperty.call(message, "name"))
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
         if (message.authorizations != null && message.authorizations.length)
             for (var i = 0; i < message.authorizations.length; ++i)
@@ -1972,13 +1972,13 @@ $root.Organization = (function() {
         if (message.contacts != null && message.contacts.length)
             for (var i = 0; i < message.contacts.length; ++i)
                 $root.Organization.Contact.encode(message.contacts[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-        if (message.organizationType != null && message.hasOwnProperty("organizationType"))
+        if (message.organizationType != null && Object.hasOwnProperty.call(message, "organizationType"))
             writer.uint32(/* id 5, wireType 0 =*/40).int32(message.organizationType);
-        if (message.certifyingBodyDetails != null && message.hasOwnProperty("certifyingBodyDetails"))
+        if (message.certifyingBodyDetails != null && Object.hasOwnProperty.call(message, "certifyingBodyDetails"))
             $root.CertifyingBody.encode(message.certifyingBodyDetails, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
-        if (message.standardsBodyDetails != null && message.hasOwnProperty("standardsBodyDetails"))
+        if (message.standardsBodyDetails != null && Object.hasOwnProperty.call(message, "standardsBodyDetails"))
             $root.StandardsBody.encode(message.standardsBodyDetails, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
-        if (message.factoryDetails != null && message.hasOwnProperty("factoryDetails"))
+        if (message.factoryDetails != null && Object.hasOwnProperty.call(message, "factoryDetails"))
             $root.Factory.encode(message.factoryDetails, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
         return writer;
     };
@@ -2265,7 +2265,7 @@ $root.Organization = (function() {
     /**
      * Type enum.
      * @name Organization.Type
-     * @enum {string}
+     * @enum {number}
      * @property {number} UNSET_TYPE=0 UNSET_TYPE value
      * @property {number} CERTIFYING_BODY=1 CERTIFYING_BODY value
      * @property {number} STANDARDS_BODY=2 STANDARDS_BODY value
@@ -2345,9 +2345,9 @@ $root.Organization = (function() {
         Authorization.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.publicKey != null && message.hasOwnProperty("publicKey"))
+            if (message.publicKey != null && Object.hasOwnProperty.call(message, "publicKey"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.publicKey);
-            if (message.role != null && message.hasOwnProperty("role"))
+            if (message.role != null && Object.hasOwnProperty.call(message, "role"))
                 writer.uint32(/* id 2, wireType 0 =*/16).int32(message.role);
             return writer;
         };
@@ -2508,7 +2508,7 @@ $root.Organization = (function() {
         /**
          * Role enum.
          * @name Organization.Authorization.Role
-         * @enum {string}
+         * @enum {number}
          * @property {number} UNSET_ROLE=0 UNSET_ROLE value
          * @property {number} ADMIN=1 ADMIN value
          * @property {number} TRANSACTOR=2 TRANSACTOR value
@@ -2598,11 +2598,11 @@ $root.Organization = (function() {
         Contact.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.name != null && message.hasOwnProperty("name"))
+            if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-            if (message.phoneNumber != null && message.hasOwnProperty("phoneNumber"))
+            if (message.phoneNumber != null && Object.hasOwnProperty.call(message, "phoneNumber"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.phoneNumber);
-            if (message.languageCode != null && message.hasOwnProperty("languageCode"))
+            if (message.languageCode != null && Object.hasOwnProperty.call(message, "languageCode"))
                 writer.uint32(/* id 3, wireType 2 =*/26).string(message.languageCode);
             return writer;
         };
@@ -3056,15 +3056,15 @@ $root.CertifyingBody = (function() {
         Accreditation.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.standardId != null && message.hasOwnProperty("standardId"))
+            if (message.standardId != null && Object.hasOwnProperty.call(message, "standardId"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.standardId);
-            if (message.standardVersion != null && message.hasOwnProperty("standardVersion"))
+            if (message.standardVersion != null && Object.hasOwnProperty.call(message, "standardVersion"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.standardVersion);
-            if (message.accreditorId != null && message.hasOwnProperty("accreditorId"))
+            if (message.accreditorId != null && Object.hasOwnProperty.call(message, "accreditorId"))
                 writer.uint32(/* id 3, wireType 2 =*/26).string(message.accreditorId);
-            if (message.validFrom != null && message.hasOwnProperty("validFrom"))
+            if (message.validFrom != null && Object.hasOwnProperty.call(message, "validFrom"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.validFrom);
-            if (message.validTo != null && message.hasOwnProperty("validTo"))
+            if (message.validTo != null && Object.hasOwnProperty.call(message, "validTo"))
                 writer.uint32(/* id 5, wireType 0 =*/40).uint64(message.validTo);
             return writer;
         };
@@ -3487,7 +3487,7 @@ $root.Factory = (function() {
     Factory.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.address != null && message.hasOwnProperty("address"))
+        if (message.address != null && Object.hasOwnProperty.call(message, "address"))
             $root.Factory.Address.encode(message.address, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
         return writer;
     };
@@ -3721,17 +3721,17 @@ $root.Factory = (function() {
         Address.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.streetLine_1 != null && message.hasOwnProperty("streetLine_1"))
+            if (message.streetLine_1 != null && Object.hasOwnProperty.call(message, "streetLine_1"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.streetLine_1);
-            if (message.streetLine_2 != null && message.hasOwnProperty("streetLine_2"))
+            if (message.streetLine_2 != null && Object.hasOwnProperty.call(message, "streetLine_2"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.streetLine_2);
-            if (message.city != null && message.hasOwnProperty("city"))
+            if (message.city != null && Object.hasOwnProperty.call(message, "city"))
                 writer.uint32(/* id 3, wireType 2 =*/26).string(message.city);
-            if (message.stateProvince != null && message.hasOwnProperty("stateProvince"))
+            if (message.stateProvince != null && Object.hasOwnProperty.call(message, "stateProvince"))
                 writer.uint32(/* id 4, wireType 2 =*/34).string(message.stateProvince);
-            if (message.country != null && message.hasOwnProperty("country"))
+            if (message.country != null && Object.hasOwnProperty.call(message, "country"))
                 writer.uint32(/* id 5, wireType 2 =*/42).string(message.country);
-            if (message.postalCode != null && message.hasOwnProperty("postalCode"))
+            if (message.postalCode != null && Object.hasOwnProperty.call(message, "postalCode"))
                 writer.uint32(/* id 6, wireType 2 =*/50).string(message.postalCode);
             return writer;
         };
@@ -4213,11 +4213,11 @@ $root.Standard = (function() {
     Standard.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.id != null && message.hasOwnProperty("id"))
+        if (message.id != null && Object.hasOwnProperty.call(message, "id"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-        if (message.organizationId != null && message.hasOwnProperty("organizationId"))
+        if (message.organizationId != null && Object.hasOwnProperty.call(message, "organizationId"))
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.organizationId);
-        if (message.name != null && message.hasOwnProperty("name"))
+        if (message.name != null && Object.hasOwnProperty.call(message, "name"))
             writer.uint32(/* id 3, wireType 2 =*/26).string(message.name);
         if (message.versions != null && message.versions.length)
             for (var i = 0; i < message.versions.length; ++i)
@@ -4485,13 +4485,13 @@ $root.Standard = (function() {
         StandardVersion.encode = function encode(message, writer) {
             if (!writer)
                 writer = $Writer.create();
-            if (message.version != null && message.hasOwnProperty("version"))
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                 writer.uint32(/* id 1, wireType 2 =*/10).string(message.version);
-            if (message.description != null && message.hasOwnProperty("description"))
+            if (message.description != null && Object.hasOwnProperty.call(message, "description"))
                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.description);
-            if (message.link != null && message.hasOwnProperty("link"))
+            if (message.link != null && Object.hasOwnProperty.call(message, "link"))
                 writer.uint32(/* id 3, wireType 2 =*/26).string(message.link);
-            if (message.approvalDate != null && message.hasOwnProperty("approvalDate"))
+            if (message.approvalDate != null && Object.hasOwnProperty.call(message, "approvalDate"))
                 writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.approvalDate);
             return writer;
         };
@@ -5027,27 +5027,27 @@ $root.CertificateRegistryPayload = (function() {
     CertificateRegistryPayload.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.action != null && message.hasOwnProperty("action"))
+        if (message.action != null && Object.hasOwnProperty.call(message, "action"))
             writer.uint32(/* id 1, wireType 0 =*/8).int32(message.action);
-        if (message.createAgent != null && message.hasOwnProperty("createAgent"))
+        if (message.createAgent != null && Object.hasOwnProperty.call(message, "createAgent"))
             $root.CreateAgentAction.encode(message.createAgent, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-        if (message.createOrganization != null && message.hasOwnProperty("createOrganization"))
+        if (message.createOrganization != null && Object.hasOwnProperty.call(message, "createOrganization"))
             $root.CreateOrganizationAction.encode(message.createOrganization, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
-        if (message.updateOrganization != null && message.hasOwnProperty("updateOrganization"))
+        if (message.updateOrganization != null && Object.hasOwnProperty.call(message, "updateOrganization"))
             $root.UpdateOrganizationAction.encode(message.updateOrganization, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-        if (message.authorizeAgent != null && message.hasOwnProperty("authorizeAgent"))
+        if (message.authorizeAgent != null && Object.hasOwnProperty.call(message, "authorizeAgent"))
             $root.AuthorizeAgentAction.encode(message.authorizeAgent, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
-        if (message.issueCertificate != null && message.hasOwnProperty("issueCertificate"))
+        if (message.issueCertificate != null && Object.hasOwnProperty.call(message, "issueCertificate"))
             $root.IssueCertificateAction.encode(message.issueCertificate, writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
-        if (message.createStandard != null && message.hasOwnProperty("createStandard"))
+        if (message.createStandard != null && Object.hasOwnProperty.call(message, "createStandard"))
             $root.CreateStandardAction.encode(message.createStandard, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
-        if (message.updateStandard != null && message.hasOwnProperty("updateStandard"))
+        if (message.updateStandard != null && Object.hasOwnProperty.call(message, "updateStandard"))
             $root.UpdateStandardAction.encode(message.updateStandard, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
-        if (message.openRequestAction != null && message.hasOwnProperty("openRequestAction"))
+        if (message.openRequestAction != null && Object.hasOwnProperty.call(message, "openRequestAction"))
             $root.OpenRequestAction.encode(message.openRequestAction, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
-        if (message.changeRequestStatusAction != null && message.hasOwnProperty("changeRequestStatusAction"))
+        if (message.changeRequestStatusAction != null && Object.hasOwnProperty.call(message, "changeRequestStatusAction"))
             $root.ChangeRequestStatusAction.encode(message.changeRequestStatusAction, writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
-        if (message.accreditCertifyingBodyAction != null && message.hasOwnProperty("accreditCertifyingBodyAction"))
+        if (message.accreditCertifyingBodyAction != null && Object.hasOwnProperty.call(message, "accreditCertifyingBodyAction"))
             $root.AccreditCertifyingBodyAction.encode(message.accreditCertifyingBodyAction, writer.uint32(/* id 11, wireType 2 =*/90).fork()).ldelim();
         return writer;
     };
@@ -5397,7 +5397,7 @@ $root.CertificateRegistryPayload = (function() {
     /**
      * Action enum.
      * @name CertificateRegistryPayload.Action
-     * @enum {string}
+     * @enum {number}
      * @property {number} UNSET_ACTION=0 UNSET_ACTION value
      * @property {number} CREATE_AGENT=1 CREATE_AGENT value
      * @property {number} CREATE_ORGANIZATION=2 CREATE_ORGANIZATION value
@@ -5494,9 +5494,9 @@ $root.CreateAgentAction = (function() {
     CreateAgentAction.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.name != null && message.hasOwnProperty("name"))
+        if (message.name != null && Object.hasOwnProperty.call(message, "name"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-        if (message.timestamp != null && message.hasOwnProperty("timestamp"))
+        if (message.timestamp != null && Object.hasOwnProperty.call(message, "timestamp"))
             writer.uint32(/* id 2, wireType 0 =*/16).uint64(message.timestamp);
         return writer;
     };
@@ -5746,16 +5746,16 @@ $root.CreateOrganizationAction = (function() {
     CreateOrganizationAction.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.id != null && message.hasOwnProperty("id"))
+        if (message.id != null && Object.hasOwnProperty.call(message, "id"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-        if (message.organizationType != null && message.hasOwnProperty("organizationType"))
+        if (message.organizationType != null && Object.hasOwnProperty.call(message, "organizationType"))
             writer.uint32(/* id 2, wireType 0 =*/16).int32(message.organizationType);
-        if (message.name != null && message.hasOwnProperty("name"))
+        if (message.name != null && Object.hasOwnProperty.call(message, "name"))
             writer.uint32(/* id 3, wireType 2 =*/26).string(message.name);
         if (message.contacts != null && message.contacts.length)
             for (var i = 0; i < message.contacts.length; ++i)
                 $root.Organization.Contact.encode(message.contacts[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-        if (message.address != null && message.hasOwnProperty("address"))
+        if (message.address != null && Object.hasOwnProperty.call(message, "address"))
             $root.Factory.Address.encode(message.address, writer.uint32(/* id 5, wireType 2 =*/42).fork()).ldelim();
         return writer;
     };
@@ -6048,7 +6048,7 @@ $root.UpdateOrganizationAction = (function() {
         if (message.contacts != null && message.contacts.length)
             for (var i = 0; i < message.contacts.length; ++i)
                 $root.Organization.Contact.encode(message.contacts[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-        if (message.address != null && message.hasOwnProperty("address"))
+        if (message.address != null && Object.hasOwnProperty.call(message, "address"))
             $root.Factory.Address.encode(message.address, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
         return writer;
     };
@@ -6280,9 +6280,9 @@ $root.AuthorizeAgentAction = (function() {
     AuthorizeAgentAction.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.publicKey != null && message.hasOwnProperty("publicKey"))
+        if (message.publicKey != null && Object.hasOwnProperty.call(message, "publicKey"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.publicKey);
-        if (message.role != null && message.hasOwnProperty("role"))
+        if (message.role != null && Object.hasOwnProperty.call(message, "role"))
             writer.uint32(/* id 2, wireType 0 =*/16).int32(message.role);
         return writer;
     };
@@ -6563,22 +6563,22 @@ $root.IssueCertificateAction = (function() {
     IssueCertificateAction.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.id != null && message.hasOwnProperty("id"))
+        if (message.id != null && Object.hasOwnProperty.call(message, "id"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-        if (message.factoryId != null && message.hasOwnProperty("factoryId"))
+        if (message.factoryId != null && Object.hasOwnProperty.call(message, "factoryId"))
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.factoryId);
-        if (message.source != null && message.hasOwnProperty("source"))
+        if (message.source != null && Object.hasOwnProperty.call(message, "source"))
             writer.uint32(/* id 3, wireType 0 =*/24).int32(message.source);
-        if (message.requestId != null && message.hasOwnProperty("requestId"))
+        if (message.requestId != null && Object.hasOwnProperty.call(message, "requestId"))
             writer.uint32(/* id 4, wireType 2 =*/34).string(message.requestId);
-        if (message.standardId != null && message.hasOwnProperty("standardId"))
+        if (message.standardId != null && Object.hasOwnProperty.call(message, "standardId"))
             writer.uint32(/* id 5, wireType 2 =*/42).string(message.standardId);
         if (message.certificateData != null && message.certificateData.length)
             for (var i = 0; i < message.certificateData.length; ++i)
                 $root.Certificate.CertificateData.encode(message.certificateData[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
-        if (message.validFrom != null && message.hasOwnProperty("validFrom"))
+        if (message.validFrom != null && Object.hasOwnProperty.call(message, "validFrom"))
             writer.uint32(/* id 7, wireType 0 =*/56).uint64(message.validFrom);
-        if (message.validTo != null && message.hasOwnProperty("validTo"))
+        if (message.validTo != null && Object.hasOwnProperty.call(message, "validTo"))
             writer.uint32(/* id 8, wireType 0 =*/64).uint64(message.validTo);
         return writer;
     };
@@ -6853,7 +6853,7 @@ $root.IssueCertificateAction = (function() {
     /**
      * Source enum.
      * @name IssueCertificateAction.Source
-     * @enum {string}
+     * @enum {number}
      * @property {number} UNSET_SOURCE=0 UNSET_SOURCE value
      * @property {number} FROM_REQUEST=1 FROM_REQUEST value
      * @property {number} INDEPENDENT=2 INDEPENDENT value
@@ -6943,11 +6943,11 @@ $root.OpenRequestAction = (function() {
     OpenRequestAction.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.id != null && message.hasOwnProperty("id"))
+        if (message.id != null && Object.hasOwnProperty.call(message, "id"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-        if (message.standardId != null && message.hasOwnProperty("standardId"))
+        if (message.standardId != null && Object.hasOwnProperty.call(message, "standardId"))
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.standardId);
-        if (message.requestDate != null && message.hasOwnProperty("requestDate"))
+        if (message.requestDate != null && Object.hasOwnProperty.call(message, "requestDate"))
             writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.requestDate);
         return writer;
     };
@@ -7180,9 +7180,9 @@ $root.ChangeRequestStatusAction = (function() {
     ChangeRequestStatusAction.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.requestId != null && message.hasOwnProperty("requestId"))
+        if (message.requestId != null && Object.hasOwnProperty.call(message, "requestId"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.requestId);
-        if (message.status != null && message.hasOwnProperty("status"))
+        if (message.status != null && Object.hasOwnProperty.call(message, "status"))
             writer.uint32(/* id 2, wireType 0 =*/16).int32(message.status);
         return writer;
     };
@@ -7454,17 +7454,17 @@ $root.CreateStandardAction = (function() {
     CreateStandardAction.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.standardId != null && message.hasOwnProperty("standardId"))
+        if (message.standardId != null && Object.hasOwnProperty.call(message, "standardId"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.standardId);
-        if (message.name != null && message.hasOwnProperty("name"))
+        if (message.name != null && Object.hasOwnProperty.call(message, "name"))
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
-        if (message.version != null && message.hasOwnProperty("version"))
+        if (message.version != null && Object.hasOwnProperty.call(message, "version"))
             writer.uint32(/* id 3, wireType 2 =*/26).string(message.version);
-        if (message.description != null && message.hasOwnProperty("description"))
+        if (message.description != null && Object.hasOwnProperty.call(message, "description"))
             writer.uint32(/* id 4, wireType 2 =*/34).string(message.description);
-        if (message.link != null && message.hasOwnProperty("link"))
+        if (message.link != null && Object.hasOwnProperty.call(message, "link"))
             writer.uint32(/* id 5, wireType 2 =*/42).string(message.link);
-        if (message.approvalDate != null && message.hasOwnProperty("approvalDate"))
+        if (message.approvalDate != null && Object.hasOwnProperty.call(message, "approvalDate"))
             writer.uint32(/* id 6, wireType 0 =*/48).uint64(message.approvalDate);
         return writer;
     };
@@ -7757,15 +7757,15 @@ $root.UpdateStandardAction = (function() {
     UpdateStandardAction.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.standardId != null && message.hasOwnProperty("standardId"))
+        if (message.standardId != null && Object.hasOwnProperty.call(message, "standardId"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.standardId);
-        if (message.version != null && message.hasOwnProperty("version"))
+        if (message.version != null && Object.hasOwnProperty.call(message, "version"))
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.version);
-        if (message.description != null && message.hasOwnProperty("description"))
+        if (message.description != null && Object.hasOwnProperty.call(message, "description"))
             writer.uint32(/* id 3, wireType 2 =*/26).string(message.description);
-        if (message.link != null && message.hasOwnProperty("link"))
+        if (message.link != null && Object.hasOwnProperty.call(message, "link"))
             writer.uint32(/* id 4, wireType 2 =*/34).string(message.link);
-        if (message.approvalDate != null && message.hasOwnProperty("approvalDate"))
+        if (message.approvalDate != null && Object.hasOwnProperty.call(message, "approvalDate"))
             writer.uint32(/* id 5, wireType 0 =*/40).uint64(message.approvalDate);
         return writer;
     };
@@ -8038,13 +8038,13 @@ $root.AccreditCertifyingBodyAction = (function() {
     AccreditCertifyingBodyAction.encode = function encode(message, writer) {
         if (!writer)
             writer = $Writer.create();
-        if (message.certifyingBodyId != null && message.hasOwnProperty("certifyingBodyId"))
+        if (message.certifyingBodyId != null && Object.hasOwnProperty.call(message, "certifyingBodyId"))
             writer.uint32(/* id 1, wireType 2 =*/10).string(message.certifyingBodyId);
-        if (message.standardId != null && message.hasOwnProperty("standardId"))
+        if (message.standardId != null && Object.hasOwnProperty.call(message, "standardId"))
             writer.uint32(/* id 2, wireType 2 =*/18).string(message.standardId);
-        if (message.validFrom != null && message.hasOwnProperty("validFrom"))
+        if (message.validFrom != null && Object.hasOwnProperty.call(message, "validFrom"))
             writer.uint32(/* id 3, wireType 0 =*/24).uint64(message.validFrom);
-        if (message.validTo != null && message.hasOwnProperty("validTo"))
+        if (message.validTo != null && Object.hasOwnProperty.call(message, "validTo"))
             writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.validTo);
         return writer;
     };

@@ -1,19 +1,12 @@
-import * as m from 'mithril';
-import * as addressing from 'App/addressing';
-import * as transactionService from 'App/services/transaction';
-import { CertificateRegistryPayload, CreateAgentAction } from 'App/protobuf';
+import * as addressing from 'services/addressing';
+import * as transactionService from 'services/transaction';
+import { CertificateRegistryPayload, CreateAgentAction } from 'protobuf';
+import axios from 'axios';
 
-export const loadAgents = (): Promise<any> =>
-    m.request({
-        method: 'GET',
-        url: '/api/agents',
-    });
+export const loadAgents = (): Promise<any> => axios.get('/api/agents');
 
 export const fetchAgent = (public_key: string): Promise<any> =>
-    m.request({
-        method: 'GET',
-        url: `/api/agents/${public_key}`,
-    });
+    axios.get(`/api/agents/${public_key}`);
 
 export const createAgentTransaction = (
     name: string,
@@ -32,7 +25,9 @@ export const createAgentTransaction = (
         createAgent,
     }).finish();
 
-    const agentAddress = addressing.makeAgentAddress(signer.getPublicKey().asHex());
+    const agentAddress = addressing.makeAgentAddress(
+        signer.getPublicKey().asHex(),
+    );
     return transactionService.createTransaction(
         {
             payloadBytes,
@@ -43,5 +38,11 @@ export const createAgentTransaction = (
     );
 };
 
-export const createAgent = (name: string, signer: sawtooth.signing.Signer): Promise<any> =>
-    transactionService.submitBatch([createAgentTransaction(name, signer)], signer);
+export const createAgent = (
+    name: string,
+    signer: sawtooth.signing.Signer,
+): Promise<any> =>
+    transactionService.submitBatch(
+        [createAgentTransaction(name, signer)],
+        signer,
+    );

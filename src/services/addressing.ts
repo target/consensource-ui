@@ -33,11 +33,13 @@ const hash = (val: string, len: number): string => {
 
 const FAMILY_NAMESPACE = hash(FAMILY_NAME, PREFIX_SIZE);
 const AGENT_ADDRESS_PREFIX = FAMILY_NAMESPACE + RESERVED_SPACE + AGENT;
-const ORGANIZATION_ADDRESS_PREFIX = FAMILY_NAMESPACE + RESERVED_SPACE + ORGANIZATION;
+const ORGANIZATION_ADDRESS_PREFIX =
+    FAMILY_NAMESPACE + RESERVED_SPACE + ORGANIZATION;
 
 const getFamilyNamespacePrefix = (): string => FAMILY_NAMESPACE;
 
-const makeAgentAddress = (agentPublicKey: string): string => AGENT_ADDRESS_PREFIX + hash(agentPublicKey, 60);
+const makeAgentAddress = (agentPublicKey: string): string =>
+    AGENT_ADDRESS_PREFIX + hash(agentPublicKey, 60);
 
 const makeOrganizationAddress = (organizationId: string): string =>
     FAMILY_NAMESPACE + RESERVED_SPACE + ORGANIZATION + hash(organizationId, 60);
@@ -46,7 +48,10 @@ const makeCertificateAddress = (certificateId: string): string =>
     FAMILY_NAMESPACE + RESERVED_SPACE + CERTIFICATE + hash(certificateId, 60);
 
 const makeCertificateRequestAddress = (certificateRequestId: string): string =>
-    FAMILY_NAMESPACE + RESERVED_SPACE + CERTIFICATE_REQUEST + hash(certificateRequestId, 60);
+    FAMILY_NAMESPACE +
+    RESERVED_SPACE +
+    CERTIFICATE_REQUEST +
+    hash(certificateRequestId, 60);
 
 const makeStandardAddress = (standardId: string): string =>
     FAMILY_NAMESPACE + RESERVED_SPACE + STANDARD + hash(standardId, 60);

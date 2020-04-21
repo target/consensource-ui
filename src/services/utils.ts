@@ -1,5 +1,3 @@
-// Util collection
-
 /**
  * Selects keys from an object
  */
@@ -10,7 +8,3 @@ export const pluck = (obj: any, ...keys: Array<any>): any =>
         }
         return o;
     }, {});
-
-/**
- * Merges objects, starting from left to right
- */
