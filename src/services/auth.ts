@@ -4,14 +4,13 @@ import { pluck } from 'services/utils';
 import * as sjcl from 'sjcl';
 import axios from 'axios';
 
-interface AuthService {
+class AuthService {
     namespace: string;
     storePrivateKey: string;
     storeUser: string;
-    cachedSigner: Record<string, any> | null;
+    cachedSigner: sawtooth.signing.Signer | null;
     cryptoFactory: sawtooth.signing.CryptoFactory;
-}
-class AuthService implements AuthService {
+
     constructor() {
         this.namespace = 'consensource';
         this.storePrivateKey = 'privateKey';
@@ -57,7 +56,7 @@ class AuthService implements AuthService {
     }
 
     requestPassword(): Promise<string> {
-        const password = '';
+        // const password = '';
 
         return new Promise(resolve => resolve('test'));
         // return Modals.show(
@@ -143,6 +142,7 @@ class AuthService implements AuthService {
         }
 
         const sessionStoredKey = this.sessionStoreGet(this.storePrivateKey);
+
         if (sessionStoredKey) {
             const signer = this.cryptoFactory.newSigner(
                 Secp256k1PrivateKey.fromHex(sessionStoredKey),

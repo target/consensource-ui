@@ -7,7 +7,6 @@ module.exports = {
     moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
     roots: ['./src'],
     clearMocks: true,
-    setupFiles: ['jest-localstorage-mock'],
     globals: {
         'ts-jest': {
             tsConfig: 'tsconfig.json',

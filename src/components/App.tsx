@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import LoginPage from 'components/Login';
 import Layout from 'components/Layout';
-import PrivateRoute from 'components/PrivateRoute';
+import PrivateRoute from 'components/Layout/PrivateRoute';
 import SignUp from 'components/SignUp';
 
 export default function App() {
