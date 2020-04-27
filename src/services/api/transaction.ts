@@ -9,9 +9,11 @@ export const postBatches = (batchListBytes: Uint8Array): Promise<any> => {
     const url = '/api/batches';
 
     return axios
-        .post(url, {
-            headers: { 'Content-Type': 'application/octet-stream' },
-            data: batchListBytes, // TODO: Verify that removing the serialize function is okay0
+        .post(url, batchListBytes, {
+            headers: {
+                'Content-Type': 'application/octet-stream',
+                Connection: 'keep-alive',
+            },
         })
         .catch((e: Error) =>
             Promise.reject(`Failed to POST ${url}: ${e.message}`),

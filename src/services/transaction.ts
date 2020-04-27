@@ -14,7 +14,7 @@ export enum BATCH_STATUS {
     INVALID = 'INVALID',
 }
 
-export interface IPayloadInfo {
+export interface PayloadInfo {
     payloadBytes: string | Buffer | NodeJS.TypedArray | DataView;
     inputs: string[];
     outputs: string[];
@@ -124,7 +124,7 @@ class TransactionService {
      * and creates a `Transaction` with the header, signature and payload
      */
     createTransaction = (
-        payloadInfo: IPayloadInfo,
+        payloadInfo: PayloadInfo,
         signer: sawtooth.signing.Signer,
     ): sawtooth.protobuf.Transaction => {
         const { payloadBytes, inputs, outputs } = payloadInfo;
@@ -159,7 +159,7 @@ class TransactionService {
      * @returns `Promise` that will resolve when the transactions have been committed.
      */
     submitTransaction(
-        payloadInfo: IPayloadInfo,
+        payloadInfo: PayloadInfo,
         signer: sawtooth.signing.Signer,
     ): Promise<any> {
         const transactions = [this.createTransaction(payloadInfo, signer)];

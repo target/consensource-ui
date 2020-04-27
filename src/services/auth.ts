@@ -2,7 +2,9 @@ import { createContext, CryptoFactory } from 'sawtooth-sdk/signing';
 import { Secp256k1PrivateKey } from 'sawtooth-sdk/signing/secp256k1';
 import { pluck } from 'services/utils';
 import * as sjcl from 'sjcl';
+import * as AuthApi from 'services/api/auth';
 import axios from 'axios';
+import AgentService from 'services/agent';
 
 class AuthService {
     namespace: string;
@@ -82,7 +84,6 @@ class AuthService {
     }
 
     setUserData(user: any, password: string): void {
-        // invalidate cache
         this.cachedSigner = null;
 
         const storedUser = pluck(
@@ -90,9 +91,9 @@ class AuthService {
             'username',
             'public_key',
             'name',
-            'email',
             'encrypted_private_key',
         );
+
         this.localStoreSave(this.storeUser, JSON.stringify(storedUser));
 
         const decryptedKey = sjcl.decrypt(password, user.encrypted_private_key);
@@ -170,9 +171,9 @@ class AuthService {
     /**
      *  Returns a new Signer and the encrypted private key, to send to the server.
      */
-    createSigner(password: string): Promise<any> {
+    async createSigner(password: string): Promise<any> {
         if (this.isSignedIn()) {
-            return Promise.reject('Already signed in');
+            throw new Error('Already signed in');
         }
 
         const privateKey = this.getNewPrivateKey();
@@ -183,7 +184,7 @@ class AuthService {
 
         const encryptedPrivateKey = sjcl.encrypt(password, privateKey.asHex());
 
-        return Promise.resolve({ signer, encryptedPrivateKey });
+        return { signer, encryptedPrivateKey };
     }
 
     /**
@@ -245,44 +246,36 @@ class AuthService {
     }
 
     /**
-     * Creates a user, then uses the submitTransactionFn to submit a followup
-     * transaction to the block chain
-     *
-     * The function is a (Signer) => Promise, where the promise is resolved when
-     * the transaction completes.
+     * Creates a user and saves it off-chain.
      */
-    createUser(user: any, submitTransactionFn: Function): Promise<void> {
-        const userCreate = pluck(user, 'username', 'password', 'email');
-        return this.createSigner(userCreate.password).then(
-            ({ signer, encryptedPrivateKey }: any) => {
-                userCreate.public_key = signer.getPublicKey().asHex();
-                userCreate.encrypted_private_key = encryptedPrivateKey;
-
-                return axios
-                    .post('/api/users', { userCreate })
-                    .catch(e => {
-                        if (e.error && e.error.status === 400) {
-                            return Promise.reject(e.error.message);
-                        } else {
-                            return Promise.reject(
-                                'Unable to sign up at this time',
-                            );
-                        }
-                    })
-                    .then((result: any) => {
-                        if (result.status === 'ok') {
-                            return submitTransactionFn(signer);
-                        } else {
-                            return Promise.reject(
-                                'Unable to sign up at this time',
-                            );
-                        }
-                    })
-                    .then(() =>
-                        this.setUserData(userCreate, userCreate.password),
-                    );
-            },
+    async createUser(username: string, password: string): Promise<void> {
+        const { signer, encryptedPrivateKey } = await this.createSigner(
+            password,
         );
+
+        const public_key = signer.getPublicKey().asHex();
+        const encrypted_private_key = encryptedPrivateKey;
+
+        const userCreate = {
+            username,
+            password,
+            public_key,
+            encrypted_private_key,
+        } as any;
+
+        return await AuthApi.createUser(userCreate);
+    }
+
+    async createUserWithAgent(
+        username: string,
+        password: string,
+        name: string,
+    ): Promise<any> {
+        const user = await this.createUser(username, password);
+        const signer = await this.getSigner();
+
+        // await AgentService.createAgent(name, signer);
+        // await this.setUserData(user, password);
     }
 }
 

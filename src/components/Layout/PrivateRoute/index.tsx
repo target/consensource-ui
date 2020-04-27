@@ -13,11 +13,11 @@ export default function PrivateRoute({ path, component }: PrivateRouteProps) {
             path={path}
             render={({ location }) =>
                 AuthService.isSignedIn() ? (
-                    component
+                    React.createElement(component)
                 ) : (
                     <Redirect
                         to={{
-                            pathname: '/login',
+                            pathname: '/signup',
                             state: { from: location },
                         }}
                     />

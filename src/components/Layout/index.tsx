@@ -4,10 +4,8 @@ import Dashboard from 'components/Dashboard';
 
 export default function Layout() {
     return (
-        <div className="content">
-            <Switch>
-                <Route path="/dashboard" component={Dashboard} />
-            </Switch>
-        </div>
+        <Switch>
+            <Route path="/dashboard" component={Dashboard} />
+        </Switch>
     );
 }

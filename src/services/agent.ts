@@ -12,7 +12,7 @@ class AgentService {
         }
 
         const createAgent = CreateAgentAction.create({
-            name: name,
+            name,
             timestamp: Math.round(Date.now() / 1000),
         });
 
