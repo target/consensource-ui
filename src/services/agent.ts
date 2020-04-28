@@ -7,10 +7,6 @@ class AgentService {
         name: string,
         signer: sawtooth.signing.Signer,
     ): sawtooth.protobuf.Transaction => {
-        if (!signer) {
-            throw new Error('A signer must be provided');
-        }
-
         const createAgent = CreateAgentAction.create({
             name,
             timestamp: Math.round(Date.now() / 1000),
@@ -21,9 +17,8 @@ class AgentService {
             createAgent,
         }).finish();
 
-        const agentAddress = addressing.makeAgentAddress(
-            signer.getPublicKey().asHex(),
-        );
+        const agentAddress = addressing.makeAgentAddress(signer);
+
         return TransactionService.createTransaction(
             {
                 payloadBytes,
@@ -34,14 +29,17 @@ class AgentService {
         );
     };
 
-    createAgent = (
+    createAgent = async (
         name: string,
         signer: sawtooth.signing.Signer,
     ): Promise<any> => {
-        return TransactionService.submitBatch(
-            [this.createAgentTransaction(name, signer)],
+        const agentTxn = await this.createAgentTransaction(name, signer);
+        const batchRes = await TransactionService.submitBatch(
+            [agentTxn],
             signer,
         );
+
+        return batchRes;
     };
 }
 

@@ -7,7 +7,7 @@ import {
     BatchList,
 } from 'sawtooth-sdk/protobuf';
 import * as addressing from 'services/addressing';
-import * as transactionApi from 'services/api/transaction';
+import * as TransactionApi from 'services/api/transaction';
 
 export enum BATCH_STATUS {
     COMMITTED = 'COMMITTED',
@@ -27,7 +27,8 @@ class TransactionService {
      */
     getTransactionIds = (
         transactions: sawtooth.protobuf.Transaction[],
-    ): string[] => transactions.map(transaction => transaction.headerSignature);
+    ): string[] =>
+        transactions.map((transaction) => transaction.headerSignature);
 
     /**
      * Creates a serialized `BatchHeader`, signs the message,
@@ -38,9 +39,9 @@ class TransactionService {
         signer: sawtooth.signing.Signer,
     ): sawtooth.protobuf.Batch => {
         const transactionIds = this.getTransactionIds(transactions);
-        const pubkey = signer.getPublicKey().asHex();
+        const publicKey = signer.getPublicKey().asHex();
         const batchHeaderBytes = BatchHeader.encode({
-            signerPublicKey: pubkey,
+            signerPublicKey: publicKey,
             transactionIds,
         }).finish();
 
@@ -80,7 +81,7 @@ class TransactionService {
         transactionIds: string[],
         batchStatusLink: string,
     ): Promise<string | string[]> => {
-        const res = await transactionApi.getBatchStatus(batchStatusLink);
+        const res = await TransactionApi.getBatchStatus(batchStatusLink);
 
         // Because we currently only submit a single batch at a time
         // we can assume the only batch status entry is in index 0
@@ -114,7 +115,7 @@ class TransactionService {
             batches: [batch],
         }).finish();
 
-        const res = await transactionApi.postBatches(batchListBytes);
+        const res = await TransactionApi.postBatches(batchListBytes);
 
         return this.waitForCommit(transactionIds, res.link);
     };

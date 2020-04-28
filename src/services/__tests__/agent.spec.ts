@@ -25,9 +25,8 @@ describe('agentService', () => {
             createAgent,
         }).finish();
 
-        const agentAddress = addressing.makeAgentAddress(
-            signer.getPublicKey().asHex(),
-        );
+        const agentAddress = addressing.makeAgentAddress(signer);
+
         const transaction = TransactionService.createTransaction(
             {
                 payloadBytes,

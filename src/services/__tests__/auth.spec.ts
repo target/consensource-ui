@@ -159,7 +159,7 @@ describe('AuthService', () => {
                     getStorageKey(AuthService.storeUser),
                     'bad-json',
                 );
-                await AuthService.getUserData().catch(e =>
+                await AuthService.getUserData().catch((e) =>
                     expect(e).toEqual(expect.any(Error)),
                 );
             });
@@ -169,7 +169,7 @@ describe('AuthService', () => {
             it('returns a rejected promise with a string', async () => {
                 expect.assertions(1);
                 // TODO: Use a snapshot here
-                await AuthService.getUserData().catch(e =>
+                await AuthService.getUserData().catch((e) =>
                     expect(e).toEqual(expect.any(String)),
                 );
             });
@@ -222,7 +222,7 @@ describe('AuthService', () => {
                     AuthService,
                     'requestPassword',
                 ).mockResolvedValueOnce('wrong-password');
-                await AuthService.getSigner().catch(e =>
+                await AuthService.getSigner().catch((e) =>
                     expect(e).toBeTruthy(),
                 );
             });
@@ -251,7 +251,7 @@ describe('AuthService', () => {
                 expect.assertions(1);
                 jest.spyOn(AuthService, 'isSignedIn').mockReturnValueOnce(true);
                 // TODO: Use a snapshot here
-                await AuthService.createSigner(password).catch(e =>
+                await AuthService.createSigner(password).catch((e) =>
                     expect(e).toEqual(expect.any(String)),
                 );
             });
@@ -305,7 +305,7 @@ describe('AuthService', () => {
                 const failure401 = await AuthService.authenticate(
                     user.username,
                     password,
-                ).catch(e => {
+                ).catch((e) => {
                     // TODO: Use a snapshot here
                     expect(e).toEqual(expect.any(String));
                     return e;
@@ -317,7 +317,7 @@ describe('AuthService', () => {
                 const failureGeneric = await AuthService.authenticate(
                     user.username,
                     password,
-                ).catch(e => {
+                ).catch((e) => {
                     // TODO: Use a snapshot here
                     expect(e).toEqual(expect.any(String));
                     return e;
@@ -358,7 +358,7 @@ describe('AuthService', () => {
                 const failure401 = await AuthService.updateUser(
                     userUpdate,
                     signer,
-                ).catch(e => {
+                ).catch((e) => {
                     // TODO: Use a snapshot here
                     expect(e).toEqual(expect.any(String));
                     return e;
@@ -370,7 +370,7 @@ describe('AuthService', () => {
                 const failureGeneric = await AuthService.updateUser(
                     userUpdate,
                     signer,
-                ).catch(e => {
+                ).catch((e) => {
                     // TODO: Use a snapshot here
                     expect(e).toEqual(expect.any(String));
                     return e;
@@ -394,7 +394,7 @@ describe('AuthService', () => {
         });
     });
 
-    describe('AuthService.createUser()', () => {
+    describe('AuthService.createAndCacheUser()', () => {
         const submitTransactionFn = jest.fn().mockResolvedValueOnce(null);
         const signer = new Signer(cryptoContext, privateKey);
         const encryptedPrivateKey = sjcl.encrypt(
@@ -424,10 +424,10 @@ describe('AuthService', () => {
                 mockedAxios.post.mockRejectedValueOnce({
                     error: { status: 400, message: '400 error' },
                 });
-                const failure400 = await AuthService.createUser(
+                const failure400 = await AuthService.createAndCacheUser(
                     userCreate,
                     submitTransactionFn,
-                ).catch(e => {
+                ).catch((e) => {
                     // TODO: Use a snapshot here
                     expect(e).toEqual(expect.any(String));
                     return e;
@@ -436,10 +436,10 @@ describe('AuthService', () => {
                 mockedAxios.post.mockRejectedValueOnce({
                     error: new Error(),
                 });
-                const failureGeneric = await AuthService.createUser(
+                const failureGeneric = await AuthService.createAndCacheUser(
                     userCreate,
                     submitTransactionFn,
-                ).catch(e => {
+                ).catch((e) => {
                     // TODO: Use a snapshot here
                     expect(e).toEqual(expect.any(String));
                     return e;
@@ -455,10 +455,10 @@ describe('AuthService', () => {
                 mockedAxios.post.mockResolvedValueOnce({
                     status: 'not-ok',
                 });
-                await AuthService.createUser(
+                await AuthService.createAndCacheUser(
                     userCreate,
                     submitTransactionFn,
-                ).catch(e => {
+                ).catch((e) => {
                     // TODO: Use a snapshot here
                     expect(e).toEqual(expect.any(String));
                     return e;
@@ -469,7 +469,10 @@ describe('AuthService', () => {
                 const spy = jest.spyOn(AuthService, 'setUserData');
                 mockedAxios.post.mockResolvedValueOnce({ status: 'ok' });
 
-                await AuthService.createUser(userCreate, submitTransactionFn);
+                await AuthService.createAndCacheUser(
+                    userCreate,
+                    submitTransactionFn,
+                );
 
                 expect(submitTransactionFn).toHaveBeenCalledWith(signer);
                 expect(spy).toHaveBeenCalledWith(

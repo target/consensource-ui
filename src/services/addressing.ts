@@ -25,10 +25,7 @@ const RESERVED_SPACE = '00';
 
 const hash = (val: string, len: number): string => {
     const sha: Hash = createHash('sha256');
-    return sha
-        .update(val)
-        .digest('hex')
-        .substring(0, len);
+    return sha.update(val).digest('hex').substring(0, len);
 };
 
 const FAMILY_NAMESPACE = hash(FAMILY_NAME, PREFIX_SIZE);
@@ -38,8 +35,10 @@ const ORGANIZATION_ADDRESS_PREFIX =
 
 const getFamilyNamespacePrefix = (): string => FAMILY_NAMESPACE;
 
-const makeAgentAddress = (agentPublicKey: string): string =>
-    AGENT_ADDRESS_PREFIX + hash(agentPublicKey, 60);
+const makeAgentAddress = (signer: sawtooth.signing.Signer): string => {
+    const publicKeyHex = signer.getPublicKey().asHex();
+    return AGENT_ADDRESS_PREFIX + hash(publicKeyHex, 60);
+};
 
 const makeOrganizationAddress = (organizationId: string): string =>
     FAMILY_NAMESPACE + RESERVED_SPACE + ORGANIZATION + hash(organizationId, 60);

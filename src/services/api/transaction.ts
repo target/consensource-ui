@@ -10,10 +10,7 @@ export const postBatches = (batchListBytes: Uint8Array): Promise<any> => {
 
     return axios
         .post(url, batchListBytes, {
-            headers: {
-                'Content-Type': 'application/octet-stream',
-            },
-            paramsSerializer: (x) => x,
+            headers: { 'Content-Type': 'application/octet-stream' },
         })
         .catch((e: Error) =>
             Promise.reject(`Failed to POST ${url}: ${e.message}`),

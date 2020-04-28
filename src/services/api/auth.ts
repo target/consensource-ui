@@ -9,8 +9,9 @@ export interface UserCreatePayload {
     username: string;
     password: string;
     public_key: string;
-    encrypted_key: sjcl.SjclCipherEncrypted;
+    encrypted_private_key: sjcl.SjclCipherEncrypted;
 }
 
-export const createUser = async (userCreate: UserCreatePayload): Promise<any> =>
-    await axios.post('/api/users', userCreate);
+export const createAndCacheUser = async (
+    userCreate: UserCreatePayload,
+): Promise<any> => await axios.post('/api/users', userCreate);

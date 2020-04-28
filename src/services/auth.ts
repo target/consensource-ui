@@ -7,50 +7,50 @@ import axios from 'axios';
 import AgentService from 'services/agent';
 
 class AuthService {
-    namespace: string;
-    storePrivateKey: string;
-    storeUser: string;
+    NAMESPACE: string;
+    STORE_PRIVATE_KEY: string;
+    STORE_USER: string;
     cachedSigner: sawtooth.signing.Signer | null;
     cryptoFactory: sawtooth.signing.CryptoFactory;
 
     constructor() {
-        this.namespace = 'consensource';
-        this.storePrivateKey = 'privateKey';
-        this.storeUser = 'user';
+        this.NAMESPACE = 'consensource';
+        this.STORE_PRIVATE_KEY = 'privateKey';
+        this.STORE_USER = 'user';
         this.cachedSigner = null;
         this.cryptoFactory = new CryptoFactory(createContext('secp256k1'));
     }
 
     localStoreSave(key: string, value: string) {
-        return localStorage.setItem(`${this.namespace}/${key}`, value);
+        return localStorage.setItem(`${this.NAMESPACE}/${key}`, value);
     }
 
     localStoreGet(key: string): string | null {
-        return localStorage.getItem(`${this.namespace}/${key}`);
+        return localStorage.getItem(`${this.NAMESPACE}/${key}`);
     }
 
     localStoreRemove(key: string): void {
-        localStorage.removeItem(`${this.namespace}/${key}`);
+        localStorage.removeItem(`${this.NAMESPACE}/${key}`);
     }
 
     sessionStoreSave(key: string, value: string): void {
-        sessionStorage.setItem(`${this.namespace}/${key}`, value);
+        sessionStorage.setItem(`${this.NAMESPACE}/${key}`, value);
     }
 
     sessionStoreGet(key: string): string | null {
-        return sessionStorage.getItem(`${this.namespace}/${key}`);
+        return sessionStorage.getItem(`${this.NAMESPACE}/${key}`);
     }
 
     sessionStoreRemove(key: string): void {
-        sessionStorage.removeItem(`${this.namespace}/${key}`);
+        sessionStorage.removeItem(`${this.NAMESPACE}/${key}`);
     }
 
-    setNamespace(ns: string): void {
-        this.namespace = ns;
+    setNAMESPACE(ns: string): void {
+        this.NAMESPACE = ns;
     }
 
     isSignedIn(): boolean {
-        return Boolean(this.localStoreGet(this.storeUser));
+        return Boolean(this.localStoreGet(this.STORE_USER));
     }
 
     getNewPrivateKey() {
@@ -94,10 +94,9 @@ class AuthService {
             'encrypted_private_key',
         );
 
-        this.localStoreSave(this.storeUser, JSON.stringify(storedUser));
-
+        this.localStoreSave(this.STORE_USER, JSON.stringify(storedUser));
         const decryptedKey = sjcl.decrypt(password, user.encrypted_private_key);
-        this.sessionStoreSave(this.storePrivateKey, decryptedKey);
+        this.sessionStoreSave(this.STORE_PRIVATE_KEY, decryptedKey);
     }
 
     updateUserData(update: any): void {
@@ -111,80 +110,24 @@ class AuthService {
                 'encrypted_private_key',
             );
             currentUser.encrypted_private_key = update.encrypted_private_key;
-            this.localStoreSave(this.storeUser, JSON.stringify(currentUser));
+            this.localStoreSave(this.STORE_USER, JSON.stringify(currentUser));
 
             const decryptedKey = sjcl.decrypt(
                 update.password,
                 update.encrypted_private_key,
             );
-            this.sessionStoreSave(this.storePrivateKey, decryptedKey);
+            this.sessionStoreSave(this.STORE_PRIVATE_KEY, decryptedKey);
         });
     }
 
-    getUserData(): Promise<unknown> {
-        return new Promise((resolve, reject) => {
-            const userStr = this.localStoreGet(this.storeUser);
-            if (!userStr) {
-                reject('No User Data Available.  Sign-in required');
-                return;
-            }
+    getUserData(): any {
+        const userStr = this.localStoreGet(this.STORE_USER);
 
-            try {
-                resolve(JSON.parse(userStr));
-            } catch (e) {
-                reject(e);
-            }
-        });
-    }
-
-    getSigner(): Promise<any> {
-        if (this.cachedSigner) {
-            return Promise.resolve(this.cachedSigner);
+        if (userStr) {
+            return JSON.parse(userStr);
+        } else {
+            return 'No User Data Available.  Sign-in required';
         }
-
-        const sessionStoredKey = this.sessionStoreGet(this.storePrivateKey);
-
-        if (sessionStoredKey) {
-            const signer = this.cryptoFactory.newSigner(
-                Secp256k1PrivateKey.fromHex(sessionStoredKey),
-            );
-            this.cachedSigner = signer;
-            return Promise.resolve(signer);
-        }
-
-        return this.getUserData()
-            .then((user: any) => Promise.all([user, this.requestPassword()]))
-            .then(([user, password]: Array<any>) => {
-                const decryptedKey = sjcl.decrypt(
-                    password,
-                    user.encrypted_private_key,
-                );
-                this.sessionStoreSave(this.storePrivateKey, decryptedKey);
-                const signer = this.cryptoFactory.newSigner(
-                    Secp256k1PrivateKey.fromHex(decryptedKey),
-                );
-                this.cachedSigner = signer;
-                return Promise.resolve(signer);
-            });
-    }
-
-    /**
-     *  Returns a new Signer and the encrypted private key, to send to the server.
-     */
-    createSigner(password: string): any {
-        if (this.isSignedIn()) {
-            throw new Error('Already signed in');
-        }
-
-        const privateKey = this.getNewPrivateKey();
-        const signer = this.cryptoFactory.newSigner(privateKey);
-
-        this.cachedSigner = signer;
-        this.sessionStoreSave(this.storePrivateKey, privateKey.asHex());
-
-        const encryptedPrivateKey = sjcl.encrypt(password, privateKey.asHex());
-
-        return { signer, encryptedPrivateKey };
     }
 
     /**
@@ -192,8 +135,8 @@ class AuthService {
      */
     clear(): void {
         this.cachedSigner = null;
-        this.localStoreRemove(this.storeUser);
-        this.sessionStoreRemove(this.storePrivateKey);
+        this.localStoreRemove(this.STORE_USER);
+        this.sessionStoreRemove(this.STORE_PRIVATE_KEY);
     }
 
     authenticate(username: string, password: string): Promise<void> {
@@ -246,22 +189,106 @@ class AuthService {
     }
 
     /**
-     * Creates a user and saves it off-chain.
+     * Returns a signer in one of three ways:
+     * 1. From cache
+     * 2. Creates a new signer from the private key in session storage
+     * 3. By prompting the user for their password, decrypting the user's
+     *    private key, and create a new signer with it.
+     *
      */
-    async createUser(username: string, password: string): Promise<void> {
-        const { signer, encryptedPrivateKey } = this.createSigner(password);
+    async getSigner(): Promise<sawtooth.signing.Signer> {
+        const decryptedKeyHex = this.sessionStoreGet(this.STORE_PRIVATE_KEY);
 
-        const public_key = signer.getPublicKey().asHex();
-        const encrypted_private_key = encryptedPrivateKey;
+        if (this.cachedSigner) {
+            return this.cachedSigner;
+        } else if (decryptedKeyHex) {
+            const decryptedKey = this.getPrivateKeyFromHex(decryptedKeyHex);
+            return this.createAndCacheSigner(decryptedKey);
+        } else {
+            const decryptedKey = await this.getDecryptedUserPrivateKey();
+            return this.createAndCacheSigner(decryptedKey);
+        }
+    }
 
-        const userCreate = {
+    getPrivateKeyFromHex(privateKey: string) {
+        return Secp256k1PrivateKey.fromHex(privateKey);
+    }
+
+    /**
+     * TODO: Use the right type for the param (blocked by sawtooth-sdk typings)
+     *
+     * Prompts the user for their password in order to decrypt their
+     * private key.
+     */
+    async getDecryptedUserPrivateKey(): Promise<any> {
+        const user = this.getUserData();
+        const password = await this.requestPassword();
+        const decryptedKeyHex = sjcl.decrypt(
+            password,
+            user.encrypted_private_key,
+        );
+        const decryptedKey = this.getPrivateKeyFromHex(decryptedKeyHex);
+        return decryptedKey;
+    }
+
+    /**
+     * TODO: Use the right type for the param (blocked by sawtooth-sdk typings)
+     *
+     * Creates a new signer to be sign transactions with. Also saves
+     * the private key to session storage, and the signer in cache.
+     *
+     * Note: A signer is merely a wrapper class for a private key
+     * and is not saved to the db or state.
+     *
+     */
+    createAndCacheSigner(privateKey: any): sawtooth.signing.Signer {
+        const signer = this.cryptoFactory.newSigner(privateKey);
+        this.cachedSigner = signer;
+
+        return this.cachedSigner;
+    }
+
+    /**
+     * TODO: Use the right type for the param (blocked by sawtooth-sdk typings)
+     *
+     * Encrypts the private key using the provided password.
+     */
+    getEncryptedPrivateKey(password: string, privateKey: any) {
+        return sjcl.encrypt(password, privateKey.asHex());
+    }
+
+    createAndCachePrivateKey() {
+        const privateKey = this.getNewPrivateKey();
+        this.sessionStoreSave(this.STORE_PRIVATE_KEY, privateKey.asHex());
+
+        return privateKey;
+    }
+
+    /**
+     * Creates a user and saves it off-chain.
+     * When creating a user, we also generate a public and private key
+     * that we manage on behalf of the user and is saved off-chain.
+     *
+     */
+    async createAndCacheUser(
+        username: string,
+        password: string,
+        signer: sawtooth.signing.Signer,
+    ): Promise<void> {
+        const encryptedPrivateKey = this.getEncryptedPrivateKey(
+            password,
+            signer._privateKey,
+        );
+
+        const userPayload: AuthApi.UserCreatePayload = {
             username,
             password,
-            public_key,
-            encrypted_private_key,
-        } as any;
+            public_key: signer.getPublicKey().asHex(),
+            encrypted_private_key: encryptedPrivateKey,
+        };
 
-        return await AuthApi.createUser(userCreate);
+        await AuthApi.createAndCacheUser(userPayload);
+        await this.setUserData(userPayload, password);
     }
 
     async createUserWithAgent(
@@ -269,12 +296,11 @@ class AuthService {
         password: string,
         name: string,
     ): Promise<any> {
-        const user = await this.createUser(username, password);
-        console.log(user);
-        const signer = await this.getSigner();
+        const privateKey = this.createAndCachePrivateKey();
+        const signer = this.createAndCacheSigner(privateKey);
 
+        await this.createAndCacheUser(username, password, signer);
         await AgentService.createAgent(name, signer);
-        await this.setUserData(user, password);
     }
 }
 
