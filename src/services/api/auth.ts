@@ -13,8 +13,4 @@ export interface UserCreatePayload {
 }
 
 export const createUser = async (userCreate: UserCreatePayload): Promise<any> =>
-    await axios.post('/api/users', userCreate, {
-        headers: {
-            Connection: 'keep-alive',
-        },
-    });
+    await axios.post('/api/users', userCreate);

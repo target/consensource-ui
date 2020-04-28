@@ -22,13 +22,13 @@ describe('AgentApi', () => {
         },
     };
 
-    describe('loadAgents()', () => {
+    describe('fetchAllAgents()', () => {
         describe('when called', () => {
             it('will return all agents in an array', async () => {
                 mockedAxios.get.mockResolvedValueOnce({
                     data: [agent_1, agent_2],
                 });
-                await expect(AgentApi.loadAgents()).resolves.toEqual({
+                await expect(AgentApi.fetchAllAgents()).resolves.toEqual({
                     data: [agent_1, agent_2],
                 });
             });

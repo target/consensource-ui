@@ -60,7 +60,7 @@ class AuthService {
     requestPassword(): Promise<string> {
         // const password = '';
 
-        return new Promise(resolve => resolve('test'));
+        return new Promise((resolve) => resolve('test'));
         // return Modals.show(
         //     Modals.DialogModal,
         //     {
@@ -171,7 +171,7 @@ class AuthService {
     /**
      *  Returns a new Signer and the encrypted private key, to send to the server.
      */
-    async createSigner(password: string): Promise<any> {
+    createSigner(password: string): any {
         if (this.isSignedIn()) {
             throw new Error('Already signed in');
         }
@@ -202,8 +202,8 @@ class AuthService {
                 username,
                 password,
             })
-            .then(user => this.setUserData(user, password))
-            .catch(e => {
+            .then((user) => this.setUserData(user, password))
+            .catch((e) => {
                 if (e.error && e.error.status === 401) {
                     return Promise.reject('User not found');
                 } else {
@@ -229,7 +229,7 @@ class AuthService {
 
         return axios
             .patch(`/api/users/${public_key}`, { userUpdate })
-            .catch(e => {
+            .catch((e) => {
                 if (e.error && e.error.status === 401) {
                     return Promise.reject('Unauthorized to change password');
                 } else {
@@ -249,9 +249,7 @@ class AuthService {
      * Creates a user and saves it off-chain.
      */
     async createUser(username: string, password: string): Promise<void> {
-        const { signer, encryptedPrivateKey } = await this.createSigner(
-            password,
-        );
+        const { signer, encryptedPrivateKey } = this.createSigner(password);
 
         const public_key = signer.getPublicKey().asHex();
         const encrypted_private_key = encryptedPrivateKey;
@@ -272,10 +270,11 @@ class AuthService {
         name: string,
     ): Promise<any> {
         const user = await this.createUser(username, password);
+        console.log(user);
         const signer = await this.getSigner();
 
-        // await AgentService.createAgent(name, signer);
-        // await this.setUserData(user, password);
+        await AgentService.createAgent(name, signer);
+        await this.setUserData(user, password);
     }
 }
 

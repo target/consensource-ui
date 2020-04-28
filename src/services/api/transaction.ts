@@ -12,8 +12,8 @@ export const postBatches = (batchListBytes: Uint8Array): Promise<any> => {
         .post(url, batchListBytes, {
             headers: {
                 'Content-Type': 'application/octet-stream',
-                Connection: 'keep-alive',
             },
+            paramsSerializer: (x) => x,
         })
         .catch((e: Error) =>
             Promise.reject(`Failed to POST ${url}: ${e.message}`),

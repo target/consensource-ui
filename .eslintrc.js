@@ -12,14 +12,11 @@ module.exports = {
         ecmaVersion: 2018,
         sourceType: 'module',
     },
-    plugins: ['@typescript-eslint', 'prettier', ],
-    extends: ['react-app', 'prettier', 'plugin:prettier/recommended'],
+    plugins: ['@typescript-eslint', 'prettier'],
+    extends: ['react-app', 'prettier'],
     rules: {
-        fsdfdsa
-        'prettier/prettier': 'warn'
         '@typescript-eslint/no-explicit-any': 'off',
-        '@typescript-eslint/camelcase': 'off', // Needed due to snake casing in protos
+        '@typescript-eslint/camelcase': 'off', // Needed for protos
         '@typescript-eslint/explicit-function-return-type': 'off', // Ignore for use with function components
-        '@typescript-eslint/no-unused-vars': ['error', { "argsIgnorePattern": "^_" }],
     }
 };
