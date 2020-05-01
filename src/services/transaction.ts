@@ -85,7 +85,7 @@ class TransactionService {
 
         // Because we currently only submit a single batch at a time
         // we can assume the only batch status entry is in index 0
-        const batch = res.data[0];
+        const batch = res.data.data[0];
 
         switch (batch.status) {
             case BATCH_STATUS.COMMITTED:
@@ -95,7 +95,10 @@ class TransactionService {
                     this.getInvalidBatchResult(batch, transactionIds),
                 );
             default:
-                return this.waitForCommit(transactionIds, batchStatusLink);
+                return await this.waitForCommit(
+                    transactionIds,
+                    batchStatusLink,
+                );
         }
     };
 
@@ -117,7 +120,7 @@ class TransactionService {
 
         const res = await TransactionApi.postBatches(batchListBytes);
 
-        return this.waitForCommit(transactionIds, res.link);
+        return this.waitForCommit(transactionIds, res.data.link);
     };
 
     /**

@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import AuthService from 'services/auth';
+import { StoreContext } from 'stores';
 
 interface PrivateRouteProps {
     path: string;
@@ -8,11 +8,13 @@ interface PrivateRouteProps {
 }
 
 export default function PrivateRoute({ path, component }: PrivateRouteProps) {
+    const context = useContext(StoreContext);
+
     return (
         <Route
             path={path}
             render={({ location }) =>
-                AuthService.isSignedIn() ? (
+                context.userStore.isSignedIn ? (
                     React.createElement(component)
                 ) : (
                     <Redirect
