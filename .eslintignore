@@ -1,4 +1,3 @@
 ## Auto-generated protobuf files
-src/types/consensource/index.d.ts
-src/protobuf/index.js
+**/src/services/protobuf/index.js
 src/types

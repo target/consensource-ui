@@ -34,7 +34,6 @@ export default class UserStore {
     }
 
     @computed get isSignedIn() {
-        console.log('isSignedI !!!');
         return this.user !== null;
     }
 }

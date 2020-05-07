@@ -1,6 +1,6 @@
 import { mocked } from 'ts-jest/utils';
 import axios from 'axios';
-import * as TransactionApi from 'services/api/transaction';
+import * as TransactionApi from 'services/api/batch';
 import { Batch, BatchList, Transaction } from 'sawtooth-sdk/protobuf';
 
 jest.mock('axios');

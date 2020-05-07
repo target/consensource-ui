@@ -1,8 +1,11 @@
 import * as addressing from 'services/addressing';
 import { createContext, Signer } from 'sawtooth-sdk/signing';
-import { CertificateRegistryPayload, CreateAgentAction } from 'protobuf';
-import TransactionService from 'services/transaction';
-import AgentService from 'services/agent';
+import {
+    CertificateRegistryPayload,
+    CreateAgentAction,
+} from 'services/protobuf';
+import TransactionService from 'services/protobuf/batch';
+import AgentService from 'services/protobuf/transactions/agent';
 import { mocked } from 'ts-jest/utils';
 
 jest.mock('services/transaction');

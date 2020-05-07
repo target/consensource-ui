@@ -7,7 +7,6 @@ export const BATCH_STATUS_WAIT = 60;
  */
 export const postBatches = (batchListBytes: Uint8Array): Promise<any> => {
     const url = '/api/batches';
-    console.log(toString.call(batchListBytes.buffer));
 
     return axios
         .post(url, batchListBytes, {

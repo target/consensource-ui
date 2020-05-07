@@ -1,4 +1,7 @@
-import TransactionService, { IPayloadInfo, BATCH_STATUS } from '../transaction';
+import TransactionService, {
+    IPayloadInfo,
+    BATCH_STATUS,
+} from '../protobuf/batch';
 import * as addressing from 'services/addressing';
 import { createContext, Signer } from 'sawtooth-sdk/signing';
 import {
@@ -9,7 +12,7 @@ import {
     BatchList,
 } from 'sawtooth-sdk/protobuf';
 import { createHash } from 'crypto';
-import * as TransactionApi from 'services/api/transaction';
+import * as TransactionApi from 'services/api/batch';
 import { mocked } from 'ts-jest/utils';
 
 jest.mock('services/api/transaction');
@@ -56,7 +59,7 @@ describe('Transaction Service', () => {
                 mockTransaction,
             ]);
             const headerSignatures = transactions.map(
-                transaction => transaction.headerSignature,
+                (transaction) => transaction.headerSignature,
             );
 
             expect(transactionIds).toEqual(headerSignatures);

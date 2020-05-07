@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { StoreContext } from 'stores';
+import React from 'react';
+import stores from 'stores';
 import { useLocalStore, observer } from 'mobx-react-lite';
 
 const UserSignUp = () => {
@@ -8,8 +8,6 @@ const UserSignUp = () => {
         password: '',
     }));
 
-    const context = useContext(StoreContext);
-
     /**
      * Create a user and an agent from the form info
      */
@@ -17,7 +15,7 @@ const UserSignUp = () => {
         event.preventDefault();
 
         try {
-            await context.userStore.createUser(state.username, state.password);
+            await stores.userStore.createUser(state.username, state.password);
         } catch (err) {
             console.error(err);
         }

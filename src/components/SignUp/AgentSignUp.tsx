@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { StoreContext } from 'stores';
+import stores from 'stores';
+import createAndSubmitAgent from 'services/agent';
 import { useLocalStore, observer } from 'mobx-react-lite';
 
 const AgentSignUp = () => {
@@ -8,7 +9,6 @@ const AgentSignUp = () => {
         name: '',
     }));
 
-    const context = useContext(StoreContext);
     const history = useHistory();
 
     /**
@@ -17,16 +17,18 @@ const AgentSignUp = () => {
     const submit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        // try {
-        //     await context.userStore.createUser(state.username, state.password);
-        // } catch (err) {
-        //     console.error(err);
-        // }
+        try {
+            const { signer } = stores.userStore.user!; // TODO: Fix this non-nullable pattern
+            createAndSubmitAgent(state, signer);
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     return (
         <div>
             <h1>Agent Signup</h1>
+            <h2>{`${stores.batchStore.isWaitingOnBatch}`}</h2>
             <form>
                 <div>
                     <label>username</label>

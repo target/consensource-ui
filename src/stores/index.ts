@@ -1,15 +1,15 @@
 import UserStore from 'stores/UserStore';
 import CryptoStore from 'stores/CryptoStore';
-import { createContext } from 'react';
+import BatchStore from 'stores/BatchStore';
 
 const cryptoStore = new CryptoStore();
 const userStore = new UserStore(cryptoStore);
+const batchStore = new BatchStore();
 
 const stores = {
     cryptoStore,
     userStore,
+    batchStore,
 };
-
-export const StoreContext = createContext(stores);
 
 export default stores;
