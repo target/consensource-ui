@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import Dashboard from 'components/Dashboard';
 import Landing from 'images/landing.svg';
 
-export default function Layout() {
+const Layout = () => {
 	return (
 		<>
 			<img src={Landing} alt="background" />
@@ -13,4 +13,6 @@ export default function Layout() {
 			</Switch>
 		</>
 	);
-}
+};
+
+export default Layout;

@@ -5,10 +5,10 @@ import { getTransactionIds } from 'services/protobuf/transactions';
  * Creates a serialized `BatchHeader`, signs the message,
  * and creates a `Batch` with the header, signature and transactions
  */
-export default function createBatch(
+export const createBatch = (
 	transactions: sawtooth.protobuf.Transaction[],
 	signer: sawtooth.signing.Signer,
-): Uint8Array {
+): Uint8Array => {
 	const transactionIds = getTransactionIds(transactions);
 	const publicKey = signer.getPublicKey().asHex();
 	const batchHeaderBytes = BatchHeader.encode({
@@ -24,17 +24,7 @@ export default function createBatch(
 		transactions,
 	});
 
-	return BatchList.encode({ batches: [batch] }).finish();
-}
+	const batchBytes = BatchList.encode({ batches: [batch] }).finish();
 
-// /**
-//  * Create a `Transaction` with the payloadInfo and submit it in a `Batch`.
-//  * @returns `Promise` that will resolve when the transactions have been committed.
-//  */
-// submitTransaction(
-//     payloadInfo: PayloadInfo,
-//     signer: sawtooth.signing.Signer,
-// ): Promise<any> {
-//     const transactions = [this.createTransaction(payloadInfo, signer)];
-//     return this.submitBatch(transactions, signer);
-// }
+	return batchBytes;
+};

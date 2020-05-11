@@ -2,10 +2,10 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import LoginPage from 'components/Login';
 import Layout from 'components/Layout';
-import PrivateRoute from 'components/Layout/PrivateRoute';
+import PrivateRoute from 'components/Navigation/PrivateRoute';
 import SignUp from 'components/SignUp';
 
-export default function App() {
+const App = () => {
 	return (
 		<Router>
 			<Switch>
@@ -15,4 +15,6 @@ export default function App() {
 			</Switch>
 		</Router>
 	);
-}
+};
+
+export default App;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import stores from 'stores';
-import createAndSubmitAgent from 'services/agent';
+import { createAndSubmitAgent } from 'services/agent';
 import { useLocalStore, observer } from 'mobx-react-lite';
 
 const AgentSignUp = () => {

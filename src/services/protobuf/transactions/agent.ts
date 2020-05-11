@@ -1,27 +1,35 @@
-import { makeAgentAddress } from 'services/addressing';
+import { Namespaces, makeAddress } from 'services/addressing';
 import { CreateAgentAction } from 'services/protobuf';
-import createTransaction, {
+import {
+	createTransaction,
 	PayloadInfo,
 	encodePayload,
 	ACTIONS,
+	getTxnTimestamp,
 } from 'services/protobuf/transactions';
 
 export interface AgentPayload {
 	name: string;
 }
-export default function createAgentTransaction(
+
+export const getAgentAddress = (signer: sawtooth.signing.Signer) => {
+	const pubKey = signer.getPublicKey().asHex();
+	return makeAddress(Namespaces.AGENT, pubKey);
+};
+
+export const createAgentTransaction = (
 	{ name }: AgentPayload,
 	signer: sawtooth.signing.Signer,
-): sawtooth.protobuf.Transaction {
+): sawtooth.protobuf.Transaction => {
 	const createAgent = CreateAgentAction.create({
 		name,
-		timestamp: Math.round(Date.now() / 1000),
+		timestamp: getTxnTimestamp(),
 	});
 
 	const payload = { action: ACTIONS.CREATE_AGENT_ACTION, createAgent };
 	const payloadBytes = encodePayload(payload);
+	const agentAddress = getAgentAddress(signer);
 
-	const agentAddress = makeAgentAddress(signer);
 	const payloadInfo: PayloadInfo = {
 		payloadBytes,
 		inputs: [agentAddress],
@@ -29,4 +37,4 @@ export default function createAgentTransaction(
 	};
 
 	return createTransaction(payloadInfo, signer);
-}
+};

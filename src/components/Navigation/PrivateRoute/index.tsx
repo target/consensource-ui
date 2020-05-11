@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, RouteComponentProps } from 'react-router-dom';
 import stores from 'stores';
 
 export interface PrivateRouteProps {
@@ -9,8 +9,18 @@ export interface PrivateRouteProps {
 
 export const DEFAULT_UNAUTH_REDIRECT_LOCATION = '/signup';
 
-export default function PrivateRoute({ path, component }: PrivateRouteProps) {
-	const redirectLoggedOutUser = ({ location: any }) => {
+/**
+ * Wrapper around `<Route />` that will redirect a user to
+ * `DEFAULT_UNAUTH_REDIRECT_LOCATION` if they are not signed in.
+ *
+ * Example (protects all routes under `/`):
+ *
+ * ```
+ * <PrivateRoute path="/" component={Layout} />
+ * ```
+ */
+const PrivateRoute = ({ path, component }: PrivateRouteProps) => {
+	const redirectLoggedOutUser = ({ location }: RouteComponentProps) => {
 		if (stores.userStore.isSignedIn) {
 			return React.createElement(component);
 		}
@@ -24,4 +34,6 @@ export default function PrivateRoute({ path, component }: PrivateRouteProps) {
 	};
 
 	return <Route path={path} render={redirectLoggedOutUser} />;
-}
+};
+
+export default PrivateRoute;
