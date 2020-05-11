@@ -12,21 +12,23 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 2018,
         sourceType: 'module',
-        project: "./tsconfig.json"
+        project: './tsconfig.json'
     },
-    plugins: ['@typescript-eslint', 'prettier'],
+    plugins: ['@typescript-eslint', 'prettier', 'only-warn'],
     extends: [
-        "airbnb-typescript",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:eslint-comments/recommended",
-        "prettier/@typescript-eslint",
-        "prettier"
+        'airbnb-typescript',
+        'prettier',
+        'prettier/react',
+
     ],
     rules: {
-        'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/camelcase': 'off', // Needed for protos
-        '@typescript-eslint/explicit-function-return-type': 'off', // Ignore for use with function components
+        '@typescript-eslint/explicit-function-return-type': 'off', // Ignore for use with function components,
+        '@typescript-eslint/indent': 'off',
+        'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+        'react/jsx-indent': ['error', 4],
+        'max-classes-per-file': 'off',
     },
     settings: {
         'import/resolver': {

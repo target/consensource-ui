@@ -3,13 +3,6 @@ module.exports = {
   "trailingComma": "all",
   "useTabs": true,
   "tabWidth": 4,
-  "printWidth": 100,
-  "overrides": [
-    {
-      "files": "*.ts",
-      "options": {
-        "parser": "typescript"
-      }
-    }
-  ]
+  "bracketSpacing": true,
+  "arrowParens": "always"
 };
