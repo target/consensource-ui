@@ -1,57 +1,41 @@
 import { observable, action, computed } from 'mobx';
 import * as UserApi from 'services/api/user';
 import CryptoStore from 'stores/CryptoStore';
+import User from 'stores/domain';
 
 export default class UserStore {
-    @observable user: IUser | null = null;
+	cryptoStore: CryptoStore;
 
-    constructor(private cryptoStore: CryptoStore) {}
+	@observable user: User | null = null;
 
-    @action.bound
-    async createUser(username: string, password: string) {
-        const privateKey = this.cryptoStore.createNewPrivateKey();
-        const signer = this.cryptoStore.createSigner(privateKey);
+	constructor(cryptoStore: CryptoStore) {
+		this.cryptoStore = cryptoStore;
+	}
 
-        const userPayload: UserApi.UserPayload = {
-            username,
-            password,
-            public_key: signer.getPublicKey().asHex(),
-            encrypted_private_key: this.cryptoStore.getEncryptedPrivateKey(
-                password,
-                privateKey,
-            ),
-        };
+	@action.bound
+	async createUser(username: string, password: string) {
+		const privateKey = this.cryptoStore.createNewPrivateKey();
+		const signer = this.cryptoStore.createSigner(privateKey);
 
-        await UserApi.createUser(userPayload);
+		const userPayload: UserApi.UserPayload = {
+			username,
+			password,
+			public_key: signer.getPublicKey().asHex(),
+			encrypted_private_key: CryptoStore.getEncryptedPrivateKey(password, privateKey),
+		};
 
-        const user: IUser = {
-            username,
-            password,
-            signer,
-        };
+		await UserApi.createUser(userPayload);
 
-        this.user = user;
-    }
+		const user: User = {
+			username,
+			password,
+			signer,
+		};
 
-    @computed get isSignedIn() {
-        return this.user !== null;
-    }
-}
+		this.user = new User(this, user);
+	}
 
-export interface IUser {
-    username: string;
-    password: string;
-    signer: sawtooth.signing.Signer;
-}
-
-export class User {
-    @observable username: string;
-    @observable password: string;
-    @observable signer: sawtooth.signing.Signer;
-
-    constructor(private store: UserStore, user: IUser) {
-        this.username = user.username;
-        this.password = user.password;
-        this.signer = user.signer;
-    }
+	@computed get isSignedIn() {
+		return this.user !== null;
+	}
 }

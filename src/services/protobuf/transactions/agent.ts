@@ -1,37 +1,32 @@
 import { makeAgentAddress } from 'services/addressing';
-import {
-    CertificateRegistryPayload,
-    CreateAgentAction,
-} from 'services/protobuf';
-import createTransaction, { PayloadInfo } from 'services/protobuf/transactions';
+import { CreateAgentAction } from 'services/protobuf';
+import createTransaction, {
+	PayloadInfo,
+	encodePayload,
+	ACTIONS,
+} from 'services/protobuf/transactions';
 
 export interface AgentPayload {
-    name: string;
+	name: string;
 }
-
-export const CREATE_AGENT_ACTION =
-    CertificateRegistryPayload.Action.CREATE_AGENT;
-
 export default function createAgentTransaction(
-    { name }: AgentPayload,
-    signer: sawtooth.signing.Signer,
+	{ name }: AgentPayload,
+	signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
-    const createAgent = CreateAgentAction.create({
-        name,
-        timestamp: Math.round(Date.now() / 1000),
-    });
+	const createAgent = CreateAgentAction.create({
+		name,
+		timestamp: Math.round(Date.now() / 1000),
+	});
 
-    const payloadBytes = CertificateRegistryPayload.encode({
-        action: CREATE_AGENT_ACTION,
-        createAgent,
-    }).finish();
+	const payload = { action: ACTIONS.CREATE_AGENT_ACTION, createAgent };
+	const payloadBytes = encodePayload(payload);
 
-    const agentAddress = makeAgentAddress(signer);
-    const payloadInfo: PayloadInfo = {
-        payloadBytes,
-        inputs: [agentAddress],
-        outputs: [agentAddress],
-    };
+	const agentAddress = makeAgentAddress(signer);
+	const payloadInfo: PayloadInfo = {
+		payloadBytes,
+		inputs: [agentAddress],
+		outputs: [agentAddress],
+	};
 
-    return createTransaction(payloadInfo, signer);
+	return createTransaction(payloadInfo, signer);
 }

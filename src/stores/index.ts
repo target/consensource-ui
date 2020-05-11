@@ -7,9 +7,9 @@ const userStore = new UserStore(cryptoStore);
 const batchStore = new BatchStore();
 
 const stores = {
-    cryptoStore,
-    userStore,
-    batchStore,
+	cryptoStore,
+	userStore,
+	batchStore,
 };
 
 export default stores;

@@ -6,13 +6,13 @@ import PrivateRoute from 'components/Layout/PrivateRoute';
 import SignUp from 'components/SignUp';
 
 export default function App() {
-    return (
-        <Router>
-            <Switch>
-                <Route path="/login" component={LoginPage}></Route>
-                <Route path="/signup" component={SignUp}></Route>
-                <PrivateRoute path="/" component={Layout}></PrivateRoute>
-            </Switch>
-        </Router>
-    );
+	return (
+		<Router>
+			<Switch>
+				<Route path="/login" component={LoginPage} />
+				<Route path="/signup" component={SignUp} />
+				<PrivateRoute path="/" component={Layout} />
+			</Switch>
+		</Router>
+	);
 }

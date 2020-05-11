@@ -24,46 +24,42 @@ const PREFIX_SIZE = 6;
 const RESERVED_SPACE = '00';
 
 const hash = (val: string, len: number): string => {
-    const sha: Hash = createHash('sha256');
-    return sha.update(val).digest('hex').substring(0, len);
+	const sha: Hash = createHash('sha256');
+	return sha.update(val).digest('hex').substring(0, len);
 };
 
 const FAMILY_NAMESPACE = hash(FAMILY_NAME, PREFIX_SIZE);
 const AGENT_ADDRESS_PREFIX = FAMILY_NAMESPACE + RESERVED_SPACE + AGENT;
-const ORGANIZATION_ADDRESS_PREFIX =
-    FAMILY_NAMESPACE + RESERVED_SPACE + ORGANIZATION;
+const ORGANIZATION_ADDRESS_PREFIX = FAMILY_NAMESPACE + RESERVED_SPACE + ORGANIZATION;
 
 const getFamilyNamespacePrefix = (): string => FAMILY_NAMESPACE;
 
 const makeAgentAddress = (signer: sawtooth.signing.Signer): string => {
-    const publicKeyHex = signer.getPublicKey().asHex();
-    return AGENT_ADDRESS_PREFIX + hash(publicKeyHex, 60);
+	const publicKeyHex = signer.getPublicKey().asHex();
+	return AGENT_ADDRESS_PREFIX + hash(publicKeyHex, 60);
 };
 
 const makeOrganizationAddress = (organizationId: string): string =>
-    FAMILY_NAMESPACE + RESERVED_SPACE + ORGANIZATION + hash(organizationId, 60);
+	FAMILY_NAMESPACE + RESERVED_SPACE + ORGANIZATION + hash(organizationId, 60);
 
 const makeCertificateAddress = (certificateId: string): string =>
-    FAMILY_NAMESPACE + RESERVED_SPACE + CERTIFICATE + hash(certificateId, 60);
+	FAMILY_NAMESPACE + RESERVED_SPACE + CERTIFICATE + hash(certificateId, 60);
 
 const makeCertificateRequestAddress = (certificateRequestId: string): string =>
-    FAMILY_NAMESPACE +
-    RESERVED_SPACE +
-    CERTIFICATE_REQUEST +
-    hash(certificateRequestId, 60);
+	FAMILY_NAMESPACE + RESERVED_SPACE + CERTIFICATE_REQUEST + hash(certificateRequestId, 60);
 
 const makeStandardAddress = (standardId: string): string =>
-    FAMILY_NAMESPACE + RESERVED_SPACE + STANDARD + hash(standardId, 60);
+	FAMILY_NAMESPACE + RESERVED_SPACE + STANDARD + hash(standardId, 60);
 
 export {
-    getFamilyNamespacePrefix,
-    makeAgentAddress,
-    makeOrganizationAddress,
-    makeCertificateAddress,
-    makeCertificateRequestAddress,
-    makeStandardAddress,
-    FAMILY_NAME as familyName,
-    FAMILY_VERSION as familyVersion,
-    AGENT_ADDRESS_PREFIX as agentAddressPrefix,
-    ORGANIZATION_ADDRESS_PREFIX as organizationAddressPrefix,
+	getFamilyNamespacePrefix,
+	makeAgentAddress,
+	makeOrganizationAddress,
+	makeCertificateAddress,
+	makeCertificateRequestAddress,
+	makeStandardAddress,
+	FAMILY_NAME as familyName,
+	FAMILY_VERSION as familyVersion,
+	AGENT_ADDRESS_PREFIX as agentAddressPrefix,
+	ORGANIZATION_ADDRESS_PREFIX as organizationAddressPrefix,
 };
