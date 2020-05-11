@@ -1,6 +1,9 @@
 import * as addressing from 'services/addressing';
 import { createContext, Signer } from 'sawtooth-sdk/signing';
-import { CertificateRegistryPayload, CreateAgentAction } from 'services/protobuf';
+import {
+	CertificateRegistryPayload,
+	CreateAgentAction,
+} from 'services/protobuf';
 import TransactionService from 'services/protobuf/batch';
 import AgentService from 'services/protobuf/transactions/agent';
 import { mocked } from 'ts-jest/utils';
@@ -38,22 +41,28 @@ describe('agentService', () => {
 
 		describe('when given a null signer', () => {
 			it('will throw an error', () => {
-				expect(() => AgentService.createAgentTransaction('name', null)).toThrowError(
-					'A signer must be provided',
-				);
+				expect(() =>
+					AgentService.createAgentTransaction('name', null),
+				).toThrowError('A signer must be provided');
 			});
 		});
 		describe('when given a valid name and signer', () => {
 			it('will return a CreateAgent transaction', () => {
-				expect(AgentService.createAgentTransaction('name', signer)).toEqual(transaction);
+				expect(
+					AgentService.createAgentTransaction('name', signer),
+				).toEqual(transaction);
 			});
 		});
 	});
 	describe('createAgent()', () => {
 		describe('when given a valid name and signer', () => {
 			it('will submit a batch and return an array of txn ids', async () => {
-				mockedTransactionService.submitBatch.mockResolvedValueOnce(['txn_id']);
-				await expect(AgentService.createAgent('name', signer)).resolves.toEqual(['txn_id']);
+				mockedTransactionService.submitBatch.mockResolvedValueOnce([
+					'txn_id',
+				]);
+				await expect(
+					AgentService.createAgent('name', signer),
+				).resolves.toEqual(['txn_id']);
 			});
 		});
 	});

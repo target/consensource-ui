@@ -39,7 +39,9 @@ describe('AgentApi', () => {
 		describe('when given a valid public key', () => {
 			it('will return the agent associated with the key', async () => {
 				mockedAxios.get.mockResolvedValueOnce({ data: agent_1 });
-				await expect(AgentApi.fetchAgent('public_key_1')).resolves.toEqual({
+				await expect(
+					AgentApi.fetchAgent('public_key_1'),
+				).resolves.toEqual({
 					data: agent_1,
 				});
 			});

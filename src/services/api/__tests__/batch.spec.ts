@@ -31,7 +31,9 @@ describe('TransactionApi', () => {
 				const err = { message: 'error' };
 				mockedAxios.post.mockRejectedValueOnce(err);
 				// TODO: Use a snapshot here
-				await expect(TransactionApi.postBatches(mockBatchListBytes)).rejects.toEqual(
+				await expect(
+					TransactionApi.postBatches(mockBatchListBytes),
+				).rejects.toEqual(
 					`Failed to POST /api/batches: ${err.message}`,
 				);
 			});
@@ -43,7 +45,9 @@ describe('TransactionApi', () => {
 				const url = '/api/batches';
 				mockedAxios.post.mockResolvedValueOnce(res);
 
-				await expect(TransactionApi.postBatches(mockBatchListBytes)).resolves.toEqual(res);
+				await expect(
+					TransactionApi.postBatches(mockBatchListBytes),
+				).resolves.toEqual(res);
 				expect(mockedAxios.post).toHaveBeenCalledWith(url, {
 					data: mockBatchListBytes,
 					headers: { 'Content-Type': 'application/octet-stream' },
@@ -59,7 +63,9 @@ describe('TransactionApi', () => {
 			it('returns a rejected promise with an error message', async () => {
 				const err = { message: 'error' };
 				mockedAxios.get.mockRejectedValueOnce(err);
-				await expect(TransactionApi.getBatchStatus(batchStatusUrl)).rejects.toEqual(
+				await expect(
+					TransactionApi.getBatchStatus(batchStatusUrl),
+				).rejects.toEqual(
 					`Failed to GET /apitest&wait=60: ${err.message}`,
 				);
 			});
@@ -71,7 +77,9 @@ describe('TransactionApi', () => {
 				const res = { data: [] };
 				mockedAxios.get.mockResolvedValueOnce(res);
 
-				await expect(TransactionApi.getBatchStatus(batchStatusUrl)).resolves.toEqual(res);
+				await expect(
+					TransactionApi.getBatchStatus(batchStatusUrl),
+				).resolves.toEqual(res);
 				expect(mockedAxios.get).toHaveBeenCalledWith(url);
 			});
 		});

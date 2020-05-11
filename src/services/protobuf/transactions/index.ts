@@ -15,7 +15,9 @@ export interface PayloadInfo {
  * Create an array of transaction IDs, where each ID is the `headerSignature`
  * of the transaction
  */
-export function getTransactionIds(transactions: sawtooth.protobuf.Transaction[]): string[] {
+export function getTransactionIds(
+	transactions: sawtooth.protobuf.Transaction[],
+): string[] {
 	return transactions.map((transaction) => transaction.headerSignature);
 }
 
@@ -38,7 +40,9 @@ export default function createTransaction(
 	const { payloadBytes, inputs, outputs } = payloadInfo;
 
 	const pubkey = signer.getPublicKey().asHex();
-	const payloadSha512 = createHash('sha512').update(payloadBytes).digest('hex');
+	const payloadSha512 = createHash('sha512')
+		.update(payloadBytes)
+		.digest('hex');
 
 	const transactionHeaderBytes = TransactionHeader.encode({
 		familyName: addressing.familyName,

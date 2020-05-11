@@ -1,4 +1,6 @@
-import createAgentTransaction, { AgentPayload } from 'services/protobuf/transactions/agent';
+import createAgentTransaction, {
+	AgentPayload,
+} from 'services/protobuf/transactions/agent';
 import createBatch from 'services/protobuf/batch';
 import stores from 'stores';
 

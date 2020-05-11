@@ -10,7 +10,10 @@ import {
 import { createHash } from 'crypto';
 import * as TransactionApi from 'services/api/batch';
 import { mocked } from 'ts-jest/utils';
-import TransactionService, { IPayloadInfo, BATCH_STATUS } from '../protobuf/batch';
+import TransactionService, {
+	IPayloadInfo,
+	BATCH_STATUS,
+} from '../protobuf/batch';
 
 jest.mock('services/api/transaction');
 const mockedTxnApi = mocked(TransactionApi, true);
@@ -55,7 +58,9 @@ describe('Transaction Service', () => {
 				mockTransaction,
 				mockTransaction,
 			]);
-			const headerSignatures = transactions.map((transaction) => transaction.headerSignature);
+			const headerSignatures = transactions.map(
+				(transaction) => transaction.headerSignature,
+			);
 
 			expect(transactionIds).toEqual(headerSignatures);
 		});
@@ -78,7 +83,10 @@ describe('Transaction Service', () => {
 		};
 
 		it('creates a Transaction with valid fields', () => {
-			const txn = TransactionService.createTransaction(mockTransactionPayload, signer);
+			const txn = TransactionService.createTransaction(
+				mockTransactionPayload,
+				signer,
+			);
 
 			// Validate `header`
 			const header = TransactionHeader.decode(txn.header);
@@ -86,7 +94,9 @@ describe('Transaction Service', () => {
 
 			// Validate `headerSignature`
 			const signature = signer.sign(txn.header as Buffer);
-			expect(cryptoContext.verify(signature, txn.header as Buffer, pubKey)).toBe(true);
+			expect(
+				cryptoContext.verify(signature, txn.header as Buffer, pubKey),
+			).toBe(true);
 			expect(txn.headerSignature).toEqual(signature);
 
 			// Validate transaction `payload`
@@ -97,30 +107,42 @@ describe('Transaction Service', () => {
 	describe('submitTransaction()', () => {
 		it('creates a Transaction and submits it in a BatchList', async () => {
 			const submitBatchRes = [mockTransaction.headerSignature];
-			jest.spyOn(TransactionService, 'createTransaction').mockReturnValueOnce(
-				mockTransaction,
-			);
+			jest.spyOn(
+				TransactionService,
+				'createTransaction',
+			).mockReturnValueOnce(mockTransaction);
 			const submitBatchSpy = jest
 				.spyOn(TransactionService, 'submitBatch')
 				.mockResolvedValueOnce(submitBatchRes);
 
-			const res = await TransactionService.submitTransaction(mockTransactionPayload, signer);
+			const res = await TransactionService.submitTransaction(
+				mockTransactionPayload,
+				signer,
+			);
 
-			expect(submitBatchSpy).toHaveBeenCalledWith([mockTransaction], signer);
+			expect(submitBatchSpy).toHaveBeenCalledWith(
+				[mockTransaction],
+				signer,
+			);
 			expect(res).toEqual(submitBatchRes);
 		});
 	});
 
 	describe('createBatch()', () => {
 		it('creates a Batch with valid fields', () => {
-			const batch = TransactionService.createBatch([mockTransaction], signer);
+			const batch = TransactionService.createBatch(
+				[mockTransaction],
+				signer,
+			);
 
 			// Validate batch `header`
 			expect(BatchHeader.decode(batch.header)).toBeTruthy();
 
 			// Validate batch `headerSignature`
 			const signature = signer.sign(batch.header as Buffer);
-			expect(cryptoContext.verify(signature, batch.header as Buffer, pubKey)).toBe(true);
+			expect(
+				cryptoContext.verify(signature, batch.header as Buffer, pubKey),
+			).toBe(true);
 			expect(batch.headerSignature).toEqual(signature);
 
 			// Validate batch `transactions`
@@ -137,7 +159,10 @@ describe('Transaction Service', () => {
 				const batchResults = {
 					invalid_transactions: [{ message: errMsg }],
 				};
-				const err = TransactionService.getInvalidBatchResult(batchResults, transactionIds);
+				const err = TransactionService.getInvalidBatchResult(
+					batchResults,
+					transactionIds,
+				);
 				expect(err).toBe(errMsg);
 			});
 		});
@@ -145,7 +170,10 @@ describe('Transaction Service', () => {
 		describe('given an array of invalid transactions with none that we submitted', () => {
 			it('returns a generic error message', () => {
 				const batchResults = { invalid_transactions: [] };
-				const err = TransactionService.getInvalidBatchResult(batchResults, transactionIds);
+				const err = TransactionService.getInvalidBatchResult(
+					batchResults,
+					transactionIds,
+				);
 				// TODO: Use a snapshot here
 				expect(err).toBe('Invalid Transaction');
 			});
@@ -154,7 +182,9 @@ describe('Transaction Service', () => {
 
 	describe('submitBatch()', () => {
 		beforeEach(() => {
-			jest.spyOn(TransactionService, 'createBatch').mockReturnValue(mockBatch);
+			jest.spyOn(TransactionService, 'createBatch').mockReturnValue(
+				mockBatch,
+			);
 		});
 
 		describe('given an unsuccessful call to "postBatches()"', () => {
@@ -177,14 +207,24 @@ describe('Transaction Service', () => {
 					.spyOn(TransactionService, 'waitForCommit')
 					.mockResolvedValueOnce([mockTransaction.headerSignature]);
 
-				const res = await TransactionService.submitBatch([mockTransaction], signer);
+				const res = await TransactionService.submitBatch(
+					[mockTransaction],
+					signer,
+				);
 
-				const mockBatchListBytes = BatchList.encode(mockBatchList).finish();
+				const mockBatchListBytes = BatchList.encode(
+					mockBatchList,
+				).finish();
 
 				expect(res).toEqual([mockTransaction.headerSignature]);
 
-				expect(mockedTxnApi.postBatches).toHaveBeenCalledWith(mockBatchListBytes);
-				expect(waitSpy).toHaveBeenCalledWith([mockTransaction.headerSignature], link);
+				expect(mockedTxnApi.postBatches).toHaveBeenCalledWith(
+					mockBatchListBytes,
+				);
+				expect(waitSpy).toHaveBeenCalledWith(
+					[mockTransaction.headerSignature],
+					link,
+				);
 			});
 		});
 	});
@@ -213,7 +253,10 @@ describe('Transaction Service', () => {
 					data: [{ status: BATCH_STATUS.INVALID }],
 				});
 
-				jest.spyOn(TransactionService, 'getInvalidBatchResult').mockReturnValueOnce(errMsg);
+				jest.spyOn(
+					TransactionService,
+					'getInvalidBatchResult',
+				).mockReturnValueOnce(errMsg);
 
 				await expect(
 					TransactionService.waitForCommit(transactionIds, statusUrl),
@@ -233,7 +276,10 @@ describe('Transaction Service', () => {
 					data: [],
 				});
 
-				await TransactionService.waitForCommit(transactionIds, statusUrl);
+				await TransactionService.waitForCommit(
+					transactionIds,
+					statusUrl,
+				);
 				expect(waitSpy).toHaveBeenCalledTimes(2);
 			});
 		});

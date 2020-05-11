@@ -12,5 +12,10 @@ export interface UserPayload {
 	encrypted_private_key: sjcl.SjclCipherEncrypted;
 }
 
-export const createUser = async (userCreate: UserPayload): Promise<any> =>
-	await axios.post('/api/users', userCreate);
+export const createUser = async (userCreate: UserPayload): Promise<any> => {
+	const url = '/api/users';
+
+	return axios.post(url, userCreate).catch((e: Error) => {
+		throw new Error(`Failed to POST ${url}: ${e.message}`);
+	});
+};

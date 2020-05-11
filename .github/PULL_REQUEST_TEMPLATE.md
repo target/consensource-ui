@@ -6,10 +6,10 @@ Describe your change/fix and tell us why we should accept it. Linking to the iss
 
 What types of changes does this pull request introduce to ConsenSource? _Put an `x` in the boxes that apply_
 
-- [ ] Bugfix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] Other (could be a small readme update, documentation contribution, etc.)
+-   [ ] Bugfix (non-breaking change which fixes an issue)
+-   [ ] New feature (non-breaking change which adds functionality)
+-   [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+-   [ ] Other (could be a small readme update, documentation contribution, etc.)
 
 ## How to run/test
 
