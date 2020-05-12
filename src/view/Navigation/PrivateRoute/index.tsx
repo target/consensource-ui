@@ -19,7 +19,7 @@ export const DEFAULT_UNAUTH_REDIRECT_LOCATION = '/signup';
  * <PrivateRoute path="/" component={Layout} />
  * ```
  */
-const PrivateRoute = ({ path, component }: PrivateRouteProps) => {
+export default function PrivateRoute({ path, component }: PrivateRouteProps) {
 	const redirectLoggedOutUser = ({ location }: RouteComponentProps) => {
 		if (stores.userStore.isSignedIn) {
 			return React.createElement(component);
@@ -34,6 +34,4 @@ const PrivateRoute = ({ path, component }: PrivateRouteProps) => {
 	};
 
 	return <Route path={path} render={redirectLoggedOutUser} />;
-};
-
-export default PrivateRoute;
+}

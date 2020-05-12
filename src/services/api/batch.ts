@@ -5,7 +5,7 @@ export const BATCH_STATUS_WAIT = 60;
 /**
  * Make a `POST` request to `/api/batches`
  */
-export const postBatches = (batchListBytes: Uint8Array): Promise<any> => {
+export function postBatches(batchListBytes: Uint8Array): Promise<any> {
 	const url = '/api/batches';
 
 	return axios
@@ -16,15 +16,15 @@ export const postBatches = (batchListBytes: Uint8Array): Promise<any> => {
 		.catch((e: Error) => {
 			throw new Error(`Failed to POST ${url}: ${e.message}`);
 		});
-};
+}
 
 /**
  * Given a batchStatusUrl, poll with a `wait` param set to `BATCH_STATUS_WAIT`
  */
-export const getBatchStatus = async (batchStatusUrl: string): Promise<any> => {
+export async function getBatchStatus(batchStatusUrl: string): Promise<any> {
 	const url = `/api${batchStatusUrl}&wait=${BATCH_STATUS_WAIT}`;
 
 	return axios.get(url).catch((e: Error) => {
 		throw new Error(`Failed to GET ${url}: ${e.message}`);
 	});
-};
+}

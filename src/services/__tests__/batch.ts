@@ -7,9 +7,9 @@ import {
 	Batch,
 	BatchList,
 } from 'sawtooth-sdk/protobuf';
-import { createHash } from 'crypto';
 import * as TransactionApi from 'services/api/batch';
 import { mocked } from 'ts-jest/utils';
+import { hash } from 'services/utils';
 import TransactionService, {
 	IPayloadInfo,
 	BATCH_STATUS,
@@ -67,9 +67,10 @@ describe('Transaction Service', () => {
 	});
 
 	describe('createTransaction()', () => {
-		const payloadSha512 = createHash('sha512')
-			.update(mockTransactionPayload.payloadBytes)
-			.digest('hex');
+		const payloadSha512 = hash(
+			mockTransactionPayload.payloadBytes,
+			'sha512',
+		);
 
 		const transactionHeaderBytes = {
 			familyName: addressing.familyName,

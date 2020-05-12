@@ -13,12 +13,7 @@ const UserSignUp = () => {
 	 */
 	const submit = async (event: React.FormEvent) => {
 		event.preventDefault();
-
-		try {
-			await stores.userStore.createUser(state.username, state.password);
-		} catch (err) {
-			console.error(err);
-		}
+		await stores.userStore.createUser(state.username, state.password);
 	};
 
 	return (

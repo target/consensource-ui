@@ -1,4 +1,4 @@
-import { createHash } from 'crypto';
+import { hash, HashingAlgorithms } from 'services/utils';
 import { Transaction, TransactionHeader } from 'sawtooth-sdk/protobuf';
 import { CertificateRegistryPayload } from 'services/protobuf';
 import {
@@ -18,37 +18,40 @@ export const ACTIONS = CertificateRegistryPayload.Action;
  * Create an array of transaction IDs, where each ID is the `headerSignature`
  * of the transaction
  */
-export const getTransactionIds = (
+export function getTransactionIds(
 	transactions: sawtooth.protobuf.Transaction[],
-): string[] => {
+): string[] {
 	return transactions.map((transaction) => transaction.headerSignature);
-};
+}
 
 /**
  * Encodes a CertificateRegistryPayload message
  * @param payload TODO: Create type
  */
-export const encodePayload = (payload: any): Uint8Array => {
+export function encodePayload(payload: any): Uint8Array {
 	return CertificateRegistryPayload.encode(payload).finish();
-};
+}
 
 /**
  * Default timestamp logic for transactions.
  */
-export const getTxnTimestamp = () => Math.round(Date.now() / 1000);
+export function getTxnTimestamp() {
+	return Math.round(Date.now() / 1000);
+}
 
 /**
  * Creates a serialized `TransactionHeader`, signs the message,
  * and creates a `Transaction` with the header, signature and payload
  */
-export const createTransaction = (
+export default function createTransaction(
 	{ payloadBytes, inputs, outputs }: PayloadInfo,
 	signer: sawtooth.signing.Signer,
-): sawtooth.protobuf.Transaction => {
+): sawtooth.protobuf.Transaction {
 	const pubkey = signer.getPublicKey().asHex();
-	const payloadSha512 = createHash('sha512')
-		.update(payloadBytes)
-		.digest('hex');
+	const payloadSha512 = hash(
+		payloadBytes as string,
+		HashingAlgorithms.sha512,
+	);
 
 	const transactionHeaderBytes = TransactionHeader.encode({
 		familyName,
@@ -68,4 +71,4 @@ export const createTransaction = (
 		headerSignature: signature,
 		payload: payloadBytes as Buffer,
 	});
-};
+}

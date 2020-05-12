@@ -1,5 +1,6 @@
 import { observable, action } from 'mobx';
 import * as BatchApi from 'services/api/batch';
+import SnackbarStore from './SnackbarStore';
 
 export enum BATCH_STATUS {
 	COMMITTED = 'COMMITTED',
@@ -7,7 +8,13 @@ export enum BATCH_STATUS {
 }
 
 export default class BatchStore {
+	snackbarStore: SnackbarStore;
+
 	@observable isWaitingOnBatch = false;
+
+	constructor(snackbarStore: SnackbarStore) {
+		this.snackbarStore = snackbarStore;
+	}
 
 	/**
 	 * Builds a batch and includes it in a `BatchList` that is submitted to the
@@ -19,7 +26,7 @@ export default class BatchStore {
 		const res = await BatchApi.postBatches(batchListBytes);
 		const { link: batchStatusLink } = res.data;
 
-		this.waitForBatchCommit(batchStatusLink);
+		await this.waitForBatchCommit(batchStatusLink);
 	}
 
 	/**
@@ -28,9 +35,18 @@ export default class BatchStore {
 	 */
 	static getFailedTxns(invalidTxns: Array<any>): string {
 		return invalidTxns.reduce(
-			(acc: string, txn: any) => `${acc} ${txn.id},`,
+			(acc: string, txn: any) => `\n${acc} ${txn.id},`,
 			'The following transaction IDs failed to be committed to state: ',
 		);
+	}
+
+	// Because we currently only submit a single batch at a time
+	// we can assume the only batch status entry is in index 0
+	static async getBatchStatus(batchStatusLink: string) {
+		const res = await BatchApi.getBatchStatus(batchStatusLink);
+		const batch = res.data.data[0];
+
+		return batch;
 	}
 
 	/**
@@ -43,23 +59,29 @@ export default class BatchStore {
 	async waitForBatchCommit(batchStatusLink: string): Promise<void> {
 		this.isWaitingOnBatch = true;
 
-		const res = await BatchApi.getBatchStatus(batchStatusLink);
+		const batch = await BatchStore.getBatchStatus(batchStatusLink);
 
-		// Because we currently only submit a single batch at a time
-		// we can assume the only batch status entry is in index 0
-		const batch = res.data.data[0];
+		let snackbarMsg = '';
 
 		switch (batch.status) {
 			case BATCH_STATUS.COMMITTED:
+				snackbarMsg =
+					'Successfully submitted transactions to the network';
 				this.isWaitingOnBatch = false;
 				break;
 			case BATCH_STATUS.INVALID:
+				// TODO: Use a persistent modal here instead
+				snackbarMsg = `Failed to submit transactions to the network \n ${BatchStore.getFailedTxns(
+					batch.invalid_transactions,
+				)}`;
 				this.isWaitingOnBatch = false;
 				break;
-			// TODO: Trigger a warning/alert notification
-			// BatchStore.getFailedTxns(batch.invalid_transactions)
 			default:
+				snackbarMsg = 'Submitting transactions to the network';
 				this.waitForBatchCommit(batchStatusLink);
+				break;
 		}
+
+		this.snackbarStore.triggerSnackbar(snackbarMsg);
 	}
 }

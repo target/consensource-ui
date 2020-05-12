@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import LoginPage from 'components/Login';
-import Layout from 'components/Layout';
-import PrivateRoute from 'components/Navigation/PrivateRoute';
-import SignUp from 'components/SignUp';
+import LoginPage from 'view/Login';
+import Layout from 'view/Layout';
+import PrivateRoute from 'view/Navigation/PrivateRoute';
+import SignUp from 'view/SignUp';
 
-const App = () => {
+export default function App() {
 	return (
 		<Router>
 			<Switch>
@@ -15,6 +15,4 @@ const App = () => {
 			</Switch>
 		</Router>
 	);
-};
-
-export default App;
+}

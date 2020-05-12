@@ -1,10 +1,6 @@
 import axios from 'axios';
 import sjcl from 'sjcl';
 
-// interface UserCreateRes {
-//     result: string;
-// }
-
 export interface UserPayload {
 	username: string;
 	password: string;
@@ -12,10 +8,10 @@ export interface UserPayload {
 	encrypted_private_key: sjcl.SjclCipherEncrypted;
 }
 
-export const createUser = async (userCreate: UserPayload): Promise<any> => {
+export function createUser(userCreate: UserPayload): Promise<any> {
 	const url = '/api/users';
 
 	return axios.post(url, userCreate).catch((e: Error) => {
 		throw new Error(`Failed to POST ${url}: ${e.message}`);
 	});
-};
+}

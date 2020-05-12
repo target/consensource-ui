@@ -1,6 +1,7 @@
 import { observable, action, computed } from 'mobx';
 import * as UserApi from 'services/api/user';
 import CryptoStore from 'stores/CryptoStore';
+import SnackbarStore from './SnackbarStore';
 
 export interface UserInfo {
 	username: string;
@@ -28,10 +29,13 @@ export class User {
 export default class UserStore {
 	cryptoStore: CryptoStore;
 
+	snackbarStore: SnackbarStore;
+
 	@observable user: User | null = null;
 
-	constructor(cryptoStore: CryptoStore) {
+	constructor(cryptoStore: CryptoStore, snackbarStore: SnackbarStore) {
 		this.cryptoStore = cryptoStore;
+		this.snackbarStore = snackbarStore;
 	}
 
 	@action.bound
@@ -49,7 +53,12 @@ export default class UserStore {
 			),
 		};
 
-		await UserApi.createUser(userPayload);
+		try {
+			await UserApi.createUser(userPayload);
+		} catch (err) {
+			this.snackbarStore.triggerSnackbar(err);
+			return;
+		}
 
 		const user: UserInfo = {
 			username,
