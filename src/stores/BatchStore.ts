@@ -65,8 +65,7 @@ export default class BatchStore {
 
 		switch (batch.status) {
 			case BATCH_STATUS.COMMITTED:
-				snackbarMsg =
-					'Successfully submitted transactions to the network';
+				snackbarMsg = 'Successfully submitted transactions to the network';
 				this.isWaitingOnBatch = false;
 				break;
 			case BATCH_STATUS.INVALID:
