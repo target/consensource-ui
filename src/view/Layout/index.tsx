@@ -6,21 +6,21 @@ import stores from 'stores';
 import { observer } from 'mobx-react-lite';
 
 function Layout() {
-	const { snackbarStore } = stores;
+  const { snackbarStore } = stores;
 
-	return (
-		<>
-			<Switch>
-				<Route path="/dashboard" component={Dashboard} />
-			</Switch>
+  return (
+    <>
+      <Switch>
+        <Route path="/dashboard" component={Dashboard} />
+      </Switch>
 
-			<Snackbar
-				message={snackbarStore.message}
-				isOpen={snackbarStore.isOpen}
-				onClose={snackbarStore.handleClose}
-			/>
-		</>
-	);
+      <Snackbar
+        message={snackbarStore.message}
+        isOpen={snackbarStore.isOpen}
+        onClose={snackbarStore.handleClose}
+      />
+    </>
+  );
 }
 
 export default observer(Layout);

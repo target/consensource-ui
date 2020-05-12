@@ -5,7 +5,7 @@ import UserSignUp from 'view/SignUp/UserSignUp';
 import AgentSignUp from 'view/SignUp/AgentSignUp';
 
 function SignUp() {
-	return !stores.userStore.isSignedIn ? <UserSignUp /> : <AgentSignUp />;
+  return !stores.userStore.isSignedIn ? <UserSignUp /> : <AgentSignUp />;
 }
 
 export default observer(SignUp);

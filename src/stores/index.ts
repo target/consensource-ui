@@ -9,10 +9,10 @@ const userStore = new UserStore(cryptoStore, snackbarStore);
 const batchStore = new BatchStore(snackbarStore);
 
 const stores = {
-	cryptoStore,
-	userStore,
-	batchStore,
-	snackbarStore,
+  cryptoStore,
+  userStore,
+  batchStore,
+  snackbarStore,
 };
 
 export default stores;

@@ -6,25 +6,25 @@ import { getTransactionIds } from 'services/protobuf/transactions';
  * and creates a `Batch` with the header, signature and transactions
  */
 export default function createBatch(
-	transactions: sawtooth.protobuf.Transaction[],
-	signer: sawtooth.signing.Signer,
+  transactions: sawtooth.protobuf.Transaction[],
+  signer: sawtooth.signing.Signer,
 ): Uint8Array {
-	const transactionIds = getTransactionIds(transactions);
-	const publicKey = signer.getPublicKey().asHex();
-	const batchHeaderBytes = BatchHeader.encode({
-		signerPublicKey: publicKey,
-		transactionIds,
-	}).finish();
+  const transactionIds = getTransactionIds(transactions);
+  const publicKey = signer.getPublicKey().asHex();
+  const batchHeaderBytes = BatchHeader.encode({
+    signerPublicKey: publicKey,
+    transactionIds,
+  }).finish();
 
-	const signature = signer.sign(Buffer.from(batchHeaderBytes));
+  const signature = signer.sign(Buffer.from(batchHeaderBytes));
 
-	const batch = Batch.create({
-		header: batchHeaderBytes,
-		headerSignature: signature,
-		transactions,
-	});
+  const batch = Batch.create({
+    header: batchHeaderBytes,
+    headerSignature: signature,
+    transactions,
+  });
 
-	const batchBytes = BatchList.encode({ batches: [batch] }).finish();
+  const batchBytes = BatchList.encode({ batches: [batch] }).finish();
 
-	return batchBytes;
+  return batchBytes;
 }

@@ -8,8 +8,8 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"generate-protobufs": "./scripts/compile_protobufs.sh",
-		"lint": "eslint '*/**/*.{js,ts,tsx}' --fix",
-		"format": "prettier --write --ignore-path 'src/services/protobuf/*.js' src/**/*.{ts,tsx,css}"
+		"lint": "eslint './**/*.{js,ts,tsx}' --fix",
+		"format": "prettier --write './**/*.{ts,tsx,js}'"
 	},
 	"repository": {
 		"type": "git",
@@ -73,8 +73,8 @@
 		}
 	},
 	"lint-staged": {
-		"src/**/*.{ts,tsx,css}": [
-			"prettier --write --ignore-path 'src/services/protobuf/*.js'"
+		"./**/*.{ts,tsx,js}": [
+			"prettier --write"
 		]
 	},
 	"loglevel": "error",
