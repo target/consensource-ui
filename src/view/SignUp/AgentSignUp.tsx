@@ -20,7 +20,7 @@ function AgentSignUp() {
 
 		history.push('/dashboard');
 
-		return txn;
+		return [txn];
 	};
 
 	return (

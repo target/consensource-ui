@@ -4,7 +4,7 @@ import stores from 'stores';
 import createBatch from 'services/protobuf/batch';
 
 export interface TransactionButtonProps {
-	submitTransactionFn: () => sawtooth.protobuf.Transaction;
+	submitTransactionFn: () => sawtooth.protobuf.Transaction[];
 	children: React.ReactNode;
 }
 /**
