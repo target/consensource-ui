@@ -1,6 +1,16 @@
 import { observable, action, computed } from 'mobx';
-import * as UserApi from 'services/api/user';
-import CryptoStore from 'stores/CryptoStore';
+import {
+  postUsersAuthenticate,
+  UserAuthPayload,
+  UserPayload,
+  createUser,
+} from 'services/api/user';
+import {
+  getEncryptedPrivateKey,
+  createNewPrivateKey,
+  createSigner,
+  getDecryptedKeyHex,
+} from 'services/crypto';
 import SnackbarStore from './SnackbarStore';
 
 export interface UserInfo {
@@ -27,38 +37,47 @@ export class User {
 }
 
 export default class UserStore {
-  cryptoStore: CryptoStore;
-
   snackbarStore: SnackbarStore;
 
   @observable user: User | null = null;
 
-  constructor(cryptoStore: CryptoStore, snackbarStore: SnackbarStore) {
-    this.cryptoStore = cryptoStore;
+  constructor(snackbarStore: SnackbarStore) {
     this.snackbarStore = snackbarStore;
   }
 
   @action.bound
   async createUser(username: string, password: string) {
-    const privateKey = this.cryptoStore.createNewPrivateKey();
-    const signer = this.cryptoStore.createSigner(privateKey);
+    const privateKey = createNewPrivateKey();
+    const signer = createSigner(privateKey);
 
-    const userPayload: UserApi.UserPayload = {
+    const userPayload: UserPayload = {
       username,
       password,
       public_key: signer.getPublicKey().asHex(),
-      encrypted_private_key: CryptoStore.getEncryptedPrivateKey(
-        password,
-        privateKey,
-      ),
+      encrypted_private_key: getEncryptedPrivateKey(password, privateKey),
     };
 
-    try {
-      await UserApi.createUser(userPayload);
-    } catch (err) {
-      this.snackbarStore.triggerSnackbar(err);
-      return;
-    }
+    await createUser(userPayload);
+
+    const user: UserInfo = {
+      username,
+      password,
+      signer,
+    };
+
+    this.user = new User(this, user);
+  }
+
+  @action.bound
+  async authenticateUser(username: string, password: string) {
+    const payload: UserAuthPayload = { username, password };
+    const res = await postUsersAuthenticate(payload);
+    const decryptedKey = getDecryptedKeyHex(
+      res.encrypted_private_key,
+      password,
+    );
+
+    const signer = createSigner(decryptedKey);
 
     const user: UserInfo = {
       username,

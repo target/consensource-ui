@@ -1,24 +1,36 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Dashboard from 'view/Dashboard';
-import Snackbar from 'components/Snackbar';
+import Dashboard from 'view/pages/Dashboard';
+import Snackbar from 'view/components/Snackbar';
 import stores from 'stores';
 import { observer } from 'mobx-react-lite';
+import NavBar, { NAVBAR_HEIGHT } from 'view/components/NavBar';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  navbar: {
+    marginTop: NAVBAR_HEIGHT,
+  },
+});
 
 function Layout() {
   const { snackbarStore } = stores;
+  const classes = useStyles();
 
   return (
     <>
-      <Switch>
-        <Route path="/dashboard" component={Dashboard} />
-      </Switch>
+      <NavBar />
+      <div className={classes.navbar}>
+        <Switch>
+          <Route path="/dashboard" component={Dashboard} />
+        </Switch>
 
-      <Snackbar
-        message={snackbarStore.message}
-        isOpen={snackbarStore.isOpen}
-        onClose={snackbarStore.handleClose}
-      />
+        <Snackbar
+          message={snackbarStore.message}
+          isOpen={snackbarStore.isOpen}
+          onClose={snackbarStore.handleClose}
+        />
+      </div>
     </>
   );
 }

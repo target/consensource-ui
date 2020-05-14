@@ -1,16 +1,20 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import LoginPage from 'view/Login';
+import Home from 'view/pages/Home';
 import Layout from 'view/Layout';
-import PrivateRoute from 'view/Navigation/PrivateRoute';
-import SignUp from 'view/SignUp';
+import PrivateRoute from 'view/components/navigation/PrivateRoute';
+import SignUp from 'view/pages/SignUp';
+import Login from 'view/pages/Login';
 
 export default function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/login" component={LoginPage} />
-        <Route path="/signup" component={SignUp} />
+        {/* Note: `/login` and `/sign-up` must come before the PrivateRoute 
+        protecting all subpaths of `/` */}
+        <Route path="/login" component={Login} />
+        <Route path="/sign-up" component={SignUp} />
+        <Route exact path="/" component={Home} />
         <PrivateRoute path="/" component={Layout} />
       </Switch>
     </Router>

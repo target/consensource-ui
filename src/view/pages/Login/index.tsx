@@ -1,24 +1,38 @@
-import React from 'react';
-import stores from 'stores';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useLocalStore, observer } from 'mobx-react-lite';
+import stores from 'stores';
 
-const UserSignUp = () => {
+function Login() {
+  const history = useHistory();
   const state = useLocalStore(() => ({
     username: '',
     password: '',
+    errMsg: '',
   }));
 
-  /**
-   * Create a user and an agent from the form info
-   */
-  const submit = async (event: React.FormEvent) => {
+  useEffect(() => {
+    // Redirect a user to the dashboard if they are already logged in
+    if (stores.userStore.isSignedIn) {
+      history.push('/dashboard');
+    }
+  }, []);
+
+  const onClick = async (event: React.FormEvent) => {
     event.preventDefault();
-    await stores.userStore.createUser(state.username, state.password);
+
+    try {
+      await stores.userStore.authenticateUser(state.username, state.password);
+      history.push('/dashboard');
+    } catch ({ message }) {
+      state.errMsg = message;
+    }
   };
 
   return (
     <div>
-      <h1>User Signup</h1>
+      <h1>Login</h1>
+      <h3>{state.errMsg}</h3>
       <form>
         <div>
           <label>username</label>
@@ -30,6 +44,7 @@ const UserSignUp = () => {
             required
           />
         </div>
+
         <div>
           <label>password</label>
           <input
@@ -41,10 +56,12 @@ const UserSignUp = () => {
           />
         </div>
 
-        <button onClick={submit}>Create User</button>
+        <button type="submit" onClick={onClick}>
+          Login
+        </button>
       </form>
     </div>
   );
-};
+}
 
-export default observer(UserSignUp);
+export default observer(Login);

@@ -17,8 +17,7 @@ export default class BatchStore {
   }
 
   /**
-   * Builds a batch and includes it in a `BatchList` that is submitted to the
-   * validator.
+   * Submits a serialized BatchList to the API and awaits a response.
    *
    * @return Promise which will resolve when the batch is determined to be either committed or invalid
    */

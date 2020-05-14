@@ -9,7 +9,6 @@ export default class SnackbarStore {
   triggerSnackbar(message: string) {
     this.message = message;
     this.isOpen = true;
-    console.log(`triggering! ${message}`);
   }
 
   @action.bound
