@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import CreateAgentForm from 'view/forms/transactionForms/CreateAgentForm';
+import CreateAgentForm from 'view/forms/CreateAgentForm';
 
 export default function AgentSignUp() {
   const history = useHistory();

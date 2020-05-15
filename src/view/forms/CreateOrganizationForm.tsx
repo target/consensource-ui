@@ -1,13 +1,13 @@
 import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
 import { FormProps } from 'view/forms';
-import TransactionForm from 'view/forms/transactionForms';
 import createOrganizationTransaction from 'services/protobuf/transactions/organization';
 import stores from 'stores';
 import CreateContactForm from 'view/forms/CreateContactForm';
 import CreateAddressForm from 'view/forms/CreateFactoryAddressForm';
 import { Organization } from 'services/protobuf';
 import { hash, HashingAlgorithms } from 'services/utils';
+import createBatch from 'services/protobuf/batch';
 
 function createStore() {
   return {
@@ -33,7 +33,9 @@ function CreateOrganizationForm({
 
   const isFactoryOrg = () => organizationType === Organization.Type.FACTORY;
 
-  const createTxnsFn = () => {
+  const onClick = async (event: React.FormEvent) => {
+    event.preventDefault();
+
     const { signer } = stores.userStore.user!; // TODO: Fix this non-nullable pattern
     const { contacts, address, name } = state;
 
@@ -55,18 +57,26 @@ function CreateOrganizationForm({
       );
     }
 
-    const txn = createOrganizationTransaction(
-      {
-        contacts,
-        address,
-        name,
-        id: makeOrgId(name),
-        organizationType,
-      },
-      signer,
+    const txns = new Array(
+      createOrganizationTransaction(
+        {
+          contacts,
+          address,
+          name,
+          id: makeOrgId(name),
+          organizationType,
+        },
+        signer,
+      ),
     );
 
-    return [txn];
+    const batchListBytes = createBatch(txns, signer);
+
+    await stores.batchStore.submitBatch(batchListBytes);
+
+    if (onSubmit) {
+      onSubmit();
+    }
   };
 
   const onSubmitContact = (contact: consensource.Organization.Contact) => {
@@ -107,7 +117,7 @@ function CreateOrganizationForm({
     }
 
     return (
-      <TransactionForm createTxnsFn={createTxnsFn} onSuccess={onSubmit}>
+      <form>
         <div>
           <label htmlFor="factory-name">
             name
@@ -121,7 +131,10 @@ function CreateOrganizationForm({
             />
           </label>
         </div>
-      </TransactionForm>
+        <button type="submit" onClick={onClick}>
+          Create Organization
+        </button>
+      </form>
     );
   };
 

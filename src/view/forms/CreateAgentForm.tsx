@@ -1,13 +1,9 @@
 import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
 import { FormProps } from 'view/forms';
-import TransactionForm from 'view/forms/transactionForms';
 import createAgentTransaction from 'services/protobuf/transactions/agent';
+import createBatch from 'services/protobuf/batch';
 import stores from 'stores';
-
-type Partial<T> = {
-  [P in keyof T]?: T[P];
-};
 
 function createStore() {
   return {
@@ -18,11 +14,19 @@ function createStore() {
 function CreateAgentForm({ onSubmit }: FormProps) {
   const state = useLocalStore(createStore);
 
-  const createTxnsFn = () => {
+  const onClick = async (event: React.FormEvent) => {
+    event.preventDefault();
+
     const { signer } = stores.userStore.user!; // TODO: Fix this non-nullable pattern
 
-    const txn = createAgentTransaction(state, signer);
-    return [txn];
+    const txns = new Array(createAgentTransaction(state, signer));
+    const batchListBytes = createBatch(txns, signer);
+
+    await stores.batchStore.submitBatch(batchListBytes);
+
+    if (onSubmit) {
+      onSubmit();
+    }
   };
 
   const setState = <T extends keyof consensource.IAgent>(
@@ -33,11 +37,7 @@ function CreateAgentForm({ onSubmit }: FormProps) {
   };
 
   return (
-    <TransactionForm
-      createTxnsFn={createTxnsFn}
-      submitBtnTitle="Create Agent"
-      onSuccess={onSubmit}
-    >
+    <form>
       <h1>Agent Signup</h1>
       <div>
         <label htmlFor="agent-name">
@@ -52,7 +52,10 @@ function CreateAgentForm({ onSubmit }: FormProps) {
           />
         </label>
       </div>
-    </TransactionForm>
+      <button type="submit" onClick={onClick}>
+        Create Agent
+      </button>
+    </form>
   );
 }
 
