@@ -25,7 +25,7 @@ describe('Transaction Service', () => {
   const signer = new Signer(cryptoContext, privateKey);
   const pubKey = signer.getPublicKey();
 
-  const mockTransaction = Transaction.create({
+  const mockTransaction = new Transaction.create({
     header: Buffer.from('test-header'),
     headerSignature: 'test-headerSignature',
     payload: Buffer.from('test-payload'),

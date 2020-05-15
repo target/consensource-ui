@@ -4,15 +4,15 @@ import stores from 'stores';
 import createBatch from 'services/protobuf/batch';
 
 export interface TransactionFormProps {
-  children: JSX.Element[];
-  createTxnFn: () => sawtooth.protobuf.Transaction[];
-  submitBtnTitle: string;
-  onSuccess: Function;
+  children: JSX.Element | JSX.Element[];
+  createTxnsFn: () => sawtooth.protobuf.Transaction[];
+  submitBtnTitle?: string;
+  onSuccess?: Function;
 }
 
 function TransactionForm({
   children,
-  createTxnFn,
+  createTxnsFn,
   submitBtnTitle,
   onSuccess,
 }: TransactionFormProps) {
@@ -20,19 +20,21 @@ function TransactionForm({
     event.preventDefault();
 
     const { signer } = stores.userStore.user!; // TODO: Fix this non-nullable pattern
-    const txns = createTxnFn();
+    const txns = createTxnsFn();
     const batchListBytes = createBatch(txns, signer);
 
     await stores.batchStore.submitBatch(batchListBytes);
 
-    onSuccess();
+    if (onSuccess) {
+      onSuccess();
+    }
   };
 
   return (
     <form>
       {children}
       <button type="submit" onClick={onClick}>
-        {submitBtnTitle}
+        {submitBtnTitle || 'Submit'}
       </button>
     </form>
   );

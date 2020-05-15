@@ -13,7 +13,7 @@ export const FAMILY_NAMESPACE = hash(
 // Buffer between family namespace prefix and transaction namespace prefix
 const RESERVED_NAMESPACE = '00';
 
-export enum Namespaces {
+export enum ConsenSourceNamespaces {
   AGENT = '00',
   CERTIFICATE = '01',
   ORGANIZATION = '02',
@@ -21,7 +21,10 @@ export enum Namespaces {
   CERTIFICATE_REQUEST = '04',
 }
 
-export function makeAddress(TXN_NAMESPACE: Namespaces, data: string) {
+export function makeAddress(
+  TXN_NAMESPACE: ConsenSourceNamespaces,
+  data: string,
+) {
   const prefix = FAMILY_NAMESPACE + RESERVED_NAMESPACE + TXN_NAMESPACE;
   const hashedData = hash(data, HashingAlgorithms.sha256).substring(
     0,

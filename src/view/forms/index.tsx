@@ -1,3 +1,4 @@
 export interface FormProps {
-  onSubmit: Function;
+  onSubmit?: Function;
+  onSubmitBtnLabel?: string;
 }

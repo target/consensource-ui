@@ -21,7 +21,7 @@ function UserSignUp() {
     <div>
       <h1>User Sign Up</h1>
       <h3>{state.errMsg}</h3>
-      <CreateUserForm onSubmit={onSubmit} />
+      <CreateUserForm onSubmit={onSubmit} onSubmitBtnLabel="Create User" />
     </div>
   );
 }

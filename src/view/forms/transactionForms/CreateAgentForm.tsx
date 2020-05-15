@@ -5,35 +5,52 @@ import TransactionForm from 'view/forms/transactionForms';
 import createAgentTransaction from 'services/protobuf/transactions/agent';
 import stores from 'stores';
 
-function CreateAgentForm({ onSubmit }: FormProps) {
-  const state = useLocalStore(() => ({
-    name: '',
-    errMsg: '',
-  }));
+type Partial<T> = {
+  [P in keyof T]?: T[P];
+};
 
-  const createTxnFn = () => {
+function createStore() {
+  return {
+    name: '',
+  } as consensource.IAgent;
+}
+
+function CreateAgentForm({ onSubmit }: FormProps) {
+  const state = useLocalStore(createStore);
+
+  const createTxnsFn = () => {
     const { signer } = stores.userStore.user!; // TODO: Fix this non-nullable pattern
-    const txn = createAgentTransaction({ name: state.name }, signer);
+
+    const txn = createAgentTransaction(state, signer);
     return [txn];
+  };
+
+  const setState = <T extends keyof consensource.IAgent>(
+    key: T,
+    val: consensource.IAgent[T],
+  ) => {
+    state[key] = val;
   };
 
   return (
     <TransactionForm
-      createTxnFn={createTxnFn}
+      createTxnsFn={createTxnsFn}
       submitBtnTitle="Create Agent"
       onSuccess={onSubmit}
     >
       <h1>Agent Signup</h1>
-      <h3>{state.errMsg}</h3>
       <div>
-        <label>name</label>
-        <input
-          value={state.name}
-          onChange={(e) => (state.name = e.target.value)}
-          placeholder="name"
-          type="text"
-          required
-        />
+        <label htmlFor="agent-name">
+          name
+          <input
+            value={state.name || ''}
+            onChange={(e) => setState('name', e.target.value)}
+            placeholder="name"
+            type="text"
+            id="agent-name"
+            required
+          />
+        </label>
       </div>
     </TransactionForm>
   );

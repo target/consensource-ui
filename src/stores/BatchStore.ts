@@ -7,6 +7,8 @@ export enum BATCH_STATUS {
   INVALID = 'INVALID',
 }
 
+// TODO: Do we need to use a store for this? Does any
+// other parts of the codebase care about `isWaitingOnBatch`?
 export default class BatchStore {
   snackbarStore: SnackbarStore;
 

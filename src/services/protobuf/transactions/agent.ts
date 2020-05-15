@@ -1,4 +1,4 @@
-import { Namespaces, makeAddress } from 'services/addressing';
+import { ConsenSourceNamespaces, makeAddress } from 'services/addressing';
 import { CreateAgentAction } from 'services/protobuf';
 import createTransaction, {
   PayloadInfo,
@@ -7,32 +7,28 @@ import createTransaction, {
   getTxnTimestamp,
 } from 'services/protobuf/transactions';
 
-export interface AgentPayload {
-  name: string;
-}
-
-function getAgentAddress(signer: sawtooth.signing.Signer) {
+export function getAgentStateAddress(signer: sawtooth.signing.Signer) {
   const pubKey = signer.getPublicKey().asHex();
-  return makeAddress(Namespaces.AGENT, pubKey);
+  return makeAddress(ConsenSourceNamespaces.AGENT, pubKey);
 }
 
 export default function createAgentTransaction(
-  { name }: AgentPayload,
+  { name }: consensource.IAgent,
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
-  const createAgent = CreateAgentAction.create({
+  const createAgent = new CreateAgentAction({
     name,
     timestamp: getTxnTimestamp(),
   });
 
   const payload = { action: ACTIONS.CREATE_AGENT, createAgent };
   const payloadBytes = encodePayload(payload);
-  const agentAddress = getAgentAddress(signer);
+  const agentStateAddress = getAgentStateAddress(signer);
 
   const payloadInfo: PayloadInfo = {
     payloadBytes,
-    inputs: [agentAddress],
-    outputs: [agentAddress],
+    inputs: [agentStateAddress],
+    outputs: [agentStateAddress],
   };
 
   return createTransaction(payloadInfo, signer);
