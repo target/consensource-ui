@@ -1,6 +1,10 @@
-import { ConsenSourceNamespaces, makeAddress } from 'services/addressing';
+import {
+  ConsenSourceNamespaces,
+  createStateAddress,
+} from 'services/addressing';
 import { CreateAgentAction } from 'services/protobuf';
-import createTransaction, {
+import {
+  createTransaction,
   PayloadInfo,
   encodePayload,
   ACTIONS,
@@ -9,11 +13,11 @@ import createTransaction, {
 
 export function getAgentStateAddress(signer: sawtooth.signing.Signer) {
   const pubKey = signer.getPublicKey().asHex();
-  return makeAddress(ConsenSourceNamespaces.AGENT, pubKey);
+  return createStateAddress(ConsenSourceNamespaces.AGENT, pubKey);
 }
 
 export default function createAgentTransaction(
-  { name }: consensource.IAgent,
+  { name }: consensource.ICreateAgentAction,
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
   const createAgent = new CreateAgentAction({

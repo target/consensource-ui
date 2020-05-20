@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
 import { FormProps } from 'view/forms';
+import stores from 'stores';
 
 export interface CreateUserFormState {
   username: string;
@@ -14,7 +15,7 @@ function createStore() {
   } as CreateUserFormState;
 }
 
-function CreateUserForm({ onSubmit, onSubmitBtnLabel }: FormProps) {
+function CreateUserForm({ onSubmit, onError, onSubmitBtnLabel }: FormProps) {
   const state = useLocalStore(createStore);
 
   /**
@@ -23,8 +24,18 @@ function CreateUserForm({ onSubmit, onSubmitBtnLabel }: FormProps) {
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (onSubmit) {
-      onSubmit(state);
+    const { username, password } = state;
+
+    try {
+      await stores.userStore.createUser(username, password);
+
+      if (onSubmit) {
+        onSubmit(stores.userStore.user);
+      }
+    } catch ({ message }) {
+      if (onError) {
+        onError(message);
+      }
     }
   };
 

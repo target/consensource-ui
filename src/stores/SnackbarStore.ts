@@ -6,7 +6,7 @@ export default class SnackbarStore {
   @observable message = '';
 
   @action.bound
-  triggerSnackbar(message: string) {
+  open(message: string) {
     this.message = message;
     this.isOpen = true;
   }

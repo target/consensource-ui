@@ -17,7 +17,8 @@ interface CreateContactFormProps extends FormProps {
 
 function CreateContactForm({
   onSubmit,
-  onSubmitBtnLabel,
+  onError,
+  onSubmitBtnLabel = 'Create Contact',
 }: CreateContactFormProps) {
   const state = useLocalStore(createStore);
 
@@ -27,10 +28,16 @@ function CreateContactForm({
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const contact = new Organization.Contact(state);
+    try {
+      const contact = new Organization.Contact(state);
 
-    if (onSubmit) {
-      onSubmit(contact);
+      if (onSubmit) {
+        onSubmit(contact);
+      }
+    } catch ({ message }) {
+      if (onError) {
+        onError(message);
+      }
     }
   };
 
@@ -84,7 +91,7 @@ function CreateContactForm({
       </div>
 
       <button type="submit" onClick={submit}>
-        {onSubmitBtnLabel || 'Create Contact'}
+        {onSubmitBtnLabel}
       </button>
     </form>
   );

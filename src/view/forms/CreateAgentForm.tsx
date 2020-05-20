@@ -4,6 +4,7 @@ import { FormProps } from 'view/forms';
 import createAgentTransaction from 'services/protobuf/transactions/agent';
 import createBatch from 'services/protobuf/batch';
 import stores from 'stores';
+import BatchService from 'services/batch';
 
 function createStore() {
   return {
@@ -11,7 +12,11 @@ function createStore() {
   } as consensource.IAgent;
 }
 
-function CreateAgentForm({ onSubmit }: FormProps) {
+function CreateAgentForm({
+  onSubmit,
+  onError,
+  onSubmitBtnLabel = 'Create Agent',
+}: FormProps) {
   const state = useLocalStore(createStore);
 
   const onClick = async (event: React.FormEvent) => {
@@ -22,10 +27,16 @@ function CreateAgentForm({ onSubmit }: FormProps) {
     const txns = new Array(createAgentTransaction(state, signer));
     const batchListBytes = createBatch(txns, signer);
 
-    await stores.batchStore.submitBatch(batchListBytes);
+    try {
+      await BatchService.submitBatch(batchListBytes);
 
-    if (onSubmit) {
-      onSubmit();
+      if (onSubmit) {
+        onSubmit();
+      }
+    } catch ({ message }) {
+      if (onError) {
+        onError(message);
+      }
     }
   };
 
@@ -38,7 +49,6 @@ function CreateAgentForm({ onSubmit }: FormProps) {
 
   return (
     <form>
-      <h1>Agent Signup</h1>
       <div>
         <label htmlFor="agent-name">
           name
@@ -53,7 +63,7 @@ function CreateAgentForm({ onSubmit }: FormProps) {
         </label>
       </div>
       <button type="submit" onClick={onClick}>
-        Create Agent
+        {onSubmitBtnLabel}
       </button>
     </form>
   );

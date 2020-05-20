@@ -3,9 +3,9 @@ import sjcl from 'sjcl';
 
 export const CRYPTO_ALGORITHM = 'secp256k1';
 
-const context = createContext(CRYPTO_ALGORITHM);
+export const cryptoContext = createContext(CRYPTO_ALGORITHM);
 
-const cryptoFactory = new CryptoFactory(context);
+export const cryptoFactory = new CryptoFactory(cryptoContext);
 
 /**
  * TODO: Use the right type for the param (blocked by sawtooth-sdk typings)
@@ -22,7 +22,7 @@ export function createSigner(privateKey: any): sawtooth.signing.Signer {
 }
 
 export function createNewPrivateKey() {
-  return context.newRandomPrivateKey();
+  return cryptoContext.newRandomPrivateKey();
 }
 
 /**

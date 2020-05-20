@@ -20,7 +20,8 @@ interface CreateContactFormProps extends FormProps {
 
 function CreateFactoryAddressForm({
   onSubmit,
-  onSubmitBtnLabel,
+  onError,
+  onSubmitBtnLabel = 'Create Factory',
 }: CreateContactFormProps) {
   const state = useLocalStore(createStore);
 
@@ -30,10 +31,16 @@ function CreateFactoryAddressForm({
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const contact = new Factory.Address(state);
+    try {
+      const factoryAddress = new Factory.Address(state);
 
-    if (onSubmit) {
-      onSubmit(contact);
+      if (onSubmit) {
+        onSubmit(factoryAddress);
+      }
+    } catch ({ message }) {
+      if (onError) {
+        onError(message);
+      }
     }
   };
 
@@ -118,7 +125,7 @@ function CreateFactoryAddressForm({
               value={state.postalCode || ''}
               onChange={(e) => setState('postalCode', e.target.value)}
               placeholder="PostalCode"
-              type="text"
+              type="number"
               id="factory-postal-code"
               required
             />
@@ -127,7 +134,7 @@ function CreateFactoryAddressForm({
       </div>
 
       <button type="submit" onClick={submit}>
-        {onSubmitBtnLabel || 'Create Address'}
+        {onSubmitBtnLabel}
       </button>
     </form>
   );

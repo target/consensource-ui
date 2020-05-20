@@ -32,8 +32,7 @@ function NavBar() {
   const { userStore } = stores;
 
   const onClick = (e: React.MouseEvent) => {
-    const location = userStore.isSignedIn ? '/dashboard' : '/';
-    history.push(location);
+    history.push('/dashboard');
   };
 
   return (

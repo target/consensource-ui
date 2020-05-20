@@ -10,9 +10,9 @@ export default function createBatch(
   signer: sawtooth.signing.Signer,
 ): Uint8Array {
   const transactionIds = getTransactionIds(transactions);
-  const publicKey = signer.getPublicKey().asHex();
+  const signerPublicKey = signer.getPublicKey().asHex();
   const batchHeaderBytes = BatchHeader.encode({
-    signerPublicKey: publicKey,
+    signerPublicKey,
     transactionIds,
   }).finish();
 

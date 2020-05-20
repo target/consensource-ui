@@ -21,7 +21,7 @@ export enum ConsenSourceNamespaces {
   CERTIFICATE_REQUEST = '04',
 }
 
-export function makeAddress(
+export function createStateAddress(
   TXN_NAMESPACE: ConsenSourceNamespaces,
   data: string,
 ) {

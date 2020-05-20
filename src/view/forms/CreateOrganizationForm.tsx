@@ -1,20 +1,26 @@
 import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
 import { FormProps } from 'view/forms';
-import createOrganizationTransaction from 'services/protobuf/transactions/organization';
+import createOrgTransaction from 'services/protobuf/transactions/organization';
 import stores from 'stores';
 import CreateContactForm from 'view/forms/CreateContactForm';
 import CreateAddressForm from 'view/forms/CreateFactoryAddressForm';
 import { Organization } from 'services/protobuf';
 import { hash, HashingAlgorithms } from 'services/utils';
 import createBatch from 'services/protobuf/batch';
+import BatchService from 'services/batch';
 
 function createStore() {
-  return {
+  const org = {
     contacts: null,
     address: null,
     name: null,
   } as consensource.ICreateOrganizationAction;
+
+  return {
+    org,
+    errMsg: '',
+  };
 }
 
 function makeOrgId(name: string) {
@@ -27,17 +33,21 @@ export interface CreateOrganizationFormProps extends FormProps {
 
 function CreateOrganizationForm({
   onSubmit,
+  onError,
+  onSubmitBtnLabel = 'Create Organization',
   organizationType,
 }: CreateOrganizationFormProps) {
   const state = useLocalStore(createStore);
 
-  const isFactoryOrg = () => organizationType === Organization.Type.FACTORY;
+  function isFactoryOrg() {
+    return organizationType === Organization.Type.FACTORY;
+  }
 
-  const onClick = async (event: React.FormEvent) => {
+  async function onClick(event: React.FormEvent) {
     event.preventDefault();
 
     const { signer } = stores.userStore.user!; // TODO: Fix this non-nullable pattern
-    const { contacts, address, name } = state;
+    const { contacts, address, name } = state.org;
 
     if (!contacts) {
       throw new Error(
@@ -58,7 +68,7 @@ function CreateOrganizationForm({
     }
 
     const txns = new Array(
-      createOrganizationTransaction(
+      createOrgTransaction(
         {
           contacts,
           address,
@@ -72,58 +82,81 @@ function CreateOrganizationForm({
 
     const batchListBytes = createBatch(txns, signer);
 
-    await stores.batchStore.submitBatch(batchListBytes);
+    try {
+      await BatchService.submitBatch(batchListBytes);
 
-    if (onSubmit) {
-      onSubmit();
+      if (onSubmit) {
+        onSubmit();
+      }
+    } catch ({ message }) {
+      if (onError) {
+        onError(message);
+      }
     }
-  };
+  }
 
-  const onSubmitContact = (contact: consensource.Organization.Contact) => {
-    state.contacts = new Array(contact);
-  };
+  function onSubmitContact(contact: consensource.Organization.Contact) {
+    state.org.contacts = new Array(contact);
+  }
 
-  const onSubmitAddress = (address: consensource.Factory.Address) => {
-    state.address = address;
-  };
+  function onSubmitAddress(address: consensource.Factory.Address) {
+    state.org.address = address;
+  }
 
-  const setName = (val: string) => {
-    state.name = val;
-  };
+  function setOrgName(val: string) {
+    state.org.name = val;
+  }
 
-  const getCurrentFormTitle = () => {
-    if (!state.contacts) {
+  function onAddressOrContactError(err: string) {
+    state.errMsg = err;
+  }
+
+  function getCurrentFormTitle() {
+    const { org } = state;
+
+    if (!org.contacts) {
       return 'Contact Info';
     }
 
-    if (isFactoryOrg() && !state.address) {
+    if (isFactoryOrg() && !org.address) {
       return 'Address Info';
     }
 
     return 'Organization Info';
-  };
+  }
 
-  const getCurrentForm = () => {
-    if (!state.contacts) {
+  function getCurrentForm() {
+    const { org } = state;
+
+    if (!org.contacts) {
       return (
-        <CreateContactForm onSubmit={onSubmitContact} onSubmitBtnLabel="Next" />
+        <CreateContactForm
+          onSubmit={onSubmitContact}
+          onError={onAddressOrContactError}
+          onSubmitBtnLabel="Next"
+        />
       );
     }
 
-    if (isFactoryOrg() && !state.address) {
+    if (isFactoryOrg() && !org.address) {
       return (
-        <CreateAddressForm onSubmit={onSubmitAddress} onSubmitBtnLabel="Next" />
+        <CreateAddressForm
+          onSubmit={onSubmitAddress}
+          onError={onAddressOrContactError}
+          onSubmitBtnLabel="Next"
+        />
       );
     }
 
+    // Org info form
     return (
       <form>
         <div>
           <label htmlFor="factory-name">
             name
             <input
-              value={state.name || ''}
-              onChange={(e) => setName(e.target.value)}
+              value={org.name || ''}
+              onChange={(e) => setOrgName(e.target.value)}
               placeholder="name"
               type="text"
               id="factory-name"
@@ -132,15 +165,16 @@ function CreateOrganizationForm({
           </label>
         </div>
         <button type="submit" onClick={onClick}>
-          Create Organization
+          {onSubmitBtnLabel}
         </button>
       </form>
     );
-  };
+  }
 
   return (
     <div>
       <h1>{getCurrentFormTitle()}</h1>
+      <div>{state.errMsg}</div>
       {getCurrentForm()}
     </div>
   );

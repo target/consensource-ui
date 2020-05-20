@@ -1,15 +1,19 @@
-import { ConsenSourceNamespaces, makeAddress } from 'services/addressing';
+import {
+  ConsenSourceNamespaces,
+  createStateAddress,
+} from 'services/addressing';
 import { getAgentStateAddress } from 'services/protobuf/transactions/agent';
 import { CreateOrganizationAction } from 'services/protobuf';
-import createTransaction, {
+import {
+  createTransaction,
   PayloadInfo,
   encodePayload,
   ACTIONS,
   getTxnTimestamp,
 } from 'services/protobuf/transactions';
 
-function getOrgStateAddress(id: string) {
-  return makeAddress(ConsenSourceNamespaces.ORGANIZATION, id);
+export function getOrgStateAddress(id: string) {
+  return createStateAddress(ConsenSourceNamespaces.ORGANIZATION, id);
 }
 
 /**
@@ -27,7 +31,7 @@ interface CreateOrgTxn {
   name: NonNullable<consensource.ICreateOrganizationAction['name']>;
 }
 
-export default function createOrganizationTransaction(
+export default function createOrgTransaction(
   action: consensource.ICreateOrganizationAction & CreateOrgTxn,
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {

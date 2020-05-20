@@ -26,9 +26,11 @@ export function getTransactionIds(
 
 /**
  * Encodes a CertificateRegistryPayload message
- * @param payload TODO: Create type
+ * @@param message CertificateRegistryPayload message or plain object to encode
  */
-export function encodePayload(payload: any): Uint8Array {
+export function encodePayload(
+  payload: consensource.ICertificateRegistryPayload,
+): Uint8Array {
   return CertificateRegistryPayload.encode(payload).finish();
 }
 
@@ -43,7 +45,7 @@ export function getTxnTimestamp() {
  * Creates a serialized `TransactionHeader`, signs the message,
  * and creates a `Transaction` with the header, signature and payload
  */
-export default function createTransaction(
+export function createTransaction(
   { payloadBytes, inputs, outputs }: PayloadInfo,
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
