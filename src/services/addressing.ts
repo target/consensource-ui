@@ -1,7 +1,8 @@
 import { hash, HashingAlgorithms } from 'services/utils';
 
-const FAMILY_NAMESPACE_LEN = 6;
-const ADDRESS_LEN = 70;
+export const FAMILY_NAMESPACE_LEN = 6;
+export const ADDRESS_PREFIX_LEN = 10;
+export const ADDRESS_LEN = 70;
 
 export const FAMILY_NAME = 'consensource';
 export const FAMILY_VERSION = '0.1';
@@ -11,7 +12,7 @@ export const FAMILY_NAMESPACE = hash(
 ).substring(0, FAMILY_NAMESPACE_LEN); // 3d0111
 
 // Buffer between family namespace prefix and transaction namespace prefix
-const RESERVED_NAMESPACE = '00';
+export const RESERVED_NAMESPACE = '00';
 
 export enum ConsenSourceNamespaces {
   AGENT = '00',
@@ -28,7 +29,7 @@ export function createStateAddress(
   const prefix = FAMILY_NAMESPACE + RESERVED_NAMESPACE + TXN_NAMESPACE;
   const hashedData = hash(data, HashingAlgorithms.sha256).substring(
     0,
-    ADDRESS_LEN - prefix.length,
+    ADDRESS_LEN - ADDRESS_PREFIX_LEN,
   );
 
   return prefix + hashedData;
