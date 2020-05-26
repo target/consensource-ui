@@ -1,30 +1,49 @@
 import axios from 'axios';
+import { ApiRes } from 'services/api';
 
 export const BATCH_STATUS_WAIT = 60;
+
+export interface PostBatchRes extends ApiRes {
+  link: string;
+}
+
+export interface BatchStatusRes
+  extends ApiRes<sawtooth.protobuf.ClientBatchStatus> {
+  link: string;
+  data: sawtooth.protobuf.ClientBatchStatus[];
+}
 
 /**
  * Make a `POST` request to `/api/batches`
  */
-export function postBatches(batchListBytes: Uint8Array): Promise<any> {
+export async function postBatches(
+  batchListBytes: Uint8Array,
+): Promise<PostBatchRes> {
   const url = '/api/batches';
 
-  return axios
+  const res = await axios
     .post(url, batchListBytes, {
       headers: { 'Content-Type': 'application/octet-stream' },
       transformRequest: [(data) => data],
     })
-    .catch((e: Error) => {
-      throw new Error(`Failed to POST ${url}: ${e.message}`);
+    .catch(({ message }: Error) => {
+      throw new Error(`Failed to POST ${url}: ${message}`);
     });
+
+  return res.data;
 }
 
 /**
  * Given a batchStatusUrl, poll with a `wait` param set to `BATCH_STATUS_WAIT`
  */
-export async function getBatchStatus(batchStatusUrl: string): Promise<any> {
+export async function getBatchStatus(
+  batchStatusUrl: string,
+): Promise<BatchStatusRes> {
   const url = `/api${batchStatusUrl}&wait=${BATCH_STATUS_WAIT}`;
 
-  return axios.get(url).catch((e: Error) => {
-    throw new Error(`Failed to GET ${url}: ${e.message}`);
+  const res = await axios.get(url).catch(({ message }: Error) => {
+    throw new Error(`Failed to GET ${url}: ${message}`);
   });
+
+  return res.data;
 }

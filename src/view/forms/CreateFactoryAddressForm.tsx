@@ -4,14 +4,16 @@ import { FormProps } from 'view/forms';
 import { Factory } from 'services/protobuf';
 
 function createStore() {
-  return {
-    streetLine_1: '',
-    streetLine_2: '',
+  const store: consensource.Factory.IAddress = {
+    street_line_1: '',
+    street_line_2: '',
     city: '',
-    stateProvince: '',
+    state_province: '',
     country: '',
-    postalCode: '',
-  } as consensource.Factory.IAddress;
+    postal_code: '',
+  };
+
+  return store;
 }
 
 interface CreateContactFormProps extends FormProps {
@@ -57,8 +59,8 @@ function CreateFactoryAddressForm({
         <label htmlFor="factory-street-line-1">
           Street Line 1
           <input
-            value={state.streetLine_1 || ''}
-            onChange={(e) => setState('streetLine_1', e.target.value)}
+            value={state.street_line_1 || ''}
+            onChange={(e) => setState('street_line_1', e.target.value)}
             placeholder="Street Line 1"
             type="text"
             id="factory-street-line-1"
@@ -70,8 +72,8 @@ function CreateFactoryAddressForm({
         <label htmlFor="factory-street-line-2">
           Street Line 2
           <input
-            value={state.streetLine_2 || ''}
-            onChange={(e) => setState('streetLine_2', e.target.value)}
+            value={state.street_line_2 || ''}
+            onChange={(e) => setState('street_line_2', e.target.value)}
             placeholder="Street Line 2"
             type="text"
             id="factory-street-line-2"
@@ -95,8 +97,8 @@ function CreateFactoryAddressForm({
           <label htmlFor="factory-state-province">
             State Province
             <input
-              value={state.stateProvince || ''}
-              onChange={(e) => setState('stateProvince', e.target.value)}
+              value={state.state_province || ''}
+              onChange={(e) => setState('state_province', e.target.value)}
               placeholder="State Province"
               type="text"
               id="factory-state-province"
@@ -122,9 +124,9 @@ function CreateFactoryAddressForm({
           <label htmlFor="factory-postal-code">
             Postal Code
             <input
-              value={state.postalCode || ''}
-              onChange={(e) => setState('postalCode', e.target.value)}
-              placeholder="PostalCode"
+              value={state.postal_code || ''}
+              onChange={(e) => setState('postal_code', e.target.value)}
+              placeholder="Postal Code"
               type="number"
               id="factory-postal-code"
               required

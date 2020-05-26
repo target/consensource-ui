@@ -1,94 +1,95 @@
 {
-	"name": "consensource-ui",
-	"version": "0.1.0",
-	"description": "ConsenSource UI",
-	"scripts": {
-		"start": "yarn generate-protobufs && react-scripts start",
-		"build": "yarn generate-protobufs && react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject",
-		"generate-protobufs": "./scripts/compile_protobufs.sh",
-		"lint": "eslint './**/*.{js,ts,tsx}' --fix",
-		"format": "prettier --write './**/*.{ts,tsx,js}'"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/target/consensource-ui"
-	},
-	"keywords": [
-		"webclient"
-	],
-	"author": "",
-	"license": "UNLICENSED",
-	"proxy": "http://localhost:9009",
-	"devDependencies": {
-		"@testing-library/jest-dom": "^5.5.0",
-		"@testing-library/react": "^10.0.3",
-		"@types/eventsource": "^1.1.2",
-		"@types/jest": "^24.0.0",
-		"@types/node": "^13.13.0",
-		"@types/react": "^16.9.34",
-		"@types/react-dom": "^16.9.6",
-		"@types/react-router-dom": "^5.1.4",
-		"@types/sawtooth-sdk": "^1.1.0",
-		"@types/sjcl": "^1.0.29",
-		"@types/uuid": "^7.0.0",
-		"@typescript-eslint/eslint-plugin": "^2.31.0",
-		"@typescript-eslint/parser": "^2.31.0",
-		"eslint-config-airbnb-typescript": "^7.2.1",
-		"eslint-config-prettier": "^6.11.0",
-		"eslint-plugin-eslint-comments": "^3.1.2",
-		"eslint-plugin-import": "^2.20.2",
-		"eslint-plugin-jsx-a11y": "^6.2.3",
-		"eslint-plugin-only-warn": "^1.0.2",
-		"eslint-plugin-prettier": "^3.1.3",
-		"eslint-plugin-react": "^7.19.0",
-		"husky": "^4.2.5",
-		"jest-localstorage-mock": "^2.4.0",
-		"lint-staged": "^10.1.7",
-		"prettier": "^2.0.5",
-		"protobufjs": "^6.8.8",
-		"react-scripts": "3.4.1",
-		"ts-jest": "^24.0.0",
-		"typescript": "~3.7.2"
-	},
-	"dependencies": {
-		"@material-ui/core": "^4.9.11",
-		"@material-ui/icons": "^4.9.1",
-		"@material-ui/styles": "^4.9.14",
-		"axios": "^0.19.2",
-		"eventsource": "^1.0.7",
-		"mobx": "^5.15.4",
-		"mobx-react-lite": "^2.0.6",
-		"react": "^16.13.1",
-		"react-dom": "^16.13.1",
-		"react-router-dom": "^5.1.2",
-		"sawtooth-sdk": "^1.0.5",
-		"sjcl": "^1.0.7",
-		"undefined": "^0.1.0",
-		"uuid": "^3.3.2"
-	},
-	"husky": {
-		"hooks": {
-			"pre-commit": "lint-staged"
-		}
-	},
-	"lint-staged": {
-		"./**/*.{ts,tsx,js}": [
-			"prettier --write"
-		]
-	},
-	"loglevel": "error",
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	}
+  "name": "consensource-ui",
+  "version": "0.1.0",
+  "description": "ConsenSource UI",
+  "scripts": {
+    "start": "yarn generate-protobufs && react-scripts start",
+    "build": "yarn generate-protobufs && react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "clean": "rm -rf node_modules/ src/services/protobuf/index.js src/types/consensource",
+    "generate-protobufs": "./scripts/compile_protobufs.sh",
+    "lint": "eslint './**/*.{js,ts,tsx}' --fix",
+    "format": "prettier --write './**/*.{ts,tsx,js}'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/target/consensource-ui"
+  },
+  "keywords": [
+    "webclient"
+  ],
+  "author": "",
+  "license": "UNLICENSED",
+  "proxy": "http://localhost:9009",
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.5.0",
+    "@testing-library/react": "^10.0.3",
+    "@types/eventsource": "^1.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^13.13.0",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
+    "@types/react-router-dom": "^5.1.4",
+    "@types/sawtooth-sdk": "^1.1.0",
+    "@types/sjcl": "^1.0.29",
+    "@types/uuid": "^7.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.31.0",
+    "@typescript-eslint/parser": "^2.31.0",
+    "eslint-config-airbnb-typescript": "^7.2.1",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-eslint-comments": "^3.1.2",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-only-warn": "^1.0.2",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.19.0",
+    "husky": "^4.2.5",
+    "jest-localstorage-mock": "^2.4.0",
+    "lint-staged": "^10.1.7",
+    "prettier": "^2.0.5",
+    "protobufjs": "^6.8.8",
+    "react-scripts": "3.4.1",
+    "ts-jest": "^24.0.0",
+    "typescript": "~3.7.2"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.9.11",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/styles": "^4.9.14",
+    "axios": "^0.19.2",
+    "eventsource": "^1.0.7",
+    "mobx": "^5.15.4",
+    "mobx-react-lite": "^2.0.6",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.1.2",
+    "sawtooth-sdk": "^1.0.5",
+    "sjcl": "^1.0.7",
+    "undefined": "^0.1.0",
+    "uuid": "^3.3.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "./**/*.{ts,tsx,js}": [
+      "prettier --write"
+    ]
+  },
+  "loglevel": "error",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

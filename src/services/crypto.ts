@@ -25,6 +25,10 @@ export function createNewPrivateKey() {
   return cryptoContext.newRandomPrivateKey();
 }
 
+export function getSignerPubKeyHex(signer: sawtooth.signing.Signer) {
+  return signer.getPublicKey().asHex();
+}
+
 /**
  * TODO: Use the right type for the param (blocked by sawtooth-sdk typings)
  *

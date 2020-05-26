@@ -17,7 +17,7 @@ describe('Organization Protobuf', () => {
 
     const org = {
       id,
-      organizationType: Organization.Type.FACTORY,
+      organization_type: Organization.Type.FACTORY,
       contacts: [new Organization.Contact()],
       address: new Factory.Address(),
       name: 'test',

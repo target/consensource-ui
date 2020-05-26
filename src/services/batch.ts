@@ -1,12 +1,16 @@
 import * as BatchApi from 'services/api/batch';
 import stores from 'stores';
-
-export enum BATCH_STATUS {
-  COMMITTED = 'COMMITTED',
-  INVALID = 'INVALID',
-}
+import { ClientBatchStatus } from 'sawtooth-sdk/protobuf';
 
 class BatchService {
+  /**
+   * Given a `ClientBatchStatus.Status` string value, get the actual enum
+   * number value that it corresponds to.
+   */
+  static getBatchStatusFromKey(status: ClientBatchStatus.Status) {
+    return +ClientBatchStatus.Status[status];
+  }
+
   /**
    * Recursive function that will wait for commit, by polling the statusUrl provided.
    * It returns a promise, which will return the transaction id array of headerSignatures on success, or:
@@ -19,15 +23,17 @@ class BatchService {
 
     // Because we currently only submit a single batch at a time
     // we can assume the only batch status entry is in index 0
-    const batch = res.data.data[0];
+    const { status } = res.data[0];
 
     let snackbarMsg = '';
 
-    switch (batch.status) {
-      case BATCH_STATUS.COMMITTED:
+    debugger;
+
+    switch (BatchService.getBatchStatusFromKey(status)) {
+      case ClientBatchStatus.Status.COMMITTED:
         snackbarMsg = 'Successfully submitted transactions to the network';
         break;
-      case BATCH_STATUS.INVALID:
+      case ClientBatchStatus.Status.INVALID:
         // TODO: Use a persistent modal here instead
         snackbarMsg = 'Failed to submit transactions to the network';
         break;
@@ -54,7 +60,7 @@ class BatchService {
       throw new Error(`Failed to submit batch: ${message}`);
     }
 
-    const { link: batchStatusLink } = res.data;
+    const { link: batchStatusLink } = res;
 
     await this.waitForBatchCommit(batchStatusLink);
   }

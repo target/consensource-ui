@@ -3,14 +3,14 @@ import * as $protobuf from "protobufjs";
 /** Properties of an Agent. */
 export interface IAgent {
 
-    /** Agent publicKey */
-    publicKey?: (string|null);
+    /** Agent public_key */
+    public_key?: (string|null);
 
     /** Agent name */
     name?: (string|null);
 
-    /** Agent organizationId */
-    organizationId?: (string|null);
+    /** Agent organization_id */
+    organization_id?: (string|null);
 
     /** Agent timestamp */
     timestamp?: (number|Long|null);
@@ -25,14 +25,14 @@ export class Agent implements IAgent {
      */
     constructor(properties?: IAgent);
 
-    /** Agent publicKey. */
-    public publicKey: string;
+    /** Agent public_key. */
+    public public_key: string;
 
     /** Agent name. */
     public name: string;
 
-    /** Agent organizationId. */
-    public organizationId: string;
+    /** Agent organization_id. */
+    public organization_id: string;
 
     /** Agent timestamp. */
     public timestamp: (number|Long);
@@ -204,26 +204,26 @@ export interface ICertificate {
     /** Certificate id */
     id?: (string|null);
 
-    /** Certificate certifyingBodyId */
-    certifyingBodyId?: (string|null);
+    /** Certificate certifying_body_id */
+    certifying_body_id?: (string|null);
 
-    /** Certificate factoryId */
-    factoryId?: (string|null);
+    /** Certificate factory_id */
+    factory_id?: (string|null);
 
-    /** Certificate standardId */
-    standardId?: (string|null);
+    /** Certificate standard_id */
+    standard_id?: (string|null);
 
-    /** Certificate standardVersion */
-    standardVersion?: (string|null);
+    /** Certificate standard_version */
+    standard_version?: (string|null);
 
-    /** Certificate certificateData */
-    certificateData?: (Certificate.ICertificateData[]|null);
+    /** Certificate certificate_data */
+    certificate_data?: (Certificate.ICertificateData[]|null);
 
-    /** Certificate validFrom */
-    validFrom?: (number|Long|null);
+    /** Certificate valid_from */
+    valid_from?: (number|Long|null);
 
-    /** Certificate validTo */
-    validTo?: (number|Long|null);
+    /** Certificate valid_to */
+    valid_to?: (number|Long|null);
 }
 
 /** Represents a Certificate. */
@@ -238,26 +238,26 @@ export class Certificate implements ICertificate {
     /** Certificate id. */
     public id: string;
 
-    /** Certificate certifyingBodyId. */
-    public certifyingBodyId: string;
+    /** Certificate certifying_body_id. */
+    public certifying_body_id: string;
 
-    /** Certificate factoryId. */
-    public factoryId: string;
+    /** Certificate factory_id. */
+    public factory_id: string;
 
-    /** Certificate standardId. */
-    public standardId: string;
+    /** Certificate standard_id. */
+    public standard_id: string;
 
-    /** Certificate standardVersion. */
-    public standardVersion: string;
+    /** Certificate standard_version. */
+    public standard_version: string;
 
-    /** Certificate certificateData. */
-    public certificateData: Certificate.ICertificateData[];
+    /** Certificate certificate_data. */
+    public certificate_data: Certificate.ICertificateData[];
 
-    /** Certificate validFrom. */
-    public validFrom: (number|Long);
+    /** Certificate valid_from. */
+    public valid_from: (number|Long);
 
-    /** Certificate validTo. */
-    public validTo: (number|Long);
+    /** Certificate valid_to. */
+    public valid_to: (number|Long);
 
     /**
      * Creates a new Certificate instance using the specified properties.
@@ -528,14 +528,14 @@ export interface IRequest {
     /** Request status */
     status?: (Request.Status|null);
 
-    /** Request standardId */
-    standardId?: (string|null);
+    /** Request standard_id */
+    standard_id?: (string|null);
 
-    /** Request factoryId */
-    factoryId?: (string|null);
+    /** Request factory_id */
+    factory_id?: (string|null);
 
-    /** Request requestDate */
-    requestDate?: (number|Long|null);
+    /** Request request_date */
+    request_date?: (number|Long|null);
 }
 
 /** Represents a Request. */
@@ -553,14 +553,14 @@ export class Request implements IRequest {
     /** Request status. */
     public status: Request.Status;
 
-    /** Request standardId. */
-    public standardId: string;
+    /** Request standard_id. */
+    public standard_id: string;
 
-    /** Request factoryId. */
-    public factoryId: string;
+    /** Request factory_id. */
+    public factory_id: string;
 
-    /** Request requestDate. */
-    public requestDate: (number|Long);
+    /** Request request_date. */
+    public request_date: (number|Long);
 
     /**
      * Creates a new Request instance using the specified properties.
@@ -750,17 +750,17 @@ export interface IOrganization {
     /** Organization contacts */
     contacts?: (Organization.IContact[]|null);
 
-    /** Organization organizationType */
-    organizationType?: (Organization.Type|null);
+    /** Organization organization_type */
+    organization_type?: (Organization.Type|null);
 
-    /** Organization certifyingBodyDetails */
-    certifyingBodyDetails?: (ICertifyingBody|null);
+    /** Organization certifying_body_details */
+    certifying_body_details?: (ICertifyingBody|null);
 
-    /** Organization standardsBodyDetails */
-    standardsBodyDetails?: (IStandardsBody|null);
+    /** Organization standards_body_details */
+    standards_body_details?: (IStandardsBody|null);
 
-    /** Organization factoryDetails */
-    factoryDetails?: (IFactory|null);
+    /** Organization factory_details */
+    factory_details?: (IFactory|null);
 }
 
 /** Represents an Organization. */
@@ -784,17 +784,17 @@ export class Organization implements IOrganization {
     /** Organization contacts. */
     public contacts: Organization.IContact[];
 
-    /** Organization organizationType. */
-    public organizationType: Organization.Type;
+    /** Organization organization_type. */
+    public organization_type: Organization.Type;
 
-    /** Organization certifyingBodyDetails. */
-    public certifyingBodyDetails?: (ICertifyingBody|null);
+    /** Organization certifying_body_details. */
+    public certifying_body_details?: (ICertifyingBody|null);
 
-    /** Organization standardsBodyDetails. */
-    public standardsBodyDetails?: (IStandardsBody|null);
+    /** Organization standards_body_details. */
+    public standards_body_details?: (IStandardsBody|null);
 
-    /** Organization factoryDetails. */
-    public factoryDetails?: (IFactory|null);
+    /** Organization factory_details. */
+    public factory_details?: (IFactory|null);
 
     /**
      * Creates a new Organization instance using the specified properties.
@@ -880,8 +880,8 @@ export namespace Organization {
     /** Properties of an Authorization. */
     interface IAuthorization {
 
-        /** Authorization publicKey */
-        publicKey?: (string|null);
+        /** Authorization public_key */
+        public_key?: (string|null);
 
         /** Authorization role */
         role?: (Organization.Authorization.Role|null);
@@ -896,8 +896,8 @@ export namespace Organization {
          */
         constructor(properties?: Organization.IAuthorization);
 
-        /** Authorization publicKey. */
-        public publicKey: string;
+        /** Authorization public_key. */
+        public public_key: string;
 
         /** Authorization role. */
         public role: Organization.Authorization.Role;
@@ -989,11 +989,11 @@ export namespace Organization {
         /** Contact name */
         name?: (string|null);
 
-        /** Contact phoneNumber */
-        phoneNumber?: (string|null);
+        /** Contact phone_number */
+        phone_number?: (string|null);
 
-        /** Contact languageCode */
-        languageCode?: (string|null);
+        /** Contact language_code */
+        language_code?: (string|null);
     }
 
     /** Represents a Contact. */
@@ -1008,11 +1008,11 @@ export namespace Organization {
         /** Contact name. */
         public name: string;
 
-        /** Contact phoneNumber. */
-        public phoneNumber: string;
+        /** Contact phone_number. */
+        public phone_number: string;
 
-        /** Contact languageCode. */
-        public languageCode: string;
+        /** Contact language_code. */
+        public language_code: string;
 
         /**
          * Creates a new Contact instance using the specified properties.
@@ -1181,20 +1181,20 @@ export namespace CertifyingBody {
     /** Properties of an Accreditation. */
     interface IAccreditation {
 
-        /** Accreditation standardId */
-        standardId?: (string|null);
+        /** Accreditation standard_id */
+        standard_id?: (string|null);
 
-        /** Accreditation standardVersion */
-        standardVersion?: (string|null);
+        /** Accreditation standard_version */
+        standard_version?: (string|null);
 
-        /** Accreditation accreditorId */
-        accreditorId?: (string|null);
+        /** Accreditation accreditor_id */
+        accreditor_id?: (string|null);
 
-        /** Accreditation validFrom */
-        validFrom?: (number|Long|null);
+        /** Accreditation valid_from */
+        valid_from?: (number|Long|null);
 
-        /** Accreditation validTo */
-        validTo?: (number|Long|null);
+        /** Accreditation valid_to */
+        valid_to?: (number|Long|null);
     }
 
     /** Represents an Accreditation. */
@@ -1206,20 +1206,20 @@ export namespace CertifyingBody {
          */
         constructor(properties?: CertifyingBody.IAccreditation);
 
-        /** Accreditation standardId. */
-        public standardId: string;
+        /** Accreditation standard_id. */
+        public standard_id: string;
 
-        /** Accreditation standardVersion. */
-        public standardVersion: string;
+        /** Accreditation standard_version. */
+        public standard_version: string;
 
-        /** Accreditation accreditorId. */
-        public accreditorId: string;
+        /** Accreditation accreditor_id. */
+        public accreditor_id: string;
 
-        /** Accreditation validFrom. */
-        public validFrom: (number|Long);
+        /** Accreditation valid_from. */
+        public valid_from: (number|Long);
 
-        /** Accreditation validTo. */
-        public validTo: (number|Long);
+        /** Accreditation valid_to. */
+        public valid_to: (number|Long);
 
         /**
          * Creates a new Accreditation instance using the specified properties.
@@ -1472,23 +1472,23 @@ export namespace Factory {
     /** Properties of an Address. */
     interface IAddress {
 
-        /** Address streetLine_1 */
-        streetLine_1?: (string|null);
+        /** Address street_line_1 */
+        street_line_1?: (string|null);
 
-        /** Address streetLine_2 */
-        streetLine_2?: (string|null);
+        /** Address street_line_2 */
+        street_line_2?: (string|null);
 
         /** Address city */
         city?: (string|null);
 
-        /** Address stateProvince */
-        stateProvince?: (string|null);
+        /** Address state_province */
+        state_province?: (string|null);
 
         /** Address country */
         country?: (string|null);
 
-        /** Address postalCode */
-        postalCode?: (string|null);
+        /** Address postal_code */
+        postal_code?: (string|null);
     }
 
     /** Represents an Address. */
@@ -1500,23 +1500,23 @@ export namespace Factory {
          */
         constructor(properties?: Factory.IAddress);
 
-        /** Address streetLine_1. */
-        public streetLine_1: string;
+        /** Address street_line_1. */
+        public street_line_1: string;
 
-        /** Address streetLine_2. */
-        public streetLine_2: string;
+        /** Address street_line_2. */
+        public street_line_2: string;
 
         /** Address city. */
         public city: string;
 
-        /** Address stateProvince. */
-        public stateProvince: string;
+        /** Address state_province. */
+        public state_province: string;
 
         /** Address country. */
         public country: string;
 
-        /** Address postalCode. */
-        public postalCode: string;
+        /** Address postal_code. */
+        public postal_code: string;
 
         /**
          * Creates a new Address instance using the specified properties.
@@ -1686,8 +1686,8 @@ export interface IStandard {
     /** Standard id */
     id?: (string|null);
 
-    /** Standard organizationId */
-    organizationId?: (string|null);
+    /** Standard organization_id */
+    organization_id?: (string|null);
 
     /** Standard name */
     name?: (string|null);
@@ -1708,8 +1708,8 @@ export class Standard implements IStandard {
     /** Standard id. */
     public id: string;
 
-    /** Standard organizationId. */
-    public organizationId: string;
+    /** Standard organization_id. */
+    public organization_id: string;
 
     /** Standard name. */
     public name: string;
@@ -1802,8 +1802,8 @@ export namespace Standard {
         /** StandardVersion link */
         link?: (string|null);
 
-        /** StandardVersion approvalDate */
-        approvalDate?: (number|Long|null);
+        /** StandardVersion approval_date */
+        approval_date?: (number|Long|null);
     }
 
     /** Represents a StandardVersion. */
@@ -1824,8 +1824,8 @@ export namespace Standard {
         /** StandardVersion link. */
         public link: string;
 
-        /** StandardVersion approvalDate. */
-        public approvalDate: (number|Long);
+        /** StandardVersion approval_date. */
+        public approval_date: (number|Long);
 
         /**
          * Creates a new StandardVersion instance using the specified properties.
@@ -1995,35 +1995,35 @@ export interface ICertificateRegistryPayload {
     /** CertificateRegistryPayload action */
     action?: (CertificateRegistryPayload.Action|null);
 
-    /** CertificateRegistryPayload createAgent */
-    createAgent?: (ICreateAgentAction|null);
+    /** CertificateRegistryPayload create_agent */
+    create_agent?: (ICreateAgentAction|null);
 
-    /** CertificateRegistryPayload createOrganization */
-    createOrganization?: (ICreateOrganizationAction|null);
+    /** CertificateRegistryPayload create_organization */
+    create_organization?: (ICreateOrganizationAction|null);
 
-    /** CertificateRegistryPayload updateOrganization */
-    updateOrganization?: (IUpdateOrganizationAction|null);
+    /** CertificateRegistryPayload update_organization */
+    update_organization?: (IUpdateOrganizationAction|null);
 
-    /** CertificateRegistryPayload authorizeAgent */
-    authorizeAgent?: (IAuthorizeAgentAction|null);
+    /** CertificateRegistryPayload authorize_agent */
+    authorize_agent?: (IAuthorizeAgentAction|null);
 
-    /** CertificateRegistryPayload issueCertificate */
-    issueCertificate?: (IIssueCertificateAction|null);
+    /** CertificateRegistryPayload issue_certificate */
+    issue_certificate?: (IIssueCertificateAction|null);
 
-    /** CertificateRegistryPayload createStandard */
-    createStandard?: (ICreateStandardAction|null);
+    /** CertificateRegistryPayload create_standard */
+    create_standard?: (ICreateStandardAction|null);
 
-    /** CertificateRegistryPayload updateStandard */
-    updateStandard?: (IUpdateStandardAction|null);
+    /** CertificateRegistryPayload update_standard */
+    update_standard?: (IUpdateStandardAction|null);
 
-    /** CertificateRegistryPayload openRequestAction */
-    openRequestAction?: (IOpenRequestAction|null);
+    /** CertificateRegistryPayload open_request_action */
+    open_request_action?: (IOpenRequestAction|null);
 
-    /** CertificateRegistryPayload changeRequestStatusAction */
-    changeRequestStatusAction?: (IChangeRequestStatusAction|null);
+    /** CertificateRegistryPayload change_request_status_action */
+    change_request_status_action?: (IChangeRequestStatusAction|null);
 
-    /** CertificateRegistryPayload accreditCertifyingBodyAction */
-    accreditCertifyingBodyAction?: (IAccreditCertifyingBodyAction|null);
+    /** CertificateRegistryPayload accredit_certifying_body_action */
+    accredit_certifying_body_action?: (IAccreditCertifyingBodyAction|null);
 }
 
 /** Represents a CertificateRegistryPayload. */
@@ -2038,35 +2038,35 @@ export class CertificateRegistryPayload implements ICertificateRegistryPayload {
     /** CertificateRegistryPayload action. */
     public action: CertificateRegistryPayload.Action;
 
-    /** CertificateRegistryPayload createAgent. */
-    public createAgent?: (ICreateAgentAction|null);
+    /** CertificateRegistryPayload create_agent. */
+    public create_agent?: (ICreateAgentAction|null);
 
-    /** CertificateRegistryPayload createOrganization. */
-    public createOrganization?: (ICreateOrganizationAction|null);
+    /** CertificateRegistryPayload create_organization. */
+    public create_organization?: (ICreateOrganizationAction|null);
 
-    /** CertificateRegistryPayload updateOrganization. */
-    public updateOrganization?: (IUpdateOrganizationAction|null);
+    /** CertificateRegistryPayload update_organization. */
+    public update_organization?: (IUpdateOrganizationAction|null);
 
-    /** CertificateRegistryPayload authorizeAgent. */
-    public authorizeAgent?: (IAuthorizeAgentAction|null);
+    /** CertificateRegistryPayload authorize_agent. */
+    public authorize_agent?: (IAuthorizeAgentAction|null);
 
-    /** CertificateRegistryPayload issueCertificate. */
-    public issueCertificate?: (IIssueCertificateAction|null);
+    /** CertificateRegistryPayload issue_certificate. */
+    public issue_certificate?: (IIssueCertificateAction|null);
 
-    /** CertificateRegistryPayload createStandard. */
-    public createStandard?: (ICreateStandardAction|null);
+    /** CertificateRegistryPayload create_standard. */
+    public create_standard?: (ICreateStandardAction|null);
 
-    /** CertificateRegistryPayload updateStandard. */
-    public updateStandard?: (IUpdateStandardAction|null);
+    /** CertificateRegistryPayload update_standard. */
+    public update_standard?: (IUpdateStandardAction|null);
 
-    /** CertificateRegistryPayload openRequestAction. */
-    public openRequestAction?: (IOpenRequestAction|null);
+    /** CertificateRegistryPayload open_request_action. */
+    public open_request_action?: (IOpenRequestAction|null);
 
-    /** CertificateRegistryPayload changeRequestStatusAction. */
-    public changeRequestStatusAction?: (IChangeRequestStatusAction|null);
+    /** CertificateRegistryPayload change_request_status_action. */
+    public change_request_status_action?: (IChangeRequestStatusAction|null);
 
-    /** CertificateRegistryPayload accreditCertifyingBodyAction. */
-    public accreditCertifyingBodyAction?: (IAccreditCertifyingBodyAction|null);
+    /** CertificateRegistryPayload accredit_certifying_body_action. */
+    public accredit_certifying_body_action?: (IAccreditCertifyingBodyAction|null);
 
     /**
      * Creates a new CertificateRegistryPayload instance using the specified properties.
@@ -2259,8 +2259,8 @@ export interface ICreateOrganizationAction {
     /** CreateOrganizationAction id */
     id?: (string|null);
 
-    /** CreateOrganizationAction organizationType */
-    organizationType?: (Organization.Type|null);
+    /** CreateOrganizationAction organization_type */
+    organization_type?: (Organization.Type|null);
 
     /** CreateOrganizationAction name */
     name?: (string|null);
@@ -2284,8 +2284,8 @@ export class CreateOrganizationAction implements ICreateOrganizationAction {
     /** CreateOrganizationAction id. */
     public id: string;
 
-    /** CreateOrganizationAction organizationType. */
-    public organizationType: Organization.Type;
+    /** CreateOrganizationAction organization_type. */
+    public organization_type: Organization.Type;
 
     /** CreateOrganizationAction name. */
     public name: string;
@@ -2466,8 +2466,8 @@ export class UpdateOrganizationAction implements IUpdateOrganizationAction {
 /** Properties of an AuthorizeAgentAction. */
 export interface IAuthorizeAgentAction {
 
-    /** AuthorizeAgentAction publicKey */
-    publicKey?: (string|null);
+    /** AuthorizeAgentAction public_key */
+    public_key?: (string|null);
 
     /** AuthorizeAgentAction role */
     role?: (Organization.Authorization.Role|null);
@@ -2482,8 +2482,8 @@ export class AuthorizeAgentAction implements IAuthorizeAgentAction {
      */
     constructor(properties?: IAuthorizeAgentAction);
 
-    /** AuthorizeAgentAction publicKey. */
-    public publicKey: string;
+    /** AuthorizeAgentAction public_key. */
+    public public_key: string;
 
     /** AuthorizeAgentAction role. */
     public role: Organization.Authorization.Role;
@@ -2565,26 +2565,26 @@ export interface IIssueCertificateAction {
     /** IssueCertificateAction id */
     id?: (string|null);
 
-    /** IssueCertificateAction factoryId */
-    factoryId?: (string|null);
+    /** IssueCertificateAction factory_id */
+    factory_id?: (string|null);
 
     /** IssueCertificateAction source */
     source?: (IssueCertificateAction.Source|null);
 
-    /** IssueCertificateAction requestId */
-    requestId?: (string|null);
+    /** IssueCertificateAction request_id */
+    request_id?: (string|null);
 
-    /** IssueCertificateAction standardId */
-    standardId?: (string|null);
+    /** IssueCertificateAction standard_id */
+    standard_id?: (string|null);
 
-    /** IssueCertificateAction certificateData */
-    certificateData?: (Certificate.ICertificateData[]|null);
+    /** IssueCertificateAction certificate_data */
+    certificate_data?: (Certificate.ICertificateData[]|null);
 
-    /** IssueCertificateAction validFrom */
-    validFrom?: (number|Long|null);
+    /** IssueCertificateAction valid_from */
+    valid_from?: (number|Long|null);
 
-    /** IssueCertificateAction validTo */
-    validTo?: (number|Long|null);
+    /** IssueCertificateAction valid_to */
+    valid_to?: (number|Long|null);
 }
 
 /** Represents an IssueCertificateAction. */
@@ -2599,26 +2599,26 @@ export class IssueCertificateAction implements IIssueCertificateAction {
     /** IssueCertificateAction id. */
     public id: string;
 
-    /** IssueCertificateAction factoryId. */
-    public factoryId: string;
+    /** IssueCertificateAction factory_id. */
+    public factory_id: string;
 
     /** IssueCertificateAction source. */
     public source: IssueCertificateAction.Source;
 
-    /** IssueCertificateAction requestId. */
-    public requestId: string;
+    /** IssueCertificateAction request_id. */
+    public request_id: string;
 
-    /** IssueCertificateAction standardId. */
-    public standardId: string;
+    /** IssueCertificateAction standard_id. */
+    public standard_id: string;
 
-    /** IssueCertificateAction certificateData. */
-    public certificateData: Certificate.ICertificateData[];
+    /** IssueCertificateAction certificate_data. */
+    public certificate_data: Certificate.ICertificateData[];
 
-    /** IssueCertificateAction validFrom. */
-    public validFrom: (number|Long);
+    /** IssueCertificateAction valid_from. */
+    public valid_from: (number|Long);
 
-    /** IssueCertificateAction validTo. */
-    public validTo: (number|Long);
+    /** IssueCertificateAction valid_to. */
+    public valid_to: (number|Long);
 
     /**
      * Creates a new IssueCertificateAction instance using the specified properties.
@@ -2707,11 +2707,11 @@ export interface IOpenRequestAction {
     /** OpenRequestAction id */
     id?: (string|null);
 
-    /** OpenRequestAction standardId */
-    standardId?: (string|null);
+    /** OpenRequestAction standard_id */
+    standard_id?: (string|null);
 
-    /** OpenRequestAction requestDate */
-    requestDate?: (number|Long|null);
+    /** OpenRequestAction request_date */
+    request_date?: (number|Long|null);
 }
 
 /** Represents an OpenRequestAction. */
@@ -2726,11 +2726,11 @@ export class OpenRequestAction implements IOpenRequestAction {
     /** OpenRequestAction id. */
     public id: string;
 
-    /** OpenRequestAction standardId. */
-    public standardId: string;
+    /** OpenRequestAction standard_id. */
+    public standard_id: string;
 
-    /** OpenRequestAction requestDate. */
-    public requestDate: (number|Long);
+    /** OpenRequestAction request_date. */
+    public request_date: (number|Long);
 
     /**
      * Creates a new OpenRequestAction instance using the specified properties.
@@ -2806,8 +2806,8 @@ export class OpenRequestAction implements IOpenRequestAction {
 /** Properties of a ChangeRequestStatusAction. */
 export interface IChangeRequestStatusAction {
 
-    /** ChangeRequestStatusAction requestId */
-    requestId?: (string|null);
+    /** ChangeRequestStatusAction request_id */
+    request_id?: (string|null);
 
     /** ChangeRequestStatusAction status */
     status?: (Request.Status|null);
@@ -2822,8 +2822,8 @@ export class ChangeRequestStatusAction implements IChangeRequestStatusAction {
      */
     constructor(properties?: IChangeRequestStatusAction);
 
-    /** ChangeRequestStatusAction requestId. */
-    public requestId: string;
+    /** ChangeRequestStatusAction request_id. */
+    public request_id: string;
 
     /** ChangeRequestStatusAction status. */
     public status: Request.Status;
@@ -2902,8 +2902,8 @@ export class ChangeRequestStatusAction implements IChangeRequestStatusAction {
 /** Properties of a CreateStandardAction. */
 export interface ICreateStandardAction {
 
-    /** CreateStandardAction standardId */
-    standardId?: (string|null);
+    /** CreateStandardAction standard_id */
+    standard_id?: (string|null);
 
     /** CreateStandardAction name */
     name?: (string|null);
@@ -2917,8 +2917,8 @@ export interface ICreateStandardAction {
     /** CreateStandardAction link */
     link?: (string|null);
 
-    /** CreateStandardAction approvalDate */
-    approvalDate?: (number|Long|null);
+    /** CreateStandardAction approval_date */
+    approval_date?: (number|Long|null);
 }
 
 /** Represents a CreateStandardAction. */
@@ -2930,8 +2930,8 @@ export class CreateStandardAction implements ICreateStandardAction {
      */
     constructor(properties?: ICreateStandardAction);
 
-    /** CreateStandardAction standardId. */
-    public standardId: string;
+    /** CreateStandardAction standard_id. */
+    public standard_id: string;
 
     /** CreateStandardAction name. */
     public name: string;
@@ -2945,8 +2945,8 @@ export class CreateStandardAction implements ICreateStandardAction {
     /** CreateStandardAction link. */
     public link: string;
 
-    /** CreateStandardAction approvalDate. */
-    public approvalDate: (number|Long);
+    /** CreateStandardAction approval_date. */
+    public approval_date: (number|Long);
 
     /**
      * Creates a new CreateStandardAction instance using the specified properties.
@@ -3022,8 +3022,8 @@ export class CreateStandardAction implements ICreateStandardAction {
 /** Properties of an UpdateStandardAction. */
 export interface IUpdateStandardAction {
 
-    /** UpdateStandardAction standardId */
-    standardId?: (string|null);
+    /** UpdateStandardAction standard_id */
+    standard_id?: (string|null);
 
     /** UpdateStandardAction version */
     version?: (string|null);
@@ -3034,8 +3034,8 @@ export interface IUpdateStandardAction {
     /** UpdateStandardAction link */
     link?: (string|null);
 
-    /** UpdateStandardAction approvalDate */
-    approvalDate?: (number|Long|null);
+    /** UpdateStandardAction approval_date */
+    approval_date?: (number|Long|null);
 }
 
 /** Represents an UpdateStandardAction. */
@@ -3047,8 +3047,8 @@ export class UpdateStandardAction implements IUpdateStandardAction {
      */
     constructor(properties?: IUpdateStandardAction);
 
-    /** UpdateStandardAction standardId. */
-    public standardId: string;
+    /** UpdateStandardAction standard_id. */
+    public standard_id: string;
 
     /** UpdateStandardAction version. */
     public version: string;
@@ -3059,8 +3059,8 @@ export class UpdateStandardAction implements IUpdateStandardAction {
     /** UpdateStandardAction link. */
     public link: string;
 
-    /** UpdateStandardAction approvalDate. */
-    public approvalDate: (number|Long);
+    /** UpdateStandardAction approval_date. */
+    public approval_date: (number|Long);
 
     /**
      * Creates a new UpdateStandardAction instance using the specified properties.
@@ -3136,17 +3136,17 @@ export class UpdateStandardAction implements IUpdateStandardAction {
 /** Properties of an AccreditCertifyingBodyAction. */
 export interface IAccreditCertifyingBodyAction {
 
-    /** AccreditCertifyingBodyAction certifyingBodyId */
-    certifyingBodyId?: (string|null);
+    /** AccreditCertifyingBodyAction certifying_body_id */
+    certifying_body_id?: (string|null);
 
-    /** AccreditCertifyingBodyAction standardId */
-    standardId?: (string|null);
+    /** AccreditCertifyingBodyAction standard_id */
+    standard_id?: (string|null);
 
-    /** AccreditCertifyingBodyAction validFrom */
-    validFrom?: (number|Long|null);
+    /** AccreditCertifyingBodyAction valid_from */
+    valid_from?: (number|Long|null);
 
-    /** AccreditCertifyingBodyAction validTo */
-    validTo?: (number|Long|null);
+    /** AccreditCertifyingBodyAction valid_to */
+    valid_to?: (number|Long|null);
 }
 
 /** Represents an AccreditCertifyingBodyAction. */
@@ -3158,17 +3158,17 @@ export class AccreditCertifyingBodyAction implements IAccreditCertifyingBodyActi
      */
     constructor(properties?: IAccreditCertifyingBodyAction);
 
-    /** AccreditCertifyingBodyAction certifyingBodyId. */
-    public certifyingBodyId: string;
+    /** AccreditCertifyingBodyAction certifying_body_id. */
+    public certifying_body_id: string;
 
-    /** AccreditCertifyingBodyAction standardId. */
-    public standardId: string;
+    /** AccreditCertifyingBodyAction standard_id. */
+    public standard_id: string;
 
-    /** AccreditCertifyingBodyAction validFrom. */
-    public validFrom: (number|Long);
+    /** AccreditCertifyingBodyAction valid_from. */
+    public valid_from: (number|Long);
 
-    /** AccreditCertifyingBodyAction validTo. */
-    public validTo: (number|Long);
+    /** AccreditCertifyingBodyAction valid_to. */
+    public valid_to: (number|Long);
 
     /**
      * Creates a new AccreditCertifyingBodyAction instance using the specified properties.

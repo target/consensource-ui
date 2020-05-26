@@ -5,6 +5,7 @@ import {
   FAMILY_NAME as familyName,
   FAMILY_VERSION as familyVersion,
 } from 'services/addressing';
+import { getSignerPubKeyHex } from 'services/crypto';
 
 export interface PayloadInfo {
   payloadBytes: string | Buffer | NodeJS.TypedArray | DataView;
@@ -26,7 +27,7 @@ export function getTransactionIds(
 
 /**
  * Encodes a CertificateRegistryPayload message
- * @@param message CertificateRegistryPayload message or plain object to encode
+ * @param message CertificateRegistryPayload message or plain object to encode
  */
 export function encodePayload(
   payload: consensource.ICertificateRegistryPayload,
@@ -49,10 +50,10 @@ export function createTransaction(
   { payloadBytes, inputs, outputs }: PayloadInfo,
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
-  const pubkey = signer.getPublicKey().asHex();
+  const pubkey = getSignerPubKeyHex(signer);
   const payloadSha512 = hash(payloadBytes as string, HashingAlgorithms.sha512);
 
-  const transactionHeaderBytes = TransactionHeader.encode({
+  const header = TransactionHeader.encode({
     familyName,
     familyVersion,
     inputs,
@@ -63,11 +64,11 @@ export function createTransaction(
     payloadSha512,
   }).finish();
 
-  const signature = signer.sign(transactionHeaderBytes as Buffer);
+  const headerSignature = signer.sign(header as Buffer);
 
   return Transaction.create({
-    header: transactionHeaderBytes,
-    headerSignature: signature,
+    header,
+    headerSignature,
     payload: payloadBytes as Buffer,
   });
 }

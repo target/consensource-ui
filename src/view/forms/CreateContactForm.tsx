@@ -4,11 +4,13 @@ import { FormProps } from 'view/forms';
 import { Organization } from 'services/protobuf';
 
 function createStore() {
-  return {
+  const store: consensource.Organization.IContact = {
     name: '',
-    phoneNumber: '',
-    languageCode: '',
-  } as consensource.Organization.IContact;
+    phone_number: '',
+    language_code: '',
+  };
+
+  return store;
 }
 
 interface CreateContactFormProps extends FormProps {
@@ -56,7 +58,7 @@ function CreateContactForm({
           <input
             value={state.name || ''}
             onChange={(e) => setState('name', e.target.value)}
-            placeholder="name"
+            placeholder="Name"
             type="text"
             id="contact-name"
             required
@@ -67,9 +69,9 @@ function CreateContactForm({
         <label htmlFor="contact-phone-number">
           Phone Number
           <input
-            value={state.phoneNumber || ''}
-            onChange={(e) => setState('phoneNumber', e.target.value)}
-            placeholder="phoneNumber"
+            value={state.phone_number || ''}
+            onChange={(e) => setState('phone_number', e.target.value)}
+            placeholder="Phone Number"
             type="text"
             id="contact-phone-number"
             required
@@ -80,9 +82,9 @@ function CreateContactForm({
         <label htmlFor="contact-language-code">
           Language Code
           <input
-            value={state.languageCode || ''}
-            onChange={(e) => setState('languageCode', e.target.value)}
-            placeholder="languageCode"
+            value={state.language_code || ''}
+            onChange={(e) => setState('language_code', e.target.value)}
+            placeholder="Language Code"
             type="text"
             id="contact-language-code"
             required

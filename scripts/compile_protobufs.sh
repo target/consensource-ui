@@ -6,7 +6,7 @@ js_file="./src/services/protobuf/index.js"
 ts_file="./src/types/consensource/index.d.ts"
 
 ## Generate JS code for protos
-npx pbjs -t static-module -w commonjs -o $js_file $(ls -d "$PWD"/protos/*)
+npx pbjs --keep-case -t static-module -w commonjs -o $js_file $(ls -d "$PWD"/protos/*)
 
 ## Generate TS definitions for the JS code
 npx pbts -o $ts_file $js_file

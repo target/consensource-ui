@@ -11,11 +11,11 @@ import createBatch from 'services/protobuf/batch';
 import BatchService from 'services/batch';
 
 function createStore() {
-  const org = {
+  const org: consensource.ICreateOrganizationAction = {
     contacts: null,
     address: null,
     name: null,
-  } as consensource.ICreateOrganizationAction;
+  };
 
   return {
     org,
@@ -28,19 +28,19 @@ function makeOrgId(name: string) {
 }
 
 export interface CreateOrganizationFormProps extends FormProps {
-  organizationType: consensource.Organization.Type;
+  organization_type: consensource.Organization.Type;
 }
 
 function CreateOrganizationForm({
   onSubmit,
   onError,
   onSubmitBtnLabel = 'Create Organization',
-  organizationType,
+  organization_type,
 }: CreateOrganizationFormProps) {
   const state = useLocalStore(createStore);
 
   function isFactoryOrg() {
-    return organizationType === Organization.Type.FACTORY;
+    return organization_type === Organization.Type.FACTORY;
   }
 
   async function onClick(event: React.FormEvent) {
@@ -51,19 +51,19 @@ function CreateOrganizationForm({
 
     if (!contacts) {
       throw new Error(
-        `A contact is required to create a ${organizationType} transaction`,
+        `A contact is required to create a ${organization_type} transaction`,
       );
     }
 
     if (isFactoryOrg() && !address) {
       throw new Error(
-        `An address is required to create a ${organizationType} transaction`,
+        `An address is required to create a ${organization_type} transaction`,
       );
     }
 
     if (!name) {
       throw new Error(
-        `An organization name is required to create a ${organizationType} transaction`,
+        `An organization name is required to create a ${organization_type} transaction`,
       );
     }
 
@@ -74,7 +74,7 @@ function CreateOrganizationForm({
           address,
           name,
           id: makeOrgId(name),
-          organizationType,
+          organization_type,
         },
         signer,
       ),
@@ -152,12 +152,12 @@ function CreateOrganizationForm({
     return (
       <form>
         <div>
-          <label htmlFor="factory-name">
+          <label htmlFor={`${organization_type} name`}>
             name
             <input
               value={org.name || ''}
               onChange={(e) => setOrgName(e.target.value)}
-              placeholder="name"
+              placeholder={`${organization_type} name`}
               type="text"
               id="factory-name"
               required

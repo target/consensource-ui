@@ -22,24 +22,22 @@ export function getOrgStateAddress(id: string) {
  *
  * Note that an address is not required - we only enforce this on factories.
  */
-interface CreateOrgTxn {
-  id: NonNullable<consensource.ICreateOrganizationAction['id']>;
-  organizationType: NonNullable<
-    consensource.ICreateOrganizationAction['organizationType']
-  >;
-  contacts: NonNullable<consensource.ICreateOrganizationAction['contacts']>;
-  name: NonNullable<consensource.ICreateOrganizationAction['name']>;
+interface CreateOrgAction extends consensource.ICreateOrganizationAction {
+  id: string;
+  organization_type: consensource.Organization.Type;
+  contacts: consensource.Organization.IContact[];
+  name: string;
 }
 
 export default function createOrgTransaction(
-  action: consensource.ICreateOrganizationAction & CreateOrgTxn,
+  action: CreateOrgAction,
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
-  const { id, organizationType, contacts, address, name } = action;
+  const { id, organization_type, contacts, address, name } = action;
 
   const createOrganization = new CreateOrganizationAction({
     id,
-    organizationType,
+    organization_type,
     contacts,
     address,
     name,

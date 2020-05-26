@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
-import { FormProps } from 'view/forms';
+import { FormProps, hasEmptyFields } from 'view/forms';
 import stores from 'stores';
 
 export interface CreateUserFormState {
@@ -9,10 +9,12 @@ export interface CreateUserFormState {
 }
 
 function createStore() {
-  return {
+  const store: CreateUserFormState = {
     username: '',
     password: '',
-  } as CreateUserFormState;
+  };
+
+  return store;
 }
 
 function CreateUserForm({ onSubmit, onError, onSubmitBtnLabel }: FormProps) {
@@ -43,6 +45,8 @@ function CreateUserForm({ onSubmit, onError, onSubmitBtnLabel }: FormProps) {
     state[key] = val;
   };
 
+  const isDisabled = hasEmptyFields(state);
+
   return (
     <form>
       <div>
@@ -51,7 +55,7 @@ function CreateUserForm({ onSubmit, onError, onSubmitBtnLabel }: FormProps) {
           <input
             value={state.username}
             onChange={(e) => setState('username', e.target.value)}
-            placeholder="username"
+            placeholder="Username"
             type="text"
             id="user-username"
             required
@@ -64,7 +68,7 @@ function CreateUserForm({ onSubmit, onError, onSubmitBtnLabel }: FormProps) {
           <input
             value={state.password}
             onChange={(e) => setState('password', e.target.value)}
-            placeholder="password"
+            placeholder="Password"
             type="text"
             id="user-password"
             required
@@ -72,7 +76,7 @@ function CreateUserForm({ onSubmit, onError, onSubmitBtnLabel }: FormProps) {
         </label>
       </div>
 
-      <button type="submit" onClick={submit}>
+      <button type="submit" onClick={submit} disabled={isDisabled}>
         {onSubmitBtnLabel || 'Create User'}
       </button>
     </form>

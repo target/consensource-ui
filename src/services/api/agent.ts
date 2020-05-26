@@ -1,17 +1,43 @@
 import axios from 'axios';
+import { ApiRes, createReqWithParam, ApiReqParams, Paging } from 'services/api';
 
-export function fetchAllAgents(): Promise<any> {
-  const url = '/api/agents';
-
-  return axios.get(url).catch((e: Error) => {
-    throw new Error(`Failed to GET ${url}: ${e.message}`);
-  });
+export interface AgentRes extends ApiRes<AgentResData> {
+  link: string;
+  head: number;
+  paging: Paging;
+  data: AgentResData[];
 }
 
-export function fetchAgent(public_key: string): Promise<any> {
-  const url = `/api/agents/${public_key}`;
+export interface AgentResData {
+  public_key: string;
+  name: string;
+  created_on: number;
+  organization: {
+    id: string;
+    name: string;
+    organization_type: consensource.Organization.Type;
+  };
+}
 
-  return axios.get(url).catch((e: Error) => {
-    throw new Error(`Failed to GET ${url}: ${e.message}`);
+export async function fetchAgents(params?: ApiReqParams): Promise<AgentRes> {
+  const path = createReqWithParam('/api/agents', params);
+
+  const res = await axios.get(path).catch(({ message }: Error) => {
+    throw new Error(`Failed to GET ${path}: ${message}`);
   });
+
+  return res.data;
+}
+
+export async function fetchAgentByPubKey(
+  publicKey: string,
+  params?: ApiReqParams,
+): Promise<AgentRes> {
+  const path = createReqWithParam(`/api/agents/${publicKey}`, params);
+
+  const res = await axios.get(path).catch(({ message }: Error) => {
+    throw new Error(`Failed to GET ${path}: ${message}`);
+  });
+
+  return res.data;
 }

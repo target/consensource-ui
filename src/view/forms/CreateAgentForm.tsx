@@ -1,15 +1,17 @@
 import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
-import { FormProps } from 'view/forms';
+import { FormProps, hasEmptyFields } from 'view/forms';
 import createAgentTransaction from 'services/protobuf/transactions/agent';
 import createBatch from 'services/protobuf/batch';
 import stores from 'stores';
 import BatchService from 'services/batch';
 
 function createStore() {
-  return {
+  const store: consensource.IAgent = {
     name: '',
-  } as consensource.IAgent;
+  };
+
+  return store;
 }
 
 function CreateAgentForm({
@@ -47,6 +49,8 @@ function CreateAgentForm({
     state[key] = val;
   };
 
+  const isDisabled = hasEmptyFields(state);
+
   return (
     <form>
       <div>
@@ -55,14 +59,14 @@ function CreateAgentForm({
           <input
             value={state.name || ''}
             onChange={(e) => setState('name', e.target.value)}
-            placeholder="name"
+            placeholder="Name"
             type="text"
             id="agent-name"
             required
           />
         </label>
       </div>
-      <button type="submit" onClick={onClick}>
+      <button type="submit" onClick={onClick} disabled={isDisabled}>
         {onSubmitBtnLabel}
       </button>
     </form>
