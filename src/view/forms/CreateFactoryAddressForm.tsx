@@ -4,7 +4,7 @@ import { FormProps } from 'view/forms';
 import { Factory } from 'services/protobuf';
 
 function createStore() {
-  const store: consensource.Factory.IAddress = {
+  const store: Factory.IAddress = {
     street_line_1: '',
     street_line_2: '',
     city: '',
@@ -17,7 +17,7 @@ function createStore() {
 }
 
 interface CreateContactFormProps extends FormProps {
-  onSubmit: (address: consensource.Factory.Address) => any;
+  onSubmit: (address: Factory.Address) => any;
 }
 
 function CreateFactoryAddressForm({
@@ -46,9 +46,9 @@ function CreateFactoryAddressForm({
     }
   };
 
-  const setState = <T extends keyof consensource.Factory.IAddress>(
+  const setState = <T extends keyof Factory.IAddress>(
     key: T,
-    val: consensource.Factory.IAddress[T],
+    val: Factory.IAddress[T],
   ) => {
     state[key] = val;
   };

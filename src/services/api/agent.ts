@@ -15,7 +15,7 @@ export interface AgentResData {
   organization: {
     id: string;
     name: string;
-    organization_type: consensource.Organization.Type;
+    organization_type: Organization.Type;
   };
 }
 

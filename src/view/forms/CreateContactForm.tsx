@@ -4,7 +4,7 @@ import { FormProps } from 'view/forms';
 import { Organization } from 'services/protobuf';
 
 function createStore() {
-  const store: consensource.Organization.IContact = {
+  const store: Organization.IContact = {
     name: '',
     phone_number: '',
     language_code: '',
@@ -14,7 +14,7 @@ function createStore() {
 }
 
 interface CreateContactFormProps extends FormProps {
-  onSubmit: (contact: consensource.Organization.Contact) => any;
+  onSubmit: (contact: Organization.Contact) => any;
 }
 
 function CreateContactForm({
@@ -43,9 +43,9 @@ function CreateContactForm({
     }
   };
 
-  const setState = <T extends keyof consensource.Organization.IContact>(
+  const setState = <T extends keyof Organization.IContact>(
     key: T,
-    val: consensource.Organization.IContact[T],
+    val: Organization.IContact[T],
   ) => {
     state[key] = val;
   };

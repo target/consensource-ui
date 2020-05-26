@@ -18,7 +18,7 @@ describe('AgentApi', () => {
     organization: {
       id: 'org',
       name: 'org_name',
-      organization_type: 2 as consensource.Organization.Type.STANDARDS_BODY,
+      organization_type: 2 as Organization.Type.STANDARDS_BODY,
     },
   };
 

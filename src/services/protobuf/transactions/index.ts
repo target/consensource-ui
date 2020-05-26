@@ -30,7 +30,7 @@ export function getTransactionIds(
  * @param message CertificateRegistryPayload message or plain object to encode
  */
 export function encodePayload(
-  payload: consensource.ICertificateRegistryPayload,
+  payload: ICertificateRegistryPayload,
 ): Uint8Array {
   return CertificateRegistryPayload.encode(payload).finish();
 }

@@ -34,7 +34,7 @@ describe('Transaction Protobuf', () => {
 
   describe('encodePayload()', () => {
     it('encodes and returns a CertificateRegistryPayload', () => {
-      const payload: consensource.ICertificateRegistryPayload = {
+      const payload: ICertificateRegistryPayload = {
         action: ACTIONS.FACTORY,
       };
 

@@ -7,7 +7,7 @@ import stores from 'stores';
 import BatchService from 'services/batch';
 
 function createStore() {
-  const store: consensource.IAgent = {
+  const store: IAgent = {
     name: '',
   };
 
@@ -42,10 +42,7 @@ function CreateAgentForm({
     }
   };
 
-  const setState = <T extends keyof consensource.IAgent>(
-    key: T,
-    val: consensource.IAgent[T],
-  ) => {
+  const setState = <T extends keyof IAgent>(key: T, val: IAgent[T]) => {
     state[key] = val;
   };
 

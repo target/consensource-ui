@@ -1,6 +1,6 @@
-export as namespace consensource;
 import * as $protobuf from "protobufjs";
 /** Properties of an Agent. */
+declare global {
 export interface IAgent {
 
     /** Agent public_key */
@@ -3239,4 +3239,5 @@ export class AccreditCertifyingBodyAction implements IAccreditCertifyingBodyActi
      * @returns JSON object
      */
     public toJSON(): { [k: string]: any };
+}
 }

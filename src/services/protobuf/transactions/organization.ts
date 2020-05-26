@@ -22,10 +22,10 @@ export function getOrgStateAddress(id: string) {
  *
  * Note that an address is not required - we only enforce this on factories.
  */
-interface CreateOrgAction extends consensource.ICreateOrganizationAction {
+interface CreateOrgAction extends ICreateOrganizationAction {
   id: string;
-  organization_type: consensource.Organization.Type;
-  contacts: consensource.Organization.IContact[];
+  organization_type: Organization.Type;
+  contacts: Organization.IContact[];
   name: string;
 }
 
@@ -35,16 +35,15 @@ export default function createOrgTransaction(
 ): sawtooth.protobuf.Transaction {
   const { id, organization_type, contacts, address, name } = action;
 
-  const create_organization = new CreateOrganizationAction({
+  const create_organization = CreateOrganizationAction.create({
     id,
     organization_type,
     contacts,
     address,
     name,
-    timestamp: getTxnTimestamp(),
   });
 
-  const payload: consensource.ICertificateRegistryPayload = {
+  const payload: ICertificateRegistryPayload = {
     action: ACTIONS.CREATE_ORGANIZATION,
     create_organization,
   };

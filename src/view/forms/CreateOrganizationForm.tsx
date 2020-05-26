@@ -11,7 +11,7 @@ import createBatch from 'services/protobuf/batch';
 import BatchService from 'services/batch';
 
 function createStore() {
-  const org: consensource.ICreateOrganizationAction = {
+  const org: ICreateOrganizationAction = {
     contacts: null,
     address: null,
     name: null,
@@ -28,7 +28,7 @@ function makeOrgId(name: string) {
 }
 
 export interface CreateOrganizationFormProps extends FormProps {
-  organization_type: consensource.Organization.Type;
+  organization_type: Organization.Type;
 }
 
 function CreateOrganizationForm({
@@ -95,11 +95,11 @@ function CreateOrganizationForm({
     }
   }
 
-  function onSubmitContact(contact: consensource.Organization.Contact) {
+  function onSubmitContact(contact: Organization.Contact) {
     state.org.contacts = new Array(contact);
   }
 
-  function onSubmitAddress(address: consensource.Factory.Address) {
+  function onSubmitAddress(address: Factory.Address) {
     state.org.address = address;
   }
 

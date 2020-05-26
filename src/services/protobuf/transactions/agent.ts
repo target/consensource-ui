@@ -20,7 +20,7 @@ export function getAgentStateAddress(signer: sawtooth.signing.Signer) {
 }
 
 export default function createAgentTransaction(
-  { name }: consensource.ICreateAgentAction,
+  { name }: ICreateAgentAction,
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
   const create_agent = CreateAgentAction.create({
@@ -28,7 +28,7 @@ export default function createAgentTransaction(
     timestamp: getTxnTimestamp(),
   });
 
-  const payload: consensource.ICertificateRegistryPayload = {
+  const payload: ICertificateRegistryPayload = {
     action: ACTIONS.CREATE_AGENT,
     create_agent,
   };

@@ -8,7 +8,7 @@ import { ACTIONS } from 'services/protobuf/transactions';
 
 describe('Agent Protobuf', () => {
   describe('createAgentTransaction()', () => {
-    const agent: consensource.IAgent = { name: 'test' };
+    const agent: IAgent = { name: 'test' };
     const signer = createSigner(createNewPrivateKey());
 
     it('creates a new CreateAgentAction and wraps it in a transaction', () => {
