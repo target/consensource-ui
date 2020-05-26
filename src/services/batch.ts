@@ -2,6 +2,8 @@ import * as BatchApi from 'services/api/batch';
 import stores from 'stores';
 import { ClientBatchStatus } from 'sawtooth-sdk/protobuf';
 
+export const BatchStatus = ClientBatchStatus.Status;
+
 class BatchService {
   /**
    * Given a `ClientBatchStatus.Status` string value, get the actual enum
@@ -27,13 +29,11 @@ class BatchService {
 
     let snackbarMsg = '';
 
-    debugger;
-
     switch (BatchService.getBatchStatusFromKey(status)) {
-      case ClientBatchStatus.Status.COMMITTED:
+      case BatchStatus.COMMITTED:
         snackbarMsg = 'Successfully submitted transactions to the network';
         break;
-      case ClientBatchStatus.Status.INVALID:
+      case BatchStatus.INVALID:
         // TODO: Use a persistent modal here instead
         snackbarMsg = 'Failed to submit transactions to the network';
         break;

@@ -35,7 +35,7 @@ export default function createOrgTransaction(
 ): sawtooth.protobuf.Transaction {
   const { id, organization_type, contacts, address, name } = action;
 
-  const createOrganization = new CreateOrganizationAction({
+  const create_organization = new CreateOrganizationAction({
     id,
     organization_type,
     contacts,
@@ -44,7 +44,10 @@ export default function createOrgTransaction(
     timestamp: getTxnTimestamp(),
   });
 
-  const payload = { action: ACTIONS.CREATE_ORGANIZATION, createOrganization };
+  const payload: consensource.ICertificateRegistryPayload = {
+    action: ACTIONS.CREATE_ORGANIZATION,
+    create_organization,
+  };
   const payloadBytes = encodePayload(payload);
 
   const orgStateAddress = getOrgStateAddress(id);

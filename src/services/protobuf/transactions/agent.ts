@@ -23,14 +23,16 @@ export default function createAgentTransaction(
   { name }: consensource.ICreateAgentAction,
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
-  console.log(name);
-  debugger;
-  const createAgent = CreateAgentAction.create({
+  const create_agent = CreateAgentAction.create({
     name,
     timestamp: getTxnTimestamp(),
   });
 
-  const payload = { action: ACTIONS.CREATE_AGENT, createAgent };
+  const payload: consensource.ICertificateRegistryPayload = {
+    action: ACTIONS.CREATE_AGENT,
+    create_agent,
+  };
+
   const payloadBytes = encodePayload(payload);
   const stateAddress = getAgentStateAddress(signer);
 
