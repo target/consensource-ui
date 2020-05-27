@@ -3,6 +3,7 @@ syntax = "proto3";
 import "organization.proto";
 import "certificate.proto";
 import "request.proto";
+import "assertion.proto";
 
 message CertificateRegistryPayload{
     enum Action {
@@ -17,6 +18,7 @@ message CertificateRegistryPayload{
         OPEN_REQUEST_ACTION = 8;
         CHANGE_REQUEST_STATUS_ACTION = 9;
         ACCREDIT_CERTIFYING_BODY_ACTION = 10;
+        ASSERT_ACTION = 11;
     }
 
     // Whether the payload contains a create agent, create organization,
@@ -35,6 +37,7 @@ message CertificateRegistryPayload{
     OpenRequestAction open_request_action = 9;
     ChangeRequestStatusAction change_request_status_action = 10;
     AccreditCertifyingBodyAction accredit_certifying_body_action = 11;
+    AssertAction assert_action = 12;
 }
 
 message CreateAgentAction {
@@ -192,4 +195,26 @@ message AccreditCertifyingBodyAction {
     // When the accreditation will become invalid.
     // Format: UTC timestamp
     uint64 valid_to = 4;
+}
+
+message AssertAction {
+    // UUID
+    string assertion_id = 1;
+    // Wrapper around CreateOrganizationAction.
+    // Support assertions about existing factories
+    message FactoryAssertion {
+      CreateOrganizationAction factory = 1;
+      string existing_factory_id = 2;
+    }
+    // An AssertAction will be exactly one of these at a time.
+    oneof assertion {
+      // Asserts a new factory exists, or that an existing factory has different info.
+      FactoryAssertion new_factory = 2;
+
+      // Asserts a factory that is already in state has a certificate.
+      IssueCertificateAction new_certificate = 3;
+
+      // Asserts a new standard exists.
+      CreateStandardAction new_standard = 4;
+    }
 }

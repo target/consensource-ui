@@ -9,7 +9,6 @@ import {
   PayloadInfo,
   encodePayload,
   ACTIONS,
-  getTxnTimestamp,
 } from 'services/protobuf/transactions';
 
 export function getOrgStateAddress(id: string) {
@@ -18,15 +17,19 @@ export function getOrgStateAddress(id: string) {
 
 /**
  * Interface to define the required properties for an org transaction,
- * since protobuf defaults to all fields as optional.L0
+ * since protobuf defaults to all fields as optional.
  *
  * Note that an address is not required - we only enforce this on factories.
  */
-interface CreateOrgAction extends ICreateOrganizationAction {
+export interface CreateOrgAction extends ICreateOrganizationAction {
   id: string;
   organization_type: Organization.Type;
   contacts: Organization.IContact[];
   name: string;
+}
+
+export function createOrg(org: CreateOrgAction) {
+  return CreateOrganizationAction.create(org);
 }
 
 export default function createOrgTransaction(

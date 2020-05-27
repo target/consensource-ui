@@ -20,6 +20,7 @@ export enum ConsenSourceNamespaces {
   ORGANIZATION = '02',
   STANDARD = '03',
   CERTIFICATE_REQUEST = '04',
+  ASSERTION = '05',
 }
 
 export function createStateAddress(

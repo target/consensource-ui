@@ -485,6 +485,531 @@ $root.AgentContainer = (function() {
     return AgentContainer;
 })();
 
+$root.Assertion = (function() {
+
+    /**
+     * Properties of an Assertion.
+     * @exports IAssertion
+     * @interface IAssertion
+     * @property {string|null} [id] Assertion id
+     * @property {string|null} [assertor_pub_key] Assertion assertor_pub_key
+     * @property {Assertion.Type|null} [assertion_type] Assertion assertion_type
+     * @property {string|null} [object_id] Assertion object_id
+     * @property {string|null} [data_id] Assertion data_id
+     */
+
+    /**
+     * Constructs a new Assertion.
+     * @exports Assertion
+     * @classdesc Represents an Assertion.
+     * @implements IAssertion
+     * @constructor
+     * @param {IAssertion=} [properties] Properties to set
+     */
+    function Assertion(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * Assertion id.
+     * @member {string} id
+     * @memberof Assertion
+     * @instance
+     */
+    Assertion.prototype.id = "";
+
+    /**
+     * Assertion assertor_pub_key.
+     * @member {string} assertor_pub_key
+     * @memberof Assertion
+     * @instance
+     */
+    Assertion.prototype.assertor_pub_key = "";
+
+    /**
+     * Assertion assertion_type.
+     * @member {Assertion.Type} assertion_type
+     * @memberof Assertion
+     * @instance
+     */
+    Assertion.prototype.assertion_type = 0;
+
+    /**
+     * Assertion object_id.
+     * @member {string} object_id
+     * @memberof Assertion
+     * @instance
+     */
+    Assertion.prototype.object_id = "";
+
+    /**
+     * Assertion data_id.
+     * @member {string} data_id
+     * @memberof Assertion
+     * @instance
+     */
+    Assertion.prototype.data_id = "";
+
+    /**
+     * Creates a new Assertion instance using the specified properties.
+     * @function create
+     * @memberof Assertion
+     * @static
+     * @param {IAssertion=} [properties] Properties to set
+     * @returns {Assertion} Assertion instance
+     */
+    Assertion.create = function create(properties) {
+        return new Assertion(properties);
+    };
+
+    /**
+     * Encodes the specified Assertion message. Does not implicitly {@link Assertion.verify|verify} messages.
+     * @function encode
+     * @memberof Assertion
+     * @static
+     * @param {IAssertion} message Assertion message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    Assertion.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+        if (message.assertor_pub_key != null && Object.hasOwnProperty.call(message, "assertor_pub_key"))
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.assertor_pub_key);
+        if (message.assertion_type != null && Object.hasOwnProperty.call(message, "assertion_type"))
+            writer.uint32(/* id 3, wireType 0 =*/24).int32(message.assertion_type);
+        if (message.object_id != null && Object.hasOwnProperty.call(message, "object_id"))
+            writer.uint32(/* id 4, wireType 2 =*/34).string(message.object_id);
+        if (message.data_id != null && Object.hasOwnProperty.call(message, "data_id"))
+            writer.uint32(/* id 5, wireType 2 =*/42).string(message.data_id);
+        return writer;
+    };
+
+    /**
+     * Encodes the specified Assertion message, length delimited. Does not implicitly {@link Assertion.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof Assertion
+     * @static
+     * @param {IAssertion} message Assertion message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    Assertion.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes an Assertion message from the specified reader or buffer.
+     * @function decode
+     * @memberof Assertion
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {Assertion} Assertion
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    Assertion.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Assertion();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.id = reader.string();
+                break;
+            case 2:
+                message.assertor_pub_key = reader.string();
+                break;
+            case 3:
+                message.assertion_type = reader.int32();
+                break;
+            case 4:
+                message.object_id = reader.string();
+                break;
+            case 5:
+                message.data_id = reader.string();
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes an Assertion message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof Assertion
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {Assertion} Assertion
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    Assertion.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies an Assertion message.
+     * @function verify
+     * @memberof Assertion
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    Assertion.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.id != null && message.hasOwnProperty("id"))
+            if (!$util.isString(message.id))
+                return "id: string expected";
+        if (message.assertor_pub_key != null && message.hasOwnProperty("assertor_pub_key"))
+            if (!$util.isString(message.assertor_pub_key))
+                return "assertor_pub_key: string expected";
+        if (message.assertion_type != null && message.hasOwnProperty("assertion_type"))
+            switch (message.assertion_type) {
+            default:
+                return "assertion_type: enum value expected";
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+                break;
+            }
+        if (message.object_id != null && message.hasOwnProperty("object_id"))
+            if (!$util.isString(message.object_id))
+                return "object_id: string expected";
+        if (message.data_id != null && message.hasOwnProperty("data_id"))
+            if (!$util.isString(message.data_id))
+                return "data_id: string expected";
+        return null;
+    };
+
+    /**
+     * Creates an Assertion message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof Assertion
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {Assertion} Assertion
+     */
+    Assertion.fromObject = function fromObject(object) {
+        if (object instanceof $root.Assertion)
+            return object;
+        var message = new $root.Assertion();
+        if (object.id != null)
+            message.id = String(object.id);
+        if (object.assertor_pub_key != null)
+            message.assertor_pub_key = String(object.assertor_pub_key);
+        switch (object.assertion_type) {
+        case "UNSET_TYPE":
+        case 0:
+            message.assertion_type = 0;
+            break;
+        case "FACTORY":
+        case 1:
+            message.assertion_type = 1;
+            break;
+        case "CERTIFICATE":
+        case 2:
+            message.assertion_type = 2;
+            break;
+        case "STANDARD":
+        case 3:
+            message.assertion_type = 3;
+            break;
+        }
+        if (object.object_id != null)
+            message.object_id = String(object.object_id);
+        if (object.data_id != null)
+            message.data_id = String(object.data_id);
+        return message;
+    };
+
+    /**
+     * Creates a plain object from an Assertion message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof Assertion
+     * @static
+     * @param {Assertion} message Assertion
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    Assertion.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults) {
+            object.id = "";
+            object.assertor_pub_key = "";
+            object.assertion_type = options.enums === String ? "UNSET_TYPE" : 0;
+            object.object_id = "";
+            object.data_id = "";
+        }
+        if (message.id != null && message.hasOwnProperty("id"))
+            object.id = message.id;
+        if (message.assertor_pub_key != null && message.hasOwnProperty("assertor_pub_key"))
+            object.assertor_pub_key = message.assertor_pub_key;
+        if (message.assertion_type != null && message.hasOwnProperty("assertion_type"))
+            object.assertion_type = options.enums === String ? $root.Assertion.Type[message.assertion_type] : message.assertion_type;
+        if (message.object_id != null && message.hasOwnProperty("object_id"))
+            object.object_id = message.object_id;
+        if (message.data_id != null && message.hasOwnProperty("data_id"))
+            object.data_id = message.data_id;
+        return object;
+    };
+
+    /**
+     * Converts this Assertion to JSON.
+     * @function toJSON
+     * @memberof Assertion
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    Assertion.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    /**
+     * Type enum.
+     * @name Assertion.Type
+     * @enum {number}
+     * @property {number} UNSET_TYPE=0 UNSET_TYPE value
+     * @property {number} FACTORY=1 FACTORY value
+     * @property {number} CERTIFICATE=2 CERTIFICATE value
+     * @property {number} STANDARD=3 STANDARD value
+     */
+    Assertion.Type = (function() {
+        var valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "UNSET_TYPE"] = 0;
+        values[valuesById[1] = "FACTORY"] = 1;
+        values[valuesById[2] = "CERTIFICATE"] = 2;
+        values[valuesById[3] = "STANDARD"] = 3;
+        return values;
+    })();
+
+    return Assertion;
+})();
+
+$root.AssertionContainer = (function() {
+
+    /**
+     * Properties of an AssertionContainer.
+     * @exports IAssertionContainer
+     * @interface IAssertionContainer
+     * @property {Array.<IAssertion>|null} [entries] AssertionContainer entries
+     */
+
+    /**
+     * Constructs a new AssertionContainer.
+     * @exports AssertionContainer
+     * @classdesc Represents an AssertionContainer.
+     * @implements IAssertionContainer
+     * @constructor
+     * @param {IAssertionContainer=} [properties] Properties to set
+     */
+    function AssertionContainer(properties) {
+        this.entries = [];
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * AssertionContainer entries.
+     * @member {Array.<IAssertion>} entries
+     * @memberof AssertionContainer
+     * @instance
+     */
+    AssertionContainer.prototype.entries = $util.emptyArray;
+
+    /**
+     * Creates a new AssertionContainer instance using the specified properties.
+     * @function create
+     * @memberof AssertionContainer
+     * @static
+     * @param {IAssertionContainer=} [properties] Properties to set
+     * @returns {AssertionContainer} AssertionContainer instance
+     */
+    AssertionContainer.create = function create(properties) {
+        return new AssertionContainer(properties);
+    };
+
+    /**
+     * Encodes the specified AssertionContainer message. Does not implicitly {@link AssertionContainer.verify|verify} messages.
+     * @function encode
+     * @memberof AssertionContainer
+     * @static
+     * @param {IAssertionContainer} message AssertionContainer message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AssertionContainer.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.entries != null && message.entries.length)
+            for (var i = 0; i < message.entries.length; ++i)
+                $root.Assertion.encode(message.entries[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified AssertionContainer message, length delimited. Does not implicitly {@link AssertionContainer.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof AssertionContainer
+     * @static
+     * @param {IAssertionContainer} message AssertionContainer message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AssertionContainer.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes an AssertionContainer message from the specified reader or buffer.
+     * @function decode
+     * @memberof AssertionContainer
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {AssertionContainer} AssertionContainer
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AssertionContainer.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AssertionContainer();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                if (!(message.entries && message.entries.length))
+                    message.entries = [];
+                message.entries.push($root.Assertion.decode(reader, reader.uint32()));
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes an AssertionContainer message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof AssertionContainer
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {AssertionContainer} AssertionContainer
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AssertionContainer.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies an AssertionContainer message.
+     * @function verify
+     * @memberof AssertionContainer
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    AssertionContainer.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.entries != null && message.hasOwnProperty("entries")) {
+            if (!Array.isArray(message.entries))
+                return "entries: array expected";
+            for (var i = 0; i < message.entries.length; ++i) {
+                var error = $root.Assertion.verify(message.entries[i]);
+                if (error)
+                    return "entries." + error;
+            }
+        }
+        return null;
+    };
+
+    /**
+     * Creates an AssertionContainer message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof AssertionContainer
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {AssertionContainer} AssertionContainer
+     */
+    AssertionContainer.fromObject = function fromObject(object) {
+        if (object instanceof $root.AssertionContainer)
+            return object;
+        var message = new $root.AssertionContainer();
+        if (object.entries) {
+            if (!Array.isArray(object.entries))
+                throw TypeError(".AssertionContainer.entries: array expected");
+            message.entries = [];
+            for (var i = 0; i < object.entries.length; ++i) {
+                if (typeof object.entries[i] !== "object")
+                    throw TypeError(".AssertionContainer.entries: object expected");
+                message.entries[i] = $root.Assertion.fromObject(object.entries[i]);
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Creates a plain object from an AssertionContainer message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof AssertionContainer
+     * @static
+     * @param {AssertionContainer} message AssertionContainer
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    AssertionContainer.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.arrays || options.defaults)
+            object.entries = [];
+        if (message.entries && message.entries.length) {
+            object.entries = [];
+            for (var j = 0; j < message.entries.length; ++j)
+                object.entries[j] = $root.Assertion.toObject(message.entries[j], options);
+        }
+        return object;
+    };
+
+    /**
+     * Converts this AssertionContainer to JSON.
+     * @function toJSON
+     * @memberof AssertionContainer
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    AssertionContainer.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return AssertionContainer;
+})();
+
 $root.Certificate = (function() {
 
     /**
@@ -2109,6 +2634,7 @@ $root.Organization = (function() {
             case 1:
             case 2:
             case 3:
+            case 4:
                 break;
             }
         if (message.certifying_body_details != null && message.hasOwnProperty("certifying_body_details")) {
@@ -2181,6 +2707,10 @@ $root.Organization = (function() {
         case "FACTORY":
         case 3:
             message.organization_type = 3;
+            break;
+        case "INGESTION":
+        case 4:
+            message.organization_type = 4;
             break;
         }
         if (object.certifying_body_details != null) {
@@ -2270,6 +2800,7 @@ $root.Organization = (function() {
      * @property {number} CERTIFYING_BODY=1 CERTIFYING_BODY value
      * @property {number} STANDARDS_BODY=2 STANDARDS_BODY value
      * @property {number} FACTORY=3 FACTORY value
+     * @property {number} INGESTION=4 INGESTION value
      */
     Organization.Type = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -2277,6 +2808,7 @@ $root.Organization = (function() {
         values[valuesById[1] = "CERTIFYING_BODY"] = 1;
         values[valuesById[2] = "STANDARDS_BODY"] = 2;
         values[valuesById[3] = "FACTORY"] = 3;
+        values[valuesById[4] = "INGESTION"] = 4;
         return values;
     })();
 
@@ -3921,6 +4453,166 @@ $root.Factory = (function() {
     return Factory;
 })();
 
+$root.Ingestion = (function() {
+
+    /**
+     * Properties of an Ingestion.
+     * @exports IIngestion
+     * @interface IIngestion
+     */
+
+    /**
+     * Constructs a new Ingestion.
+     * @exports Ingestion
+     * @classdesc Represents an Ingestion.
+     * @implements IIngestion
+     * @constructor
+     * @param {IIngestion=} [properties] Properties to set
+     */
+    function Ingestion(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * Creates a new Ingestion instance using the specified properties.
+     * @function create
+     * @memberof Ingestion
+     * @static
+     * @param {IIngestion=} [properties] Properties to set
+     * @returns {Ingestion} Ingestion instance
+     */
+    Ingestion.create = function create(properties) {
+        return new Ingestion(properties);
+    };
+
+    /**
+     * Encodes the specified Ingestion message. Does not implicitly {@link Ingestion.verify|verify} messages.
+     * @function encode
+     * @memberof Ingestion
+     * @static
+     * @param {IIngestion} message Ingestion message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    Ingestion.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified Ingestion message, length delimited. Does not implicitly {@link Ingestion.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof Ingestion
+     * @static
+     * @param {IIngestion} message Ingestion message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    Ingestion.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes an Ingestion message from the specified reader or buffer.
+     * @function decode
+     * @memberof Ingestion
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {Ingestion} Ingestion
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    Ingestion.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Ingestion();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes an Ingestion message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof Ingestion
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {Ingestion} Ingestion
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    Ingestion.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies an Ingestion message.
+     * @function verify
+     * @memberof Ingestion
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    Ingestion.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        return null;
+    };
+
+    /**
+     * Creates an Ingestion message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof Ingestion
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {Ingestion} Ingestion
+     */
+    Ingestion.fromObject = function fromObject(object) {
+        if (object instanceof $root.Ingestion)
+            return object;
+        return new $root.Ingestion();
+    };
+
+    /**
+     * Creates a plain object from an Ingestion message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof Ingestion
+     * @static
+     * @param {Ingestion} message Ingestion
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    Ingestion.toObject = function toObject() {
+        return {};
+    };
+
+    /**
+     * Converts this Ingestion to JSON.
+     * @function toJSON
+     * @memberof Ingestion
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    Ingestion.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return Ingestion;
+})();
+
 $root.OrganizationContainer = (function() {
 
     /**
@@ -4129,758 +4821,6 @@ $root.OrganizationContainer = (function() {
     return OrganizationContainer;
 })();
 
-$root.Standard = (function() {
-
-    /**
-     * Properties of a Standard.
-     * @exports IStandard
-     * @interface IStandard
-     * @property {string|null} [id] Standard id
-     * @property {string|null} [organization_id] Standard organization_id
-     * @property {string|null} [name] Standard name
-     * @property {Array.<Standard.IStandardVersion>|null} [versions] Standard versions
-     */
-
-    /**
-     * Constructs a new Standard.
-     * @exports Standard
-     * @classdesc Represents a Standard.
-     * @implements IStandard
-     * @constructor
-     * @param {IStandard=} [properties] Properties to set
-     */
-    function Standard(properties) {
-        this.versions = [];
-        if (properties)
-            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                if (properties[keys[i]] != null)
-                    this[keys[i]] = properties[keys[i]];
-    }
-
-    /**
-     * Standard id.
-     * @member {string} id
-     * @memberof Standard
-     * @instance
-     */
-    Standard.prototype.id = "";
-
-    /**
-     * Standard organization_id.
-     * @member {string} organization_id
-     * @memberof Standard
-     * @instance
-     */
-    Standard.prototype.organization_id = "";
-
-    /**
-     * Standard name.
-     * @member {string} name
-     * @memberof Standard
-     * @instance
-     */
-    Standard.prototype.name = "";
-
-    /**
-     * Standard versions.
-     * @member {Array.<Standard.IStandardVersion>} versions
-     * @memberof Standard
-     * @instance
-     */
-    Standard.prototype.versions = $util.emptyArray;
-
-    /**
-     * Creates a new Standard instance using the specified properties.
-     * @function create
-     * @memberof Standard
-     * @static
-     * @param {IStandard=} [properties] Properties to set
-     * @returns {Standard} Standard instance
-     */
-    Standard.create = function create(properties) {
-        return new Standard(properties);
-    };
-
-    /**
-     * Encodes the specified Standard message. Does not implicitly {@link Standard.verify|verify} messages.
-     * @function encode
-     * @memberof Standard
-     * @static
-     * @param {IStandard} message Standard message or plain object to encode
-     * @param {$protobuf.Writer} [writer] Writer to encode to
-     * @returns {$protobuf.Writer} Writer
-     */
-    Standard.encode = function encode(message, writer) {
-        if (!writer)
-            writer = $Writer.create();
-        if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-            writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-        if (message.organization_id != null && Object.hasOwnProperty.call(message, "organization_id"))
-            writer.uint32(/* id 2, wireType 2 =*/18).string(message.organization_id);
-        if (message.name != null && Object.hasOwnProperty.call(message, "name"))
-            writer.uint32(/* id 3, wireType 2 =*/26).string(message.name);
-        if (message.versions != null && message.versions.length)
-            for (var i = 0; i < message.versions.length; ++i)
-                $root.Standard.StandardVersion.encode(message.versions[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-        return writer;
-    };
-
-    /**
-     * Encodes the specified Standard message, length delimited. Does not implicitly {@link Standard.verify|verify} messages.
-     * @function encodeDelimited
-     * @memberof Standard
-     * @static
-     * @param {IStandard} message Standard message or plain object to encode
-     * @param {$protobuf.Writer} [writer] Writer to encode to
-     * @returns {$protobuf.Writer} Writer
-     */
-    Standard.encodeDelimited = function encodeDelimited(message, writer) {
-        return this.encode(message, writer).ldelim();
-    };
-
-    /**
-     * Decodes a Standard message from the specified reader or buffer.
-     * @function decode
-     * @memberof Standard
-     * @static
-     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-     * @param {number} [length] Message length if known beforehand
-     * @returns {Standard} Standard
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    Standard.decode = function decode(reader, length) {
-        if (!(reader instanceof $Reader))
-            reader = $Reader.create(reader);
-        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Standard();
-        while (reader.pos < end) {
-            var tag = reader.uint32();
-            switch (tag >>> 3) {
-            case 1:
-                message.id = reader.string();
-                break;
-            case 2:
-                message.organization_id = reader.string();
-                break;
-            case 3:
-                message.name = reader.string();
-                break;
-            case 4:
-                if (!(message.versions && message.versions.length))
-                    message.versions = [];
-                message.versions.push($root.Standard.StandardVersion.decode(reader, reader.uint32()));
-                break;
-            default:
-                reader.skipType(tag & 7);
-                break;
-            }
-        }
-        return message;
-    };
-
-    /**
-     * Decodes a Standard message from the specified reader or buffer, length delimited.
-     * @function decodeDelimited
-     * @memberof Standard
-     * @static
-     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-     * @returns {Standard} Standard
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    Standard.decodeDelimited = function decodeDelimited(reader) {
-        if (!(reader instanceof $Reader))
-            reader = new $Reader(reader);
-        return this.decode(reader, reader.uint32());
-    };
-
-    /**
-     * Verifies a Standard message.
-     * @function verify
-     * @memberof Standard
-     * @static
-     * @param {Object.<string,*>} message Plain object to verify
-     * @returns {string|null} `null` if valid, otherwise the reason why it is not
-     */
-    Standard.verify = function verify(message) {
-        if (typeof message !== "object" || message === null)
-            return "object expected";
-        if (message.id != null && message.hasOwnProperty("id"))
-            if (!$util.isString(message.id))
-                return "id: string expected";
-        if (message.organization_id != null && message.hasOwnProperty("organization_id"))
-            if (!$util.isString(message.organization_id))
-                return "organization_id: string expected";
-        if (message.name != null && message.hasOwnProperty("name"))
-            if (!$util.isString(message.name))
-                return "name: string expected";
-        if (message.versions != null && message.hasOwnProperty("versions")) {
-            if (!Array.isArray(message.versions))
-                return "versions: array expected";
-            for (var i = 0; i < message.versions.length; ++i) {
-                var error = $root.Standard.StandardVersion.verify(message.versions[i]);
-                if (error)
-                    return "versions." + error;
-            }
-        }
-        return null;
-    };
-
-    /**
-     * Creates a Standard message from a plain object. Also converts values to their respective internal types.
-     * @function fromObject
-     * @memberof Standard
-     * @static
-     * @param {Object.<string,*>} object Plain object
-     * @returns {Standard} Standard
-     */
-    Standard.fromObject = function fromObject(object) {
-        if (object instanceof $root.Standard)
-            return object;
-        var message = new $root.Standard();
-        if (object.id != null)
-            message.id = String(object.id);
-        if (object.organization_id != null)
-            message.organization_id = String(object.organization_id);
-        if (object.name != null)
-            message.name = String(object.name);
-        if (object.versions) {
-            if (!Array.isArray(object.versions))
-                throw TypeError(".Standard.versions: array expected");
-            message.versions = [];
-            for (var i = 0; i < object.versions.length; ++i) {
-                if (typeof object.versions[i] !== "object")
-                    throw TypeError(".Standard.versions: object expected");
-                message.versions[i] = $root.Standard.StandardVersion.fromObject(object.versions[i]);
-            }
-        }
-        return message;
-    };
-
-    /**
-     * Creates a plain object from a Standard message. Also converts values to other types if specified.
-     * @function toObject
-     * @memberof Standard
-     * @static
-     * @param {Standard} message Standard
-     * @param {$protobuf.IConversionOptions} [options] Conversion options
-     * @returns {Object.<string,*>} Plain object
-     */
-    Standard.toObject = function toObject(message, options) {
-        if (!options)
-            options = {};
-        var object = {};
-        if (options.arrays || options.defaults)
-            object.versions = [];
-        if (options.defaults) {
-            object.id = "";
-            object.organization_id = "";
-            object.name = "";
-        }
-        if (message.id != null && message.hasOwnProperty("id"))
-            object.id = message.id;
-        if (message.organization_id != null && message.hasOwnProperty("organization_id"))
-            object.organization_id = message.organization_id;
-        if (message.name != null && message.hasOwnProperty("name"))
-            object.name = message.name;
-        if (message.versions && message.versions.length) {
-            object.versions = [];
-            for (var j = 0; j < message.versions.length; ++j)
-                object.versions[j] = $root.Standard.StandardVersion.toObject(message.versions[j], options);
-        }
-        return object;
-    };
-
-    /**
-     * Converts this Standard to JSON.
-     * @function toJSON
-     * @memberof Standard
-     * @instance
-     * @returns {Object.<string,*>} JSON object
-     */
-    Standard.prototype.toJSON = function toJSON() {
-        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-    };
-
-    Standard.StandardVersion = (function() {
-
-        /**
-         * Properties of a StandardVersion.
-         * @memberof Standard
-         * @interface IStandardVersion
-         * @property {string|null} [version] StandardVersion version
-         * @property {string|null} [description] StandardVersion description
-         * @property {string|null} [link] StandardVersion link
-         * @property {number|Long|null} [approval_date] StandardVersion approval_date
-         */
-
-        /**
-         * Constructs a new StandardVersion.
-         * @memberof Standard
-         * @classdesc Represents a StandardVersion.
-         * @implements IStandardVersion
-         * @constructor
-         * @param {Standard.IStandardVersion=} [properties] Properties to set
-         */
-        function StandardVersion(properties) {
-            if (properties)
-                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                    if (properties[keys[i]] != null)
-                        this[keys[i]] = properties[keys[i]];
-        }
-
-        /**
-         * StandardVersion version.
-         * @member {string} version
-         * @memberof Standard.StandardVersion
-         * @instance
-         */
-        StandardVersion.prototype.version = "";
-
-        /**
-         * StandardVersion description.
-         * @member {string} description
-         * @memberof Standard.StandardVersion
-         * @instance
-         */
-        StandardVersion.prototype.description = "";
-
-        /**
-         * StandardVersion link.
-         * @member {string} link
-         * @memberof Standard.StandardVersion
-         * @instance
-         */
-        StandardVersion.prototype.link = "";
-
-        /**
-         * StandardVersion approval_date.
-         * @member {number|Long} approval_date
-         * @memberof Standard.StandardVersion
-         * @instance
-         */
-        StandardVersion.prototype.approval_date = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
-
-        /**
-         * Creates a new StandardVersion instance using the specified properties.
-         * @function create
-         * @memberof Standard.StandardVersion
-         * @static
-         * @param {Standard.IStandardVersion=} [properties] Properties to set
-         * @returns {Standard.StandardVersion} StandardVersion instance
-         */
-        StandardVersion.create = function create(properties) {
-            return new StandardVersion(properties);
-        };
-
-        /**
-         * Encodes the specified StandardVersion message. Does not implicitly {@link Standard.StandardVersion.verify|verify} messages.
-         * @function encode
-         * @memberof Standard.StandardVersion
-         * @static
-         * @param {Standard.IStandardVersion} message StandardVersion message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        StandardVersion.encode = function encode(message, writer) {
-            if (!writer)
-                writer = $Writer.create();
-            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
-                writer.uint32(/* id 1, wireType 2 =*/10).string(message.version);
-            if (message.description != null && Object.hasOwnProperty.call(message, "description"))
-                writer.uint32(/* id 2, wireType 2 =*/18).string(message.description);
-            if (message.link != null && Object.hasOwnProperty.call(message, "link"))
-                writer.uint32(/* id 3, wireType 2 =*/26).string(message.link);
-            if (message.approval_date != null && Object.hasOwnProperty.call(message, "approval_date"))
-                writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.approval_date);
-            return writer;
-        };
-
-        /**
-         * Encodes the specified StandardVersion message, length delimited. Does not implicitly {@link Standard.StandardVersion.verify|verify} messages.
-         * @function encodeDelimited
-         * @memberof Standard.StandardVersion
-         * @static
-         * @param {Standard.IStandardVersion} message StandardVersion message or plain object to encode
-         * @param {$protobuf.Writer} [writer] Writer to encode to
-         * @returns {$protobuf.Writer} Writer
-         */
-        StandardVersion.encodeDelimited = function encodeDelimited(message, writer) {
-            return this.encode(message, writer).ldelim();
-        };
-
-        /**
-         * Decodes a StandardVersion message from the specified reader or buffer.
-         * @function decode
-         * @memberof Standard.StandardVersion
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @param {number} [length] Message length if known beforehand
-         * @returns {Standard.StandardVersion} StandardVersion
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        StandardVersion.decode = function decode(reader, length) {
-            if (!(reader instanceof $Reader))
-                reader = $Reader.create(reader);
-            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Standard.StandardVersion();
-            while (reader.pos < end) {
-                var tag = reader.uint32();
-                switch (tag >>> 3) {
-                case 1:
-                    message.version = reader.string();
-                    break;
-                case 2:
-                    message.description = reader.string();
-                    break;
-                case 3:
-                    message.link = reader.string();
-                    break;
-                case 4:
-                    message.approval_date = reader.uint64();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-                }
-            }
-            return message;
-        };
-
-        /**
-         * Decodes a StandardVersion message from the specified reader or buffer, length delimited.
-         * @function decodeDelimited
-         * @memberof Standard.StandardVersion
-         * @static
-         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-         * @returns {Standard.StandardVersion} StandardVersion
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        StandardVersion.decodeDelimited = function decodeDelimited(reader) {
-            if (!(reader instanceof $Reader))
-                reader = new $Reader(reader);
-            return this.decode(reader, reader.uint32());
-        };
-
-        /**
-         * Verifies a StandardVersion message.
-         * @function verify
-         * @memberof Standard.StandardVersion
-         * @static
-         * @param {Object.<string,*>} message Plain object to verify
-         * @returns {string|null} `null` if valid, otherwise the reason why it is not
-         */
-        StandardVersion.verify = function verify(message) {
-            if (typeof message !== "object" || message === null)
-                return "object expected";
-            if (message.version != null && message.hasOwnProperty("version"))
-                if (!$util.isString(message.version))
-                    return "version: string expected";
-            if (message.description != null && message.hasOwnProperty("description"))
-                if (!$util.isString(message.description))
-                    return "description: string expected";
-            if (message.link != null && message.hasOwnProperty("link"))
-                if (!$util.isString(message.link))
-                    return "link: string expected";
-            if (message.approval_date != null && message.hasOwnProperty("approval_date"))
-                if (!$util.isInteger(message.approval_date) && !(message.approval_date && $util.isInteger(message.approval_date.low) && $util.isInteger(message.approval_date.high)))
-                    return "approval_date: integer|Long expected";
-            return null;
-        };
-
-        /**
-         * Creates a StandardVersion message from a plain object. Also converts values to their respective internal types.
-         * @function fromObject
-         * @memberof Standard.StandardVersion
-         * @static
-         * @param {Object.<string,*>} object Plain object
-         * @returns {Standard.StandardVersion} StandardVersion
-         */
-        StandardVersion.fromObject = function fromObject(object) {
-            if (object instanceof $root.Standard.StandardVersion)
-                return object;
-            var message = new $root.Standard.StandardVersion();
-            if (object.version != null)
-                message.version = String(object.version);
-            if (object.description != null)
-                message.description = String(object.description);
-            if (object.link != null)
-                message.link = String(object.link);
-            if (object.approval_date != null)
-                if ($util.Long)
-                    (message.approval_date = $util.Long.fromValue(object.approval_date)).unsigned = true;
-                else if (typeof object.approval_date === "string")
-                    message.approval_date = parseInt(object.approval_date, 10);
-                else if (typeof object.approval_date === "number")
-                    message.approval_date = object.approval_date;
-                else if (typeof object.approval_date === "object")
-                    message.approval_date = new $util.LongBits(object.approval_date.low >>> 0, object.approval_date.high >>> 0).toNumber(true);
-            return message;
-        };
-
-        /**
-         * Creates a plain object from a StandardVersion message. Also converts values to other types if specified.
-         * @function toObject
-         * @memberof Standard.StandardVersion
-         * @static
-         * @param {Standard.StandardVersion} message StandardVersion
-         * @param {$protobuf.IConversionOptions} [options] Conversion options
-         * @returns {Object.<string,*>} Plain object
-         */
-        StandardVersion.toObject = function toObject(message, options) {
-            if (!options)
-                options = {};
-            var object = {};
-            if (options.defaults) {
-                object.version = "";
-                object.description = "";
-                object.link = "";
-                if ($util.Long) {
-                    var long = new $util.Long(0, 0, true);
-                    object.approval_date = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
-                } else
-                    object.approval_date = options.longs === String ? "0" : 0;
-            }
-            if (message.version != null && message.hasOwnProperty("version"))
-                object.version = message.version;
-            if (message.description != null && message.hasOwnProperty("description"))
-                object.description = message.description;
-            if (message.link != null && message.hasOwnProperty("link"))
-                object.link = message.link;
-            if (message.approval_date != null && message.hasOwnProperty("approval_date"))
-                if (typeof message.approval_date === "number")
-                    object.approval_date = options.longs === String ? String(message.approval_date) : message.approval_date;
-                else
-                    object.approval_date = options.longs === String ? $util.Long.prototype.toString.call(message.approval_date) : options.longs === Number ? new $util.LongBits(message.approval_date.low >>> 0, message.approval_date.high >>> 0).toNumber(true) : message.approval_date;
-            return object;
-        };
-
-        /**
-         * Converts this StandardVersion to JSON.
-         * @function toJSON
-         * @memberof Standard.StandardVersion
-         * @instance
-         * @returns {Object.<string,*>} JSON object
-         */
-        StandardVersion.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-
-        return StandardVersion;
-    })();
-
-    return Standard;
-})();
-
-$root.StandardContainer = (function() {
-
-    /**
-     * Properties of a StandardContainer.
-     * @exports IStandardContainer
-     * @interface IStandardContainer
-     * @property {Array.<IStandard>|null} [entries] StandardContainer entries
-     */
-
-    /**
-     * Constructs a new StandardContainer.
-     * @exports StandardContainer
-     * @classdesc Represents a StandardContainer.
-     * @implements IStandardContainer
-     * @constructor
-     * @param {IStandardContainer=} [properties] Properties to set
-     */
-    function StandardContainer(properties) {
-        this.entries = [];
-        if (properties)
-            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                if (properties[keys[i]] != null)
-                    this[keys[i]] = properties[keys[i]];
-    }
-
-    /**
-     * StandardContainer entries.
-     * @member {Array.<IStandard>} entries
-     * @memberof StandardContainer
-     * @instance
-     */
-    StandardContainer.prototype.entries = $util.emptyArray;
-
-    /**
-     * Creates a new StandardContainer instance using the specified properties.
-     * @function create
-     * @memberof StandardContainer
-     * @static
-     * @param {IStandardContainer=} [properties] Properties to set
-     * @returns {StandardContainer} StandardContainer instance
-     */
-    StandardContainer.create = function create(properties) {
-        return new StandardContainer(properties);
-    };
-
-    /**
-     * Encodes the specified StandardContainer message. Does not implicitly {@link StandardContainer.verify|verify} messages.
-     * @function encode
-     * @memberof StandardContainer
-     * @static
-     * @param {IStandardContainer} message StandardContainer message or plain object to encode
-     * @param {$protobuf.Writer} [writer] Writer to encode to
-     * @returns {$protobuf.Writer} Writer
-     */
-    StandardContainer.encode = function encode(message, writer) {
-        if (!writer)
-            writer = $Writer.create();
-        if (message.entries != null && message.entries.length)
-            for (var i = 0; i < message.entries.length; ++i)
-                $root.Standard.encode(message.entries[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-        return writer;
-    };
-
-    /**
-     * Encodes the specified StandardContainer message, length delimited. Does not implicitly {@link StandardContainer.verify|verify} messages.
-     * @function encodeDelimited
-     * @memberof StandardContainer
-     * @static
-     * @param {IStandardContainer} message StandardContainer message or plain object to encode
-     * @param {$protobuf.Writer} [writer] Writer to encode to
-     * @returns {$protobuf.Writer} Writer
-     */
-    StandardContainer.encodeDelimited = function encodeDelimited(message, writer) {
-        return this.encode(message, writer).ldelim();
-    };
-
-    /**
-     * Decodes a StandardContainer message from the specified reader or buffer.
-     * @function decode
-     * @memberof StandardContainer
-     * @static
-     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-     * @param {number} [length] Message length if known beforehand
-     * @returns {StandardContainer} StandardContainer
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    StandardContainer.decode = function decode(reader, length) {
-        if (!(reader instanceof $Reader))
-            reader = $Reader.create(reader);
-        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.StandardContainer();
-        while (reader.pos < end) {
-            var tag = reader.uint32();
-            switch (tag >>> 3) {
-            case 1:
-                if (!(message.entries && message.entries.length))
-                    message.entries = [];
-                message.entries.push($root.Standard.decode(reader, reader.uint32()));
-                break;
-            default:
-                reader.skipType(tag & 7);
-                break;
-            }
-        }
-        return message;
-    };
-
-    /**
-     * Decodes a StandardContainer message from the specified reader or buffer, length delimited.
-     * @function decodeDelimited
-     * @memberof StandardContainer
-     * @static
-     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-     * @returns {StandardContainer} StandardContainer
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    StandardContainer.decodeDelimited = function decodeDelimited(reader) {
-        if (!(reader instanceof $Reader))
-            reader = new $Reader(reader);
-        return this.decode(reader, reader.uint32());
-    };
-
-    /**
-     * Verifies a StandardContainer message.
-     * @function verify
-     * @memberof StandardContainer
-     * @static
-     * @param {Object.<string,*>} message Plain object to verify
-     * @returns {string|null} `null` if valid, otherwise the reason why it is not
-     */
-    StandardContainer.verify = function verify(message) {
-        if (typeof message !== "object" || message === null)
-            return "object expected";
-        if (message.entries != null && message.hasOwnProperty("entries")) {
-            if (!Array.isArray(message.entries))
-                return "entries: array expected";
-            for (var i = 0; i < message.entries.length; ++i) {
-                var error = $root.Standard.verify(message.entries[i]);
-                if (error)
-                    return "entries." + error;
-            }
-        }
-        return null;
-    };
-
-    /**
-     * Creates a StandardContainer message from a plain object. Also converts values to their respective internal types.
-     * @function fromObject
-     * @memberof StandardContainer
-     * @static
-     * @param {Object.<string,*>} object Plain object
-     * @returns {StandardContainer} StandardContainer
-     */
-    StandardContainer.fromObject = function fromObject(object) {
-        if (object instanceof $root.StandardContainer)
-            return object;
-        var message = new $root.StandardContainer();
-        if (object.entries) {
-            if (!Array.isArray(object.entries))
-                throw TypeError(".StandardContainer.entries: array expected");
-            message.entries = [];
-            for (var i = 0; i < object.entries.length; ++i) {
-                if (typeof object.entries[i] !== "object")
-                    throw TypeError(".StandardContainer.entries: object expected");
-                message.entries[i] = $root.Standard.fromObject(object.entries[i]);
-            }
-        }
-        return message;
-    };
-
-    /**
-     * Creates a plain object from a StandardContainer message. Also converts values to other types if specified.
-     * @function toObject
-     * @memberof StandardContainer
-     * @static
-     * @param {StandardContainer} message StandardContainer
-     * @param {$protobuf.IConversionOptions} [options] Conversion options
-     * @returns {Object.<string,*>} Plain object
-     */
-    StandardContainer.toObject = function toObject(message, options) {
-        if (!options)
-            options = {};
-        var object = {};
-        if (options.arrays || options.defaults)
-            object.entries = [];
-        if (message.entries && message.entries.length) {
-            object.entries = [];
-            for (var j = 0; j < message.entries.length; ++j)
-                object.entries[j] = $root.Standard.toObject(message.entries[j], options);
-        }
-        return object;
-    };
-
-    /**
-     * Converts this StandardContainer to JSON.
-     * @function toJSON
-     * @memberof StandardContainer
-     * @instance
-     * @returns {Object.<string,*>} JSON object
-     */
-    StandardContainer.prototype.toJSON = function toJSON() {
-        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-    };
-
-    return StandardContainer;
-})();
-
 $root.CertificateRegistryPayload = (function() {
 
     /**
@@ -4898,6 +4838,7 @@ $root.CertificateRegistryPayload = (function() {
      * @property {IOpenRequestAction|null} [open_request_action] CertificateRegistryPayload open_request_action
      * @property {IChangeRequestStatusAction|null} [change_request_status_action] CertificateRegistryPayload change_request_status_action
      * @property {IAccreditCertifyingBodyAction|null} [accredit_certifying_body_action] CertificateRegistryPayload accredit_certifying_body_action
+     * @property {IAssertAction|null} [assert_action] CertificateRegistryPayload assert_action
      */
 
     /**
@@ -5004,6 +4945,14 @@ $root.CertificateRegistryPayload = (function() {
     CertificateRegistryPayload.prototype.accredit_certifying_body_action = null;
 
     /**
+     * CertificateRegistryPayload assert_action.
+     * @member {IAssertAction|null|undefined} assert_action
+     * @memberof CertificateRegistryPayload
+     * @instance
+     */
+    CertificateRegistryPayload.prototype.assert_action = null;
+
+    /**
      * Creates a new CertificateRegistryPayload instance using the specified properties.
      * @function create
      * @memberof CertificateRegistryPayload
@@ -5049,6 +4998,8 @@ $root.CertificateRegistryPayload = (function() {
             $root.ChangeRequestStatusAction.encode(message.change_request_status_action, writer.uint32(/* id 10, wireType 2 =*/82).fork()).ldelim();
         if (message.accredit_certifying_body_action != null && Object.hasOwnProperty.call(message, "accredit_certifying_body_action"))
             $root.AccreditCertifyingBodyAction.encode(message.accredit_certifying_body_action, writer.uint32(/* id 11, wireType 2 =*/90).fork()).ldelim();
+        if (message.assert_action != null && Object.hasOwnProperty.call(message, "assert_action"))
+            $root.AssertAction.encode(message.assert_action, writer.uint32(/* id 12, wireType 2 =*/98).fork()).ldelim();
         return writer;
     };
 
@@ -5116,6 +5067,9 @@ $root.CertificateRegistryPayload = (function() {
             case 11:
                 message.accredit_certifying_body_action = $root.AccreditCertifyingBodyAction.decode(reader, reader.uint32());
                 break;
+            case 12:
+                message.assert_action = $root.AssertAction.decode(reader, reader.uint32());
+                break;
             default:
                 reader.skipType(tag & 7);
                 break;
@@ -5166,6 +5120,7 @@ $root.CertificateRegistryPayload = (function() {
             case 8:
             case 9:
             case 10:
+            case 11:
                 break;
             }
         if (message.create_agent != null && message.hasOwnProperty("create_agent")) {
@@ -5217,6 +5172,11 @@ $root.CertificateRegistryPayload = (function() {
             var error = $root.AccreditCertifyingBodyAction.verify(message.accredit_certifying_body_action);
             if (error)
                 return "accredit_certifying_body_action." + error;
+        }
+        if (message.assert_action != null && message.hasOwnProperty("assert_action")) {
+            var error = $root.AssertAction.verify(message.assert_action);
+            if (error)
+                return "assert_action." + error;
         }
         return null;
     };
@@ -5278,6 +5238,10 @@ $root.CertificateRegistryPayload = (function() {
         case 10:
             message.action = 10;
             break;
+        case "ASSERT_ACTION":
+        case 11:
+            message.action = 11;
+            break;
         }
         if (object.create_agent != null) {
             if (typeof object.create_agent !== "object")
@@ -5329,6 +5293,11 @@ $root.CertificateRegistryPayload = (function() {
                 throw TypeError(".CertificateRegistryPayload.accredit_certifying_body_action: object expected");
             message.accredit_certifying_body_action = $root.AccreditCertifyingBodyAction.fromObject(object.accredit_certifying_body_action);
         }
+        if (object.assert_action != null) {
+            if (typeof object.assert_action !== "object")
+                throw TypeError(".CertificateRegistryPayload.assert_action: object expected");
+            message.assert_action = $root.AssertAction.fromObject(object.assert_action);
+        }
         return message;
     };
 
@@ -5357,6 +5326,7 @@ $root.CertificateRegistryPayload = (function() {
             object.open_request_action = null;
             object.change_request_status_action = null;
             object.accredit_certifying_body_action = null;
+            object.assert_action = null;
         }
         if (message.action != null && message.hasOwnProperty("action"))
             object.action = options.enums === String ? $root.CertificateRegistryPayload.Action[message.action] : message.action;
@@ -5380,6 +5350,8 @@ $root.CertificateRegistryPayload = (function() {
             object.change_request_status_action = $root.ChangeRequestStatusAction.toObject(message.change_request_status_action, options);
         if (message.accredit_certifying_body_action != null && message.hasOwnProperty("accredit_certifying_body_action"))
             object.accredit_certifying_body_action = $root.AccreditCertifyingBodyAction.toObject(message.accredit_certifying_body_action, options);
+        if (message.assert_action != null && message.hasOwnProperty("assert_action"))
+            object.assert_action = $root.AssertAction.toObject(message.assert_action, options);
         return object;
     };
 
@@ -5409,6 +5381,7 @@ $root.CertificateRegistryPayload = (function() {
      * @property {number} OPEN_REQUEST_ACTION=8 OPEN_REQUEST_ACTION value
      * @property {number} CHANGE_REQUEST_STATUS_ACTION=9 CHANGE_REQUEST_STATUS_ACTION value
      * @property {number} ACCREDIT_CERTIFYING_BODY_ACTION=10 ACCREDIT_CERTIFYING_BODY_ACTION value
+     * @property {number} ASSERT_ACTION=11 ASSERT_ACTION value
      */
     CertificateRegistryPayload.Action = (function() {
         var valuesById = {}, values = Object.create(valuesById);
@@ -5423,6 +5396,7 @@ $root.CertificateRegistryPayload = (function() {
         values[valuesById[8] = "OPEN_REQUEST_ACTION"] = 8;
         values[valuesById[9] = "CHANGE_REQUEST_STATUS_ACTION"] = 9;
         values[valuesById[10] = "ACCREDIT_CERTIFYING_BODY_ACTION"] = 10;
+        values[valuesById[11] = "ASSERT_ACTION"] = 11;
         return values;
     })();
 
@@ -5854,6 +5828,7 @@ $root.CreateOrganizationAction = (function() {
             case 1:
             case 2:
             case 3:
+            case 4:
                 break;
             }
         if (message.name != null && message.hasOwnProperty("name"))
@@ -5906,6 +5881,10 @@ $root.CreateOrganizationAction = (function() {
         case "FACTORY":
         case 3:
             message.organization_type = 3;
+            break;
+        case "INGESTION":
+        case 4:
+            message.organization_type = 4;
             break;
         }
         if (object.name != null)
@@ -8235,6 +8214,1275 @@ $root.AccreditCertifyingBodyAction = (function() {
     };
 
     return AccreditCertifyingBodyAction;
+})();
+
+$root.AssertAction = (function() {
+
+    /**
+     * Properties of an AssertAction.
+     * @exports IAssertAction
+     * @interface IAssertAction
+     * @property {string|null} [assertion_id] AssertAction assertion_id
+     * @property {AssertAction.IFactoryAssertion|null} [new_factory] AssertAction new_factory
+     * @property {IIssueCertificateAction|null} [new_certificate] AssertAction new_certificate
+     * @property {ICreateStandardAction|null} [new_standard] AssertAction new_standard
+     */
+
+    /**
+     * Constructs a new AssertAction.
+     * @exports AssertAction
+     * @classdesc Represents an AssertAction.
+     * @implements IAssertAction
+     * @constructor
+     * @param {IAssertAction=} [properties] Properties to set
+     */
+    function AssertAction(properties) {
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * AssertAction assertion_id.
+     * @member {string} assertion_id
+     * @memberof AssertAction
+     * @instance
+     */
+    AssertAction.prototype.assertion_id = "";
+
+    /**
+     * AssertAction new_factory.
+     * @member {AssertAction.IFactoryAssertion|null|undefined} new_factory
+     * @memberof AssertAction
+     * @instance
+     */
+    AssertAction.prototype.new_factory = null;
+
+    /**
+     * AssertAction new_certificate.
+     * @member {IIssueCertificateAction|null|undefined} new_certificate
+     * @memberof AssertAction
+     * @instance
+     */
+    AssertAction.prototype.new_certificate = null;
+
+    /**
+     * AssertAction new_standard.
+     * @member {ICreateStandardAction|null|undefined} new_standard
+     * @memberof AssertAction
+     * @instance
+     */
+    AssertAction.prototype.new_standard = null;
+
+    // OneOf field names bound to virtual getters and setters
+    var $oneOfFields;
+
+    /**
+     * AssertAction assertion.
+     * @member {"new_factory"|"new_certificate"|"new_standard"|undefined} assertion
+     * @memberof AssertAction
+     * @instance
+     */
+    Object.defineProperty(AssertAction.prototype, "assertion", {
+        get: $util.oneOfGetter($oneOfFields = ["new_factory", "new_certificate", "new_standard"]),
+        set: $util.oneOfSetter($oneOfFields)
+    });
+
+    /**
+     * Creates a new AssertAction instance using the specified properties.
+     * @function create
+     * @memberof AssertAction
+     * @static
+     * @param {IAssertAction=} [properties] Properties to set
+     * @returns {AssertAction} AssertAction instance
+     */
+    AssertAction.create = function create(properties) {
+        return new AssertAction(properties);
+    };
+
+    /**
+     * Encodes the specified AssertAction message. Does not implicitly {@link AssertAction.verify|verify} messages.
+     * @function encode
+     * @memberof AssertAction
+     * @static
+     * @param {IAssertAction} message AssertAction message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AssertAction.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.assertion_id != null && Object.hasOwnProperty.call(message, "assertion_id"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.assertion_id);
+        if (message.new_factory != null && Object.hasOwnProperty.call(message, "new_factory"))
+            $root.AssertAction.FactoryAssertion.encode(message.new_factory, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
+        if (message.new_certificate != null && Object.hasOwnProperty.call(message, "new_certificate"))
+            $root.IssueCertificateAction.encode(message.new_certificate, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
+        if (message.new_standard != null && Object.hasOwnProperty.call(message, "new_standard"))
+            $root.CreateStandardAction.encode(message.new_standard, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified AssertAction message, length delimited. Does not implicitly {@link AssertAction.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof AssertAction
+     * @static
+     * @param {IAssertAction} message AssertAction message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    AssertAction.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes an AssertAction message from the specified reader or buffer.
+     * @function decode
+     * @memberof AssertAction
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {AssertAction} AssertAction
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AssertAction.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AssertAction();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.assertion_id = reader.string();
+                break;
+            case 2:
+                message.new_factory = $root.AssertAction.FactoryAssertion.decode(reader, reader.uint32());
+                break;
+            case 3:
+                message.new_certificate = $root.IssueCertificateAction.decode(reader, reader.uint32());
+                break;
+            case 4:
+                message.new_standard = $root.CreateStandardAction.decode(reader, reader.uint32());
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes an AssertAction message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof AssertAction
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {AssertAction} AssertAction
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    AssertAction.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies an AssertAction message.
+     * @function verify
+     * @memberof AssertAction
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    AssertAction.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        var properties = {};
+        if (message.assertion_id != null && message.hasOwnProperty("assertion_id"))
+            if (!$util.isString(message.assertion_id))
+                return "assertion_id: string expected";
+        if (message.new_factory != null && message.hasOwnProperty("new_factory")) {
+            properties.assertion = 1;
+            {
+                var error = $root.AssertAction.FactoryAssertion.verify(message.new_factory);
+                if (error)
+                    return "new_factory." + error;
+            }
+        }
+        if (message.new_certificate != null && message.hasOwnProperty("new_certificate")) {
+            if (properties.assertion === 1)
+                return "assertion: multiple values";
+            properties.assertion = 1;
+            {
+                var error = $root.IssueCertificateAction.verify(message.new_certificate);
+                if (error)
+                    return "new_certificate." + error;
+            }
+        }
+        if (message.new_standard != null && message.hasOwnProperty("new_standard")) {
+            if (properties.assertion === 1)
+                return "assertion: multiple values";
+            properties.assertion = 1;
+            {
+                var error = $root.CreateStandardAction.verify(message.new_standard);
+                if (error)
+                    return "new_standard." + error;
+            }
+        }
+        return null;
+    };
+
+    /**
+     * Creates an AssertAction message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof AssertAction
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {AssertAction} AssertAction
+     */
+    AssertAction.fromObject = function fromObject(object) {
+        if (object instanceof $root.AssertAction)
+            return object;
+        var message = new $root.AssertAction();
+        if (object.assertion_id != null)
+            message.assertion_id = String(object.assertion_id);
+        if (object.new_factory != null) {
+            if (typeof object.new_factory !== "object")
+                throw TypeError(".AssertAction.new_factory: object expected");
+            message.new_factory = $root.AssertAction.FactoryAssertion.fromObject(object.new_factory);
+        }
+        if (object.new_certificate != null) {
+            if (typeof object.new_certificate !== "object")
+                throw TypeError(".AssertAction.new_certificate: object expected");
+            message.new_certificate = $root.IssueCertificateAction.fromObject(object.new_certificate);
+        }
+        if (object.new_standard != null) {
+            if (typeof object.new_standard !== "object")
+                throw TypeError(".AssertAction.new_standard: object expected");
+            message.new_standard = $root.CreateStandardAction.fromObject(object.new_standard);
+        }
+        return message;
+    };
+
+    /**
+     * Creates a plain object from an AssertAction message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof AssertAction
+     * @static
+     * @param {AssertAction} message AssertAction
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    AssertAction.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.defaults)
+            object.assertion_id = "";
+        if (message.assertion_id != null && message.hasOwnProperty("assertion_id"))
+            object.assertion_id = message.assertion_id;
+        if (message.new_factory != null && message.hasOwnProperty("new_factory")) {
+            object.new_factory = $root.AssertAction.FactoryAssertion.toObject(message.new_factory, options);
+            if (options.oneofs)
+                object.assertion = "new_factory";
+        }
+        if (message.new_certificate != null && message.hasOwnProperty("new_certificate")) {
+            object.new_certificate = $root.IssueCertificateAction.toObject(message.new_certificate, options);
+            if (options.oneofs)
+                object.assertion = "new_certificate";
+        }
+        if (message.new_standard != null && message.hasOwnProperty("new_standard")) {
+            object.new_standard = $root.CreateStandardAction.toObject(message.new_standard, options);
+            if (options.oneofs)
+                object.assertion = "new_standard";
+        }
+        return object;
+    };
+
+    /**
+     * Converts this AssertAction to JSON.
+     * @function toJSON
+     * @memberof AssertAction
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    AssertAction.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    AssertAction.FactoryAssertion = (function() {
+
+        /**
+         * Properties of a FactoryAssertion.
+         * @memberof AssertAction
+         * @interface IFactoryAssertion
+         * @property {ICreateOrganizationAction|null} [factory] FactoryAssertion factory
+         * @property {string|null} [existing_factory_id] FactoryAssertion existing_factory_id
+         */
+
+        /**
+         * Constructs a new FactoryAssertion.
+         * @memberof AssertAction
+         * @classdesc Represents a FactoryAssertion.
+         * @implements IFactoryAssertion
+         * @constructor
+         * @param {AssertAction.IFactoryAssertion=} [properties] Properties to set
+         */
+        function FactoryAssertion(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * FactoryAssertion factory.
+         * @member {ICreateOrganizationAction|null|undefined} factory
+         * @memberof AssertAction.FactoryAssertion
+         * @instance
+         */
+        FactoryAssertion.prototype.factory = null;
+
+        /**
+         * FactoryAssertion existing_factory_id.
+         * @member {string} existing_factory_id
+         * @memberof AssertAction.FactoryAssertion
+         * @instance
+         */
+        FactoryAssertion.prototype.existing_factory_id = "";
+
+        /**
+         * Creates a new FactoryAssertion instance using the specified properties.
+         * @function create
+         * @memberof AssertAction.FactoryAssertion
+         * @static
+         * @param {AssertAction.IFactoryAssertion=} [properties] Properties to set
+         * @returns {AssertAction.FactoryAssertion} FactoryAssertion instance
+         */
+        FactoryAssertion.create = function create(properties) {
+            return new FactoryAssertion(properties);
+        };
+
+        /**
+         * Encodes the specified FactoryAssertion message. Does not implicitly {@link AssertAction.FactoryAssertion.verify|verify} messages.
+         * @function encode
+         * @memberof AssertAction.FactoryAssertion
+         * @static
+         * @param {AssertAction.IFactoryAssertion} message FactoryAssertion message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        FactoryAssertion.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.factory != null && Object.hasOwnProperty.call(message, "factory"))
+                $root.CreateOrganizationAction.encode(message.factory, writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+            if (message.existing_factory_id != null && Object.hasOwnProperty.call(message, "existing_factory_id"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.existing_factory_id);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified FactoryAssertion message, length delimited. Does not implicitly {@link AssertAction.FactoryAssertion.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof AssertAction.FactoryAssertion
+         * @static
+         * @param {AssertAction.IFactoryAssertion} message FactoryAssertion message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        FactoryAssertion.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a FactoryAssertion message from the specified reader or buffer.
+         * @function decode
+         * @memberof AssertAction.FactoryAssertion
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {AssertAction.FactoryAssertion} FactoryAssertion
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        FactoryAssertion.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.AssertAction.FactoryAssertion();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.factory = $root.CreateOrganizationAction.decode(reader, reader.uint32());
+                    break;
+                case 2:
+                    message.existing_factory_id = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a FactoryAssertion message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof AssertAction.FactoryAssertion
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {AssertAction.FactoryAssertion} FactoryAssertion
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        FactoryAssertion.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a FactoryAssertion message.
+         * @function verify
+         * @memberof AssertAction.FactoryAssertion
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        FactoryAssertion.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.factory != null && message.hasOwnProperty("factory")) {
+                var error = $root.CreateOrganizationAction.verify(message.factory);
+                if (error)
+                    return "factory." + error;
+            }
+            if (message.existing_factory_id != null && message.hasOwnProperty("existing_factory_id"))
+                if (!$util.isString(message.existing_factory_id))
+                    return "existing_factory_id: string expected";
+            return null;
+        };
+
+        /**
+         * Creates a FactoryAssertion message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof AssertAction.FactoryAssertion
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {AssertAction.FactoryAssertion} FactoryAssertion
+         */
+        FactoryAssertion.fromObject = function fromObject(object) {
+            if (object instanceof $root.AssertAction.FactoryAssertion)
+                return object;
+            var message = new $root.AssertAction.FactoryAssertion();
+            if (object.factory != null) {
+                if (typeof object.factory !== "object")
+                    throw TypeError(".AssertAction.FactoryAssertion.factory: object expected");
+                message.factory = $root.CreateOrganizationAction.fromObject(object.factory);
+            }
+            if (object.existing_factory_id != null)
+                message.existing_factory_id = String(object.existing_factory_id);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a FactoryAssertion message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof AssertAction.FactoryAssertion
+         * @static
+         * @param {AssertAction.FactoryAssertion} message FactoryAssertion
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        FactoryAssertion.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.factory = null;
+                object.existing_factory_id = "";
+            }
+            if (message.factory != null && message.hasOwnProperty("factory"))
+                object.factory = $root.CreateOrganizationAction.toObject(message.factory, options);
+            if (message.existing_factory_id != null && message.hasOwnProperty("existing_factory_id"))
+                object.existing_factory_id = message.existing_factory_id;
+            return object;
+        };
+
+        /**
+         * Converts this FactoryAssertion to JSON.
+         * @function toJSON
+         * @memberof AssertAction.FactoryAssertion
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        FactoryAssertion.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return FactoryAssertion;
+    })();
+
+    return AssertAction;
+})();
+
+$root.Standard = (function() {
+
+    /**
+     * Properties of a Standard.
+     * @exports IStandard
+     * @interface IStandard
+     * @property {string|null} [id] Standard id
+     * @property {string|null} [organization_id] Standard organization_id
+     * @property {string|null} [name] Standard name
+     * @property {Array.<Standard.IStandardVersion>|null} [versions] Standard versions
+     */
+
+    /**
+     * Constructs a new Standard.
+     * @exports Standard
+     * @classdesc Represents a Standard.
+     * @implements IStandard
+     * @constructor
+     * @param {IStandard=} [properties] Properties to set
+     */
+    function Standard(properties) {
+        this.versions = [];
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * Standard id.
+     * @member {string} id
+     * @memberof Standard
+     * @instance
+     */
+    Standard.prototype.id = "";
+
+    /**
+     * Standard organization_id.
+     * @member {string} organization_id
+     * @memberof Standard
+     * @instance
+     */
+    Standard.prototype.organization_id = "";
+
+    /**
+     * Standard name.
+     * @member {string} name
+     * @memberof Standard
+     * @instance
+     */
+    Standard.prototype.name = "";
+
+    /**
+     * Standard versions.
+     * @member {Array.<Standard.IStandardVersion>} versions
+     * @memberof Standard
+     * @instance
+     */
+    Standard.prototype.versions = $util.emptyArray;
+
+    /**
+     * Creates a new Standard instance using the specified properties.
+     * @function create
+     * @memberof Standard
+     * @static
+     * @param {IStandard=} [properties] Properties to set
+     * @returns {Standard} Standard instance
+     */
+    Standard.create = function create(properties) {
+        return new Standard(properties);
+    };
+
+    /**
+     * Encodes the specified Standard message. Does not implicitly {@link Standard.verify|verify} messages.
+     * @function encode
+     * @memberof Standard
+     * @static
+     * @param {IStandard} message Standard message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    Standard.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.id != null && Object.hasOwnProperty.call(message, "id"))
+            writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
+        if (message.organization_id != null && Object.hasOwnProperty.call(message, "organization_id"))
+            writer.uint32(/* id 2, wireType 2 =*/18).string(message.organization_id);
+        if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+            writer.uint32(/* id 3, wireType 2 =*/26).string(message.name);
+        if (message.versions != null && message.versions.length)
+            for (var i = 0; i < message.versions.length; ++i)
+                $root.Standard.StandardVersion.encode(message.versions[i], writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified Standard message, length delimited. Does not implicitly {@link Standard.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof Standard
+     * @static
+     * @param {IStandard} message Standard message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    Standard.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a Standard message from the specified reader or buffer.
+     * @function decode
+     * @memberof Standard
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {Standard} Standard
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    Standard.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Standard();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                message.id = reader.string();
+                break;
+            case 2:
+                message.organization_id = reader.string();
+                break;
+            case 3:
+                message.name = reader.string();
+                break;
+            case 4:
+                if (!(message.versions && message.versions.length))
+                    message.versions = [];
+                message.versions.push($root.Standard.StandardVersion.decode(reader, reader.uint32()));
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a Standard message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof Standard
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {Standard} Standard
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    Standard.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a Standard message.
+     * @function verify
+     * @memberof Standard
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    Standard.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.id != null && message.hasOwnProperty("id"))
+            if (!$util.isString(message.id))
+                return "id: string expected";
+        if (message.organization_id != null && message.hasOwnProperty("organization_id"))
+            if (!$util.isString(message.organization_id))
+                return "organization_id: string expected";
+        if (message.name != null && message.hasOwnProperty("name"))
+            if (!$util.isString(message.name))
+                return "name: string expected";
+        if (message.versions != null && message.hasOwnProperty("versions")) {
+            if (!Array.isArray(message.versions))
+                return "versions: array expected";
+            for (var i = 0; i < message.versions.length; ++i) {
+                var error = $root.Standard.StandardVersion.verify(message.versions[i]);
+                if (error)
+                    return "versions." + error;
+            }
+        }
+        return null;
+    };
+
+    /**
+     * Creates a Standard message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof Standard
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {Standard} Standard
+     */
+    Standard.fromObject = function fromObject(object) {
+        if (object instanceof $root.Standard)
+            return object;
+        var message = new $root.Standard();
+        if (object.id != null)
+            message.id = String(object.id);
+        if (object.organization_id != null)
+            message.organization_id = String(object.organization_id);
+        if (object.name != null)
+            message.name = String(object.name);
+        if (object.versions) {
+            if (!Array.isArray(object.versions))
+                throw TypeError(".Standard.versions: array expected");
+            message.versions = [];
+            for (var i = 0; i < object.versions.length; ++i) {
+                if (typeof object.versions[i] !== "object")
+                    throw TypeError(".Standard.versions: object expected");
+                message.versions[i] = $root.Standard.StandardVersion.fromObject(object.versions[i]);
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a Standard message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof Standard
+     * @static
+     * @param {Standard} message Standard
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    Standard.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.arrays || options.defaults)
+            object.versions = [];
+        if (options.defaults) {
+            object.id = "";
+            object.organization_id = "";
+            object.name = "";
+        }
+        if (message.id != null && message.hasOwnProperty("id"))
+            object.id = message.id;
+        if (message.organization_id != null && message.hasOwnProperty("organization_id"))
+            object.organization_id = message.organization_id;
+        if (message.name != null && message.hasOwnProperty("name"))
+            object.name = message.name;
+        if (message.versions && message.versions.length) {
+            object.versions = [];
+            for (var j = 0; j < message.versions.length; ++j)
+                object.versions[j] = $root.Standard.StandardVersion.toObject(message.versions[j], options);
+        }
+        return object;
+    };
+
+    /**
+     * Converts this Standard to JSON.
+     * @function toJSON
+     * @memberof Standard
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    Standard.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    Standard.StandardVersion = (function() {
+
+        /**
+         * Properties of a StandardVersion.
+         * @memberof Standard
+         * @interface IStandardVersion
+         * @property {string|null} [version] StandardVersion version
+         * @property {string|null} [description] StandardVersion description
+         * @property {string|null} [link] StandardVersion link
+         * @property {number|Long|null} [approval_date] StandardVersion approval_date
+         */
+
+        /**
+         * Constructs a new StandardVersion.
+         * @memberof Standard
+         * @classdesc Represents a StandardVersion.
+         * @implements IStandardVersion
+         * @constructor
+         * @param {Standard.IStandardVersion=} [properties] Properties to set
+         */
+        function StandardVersion(properties) {
+            if (properties)
+                for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    if (properties[keys[i]] != null)
+                        this[keys[i]] = properties[keys[i]];
+        }
+
+        /**
+         * StandardVersion version.
+         * @member {string} version
+         * @memberof Standard.StandardVersion
+         * @instance
+         */
+        StandardVersion.prototype.version = "";
+
+        /**
+         * StandardVersion description.
+         * @member {string} description
+         * @memberof Standard.StandardVersion
+         * @instance
+         */
+        StandardVersion.prototype.description = "";
+
+        /**
+         * StandardVersion link.
+         * @member {string} link
+         * @memberof Standard.StandardVersion
+         * @instance
+         */
+        StandardVersion.prototype.link = "";
+
+        /**
+         * StandardVersion approval_date.
+         * @member {number|Long} approval_date
+         * @memberof Standard.StandardVersion
+         * @instance
+         */
+        StandardVersion.prototype.approval_date = $util.Long ? $util.Long.fromBits(0,0,true) : 0;
+
+        /**
+         * Creates a new StandardVersion instance using the specified properties.
+         * @function create
+         * @memberof Standard.StandardVersion
+         * @static
+         * @param {Standard.IStandardVersion=} [properties] Properties to set
+         * @returns {Standard.StandardVersion} StandardVersion instance
+         */
+        StandardVersion.create = function create(properties) {
+            return new StandardVersion(properties);
+        };
+
+        /**
+         * Encodes the specified StandardVersion message. Does not implicitly {@link Standard.StandardVersion.verify|verify} messages.
+         * @function encode
+         * @memberof Standard.StandardVersion
+         * @static
+         * @param {Standard.IStandardVersion} message StandardVersion message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        StandardVersion.encode = function encode(message, writer) {
+            if (!writer)
+                writer = $Writer.create();
+            if (message.version != null && Object.hasOwnProperty.call(message, "version"))
+                writer.uint32(/* id 1, wireType 2 =*/10).string(message.version);
+            if (message.description != null && Object.hasOwnProperty.call(message, "description"))
+                writer.uint32(/* id 2, wireType 2 =*/18).string(message.description);
+            if (message.link != null && Object.hasOwnProperty.call(message, "link"))
+                writer.uint32(/* id 3, wireType 2 =*/26).string(message.link);
+            if (message.approval_date != null && Object.hasOwnProperty.call(message, "approval_date"))
+                writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.approval_date);
+            return writer;
+        };
+
+        /**
+         * Encodes the specified StandardVersion message, length delimited. Does not implicitly {@link Standard.StandardVersion.verify|verify} messages.
+         * @function encodeDelimited
+         * @memberof Standard.StandardVersion
+         * @static
+         * @param {Standard.IStandardVersion} message StandardVersion message or plain object to encode
+         * @param {$protobuf.Writer} [writer] Writer to encode to
+         * @returns {$protobuf.Writer} Writer
+         */
+        StandardVersion.encodeDelimited = function encodeDelimited(message, writer) {
+            return this.encode(message, writer).ldelim();
+        };
+
+        /**
+         * Decodes a StandardVersion message from the specified reader or buffer.
+         * @function decode
+         * @memberof Standard.StandardVersion
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @param {number} [length] Message length if known beforehand
+         * @returns {Standard.StandardVersion} StandardVersion
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        StandardVersion.decode = function decode(reader, length) {
+            if (!(reader instanceof $Reader))
+                reader = $Reader.create(reader);
+            var end = length === undefined ? reader.len : reader.pos + length, message = new $root.Standard.StandardVersion();
+            while (reader.pos < end) {
+                var tag = reader.uint32();
+                switch (tag >>> 3) {
+                case 1:
+                    message.version = reader.string();
+                    break;
+                case 2:
+                    message.description = reader.string();
+                    break;
+                case 3:
+                    message.link = reader.string();
+                    break;
+                case 4:
+                    message.approval_date = reader.uint64();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+                }
+            }
+            return message;
+        };
+
+        /**
+         * Decodes a StandardVersion message from the specified reader or buffer, length delimited.
+         * @function decodeDelimited
+         * @memberof Standard.StandardVersion
+         * @static
+         * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+         * @returns {Standard.StandardVersion} StandardVersion
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        StandardVersion.decodeDelimited = function decodeDelimited(reader) {
+            if (!(reader instanceof $Reader))
+                reader = new $Reader(reader);
+            return this.decode(reader, reader.uint32());
+        };
+
+        /**
+         * Verifies a StandardVersion message.
+         * @function verify
+         * @memberof Standard.StandardVersion
+         * @static
+         * @param {Object.<string,*>} message Plain object to verify
+         * @returns {string|null} `null` if valid, otherwise the reason why it is not
+         */
+        StandardVersion.verify = function verify(message) {
+            if (typeof message !== "object" || message === null)
+                return "object expected";
+            if (message.version != null && message.hasOwnProperty("version"))
+                if (!$util.isString(message.version))
+                    return "version: string expected";
+            if (message.description != null && message.hasOwnProperty("description"))
+                if (!$util.isString(message.description))
+                    return "description: string expected";
+            if (message.link != null && message.hasOwnProperty("link"))
+                if (!$util.isString(message.link))
+                    return "link: string expected";
+            if (message.approval_date != null && message.hasOwnProperty("approval_date"))
+                if (!$util.isInteger(message.approval_date) && !(message.approval_date && $util.isInteger(message.approval_date.low) && $util.isInteger(message.approval_date.high)))
+                    return "approval_date: integer|Long expected";
+            return null;
+        };
+
+        /**
+         * Creates a StandardVersion message from a plain object. Also converts values to their respective internal types.
+         * @function fromObject
+         * @memberof Standard.StandardVersion
+         * @static
+         * @param {Object.<string,*>} object Plain object
+         * @returns {Standard.StandardVersion} StandardVersion
+         */
+        StandardVersion.fromObject = function fromObject(object) {
+            if (object instanceof $root.Standard.StandardVersion)
+                return object;
+            var message = new $root.Standard.StandardVersion();
+            if (object.version != null)
+                message.version = String(object.version);
+            if (object.description != null)
+                message.description = String(object.description);
+            if (object.link != null)
+                message.link = String(object.link);
+            if (object.approval_date != null)
+                if ($util.Long)
+                    (message.approval_date = $util.Long.fromValue(object.approval_date)).unsigned = true;
+                else if (typeof object.approval_date === "string")
+                    message.approval_date = parseInt(object.approval_date, 10);
+                else if (typeof object.approval_date === "number")
+                    message.approval_date = object.approval_date;
+                else if (typeof object.approval_date === "object")
+                    message.approval_date = new $util.LongBits(object.approval_date.low >>> 0, object.approval_date.high >>> 0).toNumber(true);
+            return message;
+        };
+
+        /**
+         * Creates a plain object from a StandardVersion message. Also converts values to other types if specified.
+         * @function toObject
+         * @memberof Standard.StandardVersion
+         * @static
+         * @param {Standard.StandardVersion} message StandardVersion
+         * @param {$protobuf.IConversionOptions} [options] Conversion options
+         * @returns {Object.<string,*>} Plain object
+         */
+        StandardVersion.toObject = function toObject(message, options) {
+            if (!options)
+                options = {};
+            var object = {};
+            if (options.defaults) {
+                object.version = "";
+                object.description = "";
+                object.link = "";
+                if ($util.Long) {
+                    var long = new $util.Long(0, 0, true);
+                    object.approval_date = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : long;
+                } else
+                    object.approval_date = options.longs === String ? "0" : 0;
+            }
+            if (message.version != null && message.hasOwnProperty("version"))
+                object.version = message.version;
+            if (message.description != null && message.hasOwnProperty("description"))
+                object.description = message.description;
+            if (message.link != null && message.hasOwnProperty("link"))
+                object.link = message.link;
+            if (message.approval_date != null && message.hasOwnProperty("approval_date"))
+                if (typeof message.approval_date === "number")
+                    object.approval_date = options.longs === String ? String(message.approval_date) : message.approval_date;
+                else
+                    object.approval_date = options.longs === String ? $util.Long.prototype.toString.call(message.approval_date) : options.longs === Number ? new $util.LongBits(message.approval_date.low >>> 0, message.approval_date.high >>> 0).toNumber(true) : message.approval_date;
+            return object;
+        };
+
+        /**
+         * Converts this StandardVersion to JSON.
+         * @function toJSON
+         * @memberof Standard.StandardVersion
+         * @instance
+         * @returns {Object.<string,*>} JSON object
+         */
+        StandardVersion.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        return StandardVersion;
+    })();
+
+    return Standard;
+})();
+
+$root.StandardContainer = (function() {
+
+    /**
+     * Properties of a StandardContainer.
+     * @exports IStandardContainer
+     * @interface IStandardContainer
+     * @property {Array.<IStandard>|null} [entries] StandardContainer entries
+     */
+
+    /**
+     * Constructs a new StandardContainer.
+     * @exports StandardContainer
+     * @classdesc Represents a StandardContainer.
+     * @implements IStandardContainer
+     * @constructor
+     * @param {IStandardContainer=} [properties] Properties to set
+     */
+    function StandardContainer(properties) {
+        this.entries = [];
+        if (properties)
+            for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                if (properties[keys[i]] != null)
+                    this[keys[i]] = properties[keys[i]];
+    }
+
+    /**
+     * StandardContainer entries.
+     * @member {Array.<IStandard>} entries
+     * @memberof StandardContainer
+     * @instance
+     */
+    StandardContainer.prototype.entries = $util.emptyArray;
+
+    /**
+     * Creates a new StandardContainer instance using the specified properties.
+     * @function create
+     * @memberof StandardContainer
+     * @static
+     * @param {IStandardContainer=} [properties] Properties to set
+     * @returns {StandardContainer} StandardContainer instance
+     */
+    StandardContainer.create = function create(properties) {
+        return new StandardContainer(properties);
+    };
+
+    /**
+     * Encodes the specified StandardContainer message. Does not implicitly {@link StandardContainer.verify|verify} messages.
+     * @function encode
+     * @memberof StandardContainer
+     * @static
+     * @param {IStandardContainer} message StandardContainer message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    StandardContainer.encode = function encode(message, writer) {
+        if (!writer)
+            writer = $Writer.create();
+        if (message.entries != null && message.entries.length)
+            for (var i = 0; i < message.entries.length; ++i)
+                $root.Standard.encode(message.entries[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
+        return writer;
+    };
+
+    /**
+     * Encodes the specified StandardContainer message, length delimited. Does not implicitly {@link StandardContainer.verify|verify} messages.
+     * @function encodeDelimited
+     * @memberof StandardContainer
+     * @static
+     * @param {IStandardContainer} message StandardContainer message or plain object to encode
+     * @param {$protobuf.Writer} [writer] Writer to encode to
+     * @returns {$protobuf.Writer} Writer
+     */
+    StandardContainer.encodeDelimited = function encodeDelimited(message, writer) {
+        return this.encode(message, writer).ldelim();
+    };
+
+    /**
+     * Decodes a StandardContainer message from the specified reader or buffer.
+     * @function decode
+     * @memberof StandardContainer
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @param {number} [length] Message length if known beforehand
+     * @returns {StandardContainer} StandardContainer
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    StandardContainer.decode = function decode(reader, length) {
+        if (!(reader instanceof $Reader))
+            reader = $Reader.create(reader);
+        var end = length === undefined ? reader.len : reader.pos + length, message = new $root.StandardContainer();
+        while (reader.pos < end) {
+            var tag = reader.uint32();
+            switch (tag >>> 3) {
+            case 1:
+                if (!(message.entries && message.entries.length))
+                    message.entries = [];
+                message.entries.push($root.Standard.decode(reader, reader.uint32()));
+                break;
+            default:
+                reader.skipType(tag & 7);
+                break;
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Decodes a StandardContainer message from the specified reader or buffer, length delimited.
+     * @function decodeDelimited
+     * @memberof StandardContainer
+     * @static
+     * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+     * @returns {StandardContainer} StandardContainer
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    StandardContainer.decodeDelimited = function decodeDelimited(reader) {
+        if (!(reader instanceof $Reader))
+            reader = new $Reader(reader);
+        return this.decode(reader, reader.uint32());
+    };
+
+    /**
+     * Verifies a StandardContainer message.
+     * @function verify
+     * @memberof StandardContainer
+     * @static
+     * @param {Object.<string,*>} message Plain object to verify
+     * @returns {string|null} `null` if valid, otherwise the reason why it is not
+     */
+    StandardContainer.verify = function verify(message) {
+        if (typeof message !== "object" || message === null)
+            return "object expected";
+        if (message.entries != null && message.hasOwnProperty("entries")) {
+            if (!Array.isArray(message.entries))
+                return "entries: array expected";
+            for (var i = 0; i < message.entries.length; ++i) {
+                var error = $root.Standard.verify(message.entries[i]);
+                if (error)
+                    return "entries." + error;
+            }
+        }
+        return null;
+    };
+
+    /**
+     * Creates a StandardContainer message from a plain object. Also converts values to their respective internal types.
+     * @function fromObject
+     * @memberof StandardContainer
+     * @static
+     * @param {Object.<string,*>} object Plain object
+     * @returns {StandardContainer} StandardContainer
+     */
+    StandardContainer.fromObject = function fromObject(object) {
+        if (object instanceof $root.StandardContainer)
+            return object;
+        var message = new $root.StandardContainer();
+        if (object.entries) {
+            if (!Array.isArray(object.entries))
+                throw TypeError(".StandardContainer.entries: array expected");
+            message.entries = [];
+            for (var i = 0; i < object.entries.length; ++i) {
+                if (typeof object.entries[i] !== "object")
+                    throw TypeError(".StandardContainer.entries: object expected");
+                message.entries[i] = $root.Standard.fromObject(object.entries[i]);
+            }
+        }
+        return message;
+    };
+
+    /**
+     * Creates a plain object from a StandardContainer message. Also converts values to other types if specified.
+     * @function toObject
+     * @memberof StandardContainer
+     * @static
+     * @param {StandardContainer} message StandardContainer
+     * @param {$protobuf.IConversionOptions} [options] Conversion options
+     * @returns {Object.<string,*>} Plain object
+     */
+    StandardContainer.toObject = function toObject(message, options) {
+        if (!options)
+            options = {};
+        var object = {};
+        if (options.arrays || options.defaults)
+            object.entries = [];
+        if (message.entries && message.entries.length) {
+            object.entries = [];
+            for (var j = 0; j < message.entries.length; ++j)
+                object.entries[j] = $root.Standard.toObject(message.entries[j], options);
+        }
+        return object;
+    };
+
+    /**
+     * Converts this StandardContainer to JSON.
+     * @function toJSON
+     * @memberof StandardContainer
+     * @instance
+     * @returns {Object.<string,*>} JSON object
+     */
+    StandardContainer.prototype.toJSON = function toJSON() {
+        return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+    };
+
+    return StandardContainer;
 })();
 
 module.exports = $root;

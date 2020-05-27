@@ -1,7 +1,9 @@
 import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
 import { FormProps } from 'view/forms';
-import createOrgTransaction from 'services/protobuf/transactions/organization';
+import createOrgTransaction, {
+  createOrg,
+} from 'services/protobuf/transactions/organization';
 import stores from 'stores';
 import CreateContactForm from 'view/forms/CreateContactForm';
 import CreateAddressForm from 'view/forms/CreateFactoryAddressForm';
@@ -46,7 +48,7 @@ function CreateOrganizationForm({
   async function onClick(event: React.FormEvent) {
     event.preventDefault();
 
-    const { signer } = stores.userStore.user!; // TODO: Fix this non-nullable pattern
+    // const { signer } = stores.userStore.user!; // TODO: Fix this non-nullable pattern
     const { contacts, address, name } = state.org;
 
     if (!contacts) {
@@ -67,32 +69,50 @@ function CreateOrganizationForm({
       );
     }
 
-    const txns = new Array(
-      createOrgTransaction(
-        {
-          contacts,
-          address,
-          name,
-          id: makeOrgId(name),
-          organization_type,
-        },
-        signer,
-      ),
-    );
-
-    const batchListBytes = createBatch(txns, signer);
-
     try {
-      await BatchService.submitBatch(batchListBytes);
+      const org = createOrg({
+        contacts,
+        address,
+        name,
+        id: makeOrgId(name),
+        organization_type,
+      });
 
       if (onSubmit) {
-        onSubmit();
+        onSubmit(org);
       }
     } catch ({ message }) {
       if (onError) {
         onError(message);
       }
     }
+
+    // const txns = new Array(
+    //   createOrgTransaction(
+    //     {
+    //       contacts,
+    //       address,
+    //       name,
+    //       id: makeOrgId(name),
+    //       organization_type,
+    //     },
+    //     signer,
+    //   ),
+    // );
+
+    // const batchListBytes = createBatch(txns, signer);
+
+    // try {
+    //   await BatchService.submitBatch(batchListBytes);
+
+    //   if (onSubmit) {
+    //     onSubmit();
+    //   }
+    // } catch ({ message }) {
+    //   if (onError) {
+    //     onError(message);
+    //   }
+    // }
   }
 
   function onSubmitContact(contact: Organization.Contact) {
@@ -152,12 +172,12 @@ function CreateOrganizationForm({
     return (
       <form>
         <div>
-          <label htmlFor={`${organization_type} name`}>
+          <label htmlFor="factory-name">
             name
             <input
               value={org.name || ''}
               onChange={(e) => setOrgName(e.target.value)}
-              placeholder={`${organization_type} name`}
+              placeholder="Organization name"
               type="text"
               id="factory-name"
               required
