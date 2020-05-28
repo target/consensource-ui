@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Home from 'view/pages/Home';
-import Layout from 'view/pages/Layout';
-import PrivateRoute from 'view/components/navigation/PrivateRoute';
-import SignUp from 'view/pages/SignUp';
-import Login from 'view/pages/Login';
+import Home from 'view/pages/home';
+import Layout from 'view/pages/layout';
+import PrivateRoute from 'view/components/navigation/privateRoute';
+import SignUp from 'view/pages/signup';
+import Login from 'view/pages/login';
 
 export default function App() {
   return (

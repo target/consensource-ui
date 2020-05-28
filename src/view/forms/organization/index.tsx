@@ -2,8 +2,8 @@ import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
 import { FormProps, hasEmptyFields } from 'view/forms';
 import { createOrgAction } from 'services/protobuf/organization';
-import CreateContactForm from 'view/forms/CreateContactForm';
-import CreateAddressForm from 'view/forms/CreateFactoryAddressForm';
+import CreateContactForm from 'view/forms/organization/CreateContact';
+import CreateAddressForm from 'view/forms/organization/CreateFactoryAddress';
 import { Organization } from 'services/protobuf/compiledProtos';
 import { hash, HashingAlgorithms } from 'services/utils';
 

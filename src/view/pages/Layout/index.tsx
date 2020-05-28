@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Dashboard from 'view/pages/Dashboard';
+import Dashboard from 'view/pages/dashboard';
 import Snackbar from 'view/components/Snackbar';
 import stores from 'stores';
 import { observer } from 'mobx-react-lite';

@@ -4,7 +4,7 @@ import { FormProps, hasEmptyFields } from 'view/forms';
 import { createAgentAction } from 'services/protobuf/agent';
 
 function createStore() {
-  const store: IAgent = {
+  const store: ICreateAgentAction = {
     name: '',
   };
 
@@ -25,7 +25,10 @@ function CreateAgentActionForm({
     onSubmit(createAgentAction(state));
   };
 
-  const setState = <T extends keyof IAgent>(key: T, val: IAgent[T]) => {
+  const setState = <T extends keyof ICreateAgentAction>(
+    key: T,
+    val: ICreateAgentAction[T],
+  ) => {
     state[key] = val;
   };
 

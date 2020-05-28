@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
-import CreateUserForm, { CreateUserFormState } from 'view/forms/CreateUserForm';
+import CreateUserForm, { CreateUserFormState } from 'view/forms/CreateUser';
 import stores from 'stores';
 
 function UserSignUp() {

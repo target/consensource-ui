@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import CreateAgentActionForm from 'view/forms/CreateAgentForm';
+import CreateAgentActionForm from 'view/forms/CreateAgent';
 import { useLocalStore } from 'mobx-react-lite';
 import stores from 'stores';
 import { createAgentTransaction } from 'services/protobuf/agent';

@@ -1,1986 +1,6 @@
 import * as $protobuf from "protobufjs";
-/** Properties of an Agent. */
-declare global {
-export interface IAgent {
-
-    /** Agent public_key */
-    public_key?: (string|null);
-
-    /** Agent name */
-    name?: (string|null);
-
-    /** Agent organization_id */
-    organization_id?: (string|null);
-
-    /** Agent timestamp */
-    timestamp?: (number|Long|null);
-}
-
-/** Represents an Agent. */
-export class Agent implements IAgent {
-
-    /**
-     * Constructs a new Agent.
-     * @param [properties] Properties to set
-     */
-    constructor(properties?: IAgent);
-
-    /** Agent public_key. */
-    public public_key: string;
-
-    /** Agent name. */
-    public name: string;
-
-    /** Agent organization_id. */
-    public organization_id: string;
-
-    /** Agent timestamp. */
-    public timestamp: (number|Long);
-
-    /**
-     * Creates a new Agent instance using the specified properties.
-     * @param [properties] Properties to set
-     * @returns Agent instance
-     */
-    public static create(properties?: IAgent): Agent;
-
-    /**
-     * Encodes the specified Agent message. Does not implicitly {@link Agent.verify|verify} messages.
-     * @param message Agent message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encode(message: IAgent, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Encodes the specified Agent message, length delimited. Does not implicitly {@link Agent.verify|verify} messages.
-     * @param message Agent message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encodeDelimited(message: IAgent, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Decodes an Agent message from the specified reader or buffer.
-     * @param reader Reader or buffer to decode from
-     * @param [length] Message length if known beforehand
-     * @returns Agent
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Agent;
-
-    /**
-     * Decodes an Agent message from the specified reader or buffer, length delimited.
-     * @param reader Reader or buffer to decode from
-     * @returns Agent
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Agent;
-
-    /**
-     * Verifies an Agent message.
-     * @param message Plain object to verify
-     * @returns `null` if valid, otherwise the reason why it is not
-     */
-    public static verify(message: { [k: string]: any }): (string|null);
-
-    /**
-     * Creates an Agent message from a plain object. Also converts values to their respective internal types.
-     * @param object Plain object
-     * @returns Agent
-     */
-    public static fromObject(object: { [k: string]: any }): Agent;
-
-    /**
-     * Creates a plain object from an Agent message. Also converts values to other types if specified.
-     * @param message Agent
-     * @param [options] Conversion options
-     * @returns Plain object
-     */
-    public static toObject(message: Agent, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-    /**
-     * Converts this Agent to JSON.
-     * @returns JSON object
-     */
-    public toJSON(): { [k: string]: any };
-}
-
-/** Properties of an AgentContainer. */
-export interface IAgentContainer {
-
-    /** AgentContainer entries */
-    entries?: (IAgent[]|null);
-}
-
-/** Represents an AgentContainer. */
-export class AgentContainer implements IAgentContainer {
-
-    /**
-     * Constructs a new AgentContainer.
-     * @param [properties] Properties to set
-     */
-    constructor(properties?: IAgentContainer);
-
-    /** AgentContainer entries. */
-    public entries: IAgent[];
-
-    /**
-     * Creates a new AgentContainer instance using the specified properties.
-     * @param [properties] Properties to set
-     * @returns AgentContainer instance
-     */
-    public static create(properties?: IAgentContainer): AgentContainer;
-
-    /**
-     * Encodes the specified AgentContainer message. Does not implicitly {@link AgentContainer.verify|verify} messages.
-     * @param message AgentContainer message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encode(message: IAgentContainer, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Encodes the specified AgentContainer message, length delimited. Does not implicitly {@link AgentContainer.verify|verify} messages.
-     * @param message AgentContainer message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encodeDelimited(message: IAgentContainer, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Decodes an AgentContainer message from the specified reader or buffer.
-     * @param reader Reader or buffer to decode from
-     * @param [length] Message length if known beforehand
-     * @returns AgentContainer
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AgentContainer;
-
-    /**
-     * Decodes an AgentContainer message from the specified reader or buffer, length delimited.
-     * @param reader Reader or buffer to decode from
-     * @returns AgentContainer
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AgentContainer;
-
-    /**
-     * Verifies an AgentContainer message.
-     * @param message Plain object to verify
-     * @returns `null` if valid, otherwise the reason why it is not
-     */
-    public static verify(message: { [k: string]: any }): (string|null);
-
-    /**
-     * Creates an AgentContainer message from a plain object. Also converts values to their respective internal types.
-     * @param object Plain object
-     * @returns AgentContainer
-     */
-    public static fromObject(object: { [k: string]: any }): AgentContainer;
-
-    /**
-     * Creates a plain object from an AgentContainer message. Also converts values to other types if specified.
-     * @param message AgentContainer
-     * @param [options] Conversion options
-     * @returns Plain object
-     */
-    public static toObject(message: AgentContainer, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-    /**
-     * Converts this AgentContainer to JSON.
-     * @returns JSON object
-     */
-    public toJSON(): { [k: string]: any };
-}
-
-/** Properties of an Assertion. */
-export interface IAssertion {
-
-    /** Assertion id */
-    id?: (string|null);
-
-    /** Assertion assertor_pub_key */
-    assertor_pub_key?: (string|null);
-
-    /** Assertion assertion_type */
-    assertion_type?: (Assertion.Type|null);
-
-    /** Assertion object_id */
-    object_id?: (string|null);
-
-    /** Assertion data_id */
-    data_id?: (string|null);
-}
-
-/** Represents an Assertion. */
-export class Assertion implements IAssertion {
-
-    /**
-     * Constructs a new Assertion.
-     * @param [properties] Properties to set
-     */
-    constructor(properties?: IAssertion);
-
-    /** Assertion id. */
-    public id: string;
-
-    /** Assertion assertor_pub_key. */
-    public assertor_pub_key: string;
-
-    /** Assertion assertion_type. */
-    public assertion_type: Assertion.Type;
-
-    /** Assertion object_id. */
-    public object_id: string;
-
-    /** Assertion data_id. */
-    public data_id: string;
-
-    /**
-     * Creates a new Assertion instance using the specified properties.
-     * @param [properties] Properties to set
-     * @returns Assertion instance
-     */
-    public static create(properties?: IAssertion): Assertion;
-
-    /**
-     * Encodes the specified Assertion message. Does not implicitly {@link Assertion.verify|verify} messages.
-     * @param message Assertion message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encode(message: IAssertion, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Encodes the specified Assertion message, length delimited. Does not implicitly {@link Assertion.verify|verify} messages.
-     * @param message Assertion message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encodeDelimited(message: IAssertion, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Decodes an Assertion message from the specified reader or buffer.
-     * @param reader Reader or buffer to decode from
-     * @param [length] Message length if known beforehand
-     * @returns Assertion
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Assertion;
-
-    /**
-     * Decodes an Assertion message from the specified reader or buffer, length delimited.
-     * @param reader Reader or buffer to decode from
-     * @returns Assertion
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Assertion;
-
-    /**
-     * Verifies an Assertion message.
-     * @param message Plain object to verify
-     * @returns `null` if valid, otherwise the reason why it is not
-     */
-    public static verify(message: { [k: string]: any }): (string|null);
-
-    /**
-     * Creates an Assertion message from a plain object. Also converts values to their respective internal types.
-     * @param object Plain object
-     * @returns Assertion
-     */
-    public static fromObject(object: { [k: string]: any }): Assertion;
-
-    /**
-     * Creates a plain object from an Assertion message. Also converts values to other types if specified.
-     * @param message Assertion
-     * @param [options] Conversion options
-     * @returns Plain object
-     */
-    public static toObject(message: Assertion, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-    /**
-     * Converts this Assertion to JSON.
-     * @returns JSON object
-     */
-    public toJSON(): { [k: string]: any };
-}
-
-export namespace Assertion {
-
-    /** Type enum. */
-    enum Type {
-        UNSET_TYPE = 0,
-        FACTORY = 1,
-        CERTIFICATE = 2,
-        STANDARD = 3
-    }
-}
-
-/** Properties of an AssertionContainer. */
-export interface IAssertionContainer {
-
-    /** AssertionContainer entries */
-    entries?: (IAssertion[]|null);
-}
-
-/** Represents an AssertionContainer. */
-export class AssertionContainer implements IAssertionContainer {
-
-    /**
-     * Constructs a new AssertionContainer.
-     * @param [properties] Properties to set
-     */
-    constructor(properties?: IAssertionContainer);
-
-    /** AssertionContainer entries. */
-    public entries: IAssertion[];
-
-    /**
-     * Creates a new AssertionContainer instance using the specified properties.
-     * @param [properties] Properties to set
-     * @returns AssertionContainer instance
-     */
-    public static create(properties?: IAssertionContainer): AssertionContainer;
-
-    /**
-     * Encodes the specified AssertionContainer message. Does not implicitly {@link AssertionContainer.verify|verify} messages.
-     * @param message AssertionContainer message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encode(message: IAssertionContainer, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Encodes the specified AssertionContainer message, length delimited. Does not implicitly {@link AssertionContainer.verify|verify} messages.
-     * @param message AssertionContainer message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encodeDelimited(message: IAssertionContainer, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Decodes an AssertionContainer message from the specified reader or buffer.
-     * @param reader Reader or buffer to decode from
-     * @param [length] Message length if known beforehand
-     * @returns AssertionContainer
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AssertionContainer;
-
-    /**
-     * Decodes an AssertionContainer message from the specified reader or buffer, length delimited.
-     * @param reader Reader or buffer to decode from
-     * @returns AssertionContainer
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AssertionContainer;
-
-    /**
-     * Verifies an AssertionContainer message.
-     * @param message Plain object to verify
-     * @returns `null` if valid, otherwise the reason why it is not
-     */
-    public static verify(message: { [k: string]: any }): (string|null);
-
-    /**
-     * Creates an AssertionContainer message from a plain object. Also converts values to their respective internal types.
-     * @param object Plain object
-     * @returns AssertionContainer
-     */
-    public static fromObject(object: { [k: string]: any }): AssertionContainer;
-
-    /**
-     * Creates a plain object from an AssertionContainer message. Also converts values to other types if specified.
-     * @param message AssertionContainer
-     * @param [options] Conversion options
-     * @returns Plain object
-     */
-    public static toObject(message: AssertionContainer, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-    /**
-     * Converts this AssertionContainer to JSON.
-     * @returns JSON object
-     */
-    public toJSON(): { [k: string]: any };
-}
-
-/** Properties of a Certificate. */
-export interface ICertificate {
-
-    /** Certificate id */
-    id?: (string|null);
-
-    /** Certificate certifying_body_id */
-    certifying_body_id?: (string|null);
-
-    /** Certificate factory_id */
-    factory_id?: (string|null);
-
-    /** Certificate standard_id */
-    standard_id?: (string|null);
-
-    /** Certificate standard_version */
-    standard_version?: (string|null);
-
-    /** Certificate certificate_data */
-    certificate_data?: (Certificate.ICertificateData[]|null);
-
-    /** Certificate valid_from */
-    valid_from?: (number|Long|null);
-
-    /** Certificate valid_to */
-    valid_to?: (number|Long|null);
-}
-
-/** Represents a Certificate. */
-export class Certificate implements ICertificate {
-
-    /**
-     * Constructs a new Certificate.
-     * @param [properties] Properties to set
-     */
-    constructor(properties?: ICertificate);
-
-    /** Certificate id. */
-    public id: string;
-
-    /** Certificate certifying_body_id. */
-    public certifying_body_id: string;
-
-    /** Certificate factory_id. */
-    public factory_id: string;
-
-    /** Certificate standard_id. */
-    public standard_id: string;
-
-    /** Certificate standard_version. */
-    public standard_version: string;
-
-    /** Certificate certificate_data. */
-    public certificate_data: Certificate.ICertificateData[];
-
-    /** Certificate valid_from. */
-    public valid_from: (number|Long);
-
-    /** Certificate valid_to. */
-    public valid_to: (number|Long);
-
-    /**
-     * Creates a new Certificate instance using the specified properties.
-     * @param [properties] Properties to set
-     * @returns Certificate instance
-     */
-    public static create(properties?: ICertificate): Certificate;
-
-    /**
-     * Encodes the specified Certificate message. Does not implicitly {@link Certificate.verify|verify} messages.
-     * @param message Certificate message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encode(message: ICertificate, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Encodes the specified Certificate message, length delimited. Does not implicitly {@link Certificate.verify|verify} messages.
-     * @param message Certificate message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encodeDelimited(message: ICertificate, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Decodes a Certificate message from the specified reader or buffer.
-     * @param reader Reader or buffer to decode from
-     * @param [length] Message length if known beforehand
-     * @returns Certificate
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Certificate;
-
-    /**
-     * Decodes a Certificate message from the specified reader or buffer, length delimited.
-     * @param reader Reader or buffer to decode from
-     * @returns Certificate
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Certificate;
-
-    /**
-     * Verifies a Certificate message.
-     * @param message Plain object to verify
-     * @returns `null` if valid, otherwise the reason why it is not
-     */
-    public static verify(message: { [k: string]: any }): (string|null);
-
-    /**
-     * Creates a Certificate message from a plain object. Also converts values to their respective internal types.
-     * @param object Plain object
-     * @returns Certificate
-     */
-    public static fromObject(object: { [k: string]: any }): Certificate;
-
-    /**
-     * Creates a plain object from a Certificate message. Also converts values to other types if specified.
-     * @param message Certificate
-     * @param [options] Conversion options
-     * @returns Plain object
-     */
-    public static toObject(message: Certificate, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-    /**
-     * Converts this Certificate to JSON.
-     * @returns JSON object
-     */
-    public toJSON(): { [k: string]: any };
-}
-
-export namespace Certificate {
-
-    /** Properties of a CertificateData. */
-    interface ICertificateData {
-
-        /** CertificateData field */
-        field?: (string|null);
-
-        /** CertificateData data */
-        data?: (string|null);
-    }
-
-    /** Represents a CertificateData. */
-    class CertificateData implements ICertificateData {
-
-        /**
-         * Constructs a new CertificateData.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: Certificate.ICertificateData);
-
-        /** CertificateData field. */
-        public field: string;
-
-        /** CertificateData data. */
-        public data: string;
-
-        /**
-         * Creates a new CertificateData instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns CertificateData instance
-         */
-        public static create(properties?: Certificate.ICertificateData): Certificate.CertificateData;
-
-        /**
-         * Encodes the specified CertificateData message. Does not implicitly {@link Certificate.CertificateData.verify|verify} messages.
-         * @param message CertificateData message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: Certificate.ICertificateData, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified CertificateData message, length delimited. Does not implicitly {@link Certificate.CertificateData.verify|verify} messages.
-         * @param message CertificateData message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: Certificate.ICertificateData, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a CertificateData message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns CertificateData
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Certificate.CertificateData;
-
-        /**
-         * Decodes a CertificateData message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns CertificateData
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Certificate.CertificateData;
-
-        /**
-         * Verifies a CertificateData message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a CertificateData message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns CertificateData
-         */
-        public static fromObject(object: { [k: string]: any }): Certificate.CertificateData;
-
-        /**
-         * Creates a plain object from a CertificateData message. Also converts values to other types if specified.
-         * @param message CertificateData
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: Certificate.CertificateData, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this CertificateData to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-}
-
-/** Properties of a CertificateContainer. */
-export interface ICertificateContainer {
-
-    /** CertificateContainer entries */
-    entries?: (ICertificate[]|null);
-}
-
-/** Represents a CertificateContainer. */
-export class CertificateContainer implements ICertificateContainer {
-
-    /**
-     * Constructs a new CertificateContainer.
-     * @param [properties] Properties to set
-     */
-    constructor(properties?: ICertificateContainer);
-
-    /** CertificateContainer entries. */
-    public entries: ICertificate[];
-
-    /**
-     * Creates a new CertificateContainer instance using the specified properties.
-     * @param [properties] Properties to set
-     * @returns CertificateContainer instance
-     */
-    public static create(properties?: ICertificateContainer): CertificateContainer;
-
-    /**
-     * Encodes the specified CertificateContainer message. Does not implicitly {@link CertificateContainer.verify|verify} messages.
-     * @param message CertificateContainer message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encode(message: ICertificateContainer, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Encodes the specified CertificateContainer message, length delimited. Does not implicitly {@link CertificateContainer.verify|verify} messages.
-     * @param message CertificateContainer message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encodeDelimited(message: ICertificateContainer, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Decodes a CertificateContainer message from the specified reader or buffer.
-     * @param reader Reader or buffer to decode from
-     * @param [length] Message length if known beforehand
-     * @returns CertificateContainer
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): CertificateContainer;
-
-    /**
-     * Decodes a CertificateContainer message from the specified reader or buffer, length delimited.
-     * @param reader Reader or buffer to decode from
-     * @returns CertificateContainer
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): CertificateContainer;
-
-    /**
-     * Verifies a CertificateContainer message.
-     * @param message Plain object to verify
-     * @returns `null` if valid, otherwise the reason why it is not
-     */
-    public static verify(message: { [k: string]: any }): (string|null);
-
-    /**
-     * Creates a CertificateContainer message from a plain object. Also converts values to their respective internal types.
-     * @param object Plain object
-     * @returns CertificateContainer
-     */
-    public static fromObject(object: { [k: string]: any }): CertificateContainer;
-
-    /**
-     * Creates a plain object from a CertificateContainer message. Also converts values to other types if specified.
-     * @param message CertificateContainer
-     * @param [options] Conversion options
-     * @returns Plain object
-     */
-    public static toObject(message: CertificateContainer, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-    /**
-     * Converts this CertificateContainer to JSON.
-     * @returns JSON object
-     */
-    public toJSON(): { [k: string]: any };
-}
-
-/** Properties of a Request. */
-export interface IRequest {
-
-    /** Request id */
-    id?: (string|null);
-
-    /** Request status */
-    status?: (Request.Status|null);
-
-    /** Request standard_id */
-    standard_id?: (string|null);
-
-    /** Request factory_id */
-    factory_id?: (string|null);
-
-    /** Request request_date */
-    request_date?: (number|Long|null);
-}
-
-/** Represents a Request. */
-export class Request implements IRequest {
-
-    /**
-     * Constructs a new Request.
-     * @param [properties] Properties to set
-     */
-    constructor(properties?: IRequest);
-
-    /** Request id. */
-    public id: string;
-
-    /** Request status. */
-    public status: Request.Status;
-
-    /** Request standard_id. */
-    public standard_id: string;
-
-    /** Request factory_id. */
-    public factory_id: string;
-
-    /** Request request_date. */
-    public request_date: (number|Long);
-
-    /**
-     * Creates a new Request instance using the specified properties.
-     * @param [properties] Properties to set
-     * @returns Request instance
-     */
-    public static create(properties?: IRequest): Request;
-
-    /**
-     * Encodes the specified Request message. Does not implicitly {@link Request.verify|verify} messages.
-     * @param message Request message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encode(message: IRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Encodes the specified Request message, length delimited. Does not implicitly {@link Request.verify|verify} messages.
-     * @param message Request message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encodeDelimited(message: IRequest, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Decodes a Request message from the specified reader or buffer.
-     * @param reader Reader or buffer to decode from
-     * @param [length] Message length if known beforehand
-     * @returns Request
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Request;
-
-    /**
-     * Decodes a Request message from the specified reader or buffer, length delimited.
-     * @param reader Reader or buffer to decode from
-     * @returns Request
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Request;
-
-    /**
-     * Verifies a Request message.
-     * @param message Plain object to verify
-     * @returns `null` if valid, otherwise the reason why it is not
-     */
-    public static verify(message: { [k: string]: any }): (string|null);
-
-    /**
-     * Creates a Request message from a plain object. Also converts values to their respective internal types.
-     * @param object Plain object
-     * @returns Request
-     */
-    public static fromObject(object: { [k: string]: any }): Request;
-
-    /**
-     * Creates a plain object from a Request message. Also converts values to other types if specified.
-     * @param message Request
-     * @param [options] Conversion options
-     * @returns Plain object
-     */
-    public static toObject(message: Request, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-    /**
-     * Converts this Request to JSON.
-     * @returns JSON object
-     */
-    public toJSON(): { [k: string]: any };
-}
-
-export namespace Request {
-
-    /** Status enum. */
-    enum Status {
-        UNSET_STATUS = 0,
-        OPEN = 1,
-        IN_PROGRESS = 2,
-        CLOSED = 3,
-        CERTIFIED = 4
-    }
-}
-
-/** Properties of a RequestContainer. */
-export interface IRequestContainer {
-
-    /** RequestContainer entries */
-    entries?: (IRequest[]|null);
-}
-
-/** Represents a RequestContainer. */
-export class RequestContainer implements IRequestContainer {
-
-    /**
-     * Constructs a new RequestContainer.
-     * @param [properties] Properties to set
-     */
-    constructor(properties?: IRequestContainer);
-
-    /** RequestContainer entries. */
-    public entries: IRequest[];
-
-    /**
-     * Creates a new RequestContainer instance using the specified properties.
-     * @param [properties] Properties to set
-     * @returns RequestContainer instance
-     */
-    public static create(properties?: IRequestContainer): RequestContainer;
-
-    /**
-     * Encodes the specified RequestContainer message. Does not implicitly {@link RequestContainer.verify|verify} messages.
-     * @param message RequestContainer message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encode(message: IRequestContainer, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Encodes the specified RequestContainer message, length delimited. Does not implicitly {@link RequestContainer.verify|verify} messages.
-     * @param message RequestContainer message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encodeDelimited(message: IRequestContainer, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Decodes a RequestContainer message from the specified reader or buffer.
-     * @param reader Reader or buffer to decode from
-     * @param [length] Message length if known beforehand
-     * @returns RequestContainer
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): RequestContainer;
-
-    /**
-     * Decodes a RequestContainer message from the specified reader or buffer, length delimited.
-     * @param reader Reader or buffer to decode from
-     * @returns RequestContainer
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): RequestContainer;
-
-    /**
-     * Verifies a RequestContainer message.
-     * @param message Plain object to verify
-     * @returns `null` if valid, otherwise the reason why it is not
-     */
-    public static verify(message: { [k: string]: any }): (string|null);
-
-    /**
-     * Creates a RequestContainer message from a plain object. Also converts values to their respective internal types.
-     * @param object Plain object
-     * @returns RequestContainer
-     */
-    public static fromObject(object: { [k: string]: any }): RequestContainer;
-
-    /**
-     * Creates a plain object from a RequestContainer message. Also converts values to other types if specified.
-     * @param message RequestContainer
-     * @param [options] Conversion options
-     * @returns Plain object
-     */
-    public static toObject(message: RequestContainer, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-    /**
-     * Converts this RequestContainer to JSON.
-     * @returns JSON object
-     */
-    public toJSON(): { [k: string]: any };
-}
-
-/** Properties of an Organization. */
-export interface IOrganization {
-
-    /** Organization id */
-    id?: (string|null);
-
-    /** Organization name */
-    name?: (string|null);
-
-    /** Organization authorizations */
-    authorizations?: (Organization.IAuthorization[]|null);
-
-    /** Organization contacts */
-    contacts?: (Organization.IContact[]|null);
-
-    /** Organization organization_type */
-    organization_type?: (Organization.Type|null);
-
-    /** Organization certifying_body_details */
-    certifying_body_details?: (ICertifyingBody|null);
-
-    /** Organization standards_body_details */
-    standards_body_details?: (IStandardsBody|null);
-
-    /** Organization factory_details */
-    factory_details?: (IFactory|null);
-}
-
-/** Represents an Organization. */
-export class Organization implements IOrganization {
-
-    /**
-     * Constructs a new Organization.
-     * @param [properties] Properties to set
-     */
-    constructor(properties?: IOrganization);
-
-    /** Organization id. */
-    public id: string;
-
-    /** Organization name. */
-    public name: string;
-
-    /** Organization authorizations. */
-    public authorizations: Organization.IAuthorization[];
-
-    /** Organization contacts. */
-    public contacts: Organization.IContact[];
-
-    /** Organization organization_type. */
-    public organization_type: Organization.Type;
-
-    /** Organization certifying_body_details. */
-    public certifying_body_details?: (ICertifyingBody|null);
-
-    /** Organization standards_body_details. */
-    public standards_body_details?: (IStandardsBody|null);
-
-    /** Organization factory_details. */
-    public factory_details?: (IFactory|null);
-
-    /**
-     * Creates a new Organization instance using the specified properties.
-     * @param [properties] Properties to set
-     * @returns Organization instance
-     */
-    public static create(properties?: IOrganization): Organization;
-
-    /**
-     * Encodes the specified Organization message. Does not implicitly {@link Organization.verify|verify} messages.
-     * @param message Organization message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encode(message: IOrganization, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Encodes the specified Organization message, length delimited. Does not implicitly {@link Organization.verify|verify} messages.
-     * @param message Organization message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encodeDelimited(message: IOrganization, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Decodes an Organization message from the specified reader or buffer.
-     * @param reader Reader or buffer to decode from
-     * @param [length] Message length if known beforehand
-     * @returns Organization
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Organization;
-
-    /**
-     * Decodes an Organization message from the specified reader or buffer, length delimited.
-     * @param reader Reader or buffer to decode from
-     * @returns Organization
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Organization;
-
-    /**
-     * Verifies an Organization message.
-     * @param message Plain object to verify
-     * @returns `null` if valid, otherwise the reason why it is not
-     */
-    public static verify(message: { [k: string]: any }): (string|null);
-
-    /**
-     * Creates an Organization message from a plain object. Also converts values to their respective internal types.
-     * @param object Plain object
-     * @returns Organization
-     */
-    public static fromObject(object: { [k: string]: any }): Organization;
-
-    /**
-     * Creates a plain object from an Organization message. Also converts values to other types if specified.
-     * @param message Organization
-     * @param [options] Conversion options
-     * @returns Plain object
-     */
-    public static toObject(message: Organization, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-    /**
-     * Converts this Organization to JSON.
-     * @returns JSON object
-     */
-    public toJSON(): { [k: string]: any };
-}
-
-export namespace Organization {
-
-    /** Type enum. */
-    enum Type {
-        UNSET_TYPE = 0,
-        CERTIFYING_BODY = 1,
-        STANDARDS_BODY = 2,
-        FACTORY = 3,
-        INGESTION = 4
-    }
-
-    /** Properties of an Authorization. */
-    interface IAuthorization {
-
-        /** Authorization public_key */
-        public_key?: (string|null);
-
-        /** Authorization role */
-        role?: (Organization.Authorization.Role|null);
-    }
-
-    /** Represents an Authorization. */
-    class Authorization implements IAuthorization {
-
-        /**
-         * Constructs a new Authorization.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: Organization.IAuthorization);
-
-        /** Authorization public_key. */
-        public public_key: string;
-
-        /** Authorization role. */
-        public role: Organization.Authorization.Role;
-
-        /**
-         * Creates a new Authorization instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns Authorization instance
-         */
-        public static create(properties?: Organization.IAuthorization): Organization.Authorization;
-
-        /**
-         * Encodes the specified Authorization message. Does not implicitly {@link Organization.Authorization.verify|verify} messages.
-         * @param message Authorization message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: Organization.IAuthorization, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified Authorization message, length delimited. Does not implicitly {@link Organization.Authorization.verify|verify} messages.
-         * @param message Authorization message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: Organization.IAuthorization, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes an Authorization message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns Authorization
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Organization.Authorization;
-
-        /**
-         * Decodes an Authorization message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns Authorization
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Organization.Authorization;
-
-        /**
-         * Verifies an Authorization message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates an Authorization message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns Authorization
-         */
-        public static fromObject(object: { [k: string]: any }): Organization.Authorization;
-
-        /**
-         * Creates a plain object from an Authorization message. Also converts values to other types if specified.
-         * @param message Authorization
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: Organization.Authorization, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this Authorization to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-
-    namespace Authorization {
-
-        /** Role enum. */
-        enum Role {
-            UNSET_ROLE = 0,
-            ADMIN = 1,
-            TRANSACTOR = 2
-        }
-    }
-
-    /** Properties of a Contact. */
-    interface IContact {
-
-        /** Contact name */
-        name?: (string|null);
-
-        /** Contact phone_number */
-        phone_number?: (string|null);
-
-        /** Contact language_code */
-        language_code?: (string|null);
-    }
-
-    /** Represents a Contact. */
-    class Contact implements IContact {
-
-        /**
-         * Constructs a new Contact.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: Organization.IContact);
-
-        /** Contact name. */
-        public name: string;
-
-        /** Contact phone_number. */
-        public phone_number: string;
-
-        /** Contact language_code. */
-        public language_code: string;
-
-        /**
-         * Creates a new Contact instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns Contact instance
-         */
-        public static create(properties?: Organization.IContact): Organization.Contact;
-
-        /**
-         * Encodes the specified Contact message. Does not implicitly {@link Organization.Contact.verify|verify} messages.
-         * @param message Contact message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: Organization.IContact, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified Contact message, length delimited. Does not implicitly {@link Organization.Contact.verify|verify} messages.
-         * @param message Contact message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: Organization.IContact, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes a Contact message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns Contact
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Organization.Contact;
-
-        /**
-         * Decodes a Contact message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns Contact
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Organization.Contact;
-
-        /**
-         * Verifies a Contact message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates a Contact message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns Contact
-         */
-        public static fromObject(object: { [k: string]: any }): Organization.Contact;
-
-        /**
-         * Creates a plain object from a Contact message. Also converts values to other types if specified.
-         * @param message Contact
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: Organization.Contact, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this Contact to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-}
-
-/** Properties of a CertifyingBody. */
-export interface ICertifyingBody {
-
-    /** CertifyingBody accreditations */
-    accreditations?: (CertifyingBody.IAccreditation[]|null);
-}
-
-/** Represents a CertifyingBody. */
-export class CertifyingBody implements ICertifyingBody {
-
-    /**
-     * Constructs a new CertifyingBody.
-     * @param [properties] Properties to set
-     */
-    constructor(properties?: ICertifyingBody);
-
-    /** CertifyingBody accreditations. */
-    public accreditations: CertifyingBody.IAccreditation[];
-
-    /**
-     * Creates a new CertifyingBody instance using the specified properties.
-     * @param [properties] Properties to set
-     * @returns CertifyingBody instance
-     */
-    public static create(properties?: ICertifyingBody): CertifyingBody;
-
-    /**
-     * Encodes the specified CertifyingBody message. Does not implicitly {@link CertifyingBody.verify|verify} messages.
-     * @param message CertifyingBody message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encode(message: ICertifyingBody, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Encodes the specified CertifyingBody message, length delimited. Does not implicitly {@link CertifyingBody.verify|verify} messages.
-     * @param message CertifyingBody message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encodeDelimited(message: ICertifyingBody, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Decodes a CertifyingBody message from the specified reader or buffer.
-     * @param reader Reader or buffer to decode from
-     * @param [length] Message length if known beforehand
-     * @returns CertifyingBody
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): CertifyingBody;
-
-    /**
-     * Decodes a CertifyingBody message from the specified reader or buffer, length delimited.
-     * @param reader Reader or buffer to decode from
-     * @returns CertifyingBody
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): CertifyingBody;
-
-    /**
-     * Verifies a CertifyingBody message.
-     * @param message Plain object to verify
-     * @returns `null` if valid, otherwise the reason why it is not
-     */
-    public static verify(message: { [k: string]: any }): (string|null);
-
-    /**
-     * Creates a CertifyingBody message from a plain object. Also converts values to their respective internal types.
-     * @param object Plain object
-     * @returns CertifyingBody
-     */
-    public static fromObject(object: { [k: string]: any }): CertifyingBody;
-
-    /**
-     * Creates a plain object from a CertifyingBody message. Also converts values to other types if specified.
-     * @param message CertifyingBody
-     * @param [options] Conversion options
-     * @returns Plain object
-     */
-    public static toObject(message: CertifyingBody, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-    /**
-     * Converts this CertifyingBody to JSON.
-     * @returns JSON object
-     */
-    public toJSON(): { [k: string]: any };
-}
-
-export namespace CertifyingBody {
-
-    /** Properties of an Accreditation. */
-    interface IAccreditation {
-
-        /** Accreditation standard_id */
-        standard_id?: (string|null);
-
-        /** Accreditation standard_version */
-        standard_version?: (string|null);
-
-        /** Accreditation accreditor_id */
-        accreditor_id?: (string|null);
-
-        /** Accreditation valid_from */
-        valid_from?: (number|Long|null);
-
-        /** Accreditation valid_to */
-        valid_to?: (number|Long|null);
-    }
-
-    /** Represents an Accreditation. */
-    class Accreditation implements IAccreditation {
-
-        /**
-         * Constructs a new Accreditation.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: CertifyingBody.IAccreditation);
-
-        /** Accreditation standard_id. */
-        public standard_id: string;
-
-        /** Accreditation standard_version. */
-        public standard_version: string;
-
-        /** Accreditation accreditor_id. */
-        public accreditor_id: string;
-
-        /** Accreditation valid_from. */
-        public valid_from: (number|Long);
-
-        /** Accreditation valid_to. */
-        public valid_to: (number|Long);
-
-        /**
-         * Creates a new Accreditation instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns Accreditation instance
-         */
-        public static create(properties?: CertifyingBody.IAccreditation): CertifyingBody.Accreditation;
-
-        /**
-         * Encodes the specified Accreditation message. Does not implicitly {@link CertifyingBody.Accreditation.verify|verify} messages.
-         * @param message Accreditation message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: CertifyingBody.IAccreditation, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified Accreditation message, length delimited. Does not implicitly {@link CertifyingBody.Accreditation.verify|verify} messages.
-         * @param message Accreditation message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: CertifyingBody.IAccreditation, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes an Accreditation message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns Accreditation
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): CertifyingBody.Accreditation;
-
-        /**
-         * Decodes an Accreditation message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns Accreditation
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): CertifyingBody.Accreditation;
-
-        /**
-         * Verifies an Accreditation message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates an Accreditation message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns Accreditation
-         */
-        public static fromObject(object: { [k: string]: any }): CertifyingBody.Accreditation;
-
-        /**
-         * Creates a plain object from an Accreditation message. Also converts values to other types if specified.
-         * @param message Accreditation
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: CertifyingBody.Accreditation, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this Accreditation to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-}
-
-/** Properties of a StandardsBody. */
-export interface IStandardsBody {
-}
-
-/** Represents a StandardsBody. */
-export class StandardsBody implements IStandardsBody {
-
-    /**
-     * Constructs a new StandardsBody.
-     * @param [properties] Properties to set
-     */
-    constructor(properties?: IStandardsBody);
-
-    /**
-     * Creates a new StandardsBody instance using the specified properties.
-     * @param [properties] Properties to set
-     * @returns StandardsBody instance
-     */
-    public static create(properties?: IStandardsBody): StandardsBody;
-
-    /**
-     * Encodes the specified StandardsBody message. Does not implicitly {@link StandardsBody.verify|verify} messages.
-     * @param message StandardsBody message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encode(message: IStandardsBody, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Encodes the specified StandardsBody message, length delimited. Does not implicitly {@link StandardsBody.verify|verify} messages.
-     * @param message StandardsBody message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encodeDelimited(message: IStandardsBody, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Decodes a StandardsBody message from the specified reader or buffer.
-     * @param reader Reader or buffer to decode from
-     * @param [length] Message length if known beforehand
-     * @returns StandardsBody
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): StandardsBody;
-
-    /**
-     * Decodes a StandardsBody message from the specified reader or buffer, length delimited.
-     * @param reader Reader or buffer to decode from
-     * @returns StandardsBody
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): StandardsBody;
-
-    /**
-     * Verifies a StandardsBody message.
-     * @param message Plain object to verify
-     * @returns `null` if valid, otherwise the reason why it is not
-     */
-    public static verify(message: { [k: string]: any }): (string|null);
-
-    /**
-     * Creates a StandardsBody message from a plain object. Also converts values to their respective internal types.
-     * @param object Plain object
-     * @returns StandardsBody
-     */
-    public static fromObject(object: { [k: string]: any }): StandardsBody;
-
-    /**
-     * Creates a plain object from a StandardsBody message. Also converts values to other types if specified.
-     * @param message StandardsBody
-     * @param [options] Conversion options
-     * @returns Plain object
-     */
-    public static toObject(message: StandardsBody, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-    /**
-     * Converts this StandardsBody to JSON.
-     * @returns JSON object
-     */
-    public toJSON(): { [k: string]: any };
-}
-
-/** Properties of a Factory. */
-export interface IFactory {
-
-    /** Factory address */
-    address?: (Factory.IAddress|null);
-}
-
-/** Represents a Factory. */
-export class Factory implements IFactory {
-
-    /**
-     * Constructs a new Factory.
-     * @param [properties] Properties to set
-     */
-    constructor(properties?: IFactory);
-
-    /** Factory address. */
-    public address?: (Factory.IAddress|null);
-
-    /**
-     * Creates a new Factory instance using the specified properties.
-     * @param [properties] Properties to set
-     * @returns Factory instance
-     */
-    public static create(properties?: IFactory): Factory;
-
-    /**
-     * Encodes the specified Factory message. Does not implicitly {@link Factory.verify|verify} messages.
-     * @param message Factory message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encode(message: IFactory, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Encodes the specified Factory message, length delimited. Does not implicitly {@link Factory.verify|verify} messages.
-     * @param message Factory message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encodeDelimited(message: IFactory, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Decodes a Factory message from the specified reader or buffer.
-     * @param reader Reader or buffer to decode from
-     * @param [length] Message length if known beforehand
-     * @returns Factory
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Factory;
-
-    /**
-     * Decodes a Factory message from the specified reader or buffer, length delimited.
-     * @param reader Reader or buffer to decode from
-     * @returns Factory
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Factory;
-
-    /**
-     * Verifies a Factory message.
-     * @param message Plain object to verify
-     * @returns `null` if valid, otherwise the reason why it is not
-     */
-    public static verify(message: { [k: string]: any }): (string|null);
-
-    /**
-     * Creates a Factory message from a plain object. Also converts values to their respective internal types.
-     * @param object Plain object
-     * @returns Factory
-     */
-    public static fromObject(object: { [k: string]: any }): Factory;
-
-    /**
-     * Creates a plain object from a Factory message. Also converts values to other types if specified.
-     * @param message Factory
-     * @param [options] Conversion options
-     * @returns Plain object
-     */
-    public static toObject(message: Factory, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-    /**
-     * Converts this Factory to JSON.
-     * @returns JSON object
-     */
-    public toJSON(): { [k: string]: any };
-}
-
-export namespace Factory {
-
-    /** Properties of an Address. */
-    interface IAddress {
-
-        /** Address street_line_1 */
-        street_line_1?: (string|null);
-
-        /** Address street_line_2 */
-        street_line_2?: (string|null);
-
-        /** Address city */
-        city?: (string|null);
-
-        /** Address state_province */
-        state_province?: (string|null);
-
-        /** Address country */
-        country?: (string|null);
-
-        /** Address postal_code */
-        postal_code?: (string|null);
-    }
-
-    /** Represents an Address. */
-    class Address implements IAddress {
-
-        /**
-         * Constructs a new Address.
-         * @param [properties] Properties to set
-         */
-        constructor(properties?: Factory.IAddress);
-
-        /** Address street_line_1. */
-        public street_line_1: string;
-
-        /** Address street_line_2. */
-        public street_line_2: string;
-
-        /** Address city. */
-        public city: string;
-
-        /** Address state_province. */
-        public state_province: string;
-
-        /** Address country. */
-        public country: string;
-
-        /** Address postal_code. */
-        public postal_code: string;
-
-        /**
-         * Creates a new Address instance using the specified properties.
-         * @param [properties] Properties to set
-         * @returns Address instance
-         */
-        public static create(properties?: Factory.IAddress): Factory.Address;
-
-        /**
-         * Encodes the specified Address message. Does not implicitly {@link Factory.Address.verify|verify} messages.
-         * @param message Address message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encode(message: Factory.IAddress, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Encodes the specified Address message, length delimited. Does not implicitly {@link Factory.Address.verify|verify} messages.
-         * @param message Address message or plain object to encode
-         * @param [writer] Writer to encode to
-         * @returns Writer
-         */
-        public static encodeDelimited(message: Factory.IAddress, writer?: $protobuf.Writer): $protobuf.Writer;
-
-        /**
-         * Decodes an Address message from the specified reader or buffer.
-         * @param reader Reader or buffer to decode from
-         * @param [length] Message length if known beforehand
-         * @returns Address
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Factory.Address;
-
-        /**
-         * Decodes an Address message from the specified reader or buffer, length delimited.
-         * @param reader Reader or buffer to decode from
-         * @returns Address
-         * @throws {Error} If the payload is not a reader or valid buffer
-         * @throws {$protobuf.util.ProtocolError} If required fields are missing
-         */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Factory.Address;
-
-        /**
-         * Verifies an Address message.
-         * @param message Plain object to verify
-         * @returns `null` if valid, otherwise the reason why it is not
-         */
-        public static verify(message: { [k: string]: any }): (string|null);
-
-        /**
-         * Creates an Address message from a plain object. Also converts values to their respective internal types.
-         * @param object Plain object
-         * @returns Address
-         */
-        public static fromObject(object: { [k: string]: any }): Factory.Address;
-
-        /**
-         * Creates a plain object from an Address message. Also converts values to other types if specified.
-         * @param message Address
-         * @param [options] Conversion options
-         * @returns Plain object
-         */
-        public static toObject(message: Factory.Address, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-        /**
-         * Converts this Address to JSON.
-         * @returns JSON object
-         */
-        public toJSON(): { [k: string]: any };
-    }
-}
-
-/** Properties of an Ingestion. */
-export interface IIngestion {
-}
-
-/** Represents an Ingestion. */
-export class Ingestion implements IIngestion {
-
-    /**
-     * Constructs a new Ingestion.
-     * @param [properties] Properties to set
-     */
-    constructor(properties?: IIngestion);
-
-    /**
-     * Creates a new Ingestion instance using the specified properties.
-     * @param [properties] Properties to set
-     * @returns Ingestion instance
-     */
-    public static create(properties?: IIngestion): Ingestion;
-
-    /**
-     * Encodes the specified Ingestion message. Does not implicitly {@link Ingestion.verify|verify} messages.
-     * @param message Ingestion message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encode(message: IIngestion, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Encodes the specified Ingestion message, length delimited. Does not implicitly {@link Ingestion.verify|verify} messages.
-     * @param message Ingestion message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encodeDelimited(message: IIngestion, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Decodes an Ingestion message from the specified reader or buffer.
-     * @param reader Reader or buffer to decode from
-     * @param [length] Message length if known beforehand
-     * @returns Ingestion
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Ingestion;
-
-    /**
-     * Decodes an Ingestion message from the specified reader or buffer, length delimited.
-     * @param reader Reader or buffer to decode from
-     * @returns Ingestion
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Ingestion;
-
-    /**
-     * Verifies an Ingestion message.
-     * @param message Plain object to verify
-     * @returns `null` if valid, otherwise the reason why it is not
-     */
-    public static verify(message: { [k: string]: any }): (string|null);
-
-    /**
-     * Creates an Ingestion message from a plain object. Also converts values to their respective internal types.
-     * @param object Plain object
-     * @returns Ingestion
-     */
-    public static fromObject(object: { [k: string]: any }): Ingestion;
-
-    /**
-     * Creates a plain object from an Ingestion message. Also converts values to other types if specified.
-     * @param message Ingestion
-     * @param [options] Conversion options
-     * @returns Plain object
-     */
-    public static toObject(message: Ingestion, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-    /**
-     * Converts this Ingestion to JSON.
-     * @returns JSON object
-     */
-    public toJSON(): { [k: string]: any };
-}
-
-/** Properties of an OrganizationContainer. */
-export interface IOrganizationContainer {
-
-    /** OrganizationContainer entries */
-    entries?: (IOrganization[]|null);
-}
-
-/** Represents an OrganizationContainer. */
-export class OrganizationContainer implements IOrganizationContainer {
-
-    /**
-     * Constructs a new OrganizationContainer.
-     * @param [properties] Properties to set
-     */
-    constructor(properties?: IOrganizationContainer);
-
-    /** OrganizationContainer entries. */
-    public entries: IOrganization[];
-
-    /**
-     * Creates a new OrganizationContainer instance using the specified properties.
-     * @param [properties] Properties to set
-     * @returns OrganizationContainer instance
-     */
-    public static create(properties?: IOrganizationContainer): OrganizationContainer;
-
-    /**
-     * Encodes the specified OrganizationContainer message. Does not implicitly {@link OrganizationContainer.verify|verify} messages.
-     * @param message OrganizationContainer message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encode(message: IOrganizationContainer, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Encodes the specified OrganizationContainer message, length delimited. Does not implicitly {@link OrganizationContainer.verify|verify} messages.
-     * @param message OrganizationContainer message or plain object to encode
-     * @param [writer] Writer to encode to
-     * @returns Writer
-     */
-    public static encodeDelimited(message: IOrganizationContainer, writer?: $protobuf.Writer): $protobuf.Writer;
-
-    /**
-     * Decodes an OrganizationContainer message from the specified reader or buffer.
-     * @param reader Reader or buffer to decode from
-     * @param [length] Message length if known beforehand
-     * @returns OrganizationContainer
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): OrganizationContainer;
-
-    /**
-     * Decodes an OrganizationContainer message from the specified reader or buffer, length delimited.
-     * @param reader Reader or buffer to decode from
-     * @returns OrganizationContainer
-     * @throws {Error} If the payload is not a reader or valid buffer
-     * @throws {$protobuf.util.ProtocolError} If required fields are missing
-     */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): OrganizationContainer;
-
-    /**
-     * Verifies an OrganizationContainer message.
-     * @param message Plain object to verify
-     * @returns `null` if valid, otherwise the reason why it is not
-     */
-    public static verify(message: { [k: string]: any }): (string|null);
-
-    /**
-     * Creates an OrganizationContainer message from a plain object. Also converts values to their respective internal types.
-     * @param object Plain object
-     * @returns OrganizationContainer
-     */
-    public static fromObject(object: { [k: string]: any }): OrganizationContainer;
-
-    /**
-     * Creates a plain object from an OrganizationContainer message. Also converts values to other types if specified.
-     * @param message OrganizationContainer
-     * @param [options] Conversion options
-     * @returns Plain object
-     */
-    public static toObject(message: OrganizationContainer, options?: $protobuf.IConversionOptions): { [k: string]: any };
-
-    /**
-     * Converts this OrganizationContainer to JSON.
-     * @returns JSON object
-     */
-    public toJSON(): { [k: string]: any };
-}
-
 /** Properties of a CertificateRegistryPayload. */
+declare global {
 export interface ICertificateRegistryPayload {
 
     /** CertificateRegistryPayload action */
@@ -3449,310 +1469,1783 @@ export namespace AssertAction {
     }
 }
 
-/** Properties of a Standard. */
-export interface IStandard {
+/** Properties of an Organization. */
+export interface IOrganization {
 
-    /** Standard id */
+    /** Organization id */
     id?: (string|null);
 
-    /** Standard organization_id */
-    organization_id?: (string|null);
-
-    /** Standard name */
+    /** Organization name */
     name?: (string|null);
 
-    /** Standard versions */
-    versions?: (Standard.IStandardVersion[]|null);
+    /** Organization authorizations */
+    authorizations?: (Organization.IAuthorization[]|null);
+
+    /** Organization contacts */
+    contacts?: (Organization.IContact[]|null);
+
+    /** Organization organization_type */
+    organization_type?: (Organization.Type|null);
+
+    /** Organization certifying_body_details */
+    certifying_body_details?: (ICertifyingBody|null);
+
+    /** Organization standards_body_details */
+    standards_body_details?: (IStandardsBody|null);
+
+    /** Organization factory_details */
+    factory_details?: (IFactory|null);
 }
 
-/** Represents a Standard. */
-export class Standard implements IStandard {
+/** Represents an Organization. */
+export class Organization implements IOrganization {
 
     /**
-     * Constructs a new Standard.
+     * Constructs a new Organization.
      * @param [properties] Properties to set
      */
-    constructor(properties?: IStandard);
+    constructor(properties?: IOrganization);
 
-    /** Standard id. */
+    /** Organization id. */
     public id: string;
 
-    /** Standard organization_id. */
-    public organization_id: string;
-
-    /** Standard name. */
+    /** Organization name. */
     public name: string;
 
-    /** Standard versions. */
-    public versions: Standard.IStandardVersion[];
+    /** Organization authorizations. */
+    public authorizations: Organization.IAuthorization[];
+
+    /** Organization contacts. */
+    public contacts: Organization.IContact[];
+
+    /** Organization organization_type. */
+    public organization_type: Organization.Type;
+
+    /** Organization certifying_body_details. */
+    public certifying_body_details?: (ICertifyingBody|null);
+
+    /** Organization standards_body_details. */
+    public standards_body_details?: (IStandardsBody|null);
+
+    /** Organization factory_details. */
+    public factory_details?: (IFactory|null);
 
     /**
-     * Creates a new Standard instance using the specified properties.
+     * Creates a new Organization instance using the specified properties.
      * @param [properties] Properties to set
-     * @returns Standard instance
+     * @returns Organization instance
      */
-    public static create(properties?: IStandard): Standard;
+    public static create(properties?: IOrganization): Organization;
 
     /**
-     * Encodes the specified Standard message. Does not implicitly {@link Standard.verify|verify} messages.
-     * @param message Standard message or plain object to encode
+     * Encodes the specified Organization message. Does not implicitly {@link Organization.verify|verify} messages.
+     * @param message Organization message or plain object to encode
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encode(message: IStandard, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encode(message: IOrganization, writer?: $protobuf.Writer): $protobuf.Writer;
 
     /**
-     * Encodes the specified Standard message, length delimited. Does not implicitly {@link Standard.verify|verify} messages.
-     * @param message Standard message or plain object to encode
+     * Encodes the specified Organization message, length delimited. Does not implicitly {@link Organization.verify|verify} messages.
+     * @param message Organization message or plain object to encode
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encodeDelimited(message: IStandard, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encodeDelimited(message: IOrganization, writer?: $protobuf.Writer): $protobuf.Writer;
 
     /**
-     * Decodes a Standard message from the specified reader or buffer.
+     * Decodes an Organization message from the specified reader or buffer.
      * @param reader Reader or buffer to decode from
      * @param [length] Message length if known beforehand
-     * @returns Standard
+     * @returns Organization
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Standard;
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Organization;
 
     /**
-     * Decodes a Standard message from the specified reader or buffer, length delimited.
+     * Decodes an Organization message from the specified reader or buffer, length delimited.
      * @param reader Reader or buffer to decode from
-     * @returns Standard
+     * @returns Organization
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Standard;
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Organization;
 
     /**
-     * Verifies a Standard message.
+     * Verifies an Organization message.
      * @param message Plain object to verify
      * @returns `null` if valid, otherwise the reason why it is not
      */
     public static verify(message: { [k: string]: any }): (string|null);
 
     /**
-     * Creates a Standard message from a plain object. Also converts values to their respective internal types.
+     * Creates an Organization message from a plain object. Also converts values to their respective internal types.
      * @param object Plain object
-     * @returns Standard
+     * @returns Organization
      */
-    public static fromObject(object: { [k: string]: any }): Standard;
+    public static fromObject(object: { [k: string]: any }): Organization;
 
     /**
-     * Creates a plain object from a Standard message. Also converts values to other types if specified.
-     * @param message Standard
+     * Creates a plain object from an Organization message. Also converts values to other types if specified.
+     * @param message Organization
      * @param [options] Conversion options
      * @returns Plain object
      */
-    public static toObject(message: Standard, options?: $protobuf.IConversionOptions): { [k: string]: any };
+    public static toObject(message: Organization, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
     /**
-     * Converts this Standard to JSON.
+     * Converts this Organization to JSON.
      * @returns JSON object
      */
     public toJSON(): { [k: string]: any };
 }
 
-export namespace Standard {
+export namespace Organization {
 
-    /** Properties of a StandardVersion. */
-    interface IStandardVersion {
-
-        /** StandardVersion version */
-        version?: (string|null);
-
-        /** StandardVersion description */
-        description?: (string|null);
-
-        /** StandardVersion link */
-        link?: (string|null);
-
-        /** StandardVersion approval_date */
-        approval_date?: (number|Long|null);
+    /** Type enum. */
+    enum Type {
+        UNSET_TYPE = 0,
+        CERTIFYING_BODY = 1,
+        STANDARDS_BODY = 2,
+        FACTORY = 3,
+        INGESTION = 4
     }
 
-    /** Represents a StandardVersion. */
-    class StandardVersion implements IStandardVersion {
+    /** Properties of an Authorization. */
+    interface IAuthorization {
+
+        /** Authorization public_key */
+        public_key?: (string|null);
+
+        /** Authorization role */
+        role?: (Organization.Authorization.Role|null);
+    }
+
+    /** Represents an Authorization. */
+    class Authorization implements IAuthorization {
 
         /**
-         * Constructs a new StandardVersion.
+         * Constructs a new Authorization.
          * @param [properties] Properties to set
          */
-        constructor(properties?: Standard.IStandardVersion);
+        constructor(properties?: Organization.IAuthorization);
 
-        /** StandardVersion version. */
-        public version: string;
+        /** Authorization public_key. */
+        public public_key: string;
 
-        /** StandardVersion description. */
-        public description: string;
-
-        /** StandardVersion link. */
-        public link: string;
-
-        /** StandardVersion approval_date. */
-        public approval_date: (number|Long);
+        /** Authorization role. */
+        public role: Organization.Authorization.Role;
 
         /**
-         * Creates a new StandardVersion instance using the specified properties.
+         * Creates a new Authorization instance using the specified properties.
          * @param [properties] Properties to set
-         * @returns StandardVersion instance
+         * @returns Authorization instance
          */
-        public static create(properties?: Standard.IStandardVersion): Standard.StandardVersion;
+        public static create(properties?: Organization.IAuthorization): Organization.Authorization;
 
         /**
-         * Encodes the specified StandardVersion message. Does not implicitly {@link Standard.StandardVersion.verify|verify} messages.
-         * @param message StandardVersion message or plain object to encode
+         * Encodes the specified Authorization message. Does not implicitly {@link Organization.Authorization.verify|verify} messages.
+         * @param message Authorization message or plain object to encode
          * @param [writer] Writer to encode to
          * @returns Writer
          */
-        public static encode(message: Standard.IStandardVersion, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encode(message: Organization.IAuthorization, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Encodes the specified StandardVersion message, length delimited. Does not implicitly {@link Standard.StandardVersion.verify|verify} messages.
-         * @param message StandardVersion message or plain object to encode
+         * Encodes the specified Authorization message, length delimited. Does not implicitly {@link Organization.Authorization.verify|verify} messages.
+         * @param message Authorization message or plain object to encode
          * @param [writer] Writer to encode to
          * @returns Writer
          */
-        public static encodeDelimited(message: Standard.IStandardVersion, writer?: $protobuf.Writer): $protobuf.Writer;
+        public static encodeDelimited(message: Organization.IAuthorization, writer?: $protobuf.Writer): $protobuf.Writer;
 
         /**
-         * Decodes a StandardVersion message from the specified reader or buffer.
+         * Decodes an Authorization message from the specified reader or buffer.
          * @param reader Reader or buffer to decode from
          * @param [length] Message length if known beforehand
-         * @returns StandardVersion
+         * @returns Authorization
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Standard.StandardVersion;
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Organization.Authorization;
 
         /**
-         * Decodes a StandardVersion message from the specified reader or buffer, length delimited.
+         * Decodes an Authorization message from the specified reader or buffer, length delimited.
          * @param reader Reader or buffer to decode from
-         * @returns StandardVersion
+         * @returns Authorization
          * @throws {Error} If the payload is not a reader or valid buffer
          * @throws {$protobuf.util.ProtocolError} If required fields are missing
          */
-        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Standard.StandardVersion;
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Organization.Authorization;
 
         /**
-         * Verifies a StandardVersion message.
+         * Verifies an Authorization message.
          * @param message Plain object to verify
          * @returns `null` if valid, otherwise the reason why it is not
          */
         public static verify(message: { [k: string]: any }): (string|null);
 
         /**
-         * Creates a StandardVersion message from a plain object. Also converts values to their respective internal types.
+         * Creates an Authorization message from a plain object. Also converts values to their respective internal types.
          * @param object Plain object
-         * @returns StandardVersion
+         * @returns Authorization
          */
-        public static fromObject(object: { [k: string]: any }): Standard.StandardVersion;
+        public static fromObject(object: { [k: string]: any }): Organization.Authorization;
 
         /**
-         * Creates a plain object from a StandardVersion message. Also converts values to other types if specified.
-         * @param message StandardVersion
+         * Creates a plain object from an Authorization message. Also converts values to other types if specified.
+         * @param message Authorization
          * @param [options] Conversion options
          * @returns Plain object
          */
-        public static toObject(message: Standard.StandardVersion, options?: $protobuf.IConversionOptions): { [k: string]: any };
+        public static toObject(message: Organization.Authorization, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
         /**
-         * Converts this StandardVersion to JSON.
+         * Converts this Authorization to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+
+    namespace Authorization {
+
+        /** Role enum. */
+        enum Role {
+            UNSET_ROLE = 0,
+            ADMIN = 1,
+            TRANSACTOR = 2
+        }
+    }
+
+    /** Properties of a Contact. */
+    interface IContact {
+
+        /** Contact name */
+        name?: (string|null);
+
+        /** Contact phone_number */
+        phone_number?: (string|null);
+
+        /** Contact language_code */
+        language_code?: (string|null);
+    }
+
+    /** Represents a Contact. */
+    class Contact implements IContact {
+
+        /**
+         * Constructs a new Contact.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: Organization.IContact);
+
+        /** Contact name. */
+        public name: string;
+
+        /** Contact phone_number. */
+        public phone_number: string;
+
+        /** Contact language_code. */
+        public language_code: string;
+
+        /**
+         * Creates a new Contact instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns Contact instance
+         */
+        public static create(properties?: Organization.IContact): Organization.Contact;
+
+        /**
+         * Encodes the specified Contact message. Does not implicitly {@link Organization.Contact.verify|verify} messages.
+         * @param message Contact message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: Organization.IContact, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified Contact message, length delimited. Does not implicitly {@link Organization.Contact.verify|verify} messages.
+         * @param message Contact message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: Organization.IContact, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a Contact message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns Contact
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Organization.Contact;
+
+        /**
+         * Decodes a Contact message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns Contact
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Organization.Contact;
+
+        /**
+         * Verifies a Contact message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a Contact message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns Contact
+         */
+        public static fromObject(object: { [k: string]: any }): Organization.Contact;
+
+        /**
+         * Creates a plain object from a Contact message. Also converts values to other types if specified.
+         * @param message Contact
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: Organization.Contact, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this Contact to JSON.
          * @returns JSON object
          */
         public toJSON(): { [k: string]: any };
     }
 }
 
-/** Properties of a StandardContainer. */
-export interface IStandardContainer {
+/** Properties of a CertifyingBody. */
+export interface ICertifyingBody {
 
-    /** StandardContainer entries */
-    entries?: (IStandard[]|null);
+    /** CertifyingBody accreditations */
+    accreditations?: (CertifyingBody.IAccreditation[]|null);
 }
 
-/** Represents a StandardContainer. */
-export class StandardContainer implements IStandardContainer {
+/** Represents a CertifyingBody. */
+export class CertifyingBody implements ICertifyingBody {
 
     /**
-     * Constructs a new StandardContainer.
+     * Constructs a new CertifyingBody.
      * @param [properties] Properties to set
      */
-    constructor(properties?: IStandardContainer);
+    constructor(properties?: ICertifyingBody);
 
-    /** StandardContainer entries. */
-    public entries: IStandard[];
+    /** CertifyingBody accreditations. */
+    public accreditations: CertifyingBody.IAccreditation[];
 
     /**
-     * Creates a new StandardContainer instance using the specified properties.
+     * Creates a new CertifyingBody instance using the specified properties.
      * @param [properties] Properties to set
-     * @returns StandardContainer instance
+     * @returns CertifyingBody instance
      */
-    public static create(properties?: IStandardContainer): StandardContainer;
+    public static create(properties?: ICertifyingBody): CertifyingBody;
 
     /**
-     * Encodes the specified StandardContainer message. Does not implicitly {@link StandardContainer.verify|verify} messages.
-     * @param message StandardContainer message or plain object to encode
+     * Encodes the specified CertifyingBody message. Does not implicitly {@link CertifyingBody.verify|verify} messages.
+     * @param message CertifyingBody message or plain object to encode
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encode(message: IStandardContainer, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encode(message: ICertifyingBody, writer?: $protobuf.Writer): $protobuf.Writer;
 
     /**
-     * Encodes the specified StandardContainer message, length delimited. Does not implicitly {@link StandardContainer.verify|verify} messages.
-     * @param message StandardContainer message or plain object to encode
+     * Encodes the specified CertifyingBody message, length delimited. Does not implicitly {@link CertifyingBody.verify|verify} messages.
+     * @param message CertifyingBody message or plain object to encode
      * @param [writer] Writer to encode to
      * @returns Writer
      */
-    public static encodeDelimited(message: IStandardContainer, writer?: $protobuf.Writer): $protobuf.Writer;
+    public static encodeDelimited(message: ICertifyingBody, writer?: $protobuf.Writer): $protobuf.Writer;
 
     /**
-     * Decodes a StandardContainer message from the specified reader or buffer.
+     * Decodes a CertifyingBody message from the specified reader or buffer.
      * @param reader Reader or buffer to decode from
      * @param [length] Message length if known beforehand
-     * @returns StandardContainer
+     * @returns CertifyingBody
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): StandardContainer;
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): CertifyingBody;
 
     /**
-     * Decodes a StandardContainer message from the specified reader or buffer, length delimited.
+     * Decodes a CertifyingBody message from the specified reader or buffer, length delimited.
      * @param reader Reader or buffer to decode from
-     * @returns StandardContainer
+     * @returns CertifyingBody
      * @throws {Error} If the payload is not a reader or valid buffer
      * @throws {$protobuf.util.ProtocolError} If required fields are missing
      */
-    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): StandardContainer;
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): CertifyingBody;
 
     /**
-     * Verifies a StandardContainer message.
+     * Verifies a CertifyingBody message.
      * @param message Plain object to verify
      * @returns `null` if valid, otherwise the reason why it is not
      */
     public static verify(message: { [k: string]: any }): (string|null);
 
     /**
-     * Creates a StandardContainer message from a plain object. Also converts values to their respective internal types.
+     * Creates a CertifyingBody message from a plain object. Also converts values to their respective internal types.
      * @param object Plain object
-     * @returns StandardContainer
+     * @returns CertifyingBody
      */
-    public static fromObject(object: { [k: string]: any }): StandardContainer;
+    public static fromObject(object: { [k: string]: any }): CertifyingBody;
 
     /**
-     * Creates a plain object from a StandardContainer message. Also converts values to other types if specified.
-     * @param message StandardContainer
+     * Creates a plain object from a CertifyingBody message. Also converts values to other types if specified.
+     * @param message CertifyingBody
      * @param [options] Conversion options
      * @returns Plain object
      */
-    public static toObject(message: StandardContainer, options?: $protobuf.IConversionOptions): { [k: string]: any };
+    public static toObject(message: CertifyingBody, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
     /**
-     * Converts this StandardContainer to JSON.
+     * Converts this CertifyingBody to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+export namespace CertifyingBody {
+
+    /** Properties of an Accreditation. */
+    interface IAccreditation {
+
+        /** Accreditation standard_id */
+        standard_id?: (string|null);
+
+        /** Accreditation standard_version */
+        standard_version?: (string|null);
+
+        /** Accreditation accreditor_id */
+        accreditor_id?: (string|null);
+
+        /** Accreditation valid_from */
+        valid_from?: (number|Long|null);
+
+        /** Accreditation valid_to */
+        valid_to?: (number|Long|null);
+    }
+
+    /** Represents an Accreditation. */
+    class Accreditation implements IAccreditation {
+
+        /**
+         * Constructs a new Accreditation.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: CertifyingBody.IAccreditation);
+
+        /** Accreditation standard_id. */
+        public standard_id: string;
+
+        /** Accreditation standard_version. */
+        public standard_version: string;
+
+        /** Accreditation accreditor_id. */
+        public accreditor_id: string;
+
+        /** Accreditation valid_from. */
+        public valid_from: (number|Long);
+
+        /** Accreditation valid_to. */
+        public valid_to: (number|Long);
+
+        /**
+         * Creates a new Accreditation instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns Accreditation instance
+         */
+        public static create(properties?: CertifyingBody.IAccreditation): CertifyingBody.Accreditation;
+
+        /**
+         * Encodes the specified Accreditation message. Does not implicitly {@link CertifyingBody.Accreditation.verify|verify} messages.
+         * @param message Accreditation message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: CertifyingBody.IAccreditation, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified Accreditation message, length delimited. Does not implicitly {@link CertifyingBody.Accreditation.verify|verify} messages.
+         * @param message Accreditation message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: CertifyingBody.IAccreditation, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an Accreditation message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns Accreditation
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): CertifyingBody.Accreditation;
+
+        /**
+         * Decodes an Accreditation message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns Accreditation
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): CertifyingBody.Accreditation;
+
+        /**
+         * Verifies an Accreditation message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an Accreditation message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns Accreditation
+         */
+        public static fromObject(object: { [k: string]: any }): CertifyingBody.Accreditation;
+
+        /**
+         * Creates a plain object from an Accreditation message. Also converts values to other types if specified.
+         * @param message Accreditation
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: CertifyingBody.Accreditation, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this Accreditation to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+}
+
+/** Properties of a StandardsBody. */
+export interface IStandardsBody {
+}
+
+/** Represents a StandardsBody. */
+export class StandardsBody implements IStandardsBody {
+
+    /**
+     * Constructs a new StandardsBody.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IStandardsBody);
+
+    /**
+     * Creates a new StandardsBody instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns StandardsBody instance
+     */
+    public static create(properties?: IStandardsBody): StandardsBody;
+
+    /**
+     * Encodes the specified StandardsBody message. Does not implicitly {@link StandardsBody.verify|verify} messages.
+     * @param message StandardsBody message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IStandardsBody, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified StandardsBody message, length delimited. Does not implicitly {@link StandardsBody.verify|verify} messages.
+     * @param message StandardsBody message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IStandardsBody, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a StandardsBody message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns StandardsBody
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): StandardsBody;
+
+    /**
+     * Decodes a StandardsBody message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns StandardsBody
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): StandardsBody;
+
+    /**
+     * Verifies a StandardsBody message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a StandardsBody message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns StandardsBody
+     */
+    public static fromObject(object: { [k: string]: any }): StandardsBody;
+
+    /**
+     * Creates a plain object from a StandardsBody message. Also converts values to other types if specified.
+     * @param message StandardsBody
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: StandardsBody, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this StandardsBody to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+/** Properties of a Factory. */
+export interface IFactory {
+
+    /** Factory address */
+    address?: (Factory.IAddress|null);
+}
+
+/** Represents a Factory. */
+export class Factory implements IFactory {
+
+    /**
+     * Constructs a new Factory.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IFactory);
+
+    /** Factory address. */
+    public address?: (Factory.IAddress|null);
+
+    /**
+     * Creates a new Factory instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns Factory instance
+     */
+    public static create(properties?: IFactory): Factory;
+
+    /**
+     * Encodes the specified Factory message. Does not implicitly {@link Factory.verify|verify} messages.
+     * @param message Factory message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IFactory, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified Factory message, length delimited. Does not implicitly {@link Factory.verify|verify} messages.
+     * @param message Factory message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IFactory, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a Factory message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns Factory
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Factory;
+
+    /**
+     * Decodes a Factory message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns Factory
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Factory;
+
+    /**
+     * Verifies a Factory message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a Factory message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns Factory
+     */
+    public static fromObject(object: { [k: string]: any }): Factory;
+
+    /**
+     * Creates a plain object from a Factory message. Also converts values to other types if specified.
+     * @param message Factory
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: Factory, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this Factory to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+export namespace Factory {
+
+    /** Properties of an Address. */
+    interface IAddress {
+
+        /** Address street_line_1 */
+        street_line_1?: (string|null);
+
+        /** Address street_line_2 */
+        street_line_2?: (string|null);
+
+        /** Address city */
+        city?: (string|null);
+
+        /** Address state_province */
+        state_province?: (string|null);
+
+        /** Address country */
+        country?: (string|null);
+
+        /** Address postal_code */
+        postal_code?: (string|null);
+    }
+
+    /** Represents an Address. */
+    class Address implements IAddress {
+
+        /**
+         * Constructs a new Address.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: Factory.IAddress);
+
+        /** Address street_line_1. */
+        public street_line_1: string;
+
+        /** Address street_line_2. */
+        public street_line_2: string;
+
+        /** Address city. */
+        public city: string;
+
+        /** Address state_province. */
+        public state_province: string;
+
+        /** Address country. */
+        public country: string;
+
+        /** Address postal_code. */
+        public postal_code: string;
+
+        /**
+         * Creates a new Address instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns Address instance
+         */
+        public static create(properties?: Factory.IAddress): Factory.Address;
+
+        /**
+         * Encodes the specified Address message. Does not implicitly {@link Factory.Address.verify|verify} messages.
+         * @param message Address message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: Factory.IAddress, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified Address message, length delimited. Does not implicitly {@link Factory.Address.verify|verify} messages.
+         * @param message Address message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: Factory.IAddress, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes an Address message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns Address
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Factory.Address;
+
+        /**
+         * Decodes an Address message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns Address
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Factory.Address;
+
+        /**
+         * Verifies an Address message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates an Address message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns Address
+         */
+        public static fromObject(object: { [k: string]: any }): Factory.Address;
+
+        /**
+         * Creates a plain object from an Address message. Also converts values to other types if specified.
+         * @param message Address
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: Factory.Address, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this Address to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+}
+
+/** Properties of an Ingestion. */
+export interface IIngestion {
+}
+
+/** Represents an Ingestion. */
+export class Ingestion implements IIngestion {
+
+    /**
+     * Constructs a new Ingestion.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IIngestion);
+
+    /**
+     * Creates a new Ingestion instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns Ingestion instance
+     */
+    public static create(properties?: IIngestion): Ingestion;
+
+    /**
+     * Encodes the specified Ingestion message. Does not implicitly {@link Ingestion.verify|verify} messages.
+     * @param message Ingestion message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IIngestion, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified Ingestion message, length delimited. Does not implicitly {@link Ingestion.verify|verify} messages.
+     * @param message Ingestion message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IIngestion, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes an Ingestion message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns Ingestion
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Ingestion;
+
+    /**
+     * Decodes an Ingestion message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns Ingestion
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Ingestion;
+
+    /**
+     * Verifies an Ingestion message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates an Ingestion message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns Ingestion
+     */
+    public static fromObject(object: { [k: string]: any }): Ingestion;
+
+    /**
+     * Creates a plain object from an Ingestion message. Also converts values to other types if specified.
+     * @param message Ingestion
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: Ingestion, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this Ingestion to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+/** Properties of an OrganizationContainer. */
+export interface IOrganizationContainer {
+
+    /** OrganizationContainer entries */
+    entries?: (IOrganization[]|null);
+}
+
+/** Represents an OrganizationContainer. */
+export class OrganizationContainer implements IOrganizationContainer {
+
+    /**
+     * Constructs a new OrganizationContainer.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IOrganizationContainer);
+
+    /** OrganizationContainer entries. */
+    public entries: IOrganization[];
+
+    /**
+     * Creates a new OrganizationContainer instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns OrganizationContainer instance
+     */
+    public static create(properties?: IOrganizationContainer): OrganizationContainer;
+
+    /**
+     * Encodes the specified OrganizationContainer message. Does not implicitly {@link OrganizationContainer.verify|verify} messages.
+     * @param message OrganizationContainer message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IOrganizationContainer, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified OrganizationContainer message, length delimited. Does not implicitly {@link OrganizationContainer.verify|verify} messages.
+     * @param message OrganizationContainer message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IOrganizationContainer, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes an OrganizationContainer message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns OrganizationContainer
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): OrganizationContainer;
+
+    /**
+     * Decodes an OrganizationContainer message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns OrganizationContainer
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): OrganizationContainer;
+
+    /**
+     * Verifies an OrganizationContainer message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates an OrganizationContainer message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns OrganizationContainer
+     */
+    public static fromObject(object: { [k: string]: any }): OrganizationContainer;
+
+    /**
+     * Creates a plain object from an OrganizationContainer message. Also converts values to other types if specified.
+     * @param message OrganizationContainer
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: OrganizationContainer, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this OrganizationContainer to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+/** Properties of a Certificate. */
+export interface ICertificate {
+
+    /** Certificate id */
+    id?: (string|null);
+
+    /** Certificate certifying_body_id */
+    certifying_body_id?: (string|null);
+
+    /** Certificate factory_id */
+    factory_id?: (string|null);
+
+    /** Certificate standard_id */
+    standard_id?: (string|null);
+
+    /** Certificate standard_version */
+    standard_version?: (string|null);
+
+    /** Certificate certificate_data */
+    certificate_data?: (Certificate.ICertificateData[]|null);
+
+    /** Certificate valid_from */
+    valid_from?: (number|Long|null);
+
+    /** Certificate valid_to */
+    valid_to?: (number|Long|null);
+}
+
+/** Represents a Certificate. */
+export class Certificate implements ICertificate {
+
+    /**
+     * Constructs a new Certificate.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: ICertificate);
+
+    /** Certificate id. */
+    public id: string;
+
+    /** Certificate certifying_body_id. */
+    public certifying_body_id: string;
+
+    /** Certificate factory_id. */
+    public factory_id: string;
+
+    /** Certificate standard_id. */
+    public standard_id: string;
+
+    /** Certificate standard_version. */
+    public standard_version: string;
+
+    /** Certificate certificate_data. */
+    public certificate_data: Certificate.ICertificateData[];
+
+    /** Certificate valid_from. */
+    public valid_from: (number|Long);
+
+    /** Certificate valid_to. */
+    public valid_to: (number|Long);
+
+    /**
+     * Creates a new Certificate instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns Certificate instance
+     */
+    public static create(properties?: ICertificate): Certificate;
+
+    /**
+     * Encodes the specified Certificate message. Does not implicitly {@link Certificate.verify|verify} messages.
+     * @param message Certificate message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: ICertificate, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified Certificate message, length delimited. Does not implicitly {@link Certificate.verify|verify} messages.
+     * @param message Certificate message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: ICertificate, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a Certificate message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns Certificate
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Certificate;
+
+    /**
+     * Decodes a Certificate message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns Certificate
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Certificate;
+
+    /**
+     * Verifies a Certificate message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a Certificate message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns Certificate
+     */
+    public static fromObject(object: { [k: string]: any }): Certificate;
+
+    /**
+     * Creates a plain object from a Certificate message. Also converts values to other types if specified.
+     * @param message Certificate
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: Certificate, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this Certificate to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+export namespace Certificate {
+
+    /** Properties of a CertificateData. */
+    interface ICertificateData {
+
+        /** CertificateData field */
+        field?: (string|null);
+
+        /** CertificateData data */
+        data?: (string|null);
+    }
+
+    /** Represents a CertificateData. */
+    class CertificateData implements ICertificateData {
+
+        /**
+         * Constructs a new CertificateData.
+         * @param [properties] Properties to set
+         */
+        constructor(properties?: Certificate.ICertificateData);
+
+        /** CertificateData field. */
+        public field: string;
+
+        /** CertificateData data. */
+        public data: string;
+
+        /**
+         * Creates a new CertificateData instance using the specified properties.
+         * @param [properties] Properties to set
+         * @returns CertificateData instance
+         */
+        public static create(properties?: Certificate.ICertificateData): Certificate.CertificateData;
+
+        /**
+         * Encodes the specified CertificateData message. Does not implicitly {@link Certificate.CertificateData.verify|verify} messages.
+         * @param message CertificateData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encode(message: Certificate.ICertificateData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Encodes the specified CertificateData message, length delimited. Does not implicitly {@link Certificate.CertificateData.verify|verify} messages.
+         * @param message CertificateData message or plain object to encode
+         * @param [writer] Writer to encode to
+         * @returns Writer
+         */
+        public static encodeDelimited(message: Certificate.ICertificateData, writer?: $protobuf.Writer): $protobuf.Writer;
+
+        /**
+         * Decodes a CertificateData message from the specified reader or buffer.
+         * @param reader Reader or buffer to decode from
+         * @param [length] Message length if known beforehand
+         * @returns CertificateData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Certificate.CertificateData;
+
+        /**
+         * Decodes a CertificateData message from the specified reader or buffer, length delimited.
+         * @param reader Reader or buffer to decode from
+         * @returns CertificateData
+         * @throws {Error} If the payload is not a reader or valid buffer
+         * @throws {$protobuf.util.ProtocolError} If required fields are missing
+         */
+        public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Certificate.CertificateData;
+
+        /**
+         * Verifies a CertificateData message.
+         * @param message Plain object to verify
+         * @returns `null` if valid, otherwise the reason why it is not
+         */
+        public static verify(message: { [k: string]: any }): (string|null);
+
+        /**
+         * Creates a CertificateData message from a plain object. Also converts values to their respective internal types.
+         * @param object Plain object
+         * @returns CertificateData
+         */
+        public static fromObject(object: { [k: string]: any }): Certificate.CertificateData;
+
+        /**
+         * Creates a plain object from a CertificateData message. Also converts values to other types if specified.
+         * @param message CertificateData
+         * @param [options] Conversion options
+         * @returns Plain object
+         */
+        public static toObject(message: Certificate.CertificateData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+        /**
+         * Converts this CertificateData to JSON.
+         * @returns JSON object
+         */
+        public toJSON(): { [k: string]: any };
+    }
+}
+
+/** Properties of a CertificateContainer. */
+export interface ICertificateContainer {
+
+    /** CertificateContainer entries */
+    entries?: (ICertificate[]|null);
+}
+
+/** Represents a CertificateContainer. */
+export class CertificateContainer implements ICertificateContainer {
+
+    /**
+     * Constructs a new CertificateContainer.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: ICertificateContainer);
+
+    /** CertificateContainer entries. */
+    public entries: ICertificate[];
+
+    /**
+     * Creates a new CertificateContainer instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns CertificateContainer instance
+     */
+    public static create(properties?: ICertificateContainer): CertificateContainer;
+
+    /**
+     * Encodes the specified CertificateContainer message. Does not implicitly {@link CertificateContainer.verify|verify} messages.
+     * @param message CertificateContainer message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: ICertificateContainer, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified CertificateContainer message, length delimited. Does not implicitly {@link CertificateContainer.verify|verify} messages.
+     * @param message CertificateContainer message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: ICertificateContainer, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a CertificateContainer message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns CertificateContainer
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): CertificateContainer;
+
+    /**
+     * Decodes a CertificateContainer message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns CertificateContainer
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): CertificateContainer;
+
+    /**
+     * Verifies a CertificateContainer message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a CertificateContainer message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns CertificateContainer
+     */
+    public static fromObject(object: { [k: string]: any }): CertificateContainer;
+
+    /**
+     * Creates a plain object from a CertificateContainer message. Also converts values to other types if specified.
+     * @param message CertificateContainer
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: CertificateContainer, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this CertificateContainer to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+/** Properties of a Request. */
+export interface IRequest {
+
+    /** Request id */
+    id?: (string|null);
+
+    /** Request status */
+    status?: (Request.Status|null);
+
+    /** Request standard_id */
+    standard_id?: (string|null);
+
+    /** Request factory_id */
+    factory_id?: (string|null);
+
+    /** Request request_date */
+    request_date?: (number|Long|null);
+}
+
+/** Represents a Request. */
+export class Request implements IRequest {
+
+    /**
+     * Constructs a new Request.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IRequest);
+
+    /** Request id. */
+    public id: string;
+
+    /** Request status. */
+    public status: Request.Status;
+
+    /** Request standard_id. */
+    public standard_id: string;
+
+    /** Request factory_id. */
+    public factory_id: string;
+
+    /** Request request_date. */
+    public request_date: (number|Long);
+
+    /**
+     * Creates a new Request instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns Request instance
+     */
+    public static create(properties?: IRequest): Request;
+
+    /**
+     * Encodes the specified Request message. Does not implicitly {@link Request.verify|verify} messages.
+     * @param message Request message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified Request message, length delimited. Does not implicitly {@link Request.verify|verify} messages.
+     * @param message Request message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IRequest, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a Request message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns Request
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Request;
+
+    /**
+     * Decodes a Request message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns Request
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Request;
+
+    /**
+     * Verifies a Request message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a Request message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns Request
+     */
+    public static fromObject(object: { [k: string]: any }): Request;
+
+    /**
+     * Creates a plain object from a Request message. Also converts values to other types if specified.
+     * @param message Request
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: Request, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this Request to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+export namespace Request {
+
+    /** Status enum. */
+    enum Status {
+        UNSET_STATUS = 0,
+        OPEN = 1,
+        IN_PROGRESS = 2,
+        CLOSED = 3,
+        CERTIFIED = 4
+    }
+}
+
+/** Properties of a RequestContainer. */
+export interface IRequestContainer {
+
+    /** RequestContainer entries */
+    entries?: (IRequest[]|null);
+}
+
+/** Represents a RequestContainer. */
+export class RequestContainer implements IRequestContainer {
+
+    /**
+     * Constructs a new RequestContainer.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IRequestContainer);
+
+    /** RequestContainer entries. */
+    public entries: IRequest[];
+
+    /**
+     * Creates a new RequestContainer instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns RequestContainer instance
+     */
+    public static create(properties?: IRequestContainer): RequestContainer;
+
+    /**
+     * Encodes the specified RequestContainer message. Does not implicitly {@link RequestContainer.verify|verify} messages.
+     * @param message RequestContainer message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IRequestContainer, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified RequestContainer message, length delimited. Does not implicitly {@link RequestContainer.verify|verify} messages.
+     * @param message RequestContainer message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IRequestContainer, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes a RequestContainer message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns RequestContainer
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): RequestContainer;
+
+    /**
+     * Decodes a RequestContainer message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns RequestContainer
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): RequestContainer;
+
+    /**
+     * Verifies a RequestContainer message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates a RequestContainer message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns RequestContainer
+     */
+    public static fromObject(object: { [k: string]: any }): RequestContainer;
+
+    /**
+     * Creates a plain object from a RequestContainer message. Also converts values to other types if specified.
+     * @param message RequestContainer
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: RequestContainer, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this RequestContainer to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+/** Properties of an Assertion. */
+export interface IAssertion {
+
+    /** Assertion id */
+    id?: (string|null);
+
+    /** Assertion assertor_pub_key */
+    assertor_pub_key?: (string|null);
+
+    /** Assertion assertion_type */
+    assertion_type?: (Assertion.Type|null);
+
+    /** Assertion object_id */
+    object_id?: (string|null);
+
+    /** Assertion data_id */
+    data_id?: (string|null);
+}
+
+/** Represents an Assertion. */
+export class Assertion implements IAssertion {
+
+    /**
+     * Constructs a new Assertion.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IAssertion);
+
+    /** Assertion id. */
+    public id: string;
+
+    /** Assertion assertor_pub_key. */
+    public assertor_pub_key: string;
+
+    /** Assertion assertion_type. */
+    public assertion_type: Assertion.Type;
+
+    /** Assertion object_id. */
+    public object_id: string;
+
+    /** Assertion data_id. */
+    public data_id: string;
+
+    /**
+     * Creates a new Assertion instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns Assertion instance
+     */
+    public static create(properties?: IAssertion): Assertion;
+
+    /**
+     * Encodes the specified Assertion message. Does not implicitly {@link Assertion.verify|verify} messages.
+     * @param message Assertion message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IAssertion, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified Assertion message, length delimited. Does not implicitly {@link Assertion.verify|verify} messages.
+     * @param message Assertion message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IAssertion, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes an Assertion message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns Assertion
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): Assertion;
+
+    /**
+     * Decodes an Assertion message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns Assertion
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): Assertion;
+
+    /**
+     * Verifies an Assertion message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates an Assertion message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns Assertion
+     */
+    public static fromObject(object: { [k: string]: any }): Assertion;
+
+    /**
+     * Creates a plain object from an Assertion message. Also converts values to other types if specified.
+     * @param message Assertion
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: Assertion, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this Assertion to JSON.
+     * @returns JSON object
+     */
+    public toJSON(): { [k: string]: any };
+}
+
+export namespace Assertion {
+
+    /** Type enum. */
+    enum Type {
+        UNSET_TYPE = 0,
+        FACTORY = 1,
+        CERTIFICATE = 2,
+        STANDARD = 3
+    }
+}
+
+/** Properties of an AssertionContainer. */
+export interface IAssertionContainer {
+
+    /** AssertionContainer entries */
+    entries?: (IAssertion[]|null);
+}
+
+/** Represents an AssertionContainer. */
+export class AssertionContainer implements IAssertionContainer {
+
+    /**
+     * Constructs a new AssertionContainer.
+     * @param [properties] Properties to set
+     */
+    constructor(properties?: IAssertionContainer);
+
+    /** AssertionContainer entries. */
+    public entries: IAssertion[];
+
+    /**
+     * Creates a new AssertionContainer instance using the specified properties.
+     * @param [properties] Properties to set
+     * @returns AssertionContainer instance
+     */
+    public static create(properties?: IAssertionContainer): AssertionContainer;
+
+    /**
+     * Encodes the specified AssertionContainer message. Does not implicitly {@link AssertionContainer.verify|verify} messages.
+     * @param message AssertionContainer message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encode(message: IAssertionContainer, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Encodes the specified AssertionContainer message, length delimited. Does not implicitly {@link AssertionContainer.verify|verify} messages.
+     * @param message AssertionContainer message or plain object to encode
+     * @param [writer] Writer to encode to
+     * @returns Writer
+     */
+    public static encodeDelimited(message: IAssertionContainer, writer?: $protobuf.Writer): $protobuf.Writer;
+
+    /**
+     * Decodes an AssertionContainer message from the specified reader or buffer.
+     * @param reader Reader or buffer to decode from
+     * @param [length] Message length if known beforehand
+     * @returns AssertionContainer
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): AssertionContainer;
+
+    /**
+     * Decodes an AssertionContainer message from the specified reader or buffer, length delimited.
+     * @param reader Reader or buffer to decode from
+     * @returns AssertionContainer
+     * @throws {Error} If the payload is not a reader or valid buffer
+     * @throws {$protobuf.util.ProtocolError} If required fields are missing
+     */
+    public static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): AssertionContainer;
+
+    /**
+     * Verifies an AssertionContainer message.
+     * @param message Plain object to verify
+     * @returns `null` if valid, otherwise the reason why it is not
+     */
+    public static verify(message: { [k: string]: any }): (string|null);
+
+    /**
+     * Creates an AssertionContainer message from a plain object. Also converts values to their respective internal types.
+     * @param object Plain object
+     * @returns AssertionContainer
+     */
+    public static fromObject(object: { [k: string]: any }): AssertionContainer;
+
+    /**
+     * Creates a plain object from an AssertionContainer message. Also converts values to other types if specified.
+     * @param message AssertionContainer
+     * @param [options] Conversion options
+     * @returns Plain object
+     */
+    public static toObject(message: AssertionContainer, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+    /**
+     * Converts this AssertionContainer to JSON.
      * @returns JSON object
      */
     public toJSON(): { [k: string]: any };

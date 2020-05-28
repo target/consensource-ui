@@ -7,7 +7,7 @@
     "build": "yarn generate-protobufs && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "clean": "rm -rf node_modules/ src/services/protobuf/index.js src/types/consensource",
+    "clean": "rm -rf node_modules/ src/services/protobuf/compiledProtos.js src/types/consensource/index.d.ts",
     "generate-protobufs": "./scripts/compile_protobufs.sh",
     "lint": "eslint './**/*.{js,ts,tsx}' --fix",
     "format": "prettier --write './**/*.{ts,tsx,js}'"

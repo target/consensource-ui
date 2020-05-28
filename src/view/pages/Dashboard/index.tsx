@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateAssertionForm from 'view/forms/CreateAssertionForm';
+import CreateAssertionForm from 'view/forms/CreateAssertion';
 import stores from 'stores';
 import {
   createAssertionActionTransaction,
