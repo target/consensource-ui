@@ -1,27 +1,19 @@
 import React from 'react';
 import { FormProps } from 'view/forms';
 import CreateOrganizationForm from 'view/forms/CreateOrganizationForm';
-import { createAssertion } from 'services/protobuf/transactions/assertion';
-import { CreateOrgAction } from 'services/protobuf/transactions/organization';
-import { Organization } from 'services/protobuf';
+import { createAssertionAction } from 'services/protobuf/assertion';
+import { CreateOrgAction } from 'services/protobuf/organization';
+import { Organization } from 'services/protobuf/compiledProtos';
 
-function CreateAssertionForm({ onSubmit, onError }: FormProps) {
-  function onSubmitOrg(org: CreateOrgAction) {
-    try {
-      const assertion = createAssertion({
-        assertion_id: '123',
+function CreateAssertionForm({ onSubmit }: FormProps) {
+  const onSubmitOrg = (org: CreateOrgAction) => {
+    onSubmit(
+      createAssertionAction({
+        assertion_id: '',
         new_factory: { factory: org },
-      });
-
-      if (onSubmit) {
-        onSubmit(assertion);
-      }
-    } catch ({ message }) {
-      if (onError) {
-        onError(message);
-      }
-    }
-  }
+      }),
+    );
+  };
 
   return (
     <CreateOrganizationForm

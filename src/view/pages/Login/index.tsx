@@ -1,15 +1,12 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useLocalStore, observer } from 'mobx-react-lite';
+import LoginForm, { LoginFormState } from 'view/forms/Login';
 import stores from 'stores';
 
 function Login() {
+  const state = useLocalStore(() => ({ errMsg: '' }));
   const history = useHistory();
-  const state = useLocalStore(() => ({
-    username: '',
-    password: '',
-    errMsg: '',
-  }));
 
   useEffect(() => {
     // Redirect a user to the dashboard if they are already logged in
@@ -18,11 +15,11 @@ function Login() {
     }
   }, []);
 
-  const onClick = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const onSubmit = async (loginInfo: LoginFormState) => {
+    const { username, password } = loginInfo;
 
     try {
-      await stores.userStore.authenticateUser(state.username, state.password);
+      await stores.userStore.authenticateUser(username, password);
       history.push('/dashboard');
     } catch ({ message }) {
       state.errMsg = message;
@@ -33,33 +30,7 @@ function Login() {
     <div>
       <h1>Login</h1>
       <h3>{state.errMsg}</h3>
-      <form>
-        <div>
-          <label>username</label>
-          <input
-            value={state.username}
-            onChange={(e) => (state.username = e.target.value)}
-            placeholder="username"
-            type="text"
-            required
-          />
-        </div>
-
-        <div>
-          <label>password</label>
-          <input
-            value={state.password}
-            onChange={(e) => (state.password = e.target.value)}
-            placeholder="password"
-            type="text"
-            required
-          />
-        </div>
-
-        <button type="submit" onClick={onClick}>
-          Login
-        </button>
-      </form>
+      <LoginForm onSubmit={onSubmit} />
     </div>
   );
 }

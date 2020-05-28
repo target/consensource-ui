@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
-import { FormProps } from 'view/forms';
-import { Factory } from 'services/protobuf';
+import { FormProps, hasEmptyFields } from 'view/forms';
+import { createFactoryAddress } from 'services/protobuf/organization';
 
 function createStore() {
   const store: Factory.IAddress = {
@@ -20,30 +20,22 @@ interface CreateContactFormProps extends FormProps {
   onSubmit: (address: Factory.Address) => any;
 }
 
+/**
+ * Form to create a `Factory.Address` proto object
+ */
 function CreateFactoryAddressForm({
   onSubmit,
-  onError,
   onSubmitBtnLabel = 'Create Factory',
 }: CreateContactFormProps) {
   const state = useLocalStore(createStore);
+  const isDisabled = hasEmptyFields(state);
 
   /**
    * Create a user and an agent from the form info
    */
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    try {
-      const factoryAddress = new Factory.Address(state);
-
-      if (onSubmit) {
-        onSubmit(factoryAddress);
-      }
-    } catch ({ message }) {
-      if (onError) {
-        onError(message);
-      }
-    }
+    onSubmit(createFactoryAddress(state));
   };
 
   const setState = <T extends keyof Factory.IAddress>(
@@ -135,7 +127,7 @@ function CreateFactoryAddressForm({
         </div>
       </div>
 
-      <button type="submit" onClick={submit}>
+      <button type="submit" onClick={submit} disabled={isDisabled}>
         {onSubmitBtnLabel}
       </button>
     </form>

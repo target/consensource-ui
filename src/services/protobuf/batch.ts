@@ -1,12 +1,12 @@
 import { Batch, BatchHeader, BatchList } from 'sawtooth-sdk/protobuf';
-import { getTransactionIds } from 'services/protobuf/transactions';
+import { getTransactionIds } from 'services/protobuf/transaction';
 import { getSignerPubKeyHex } from 'services/crypto';
 
 /**
  * Creates a serialized `BatchHeader`, signs the message,
  * and creates a `BatchList` with the header, signature and transactions
  */
-export default function createBatch(
+export function createBatch(
   transactions: sawtooth.protobuf.Transaction[],
   signer: sawtooth.signing.Signer,
 ): Uint8Array {

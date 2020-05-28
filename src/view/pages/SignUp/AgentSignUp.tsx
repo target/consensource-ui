@@ -1,7 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import CreateAgentForm from 'view/forms/CreateAgentForm';
+import CreateAgentActionForm from 'view/forms/CreateAgentForm';
 import { useLocalStore } from 'mobx-react-lite';
+import stores from 'stores';
+import { createAgentTransaction } from 'services/protobuf/agent';
+import BatchService from 'services/batch';
+import { createBatch } from 'services/protobuf/batch';
 
 export default function AgentSignUp() {
   const state = useLocalStore(() => ({ errMsg: '' }));
@@ -10,19 +14,25 @@ export default function AgentSignUp() {
   /**
    * Redirect a user to the dashboard screen if successful
    */
-  function onSubmit() {
-    history.push('/dashboard');
-  }
+  const onSubmit = async (agentAction: CreateAgentAction) => {
+    const { signer } = stores.userStore.user!; // TODO: Fix this non-nullable pattern
 
-  function onError(err: string) {
-    state.errMsg = err;
-  }
+    const txns = new Array(createAgentTransaction(agentAction, signer));
+    const batchListBytes = createBatch(txns, signer);
+
+    try {
+      await BatchService.submitBatch(batchListBytes);
+      history.push('/dashboard');
+    } catch ({ message }) {
+      state.errMsg = message;
+    }
+  };
 
   return (
     <div>
       <h1>Agent Signup</h1>
       <div>{state.errMsg}</div>
-      <CreateAgentForm onSubmit={onSubmit} onError={onError} />
+      <CreateAgentActionForm onSubmit={onSubmit} />
     </div>
   );
 }

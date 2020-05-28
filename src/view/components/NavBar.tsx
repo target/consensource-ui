@@ -31,7 +31,7 @@ function NavBar() {
 
   const { userStore } = stores;
 
-  const onClick = (e: React.MouseEvent) => {
+  const onClick = () => {
     history.push('/dashboard');
   };
 

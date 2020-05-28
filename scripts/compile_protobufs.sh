@@ -2,7 +2,7 @@
 
 echo "Compiling .proto files..."
 
-js_file="./src/services/protobuf/index.js"
+js_file="./src/services/protobuf/compiledProtos.js"
 ts_file="./src/types/consensource/index.d.ts"
 
 ## Generate JS code for protos

@@ -1,72 +1,71 @@
 import React from 'react';
+import { FormProps } from 'view/forms';
 import { useLocalStore, observer } from 'mobx-react-lite';
-import { FormProps, hasEmptyFields } from 'view/forms';
 
-export interface CreateUserFormState {
+export interface LoginFormState {
   username: string;
   password: string;
 }
 
 function createStore() {
-  const store: CreateUserFormState = {
+  const state: LoginFormState = {
     username: '',
     password: '',
   };
 
-  return store;
+  return state;
 }
 
-function CreateUserForm({ onSubmit, onSubmitBtnLabel }: FormProps) {
+function LoginForm({ onSubmit, onSubmitBtnLabel = 'Login' }: FormProps) {
   const state = useLocalStore(createStore);
 
-  /**
-   * Create a user and an agent from the form info
-   */
-  const submit = async (event: React.FormEvent) => {
+  const onClick = async (event: React.FormEvent) => {
     event.preventDefault();
     onSubmit(state);
   };
 
-  const setState = (key: keyof CreateUserFormState, val: string) => {
+  const setState = <T extends keyof LoginFormState>(
+    key: T,
+    val: LoginFormState[T],
+  ) => {
     state[key] = val;
   };
-
-  const isDisabled = hasEmptyFields(state);
 
   return (
     <form>
       <div>
-        <label htmlFor="user-username">
+        <label htmlFor="username">
           username
           <input
             value={state.username}
             onChange={(e) => setState('username', e.target.value)}
-            placeholder="Username"
+            placeholder="username"
             type="text"
-            id="user-username"
-            required
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="user-password">
-          password
-          <input
-            value={state.password}
-            onChange={(e) => setState('password', e.target.value)}
-            placeholder="Password"
-            type="text"
-            id="user-password"
+            id="username"
             required
           />
         </label>
       </div>
 
-      <button type="submit" onClick={submit} disabled={isDisabled}>
-        {onSubmitBtnLabel || 'Create User'}
+      <div>
+        <label htmlFor="password">
+          password
+          <input
+            value={state.password}
+            onChange={(e) => setState('password', e.target.value)}
+            placeholder="password"
+            type="text"
+            id="password"
+            required
+          />
+        </label>
+      </div>
+
+      <button type="submit" onClick={onClick}>
+        {onSubmitBtnLabel || 'Login'}
       </button>
     </form>
   );
 }
 
-export default observer(CreateUserForm);
+export default observer(LoginForm);

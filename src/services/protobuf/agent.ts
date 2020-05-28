@@ -2,14 +2,14 @@ import {
   ConsenSourceNamespaces,
   createStateAddress,
 } from 'services/addressing';
-import { CreateAgentAction } from 'services/protobuf';
+import { CreateAgentAction } from 'services/protobuf/compiledProtos';
 import {
   createTransaction,
   PayloadInfo,
   encodePayload,
   ACTIONS,
   getTxnTimestamp,
-} from 'services/protobuf/transactions';
+} from 'services/protobuf/transaction';
 import { getSignerPubKeyHex } from 'services/crypto';
 
 export function getAgentStateAddress(signer: sawtooth.signing.Signer) {
@@ -19,15 +19,15 @@ export function getAgentStateAddress(signer: sawtooth.signing.Signer) {
   );
 }
 
-export default function createAgentTransaction(
-  { name }: ICreateAgentAction,
+export function createAgentAction(agent: ICreateAgentAction) {
+  const action = { ...agent, timestamp: getTxnTimestamp() };
+  return CreateAgentAction.create(action);
+}
+
+export function createAgentTransaction(
+  create_agent: CreateAgentAction,
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
-  const create_agent = CreateAgentAction.create({
-    name,
-    timestamp: getTxnTimestamp(),
-  });
-
   const payload: ICertificateRegistryPayload = {
     action: ACTIONS.CREATE_AGENT,
     create_agent,

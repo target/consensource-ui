@@ -1,10 +1,11 @@
-import createAgentTransaction, {
+import {
+  createAgentTransaction,
   getAgentStateAddress,
-} from 'services/protobuf/transactions/agent';
+} from 'services/protobuf/agent';
 import { createSigner, createNewPrivateKey } from 'services/crypto';
-import { CertificateRegistryPayload } from 'services/protobuf';
+import { CertificateRegistryPayload } from 'services/protobuf/compiledProtos';
 import { TransactionHeader } from 'sawtooth-sdk/protobuf';
-import { ACTIONS } from 'services/protobuf/transactions';
+import { ACTIONS } from 'services/protobuf/transaction';
 
 describe('Agent Protobuf', () => {
   describe('createAgentTransaction()', () => {

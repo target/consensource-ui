@@ -2,18 +2,14 @@ import {
   ConsenSourceNamespaces,
   createStateAddress,
 } from 'services/addressing';
-import { getAgentStateAddress } from 'services/protobuf/transactions/agent';
-import { CreateOrganizationAction } from 'services/protobuf';
+import { getAgentStateAddress } from 'services/protobuf/agent';
+import { CreateOrganizationAction } from 'services/protobuf/compiledProtos';
 import {
   createTransaction,
   PayloadInfo,
   encodePayload,
   ACTIONS,
-} from 'services/protobuf/transactions';
-
-export function getOrgStateAddress(id: string) {
-  return createStateAddress(ConsenSourceNamespaces.ORGANIZATION, id);
-}
+} from 'services/protobuf/transaction';
 
 /**
  * Interface to define the required properties for an org transaction,
@@ -28,31 +24,33 @@ export interface CreateOrgAction extends ICreateOrganizationAction {
   name: string;
 }
 
-export function createOrg(org: CreateOrgAction) {
+export function getOrgStateAddress(id: string) {
+  return createStateAddress(ConsenSourceNamespaces.ORGANIZATION, id);
+}
+
+export function createOrgAction(org: ICreateOrganizationAction) {
   return CreateOrganizationAction.create(org);
 }
 
-export default function createOrgTransaction(
-  action: CreateOrgAction,
+export function createOrgContact(contact: Organization.IContact) {
+  return Organization.Contact.create(contact);
+}
+
+export function createFactoryAddress(address: Factory.IAddress) {
+  return Factory.Address.create(address);
+}
+
+export function createOrgTransaction(
+  create_organization: CreateOrgAction,
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
-  const { id, organization_type, contacts, address, name } = action;
-
-  const create_organization = CreateOrganizationAction.create({
-    id,
-    organization_type,
-    contacts,
-    address,
-    name,
-  });
-
   const payload: ICertificateRegistryPayload = {
     action: ACTIONS.CREATE_ORGANIZATION,
     create_organization,
   };
   const payloadBytes = encodePayload(payload);
 
-  const orgStateAddress = getOrgStateAddress(id);
+  const orgStateAddress = getOrgStateAddress(create_organization.id);
   const agentStateAddress = getAgentStateAddress(signer);
 
   const payloadInfo: PayloadInfo = {

@@ -1,10 +1,7 @@
 import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
 import { FormProps, hasEmptyFields } from 'view/forms';
-import createAgentTransaction from 'services/protobuf/transactions/agent';
-import createBatch from 'services/protobuf/batch';
-import stores from 'stores';
-import BatchService from 'services/batch';
+import { createAgentAction } from 'services/protobuf/agent';
 
 function createStore() {
   const store: IAgent = {
@@ -14,32 +11,18 @@ function createStore() {
   return store;
 }
 
-function CreateAgentForm({
+/**
+ * Form used to build a `CreateAgentAction` payload object
+ */
+function CreateAgentActionForm({
   onSubmit,
-  onError,
   onSubmitBtnLabel = 'Create Agent',
 }: FormProps) {
   const state = useLocalStore(createStore);
 
-  const onClick = async (event: React.FormEvent) => {
+  const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    const { signer } = stores.userStore.user!; // TODO: Fix this non-nullable pattern
-
-    const txns = new Array(createAgentTransaction(state, signer));
-    const batchListBytes = createBatch(txns, signer);
-
-    try {
-      await BatchService.submitBatch(batchListBytes);
-
-      if (onSubmit) {
-        onSubmit();
-      }
-    } catch ({ message }) {
-      if (onError) {
-        onError(message);
-      }
-    }
+    onSubmit(createAgentAction(state));
   };
 
   const setState = <T extends keyof IAgent>(key: T, val: IAgent[T]) => {
@@ -63,11 +46,11 @@ function CreateAgentForm({
           />
         </label>
       </div>
-      <button type="submit" onClick={onClick} disabled={isDisabled}>
+      <button type="submit" onClick={submit} disabled={isDisabled}>
         {onSubmitBtnLabel}
       </button>
     </form>
   );
 }
 
-export default observer(CreateAgentForm);
+export default observer(CreateAgentActionForm);

@@ -1,15 +1,16 @@
-import { getAgentStateAddress } from 'services/protobuf/transactions/agent';
+import { getAgentStateAddress } from 'services/protobuf/agent';
 import { createSigner, createNewPrivateKey } from 'services/crypto';
 import {
   CertificateRegistryPayload,
   Organization,
   Factory,
-} from 'services/protobuf';
+} from 'services/protobuf/compiledProtos';
 import { TransactionHeader } from 'sawtooth-sdk/protobuf';
-import { ACTIONS } from 'services/protobuf/transactions';
-import createOrgTransaction, {
+import { ACTIONS } from 'services/protobuf/transaction';
+import {
+  createOrgTransaction,
   getOrgStateAddress,
-} from 'services/protobuf/transactions/organization';
+} from 'services/protobuf/organization';
 
 describe('Organization Protobuf', () => {
   describe('createOrgTransaction()', () => {

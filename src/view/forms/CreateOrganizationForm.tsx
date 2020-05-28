@@ -1,16 +1,11 @@
 import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
-import { FormProps } from 'view/forms';
-import createOrgTransaction, {
-  createOrg,
-} from 'services/protobuf/transactions/organization';
-import stores from 'stores';
+import { FormProps, hasEmptyFields } from 'view/forms';
+import { createOrgAction } from 'services/protobuf/organization';
 import CreateContactForm from 'view/forms/CreateContactForm';
 import CreateAddressForm from 'view/forms/CreateFactoryAddressForm';
-import { Organization } from 'services/protobuf';
+import { Organization } from 'services/protobuf/compiledProtos';
 import { hash, HashingAlgorithms } from 'services/utils';
-import createBatch from 'services/protobuf/batch';
-import BatchService from 'services/batch';
 
 function createStore() {
   const org: ICreateOrganizationAction = {
@@ -33,22 +28,25 @@ export interface CreateOrganizationFormProps extends FormProps {
   organization_type: Organization.Type;
 }
 
+/**
+ * Three-part form used to build a `CreateOrganizationAction` payload object
+ * - First form is for the required Org Contact
+ * - Second (optional) form is for Factrory Address (only required if
+ *   organization_type === Organization.Type.FACTORY)
+ * - Third form is for the Org name
+ */
 function CreateOrganizationForm({
   onSubmit,
-  onError,
   onSubmitBtnLabel = 'Create Organization',
   organization_type,
 }: CreateOrganizationFormProps) {
   const state = useLocalStore(createStore);
+  const isDisabled = hasEmptyFields(state);
 
-  function isFactoryOrg() {
-    return organization_type === Organization.Type.FACTORY;
-  }
+  const isFactoryOrg = () => organization_type === Organization.Type.FACTORY;
 
-  async function onClick(event: React.FormEvent) {
+  const onClick = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    // const { signer } = stores.userStore.user!; // TODO: Fix this non-nullable pattern
     const { contacts, address, name } = state.org;
 
     if (!contacts) {
@@ -69,69 +67,30 @@ function CreateOrganizationForm({
       );
     }
 
-    try {
-      const org = createOrg({
+    onSubmit(
+      createOrgAction({
         contacts,
         address,
         name,
         id: makeOrgId(name),
         organization_type,
-      });
+      }),
+    );
+  };
 
-      if (onSubmit) {
-        onSubmit(org);
-      }
-    } catch ({ message }) {
-      if (onError) {
-        onError(message);
-      }
-    }
-
-    // const txns = new Array(
-    //   createOrgTransaction(
-    //     {
-    //       contacts,
-    //       address,
-    //       name,
-    //       id: makeOrgId(name),
-    //       organization_type,
-    //     },
-    //     signer,
-    //   ),
-    // );
-
-    // const batchListBytes = createBatch(txns, signer);
-
-    // try {
-    //   await BatchService.submitBatch(batchListBytes);
-
-    //   if (onSubmit) {
-    //     onSubmit();
-    //   }
-    // } catch ({ message }) {
-    //   if (onError) {
-    //     onError(message);
-    //   }
-    // }
-  }
-
-  function onSubmitContact(contact: Organization.Contact) {
+  const onSubmitContact = (contact: Organization.Contact) => {
     state.org.contacts = new Array(contact);
-  }
+  };
 
-  function onSubmitAddress(address: Factory.Address) {
+  const onSubmitAddress = (address: Factory.Address) => {
     state.org.address = address;
-  }
+  };
 
-  function setOrgName(val: string) {
+  const setOrgName = (val: string) => {
     state.org.name = val;
-  }
+  };
 
-  function onAddressOrContactError(err: string) {
-    state.errMsg = err;
-  }
-
-  function getCurrentFormTitle() {
+  const getCurrentFormTitle = () => {
     const { org } = state;
 
     if (!org.contacts) {
@@ -143,28 +102,20 @@ function CreateOrganizationForm({
     }
 
     return 'Organization Info';
-  }
+  };
 
-  function getCurrentForm() {
+  const getCurrentForm = () => {
     const { org } = state;
 
     if (!org.contacts) {
       return (
-        <CreateContactForm
-          onSubmit={onSubmitContact}
-          onError={onAddressOrContactError}
-          onSubmitBtnLabel="Next"
-        />
+        <CreateContactForm onSubmit={onSubmitContact} onSubmitBtnLabel="Next" />
       );
     }
 
     if (isFactoryOrg() && !org.address) {
       return (
-        <CreateAddressForm
-          onSubmit={onSubmitAddress}
-          onError={onAddressOrContactError}
-          onSubmitBtnLabel="Next"
-        />
+        <CreateAddressForm onSubmit={onSubmitAddress} onSubmitBtnLabel="Next" />
       );
     }
 
@@ -184,12 +135,12 @@ function CreateOrganizationForm({
             />
           </label>
         </div>
-        <button type="submit" onClick={onClick}>
+        <button type="submit" onClick={onClick} disabled={isDisabled}>
           {onSubmitBtnLabel}
         </button>
       </form>
     );
-  }
+  };
 
   return (
     <div>

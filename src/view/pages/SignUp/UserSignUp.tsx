@@ -1,19 +1,24 @@
 import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
-import CreateUserForm from 'view/forms/CreateUserForm';
+import CreateUserForm, { CreateUserFormState } from 'view/forms/CreateUserForm';
+import stores from 'stores';
 
 function UserSignUp() {
   const state = useLocalStore(() => ({ errMsg: '' }));
 
-  function onError(err: string) {
-    state.errMsg = err;
-  }
+  const onSubmit = async ({ username, password }: CreateUserFormState) => {
+    try {
+      await stores.userStore.createUser(username, password);
+    } catch ({ message }) {
+      state.errMsg = message;
+    }
+  };
 
   return (
     <div>
       <h1>User Sign Up</h1>
       <h3>{state.errMsg}</h3>
-      <CreateUserForm onError={onError} />
+      <CreateUserForm onSubmit={onSubmit} />
     </div>
   );
 }

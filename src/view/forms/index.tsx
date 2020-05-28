@@ -7,7 +7,6 @@ export function hasEmptyFields<T>(state: any) {
 }
 
 export interface FormProps {
-  onSubmit?: Function;
-  onError?: Function;
+  onSubmit: Function;
   onSubmitBtnLabel?: string;
 }

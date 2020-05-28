@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
-import { FormProps } from 'view/forms';
-import { Organization } from 'services/protobuf';
+import { FormProps, hasEmptyFields } from 'view/forms';
+import { createOrgContact } from 'services/protobuf/organization';
 
 function createStore() {
   const store: Organization.IContact = {
@@ -17,30 +17,22 @@ interface CreateContactFormProps extends FormProps {
   onSubmit: (contact: Organization.Contact) => any;
 }
 
+/**
+ * Form to create a `Organization.Contact` proto object
+ */
 function CreateContactForm({
   onSubmit,
-  onError,
   onSubmitBtnLabel = 'Create Contact',
 }: CreateContactFormProps) {
   const state = useLocalStore(createStore);
+  const isDisabled = hasEmptyFields(state);
 
   /**
    * Create an organization contact from the form info
    */
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    try {
-      const contact = new Organization.Contact(state);
-
-      if (onSubmit) {
-        onSubmit(contact);
-      }
-    } catch ({ message }) {
-      if (onError) {
-        onError(message);
-      }
-    }
+    onSubmit(createOrgContact(state));
   };
 
   const setState = <T extends keyof Organization.IContact>(
@@ -92,7 +84,7 @@ function CreateContactForm({
         </label>
       </div>
 
-      <button type="submit" onClick={submit}>
+      <button type="submit" onClick={submit} disabled={isDisabled}>
         {onSubmitBtnLabel}
       </button>
     </form>

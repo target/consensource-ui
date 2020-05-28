@@ -2,17 +2,18 @@ import {
   ConsenSourceNamespaces,
   createStateAddress,
 } from 'services/addressing';
-import { AssertAction } from 'services/protobuf';
+import { AssertAction } from 'services/protobuf/compiledProtos';
 import {
   createTransaction,
   PayloadInfo,
   encodePayload,
   ACTIONS,
-} from 'services/protobuf/transactions';
+} from 'services/protobuf/transaction';
 import {
   getOrgStateAddress,
   CreateOrgAction,
-} from 'services//protobuf/transactions/organization';
+} from 'services/protobuf/organization';
+import { getAgentStateAddress } from 'services/protobuf/agent';
 
 export interface CreateAssertionAction extends IAssertAction {
   assertion_id: string;
@@ -25,22 +26,22 @@ export function getAssertionStateAddress(assertion_id: string) {
   return createStateAddress(ConsenSourceNamespaces.ASSERTION, assertion_id);
 }
 
-export function createAssertion(assertion: CreateAssertionAction) {
+export function createAssertionAction(assertion: CreateAssertionAction) {
   return AssertAction.create(assertion);
 }
 
-export function createAssertionTransaction(
+export function createAssertionActionTransaction(
   assert_action: CreateAssertionAction,
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
   const addresses = [];
-  debugger;
   const payload: ICertificateRegistryPayload = {
     action: ACTIONS.ASSERT_ACTION,
     assert_action,
   };
   const payloadBytes = encodePayload(payload);
 
+  addresses.push(getAgentStateAddress(signer));
   addresses.push(getAssertionStateAddress(assert_action.assertion_id));
 
   if (assert_action.new_factory) {
