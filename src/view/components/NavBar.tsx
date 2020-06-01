@@ -1,21 +1,36 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import { observer } from 'mobx-react-lite';
-import stores from 'stores';
 import Typography from '@material-ui/core/Typography';
-import HomeIcon from '@material-ui/icons/Home';
+import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
-import { useHistory } from 'react-router-dom';
+import ProfileMenu from 'view/components/ProfileMenu';
 
-export const NAVBAR_HEIGHT = '7.5vh';
+import { DRAWER_WIDTH } from 'view/components/Sidebar';
+
+export interface NavBarProps {
+  onDrawerClick: Function;
+  isSidebarOpen: boolean;
+}
+
+export const NAVBAR_HEIGHT = '9.75vh';
 
 const useStyles = makeStyles({
   navbar: {
     height: NAVBAR_HEIGHT,
     backgroundColor: 'white',
     color: 'black',
+    transitionProperty: 'width',
+    transitionDuration: '.3s',
+    transitionTimingFunction: 'ease',
+  },
+  navBarShift: {
+    marginLeft: DRAWER_WIDTH,
+    width: `calc(100% - ${DRAWER_WIDTH}px)`,
+    transitionProperty: 'width',
+    transitionDuration: '.3s',
+    transitionTimingFunction: 'ease',
   },
   icon: {
     marginBottom: 10,
@@ -23,35 +38,41 @@ const useStyles = makeStyles({
   username: {
     marginLeft: 'auto',
   },
+  menuButton: {
+    marginRight: 36,
+  },
+  hide: {
+    display: 'none',
+  },
 });
 
-function NavBar() {
+export default function NavBar({ onDrawerClick, isSidebarOpen }: NavBarProps) {
   const classes = useStyles();
-  const history = useHistory();
 
-  const { userStore } = stores;
-
-  const onClick = () => {
-    history.push('/dashboard');
+  const handleDrawerClick = () => {
+    onDrawerClick();
   };
 
   return (
-    <AppBar className={classes.navbar}>
+    <AppBar
+      position="fixed"
+      className={`${classes.navbar} ${isSidebarOpen && classes.navBarShift}`}
+    >
       <Toolbar>
         <IconButton
-          aria-label="home"
+          color="inherit"
+          aria-label="open drawer"
+          onClick={handleDrawerClick}
           edge="start"
-          className={classes.icon}
-          onClick={onClick}
+          className={`${classes.menuButton} ${isSidebarOpen && classes.hide}`}
         >
-          <HomeIcon />
+          <MenuIcon />
         </IconButton>
-        <Typography variant="body1" className={classes.username}>
-          {userStore.isSignedIn && userStore.user!.username}
+        <Typography variant="h6" noWrap>
+          ConsenSource
         </Typography>
+        <ProfileMenu />
       </Toolbar>
     </AppBar>
   );
 }
-
-export default observer(NavBar);
