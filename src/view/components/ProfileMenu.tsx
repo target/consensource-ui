@@ -19,7 +19,6 @@ const useStyles = makeStyles({
 
 export default function ProfileDropdown() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [isOpen, setIsOpen] = useState(false);
 
   const classes = useStyles();
 

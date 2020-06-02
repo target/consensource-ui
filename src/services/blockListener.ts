@@ -4,18 +4,16 @@ import EventSourcePolyfill from 'eventsource';
 
 declare global {
   interface Window {
-    EventSource: typeof EventSourcePolyfill;
+    EventSource: typeof EventSourcePolyfill | typeof EventSource;
   }
 }
 
-if (!window.EventSource) {
-  window.EventSource = EventSourcePolyfill;
-}
+window.EventSource = window.EventSource || EventSourcePolyfill;
 
 const eventEmitter = new EventEmitter();
-const eventSource = new EventSource('/api/block-stream');
+const blockStream = new EventSource('/api/block-stream');
 
-eventSource.addEventListener('block-event', (event: any) => {
+blockStream.addEventListener('block-event', (event: any) => {
   setImmediate(() => {
     try {
       const blockData = JSON.parse(event.data);
