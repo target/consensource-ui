@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from 'view/pages/home';
 import Layout from 'view/pages/layout';
 import PrivateRoute from 'view/components/navigation/privateRoute';
 import SignUp from 'view/pages/signup';
 import Login from 'view/pages/login';
+import BlockListener from 'services/blockListener';
 
 export default function App() {
+  useEffect(() => {
+    new BlockListener();
+  }, []);
+
   return (
     <Router>
       <Switch>

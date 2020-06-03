@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Compiling .proto files..."
 
@@ -18,9 +18,16 @@ npx pbts -o $ts_file $js_file
 
 ## Add types to global namesapce
 ## Add 'declare global {' to beginning of file
-sed -i '' '2 a\ 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  sed -i '' -e '2 a\ 
 declare global {
 ' $ts_file
+else
+  sed -i -e '2 a\
+declare global {
+' $ts_file
+fi
+
 # printf '%s\n%s\n' "declare global {" "$(cat $ts_file)" >$ts_file
 
 ## Add closing '}' to end of file

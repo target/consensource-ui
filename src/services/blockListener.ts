@@ -1,34 +1,53 @@
-/* global setImmediate */
 import { EventEmitter } from 'events';
 import EventSourcePolyfill from 'eventsource';
 
 declare global {
   interface Window {
-    EventSource: typeof EventSourcePolyfill | typeof EventSource;
+    EventSource: typeof EventSource;
   }
 }
 
-window.EventSource = window.EventSource || EventSourcePolyfill;
+export interface Block {
+  block_id: string;
+  block_num: number;
+}
 
-const eventEmitter = new EventEmitter();
-const blockStream = new EventSource('/api/block-stream');
+export default class BlockListener {
+  blockStream: EventSource | EventSourcePolyfill;
 
-blockStream.addEventListener('block-event', (event: any) => {
-  setImmediate(() => {
+  eventEmitter: EventEmitter;
+
+  BLOCK_EVENT = 'block-event';
+
+  constructor() {
+    this.eventEmitter = new EventEmitter();
+
+    if (window.EventSource) {
+      this.blockStream = new EventSource('/api/block-stream');
+    } else {
+      this.blockStream = new EventSourcePolyfill('/api/block-stream');
+    }
+
+    this.blockStream.addEventListener(
+      this.BLOCK_EVENT,
+      this.onBlockEvent.bind(this),
+    );
+  }
+
+  onBlockEvent(event: any) {
     try {
-      const blockData = JSON.parse(event.data);
-      console.log(blockData);
-      eventEmitter.emit('block-event', blockData);
+      const blockData: Block = JSON.parse(event.data);
+      this.eventEmitter.emit(this.BLOCK_EVENT, blockData);
     } catch (e) {
       console.error(e);
     }
-  });
-});
+  }
 
-export const addBlockUpdateListener = (f: VoidFunction): void => {
-  eventEmitter.on('block-event', f);
-};
+  addBlockUpdateListener(f: VoidFunction) {
+    this.eventEmitter.on(this.BLOCK_EVENT, f);
+  }
 
-export const removeBlockUpdateListener = (f: VoidFunction): void => {
-  eventEmitter.removeListener('block-event', f);
-};
+  removeBlockUpdateListener(f: VoidFunction) {
+    this.eventEmitter.removeListener(this.BLOCK_EVENT, f);
+  }
+}

@@ -5,7 +5,8 @@ WORKDIR /ui
 COPY . .
 
 RUN npm install yarn && \
-    yarn && \
+    rm package-lock.json && \
+    yarn && \ 
     yarn build
 
 FROM httpd:2.4-alpine
