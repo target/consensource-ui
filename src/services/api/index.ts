@@ -1,4 +1,17 @@
-export function createReqWithParam(path: string, params?: BaseReqParams) {
+/**
+ * Formats a URL path string with the key/val pairs from params.
+ *
+ * Example:
+ *
+ * ```ts
+ * // returns => '/test?key1=val1&key2=val2'
+ * createReqWithParam('/test', {'key1': 'val1', 'key2': 'val2'})
+ *
+ * // returns => '/test'
+ * createReqWithParam('/test')
+ * ```
+ */
+export function createReqWithParam(path: string, params?: Record<string, any>) {
   if (!params) {
     return path;
   }
@@ -13,13 +26,6 @@ export function createReqWithParam(path: string, params?: BaseReqParams) {
   return pathWithoutTrailingSymbol;
 }
 
-export interface BaseReqParams {
-  expand?: boolean;
-  limit?: number;
-  offset?: number;
-  head?: number;
-}
-
 export interface Paging {
   first: string;
   last: string;
@@ -30,6 +36,10 @@ export interface Paging {
   total: number;
 }
 
+/**
+ * Base response object that most of the API
+ * endpoints adhere to.
+ */
 export interface ApiRes<T = {}> {
   data?: Array<T>;
   link?: string;

@@ -1,17 +1,5 @@
 import axios from 'axios';
-import {
-  ApiRes,
-  createReqWithParam,
-  BaseReqParams,
-  Paging,
-} from 'services/api';
-
-export interface AgentRes extends ApiRes<AgentResData> {
-  link: string;
-  head: number;
-  paging: Paging;
-  data: AgentResData[];
-}
+import { ApiRes, createReqWithParam } from 'services/api';
 
 export interface AgentResData {
   public_key: string;
@@ -24,7 +12,15 @@ export interface AgentResData {
   };
 }
 
-export async function fetchAgents(params?: BaseReqParams): Promise<AgentRes> {
+export interface AgentReqParams {
+  limit?: number;
+  offset?: number;
+  head?: number;
+}
+
+export async function fetchAgents(
+  params?: AgentReqParams,
+): Promise<ApiRes<AgentResData>> {
   const path = createReqWithParam('/api/agents', params);
 
   const res = await axios.get(path).catch(({ message }: Error) => {
@@ -36,8 +32,8 @@ export async function fetchAgents(params?: BaseReqParams): Promise<AgentRes> {
 
 export async function fetchAgentByPubKey(
   publicKey: string,
-  params?: BaseReqParams,
-): Promise<AgentRes> {
+  params?: AgentReqParams,
+): Promise<ApiRes<AgentResData>> {
   const path = createReqWithParam(`/api/agents/${publicKey}`, params);
 
   const res = await axios.get(path).catch(({ message }: Error) => {

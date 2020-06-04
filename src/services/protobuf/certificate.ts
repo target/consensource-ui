@@ -70,7 +70,7 @@ export function getOutputAddresses({ request_id, id }: IssueCertificateAction) {
   return [certRequest, cert];
 }
 
-export function issueCertificate(
+export function createIssueCertTransaction(
   issue_certificate: IssueCertificateAction,
   cert_body_id: string,
   signer: sawtooth.signing.Signer,
@@ -82,18 +82,10 @@ export function issueCertificate(
 
   const payloadBytes = encodePayload(payload);
 
-  const inputAddresses = getInputAddresses(
-    issue_certificate,
-    cert_body_id,
-    signer,
-  );
-  const outputAddresses = getOutputAddresses(issue_certificate);
+  const inputs = getInputAddresses(issue_certificate, cert_body_id, signer);
+  const outputs = getOutputAddresses(issue_certificate);
 
-  const payloadInfo: PayloadInfo = {
-    payloadBytes,
-    inputs: inputAddresses,
-    outputs: outputAddresses,
-  };
+  const payloadInfo: PayloadInfo = { payloadBytes, inputs, outputs };
 
   return createTransaction(payloadInfo, signer);
 }

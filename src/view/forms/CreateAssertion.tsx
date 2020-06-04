@@ -8,7 +8,7 @@ function CreateAssertionForm({ onSubmit }: FormProps) {
   const onSubmitOrg = (org: CreateOrganizationAction) => {
     onSubmit(
       createAssertionAction({
-        assertion_id: '',
+        assertion_id: '', // TODO
         new_factory: { factory: org },
       }),
     );

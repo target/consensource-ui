@@ -1,17 +1,5 @@
 import axios from 'axios';
-import {
-  ApiRes,
-  createReqWithParam,
-  BaseReqParams,
-  Paging,
-} from 'services/api';
-
-export interface CertRes extends ApiRes<CertResData> {
-  link: string;
-  head: number;
-  paging: Paging;
-  data: CertResData[];
-}
+import { ApiRes, createReqWithParam } from 'services/api';
 
 export interface CertResData {
   id: string;
@@ -26,14 +14,17 @@ export interface CertResData {
   valid_to: number;
 }
 
-export interface CertReqParam extends BaseReqParams {
+export interface CertReqParam {
   certifying_body_id?: string;
   factory_id?: string;
+  limit?: number;
+  offset?: number;
+  head?: number;
 }
 
 export async function loadCertificates(
   params?: CertReqParam,
-): Promise<CertRes> {
+): Promise<ApiRes<CertResData>> {
   const path = createReqWithParam('/api/certificates', params);
 
   const res = await axios.get(path).catch(({ message }: Error) => {
