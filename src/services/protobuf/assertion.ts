@@ -1,6 +1,7 @@
 import {
   ConsenSourceNamespaces,
   createStateAddress,
+  getAgentStateAddress,
 } from 'services/addressing';
 import { AssertAction } from 'services/protobuf/compiledProtos';
 import {
@@ -9,16 +10,12 @@ import {
   encodePayload,
   ACTIONS,
 } from 'services/protobuf/transaction';
-import {
-  getOrgStateAddress,
-  CreateOrgAction,
-} from 'services/protobuf/organization';
-import { getAgentStateAddress } from 'services/protobuf/agent';
+import { CreateOrgActionStrict } from 'services/protobuf/organization';
 
 export interface CreateAssertionAction extends IAssertAction {
   assertion_id: string;
   new_factory?: {
-    factory: CreateOrgAction;
+    factory: CreateOrgActionStrict;
   };
 }
 
@@ -44,8 +41,15 @@ export function createAssertionActionTransaction(
   addresses.push(getAgentStateAddress(signer));
   addresses.push(getAssertionStateAddress(assert_action.assertion_id));
 
-  if (assert_action.new_factory) {
-    addresses.push(getOrgStateAddress(assert_action.new_factory.factory.id));
+  const { new_factory } = assert_action;
+
+  if (new_factory) {
+    const orgStateAddress = createStateAddress(
+      ConsenSourceNamespaces.ORGANIZATION,
+      new_factory.factory.id,
+    );
+
+    addresses.push(orgStateAddress);
   }
 
   const payloadInfo: PayloadInfo = {

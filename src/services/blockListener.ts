@@ -12,6 +12,8 @@ export interface Block {
   block_num: number;
 }
 
+// TODO: Convert this into a store so that we can perform
+// automatic DOM updates on block events
 export default class BlockListener {
   blockStream: EventSource | EventSourcePolyfill;
 

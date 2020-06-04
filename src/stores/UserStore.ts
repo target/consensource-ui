@@ -19,6 +19,7 @@ export interface UserInfo {
   signer: sawtooth.signing.Signer;
 }
 
+// TODO: Add the org_id of a user here
 export class User {
   userStore: UserStore;
 
@@ -27,6 +28,8 @@ export class User {
   @observable password: string;
 
   @observable signer: sawtooth.signing.Signer;
+
+  // @observable org_id: string;
 
   constructor(userStore: UserStore, user: UserInfo) {
     this.userStore = userStore;

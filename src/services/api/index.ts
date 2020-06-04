@@ -1,4 +1,4 @@
-export function createReqWithParam(path: string, params?: ApiReqParams) {
+export function createReqWithParam(path: string, params?: BaseReqParams) {
   if (!params) {
     return path;
   }
@@ -13,7 +13,7 @@ export function createReqWithParam(path: string, params?: ApiReqParams) {
   return pathWithoutTrailingSymbol;
 }
 
-export interface ApiReqParams {
+export interface BaseReqParams {
   expand?: boolean;
   limit?: number;
   offset?: number;

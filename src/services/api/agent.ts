@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { ApiRes, createReqWithParam, ApiReqParams, Paging } from 'services/api';
+import {
+  ApiRes,
+  createReqWithParam,
+  BaseReqParams,
+  Paging,
+} from 'services/api';
 
 export interface AgentRes extends ApiRes<AgentResData> {
   link: string;
@@ -19,7 +24,7 @@ export interface AgentResData {
   };
 }
 
-export async function fetchAgents(params?: ApiReqParams): Promise<AgentRes> {
+export async function fetchAgents(params?: BaseReqParams): Promise<AgentRes> {
   const path = createReqWithParam('/api/agents', params);
 
   const res = await axios.get(path).catch(({ message }: Error) => {
@@ -31,7 +36,7 @@ export async function fetchAgents(params?: ApiReqParams): Promise<AgentRes> {
 
 export async function fetchAgentByPubKey(
   publicKey: string,
-  params?: ApiReqParams,
+  params?: BaseReqParams,
 ): Promise<AgentRes> {
   const path = createReqWithParam(`/api/agents/${publicKey}`, params);
 

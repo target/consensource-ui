@@ -1,7 +1,3 @@
-import {
-  ConsenSourceNamespaces,
-  createStateAddress,
-} from 'services/addressing';
 import { CreateAgentAction } from 'services/protobuf/compiledProtos';
 import {
   createTransaction,
@@ -10,14 +6,7 @@ import {
   ACTIONS,
   getTxnTimestamp,
 } from 'services/protobuf/transaction';
-import { getSignerPubKeyHex } from 'services/crypto';
-
-export function getAgentStateAddress(signer: sawtooth.signing.Signer) {
-  return createStateAddress(
-    ConsenSourceNamespaces.AGENT,
-    getSignerPubKeyHex(signer),
-  );
-}
+import { getAgentStateAddress } from 'services/addressing';
 
 export function createAgentAction(agent: ICreateAgentAction) {
   const action = { ...agent, timestamp: getTxnTimestamp() };
@@ -34,12 +23,12 @@ export function createAgentTransaction(
   };
 
   const payloadBytes = encodePayload(payload);
-  const stateAddress = getAgentStateAddress(signer);
+  const agentStateAddress = getAgentStateAddress(signer);
 
   const payloadInfo: PayloadInfo = {
     payloadBytes,
-    inputs: [stateAddress],
-    outputs: [stateAddress],
+    inputs: [agentStateAddress],
+    outputs: [agentStateAddress],
   };
 
   return createTransaction(payloadInfo, signer);

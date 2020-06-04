@@ -1,4 +1,5 @@
 import { hash, HashingAlgorithms } from 'services/utils';
+import { getSignerPubKeyHex } from 'services/crypto';
 
 export const FAMILY_NAMESPACE_LEN = 6;
 export const ADDRESS_PREFIX_LEN = 10;
@@ -34,4 +35,14 @@ export function createStateAddress(
   );
 
   return prefix + hashedData;
+}
+
+/**
+ * Helper function to get the agent address from the public key of a signer.
+ */
+export function getAgentStateAddress(signer: sawtooth.signing.Signer) {
+  return createStateAddress(
+    ConsenSourceNamespaces.AGENT,
+    getSignerPubKeyHex(signer),
+  );
 }
