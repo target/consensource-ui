@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
 import { FormProps, hasEmptyFields } from 'view/forms';
 import { createOrgContact } from 'services/protobuf/organization';
+import { Organization } from 'services/protobuf/compiled';
 
 function createStore() {
   const store: Organization.IContact = {

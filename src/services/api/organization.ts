@@ -1,15 +1,6 @@
 import axios from 'axios';
-import { ApiRes, createReqWithParam } from 'services/api';
-import { CertResData } from './certificate';
-
-export interface OrgResAddressData {
-  street_line_1: string;
-  street_line_2?: string;
-  city: string;
-  state_province?: string;
-  country: string;
-  postal_code?: string;
-}
+import { ApiRes } from 'services/api/utils';
+import { Organization } from 'services/protobuf/compiled';
 
 export interface OrgResContactData {
   name: string;
@@ -19,7 +10,7 @@ export interface OrgResContactData {
 
 export interface OrgResAuthData {
   public_key: string;
-  role: any; // RoleEnum
+  role: any; // TODO: RoleEnum
 }
 
 export interface OrgResData {
@@ -27,8 +18,6 @@ export interface OrgResData {
   name: string;
   contacts: Array<OrgResContactData>;
   authorizations: Array<OrgResAuthData>;
-  address?: OrgResAddressData; // `address` only exists on FACTORY org types
-  certificates?: Array<CertResData>; // `certificates` only exists on FACTORY org types
   organization_type: Organization.Type;
 }
 
@@ -43,9 +32,9 @@ export interface OrgReqParams {
 export async function fetchOrganizations(
   params?: OrgReqParams,
 ): Promise<ApiRes<OrgResData>> {
-  const path = createReqWithParam('/api/organizations', params);
+  const path = '/api/organizations';
 
-  const res = await axios.get(path).catch(({ message }: Error) => {
+  const res = await axios.get(path, { params }).catch(({ message }: Error) => {
     throw new Error(`Failed to GET ${path}: ${message}`);
   });
 
@@ -56,9 +45,9 @@ export async function fetchOrganizationById(
   orgId: string,
   params?: OrgReqParams,
 ): Promise<ApiRes<OrgResData>> {
-  const path = createReqWithParam(`/api/organizations/${orgId}`, params);
+  const path = `/api/organizations/${orgId}`;
 
-  const res = await axios.get(path).catch(({ message }: Error) => {
+  const res = await axios.get(path, { params }).catch(({ message }: Error) => {
     throw new Error(`Failed to GET ${path}: ${message}`);
   });
 

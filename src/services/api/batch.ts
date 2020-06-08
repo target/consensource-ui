@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ApiRes } from 'services/api';
+import { ApiRes } from 'services/api/utils';
 
 export const BATCH_STATUS_WAIT = 60;
 

@@ -8,7 +8,7 @@ import {
   CertificateRegistryPayload,
   Organization,
   Factory,
-} from 'services/protobuf/compiledProtos';
+} from 'services/protobuf/compiled';
 import { TransactionHeader } from 'sawtooth-sdk/protobuf';
 import { ACTIONS } from 'services/protobuf/transaction';
 import { createOrgTransaction } from 'services/protobuf/organization';

@@ -3,7 +3,11 @@ import {
   createStateAddress,
   getAgentStateAddress,
 } from 'services/addressing';
-import { AssertAction } from 'services/protobuf/compiledProtos';
+import {
+  AssertAction,
+  ICertificateRegistryPayload,
+  IAssertAction,
+} from 'services/protobuf/compiled';
 import {
   createTransaction,
   PayloadInfo,
@@ -12,23 +16,29 @@ import {
 } from 'services/protobuf/transaction';
 import { CreateOrgActionStrict } from 'services/protobuf/organization';
 
-export interface CreateAssertionAction extends IAssertAction {
+export interface IAssertActionStrict extends IAssertAction {
   assertion_id: string;
   new_factory?: {
     factory: CreateOrgActionStrict;
   };
 }
 
+/**
+ * Enforce that an `AssertAction` has the minimum
+ * required fields defined in `IAssertActionStrict`
+ */
+export type AssertActionStrict = IAssertActionStrict & AssertAction;
+
 export function getAssertionStateAddress(assertion_id: string) {
   return createStateAddress(ConsenSourceNamespaces.ASSERTION, assertion_id);
 }
 
-export function createAssertionAction(assertion: CreateAssertionAction) {
+export function createAssertionAction(assertion: IAssertActionStrict) {
   return AssertAction.create(assertion);
 }
 
 export function createAssertionActionTransaction(
-  assert_action: CreateAssertionAction,
+  assert_action: AssertActionStrict,
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
   const addresses = [];

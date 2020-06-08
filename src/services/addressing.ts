@@ -15,6 +15,10 @@ export const FAMILY_NAMESPACE = hash(
 // Buffer between family namespace prefix and transaction namespace prefix
 export const RESERVED_NAMESPACE = '00';
 
+/**
+ * Address prefixes for the object types in ConsenSource
+ * https://target.github.io/consensource-docs/docs/developer/txn-processor/#addressing
+ */
 export enum ConsenSourceNamespaces {
   AGENT = '00',
   CERTIFICATE = '01',
@@ -24,6 +28,10 @@ export enum ConsenSourceNamespaces {
   ASSERTION = '05',
 }
 
+/**
+ * Construct a 70 char address generated from the transaction data
+ * https://target.github.io/consensource-docs/docs/developer/txn-processor/#addressing
+ */
 export function createStateAddress(
   TXN_NAMESPACE: ConsenSourceNamespaces,
   data: string,

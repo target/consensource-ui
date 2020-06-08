@@ -3,7 +3,11 @@ import {
   createStateAddress,
   getAgentStateAddress,
 } from 'services/addressing';
-import { IssueCertificateAction } from 'services/protobuf/compiledProtos';
+import {
+  IssueCertificateAction,
+  ICertificateRegistryPayload,
+  IIssueCertificateAction,
+} from 'services/protobuf/compiled';
 import {
   createTransaction,
   PayloadInfo,
@@ -15,7 +19,7 @@ import {
  * Interface to define the minimum required properties for an `IIssueCertificateAction`,
  * since protobuf defaults to all fields as optional.
  */
-export interface IssueCertActionStrict extends IIssueCertificateAction {
+export interface IIssueCertActionStrict extends IIssueCertificateAction {
   request_id: NonNullable<IIssueCertificateAction['request_id']>;
   id: NonNullable<IIssueCertificateAction['id']>;
   valid_from: NonNullable<IIssueCertificateAction['valid_from']>;
@@ -28,12 +32,32 @@ export interface IssueCertActionStrict extends IIssueCertificateAction {
   factory_id: NonNullable<IIssueCertificateAction['factory_id']>;
 }
 
-export function createIssueCertAction(issuance: IssueCertActionStrict) {
+/**
+ * Enforce that an `IssueCertificateAction` has the minimum
+ * required fields defined in `IIssueCertActionStrict`
+ */
+export type IssueCertActionStrict = IIssueCertActionStrict &
+  IssueCertificateAction;
+
+/**
+ * Create a `IssueCertificateAction` that can be included
+ * in a `CertificateRegistryPayload` transaction.
+ */
+export function createIssueCertAction(issuance: IIssueCertActionStrict) {
   return IssueCertificateAction.create(issuance);
 }
 
-export function getInputAddresses(
-  { request_id, id, factory_id }: IssueCertificateAction,
+/**
+ * List of required input addresses for state objects
+ * that are looked up during transaction validation:
+ *   - The factory that is being granted the certificate
+ *   - The agent that is issuing the certificate
+ *   - The certificate request made by the factory
+ *   - The certifying body that is granting the certificate
+ *   - The certificate that is being created
+ */
+function getInputAddresses(
+  { request_id, id, factory_id }: IssueCertActionStrict,
   cert_body_id: string,
   signer: sawtooth.signing.Signer,
 ) {
@@ -59,7 +83,13 @@ export function getInputAddresses(
   return [factory, agent, certRequest, certBody, cert];
 }
 
-export function getOutputAddresses({ request_id, id }: IssueCertificateAction) {
+/**
+ * List of required output addresses for state obejcts
+ * that are written to upon a successful transaction validation:
+ *   - The certificate request (marked as complete)
+ *   - The certificate (created)
+ */
+function getOutputAddresses({ request_id, id }: IssueCertificateAction) {
   const certRequest = createStateAddress(
     ConsenSourceNamespaces.CERTIFICATE_REQUEST,
     request_id,
@@ -70,8 +100,12 @@ export function getOutputAddresses({ request_id, id }: IssueCertificateAction) {
   return [certRequest, cert];
 }
 
+/**
+ * Creates a `CertificateRegistryPayload` transaction
+ * containing a single `IssueCertificateAction` payload.
+ */
 export function createIssueCertTransaction(
-  issue_certificate: IssueCertificateAction,
+  issue_certificate: IssueCertActionStrict,
   cert_body_id: string,
   signer: sawtooth.signing.Signer,
 ) {

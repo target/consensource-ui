@@ -26,6 +26,7 @@ module.exports = {
     '@typescript-eslint/camelcase': 'off', // Needed for protos
     '@typescript-eslint/explicit-function-return-type': 'off', // Ignore for use with function components,
     '@typescript-eslint/indent': 'off',
+    '@typescript-eslint/interface-name-prefix': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'react/jsx-indent': 'off',
     'max-classes-per-file': 'off',

@@ -5,7 +5,7 @@ import {
   getTransactionIds,
   createTransaction,
 } from 'services/protobuf/transaction';
-import { CertificateRegistryPayload } from 'services/protobuf/compiledProtos';
+import { CertificateRegistryPayload } from 'services/protobuf/compiled';
 import { Transaction, TransactionHeader } from 'sawtooth-sdk/protobuf';
 import { FAMILY_NAME, FAMILY_VERSION } from 'services/addressing';
 import {

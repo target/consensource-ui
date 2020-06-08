@@ -6,6 +6,7 @@ import stores from 'stores';
 import { createAgentTransaction } from 'services/protobuf/agent';
 import BatchService from 'services/batch';
 import { createBatch } from 'services/protobuf/batch';
+import { CreateAgentAction } from 'services/protobuf/compiled';
 
 export default function AgentSignUp() {
   const state = useLocalStore(() => ({ errMsg: '' }));

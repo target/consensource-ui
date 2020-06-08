@@ -1,6 +1,9 @@
 import { hash, HashingAlgorithms } from 'services/utils';
 import { Transaction, TransactionHeader } from 'sawtooth-sdk/protobuf';
-import { CertificateRegistryPayload } from 'services/protobuf/compiledProtos';
+import {
+  CertificateRegistryPayload,
+  ICertificateRegistryPayload,
+} from 'services/protobuf/compiled';
 import {
   FAMILY_NAME as familyName,
   FAMILY_VERSION as familyVersion,

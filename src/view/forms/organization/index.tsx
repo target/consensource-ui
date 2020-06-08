@@ -1,17 +1,22 @@
 import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
 import { FormProps, hasEmptyFields } from 'view/forms';
-import { createOrgAction } from 'services/protobuf/organization';
+import {
+  createOrgAction,
+  ICreateOrgActionStrict,
+} from 'services/protobuf/organization';
 import CreateContactForm from 'view/forms/organization/CreateContact';
 import CreateAddressForm from 'view/forms/organization/CreateFactoryAddress';
-import { Organization } from 'services/protobuf/compiledProtos';
+import { Organization, Factory } from 'services/protobuf/compiled';
 import { hash, HashingAlgorithms } from 'services/utils';
 
 function createStore() {
-  const org: ICreateOrganizationAction = {
-    contacts: null,
+  const org: ICreateOrgActionStrict = {
+    contacts: [] as Organization.IContact[],
     address: null,
-    name: null,
+    name: '',
+    id: '',
+    organization_type: Organization.Type.UNSET_TYPE,
   };
 
   return {
@@ -48,24 +53,6 @@ function CreateOrganizationForm({
   const onClick = async (event: React.FormEvent) => {
     event.preventDefault();
     const { contacts, address, name } = state.org;
-
-    if (!contacts) {
-      throw new Error(
-        `A contact is required to create a ${organization_type} transaction`,
-      );
-    }
-
-    if (isFactoryOrg() && !address) {
-      throw new Error(
-        `An address is required to create a ${organization_type} transaction`,
-      );
-    }
-
-    if (!name) {
-      throw new Error(
-        `An organization name is required to create a ${organization_type} transaction`,
-      );
-    }
 
     onSubmit(
       createOrgAction({

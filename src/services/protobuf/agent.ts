@@ -1,4 +1,8 @@
-import { CreateAgentAction } from 'services/protobuf/compiledProtos';
+import {
+  CreateAgentAction,
+  ICreateAgentAction,
+  ICertificateRegistryPayload,
+} from 'services/protobuf/compiled';
 import {
   createTransaction,
   PayloadInfo,
@@ -8,13 +12,36 @@ import {
 } from 'services/protobuf/transaction';
 import { getAgentStateAddress } from 'services/addressing';
 
-export function createAgentAction(agent: ICreateAgentAction) {
+/**
+ * Interface to define the minimum required properties for an `ICreateAgentAction`,
+ * since protobuf defaults to all fields as optional.
+ */
+export interface ICreateAgentActionStrict extends ICreateAgentAction {
+  name: NonNullable<ICreateAgentAction['name']>;
+}
+
+/**
+ * Enforce that an `CreateAgentAction` has the minimum
+ * required fields defined in `ICreateAgentActionStrict`
+ */
+export type CreateAgentActionStrict = ICreateAgentActionStrict &
+  CreateAgentAction;
+
+/**
+ * Create a `CreateAgentAction` that can be included
+ * in a `CertificateRegistryPayload` transaction.
+ */
+export function createAgentAction(agent: ICreateAgentActionStrict) {
   const action = { ...agent, timestamp: getTxnTimestamp() };
   return CreateAgentAction.create(action);
 }
 
+/**
+ * Creates a `CertificateRegistryPayload` transaction
+ * containing a single `CreateAgentAction` payload.
+ */
 export function createAgentTransaction(
-  create_agent: CreateAgentAction,
+  create_agent: CreateAgentActionStrict,
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
   const payload: ICertificateRegistryPayload = {

@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { ApiRes, createReqWithParam } from 'services/api';
+import { ApiRes } from 'services/api/utils';
+import { Organization } from 'services/protobuf/compiled';
 
 export interface AgentResData {
   public_key: string;
@@ -21,9 +22,9 @@ export interface AgentReqParams {
 export async function fetchAgents(
   params?: AgentReqParams,
 ): Promise<ApiRes<AgentResData>> {
-  const path = createReqWithParam('/api/agents', params);
+  const path = '/api/agents';
 
-  const res = await axios.get(path).catch(({ message }: Error) => {
+  const res = await axios.get(path, { params }).catch(({ message }: Error) => {
     throw new Error(`Failed to GET ${path}: ${message}`);
   });
 
@@ -34,9 +35,9 @@ export async function fetchAgentByPubKey(
   publicKey: string,
   params?: AgentReqParams,
 ): Promise<ApiRes<AgentResData>> {
-  const path = createReqWithParam(`/api/agents/${publicKey}`, params);
+  const path = `/api/agents/${publicKey}`;
 
-  const res = await axios.get(path).catch(({ message }: Error) => {
+  const res = await axios.get(path, { params }).catch(({ message }: Error) => {
     throw new Error(`Failed to GET ${path}: ${message}`);
   });
 

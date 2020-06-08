@@ -1,4 +1,4 @@
-import BatchService, { BATCH_STATUS } from 'services/batch';
+import BatchService from 'services/batch';
 import * as BatchApi from 'services/api/batch';
 import { Batch, BatchList, Transaction } from 'sawtooth-sdk/protobuf';
 import stores from 'stores';

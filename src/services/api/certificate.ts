@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ApiRes, createReqWithParam } from 'services/api';
+import { ApiRes } from 'services/api/utils';
 
 export interface CertResData {
   id: string;
@@ -25,9 +25,9 @@ export interface CertReqParam {
 export async function loadCertificates(
   params?: CertReqParam,
 ): Promise<ApiRes<CertResData>> {
-  const path = createReqWithParam('/api/certificates', params);
+  const path = '/api/certificates';
 
-  const res = await axios.get(path).catch(({ message }: Error) => {
+  const res = await axios.get(path, { params }).catch(({ message }: Error) => {
     throw new Error(`Failed to GET ${path}: ${message}`);
   });
 

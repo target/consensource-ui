@@ -2,7 +2,10 @@ import React from 'react';
 import { FormProps } from 'view/forms';
 import CreateOrganizationForm from 'view/forms/organization';
 import { createAssertionAction } from 'services/protobuf/assertion';
-import { Organization } from 'services/protobuf/compiledProtos';
+import {
+  Organization,
+  CreateOrganizationAction,
+} from 'services/protobuf/compiled';
 
 function CreateAssertionForm({ onSubmit }: FormProps) {
   const onSubmitOrg = (org: CreateOrganizationAction) => {

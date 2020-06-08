@@ -3,7 +3,7 @@ import {
   getAgentStateAddress,
 } from 'services/protobuf/agent';
 import { createSigner, createNewPrivateKey } from 'services/crypto';
-import { CertificateRegistryPayload } from 'services/protobuf/compiledProtos';
+import { CertificateRegistryPayload } from 'services/protobuf/compiled';
 import { TransactionHeader } from 'sawtooth-sdk/protobuf';
 import { ACTIONS } from 'services/protobuf/transaction';
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
 import { FormProps, hasEmptyFields } from 'view/forms';
 import { createFactoryAddress } from 'services/protobuf/organization';
+import { Factory } from 'services/protobuf/compiled';
 
 function createStore() {
   const store: Factory.IAddress = {

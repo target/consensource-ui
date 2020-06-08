@@ -1,10 +1,13 @@
 import React from 'react';
 import { useLocalStore, observer } from 'mobx-react-lite';
 import { FormProps, hasEmptyFields } from 'view/forms';
-import { createAgentAction } from 'services/protobuf/agent';
+import {
+  createAgentAction,
+  ICreateAgentActionStrict,
+} from 'services/protobuf/agent';
 
 function createStore() {
-  const store: ICreateAgentAction = {
+  const store: ICreateAgentActionStrict = {
     name: '',
   };
 
@@ -25,9 +28,9 @@ function CreateAgentActionForm({
     onSubmit(createAgentAction(state));
   };
 
-  const setState = <T extends keyof ICreateAgentAction>(
+  const setState = <T extends keyof ICreateAgentActionStrict>(
     key: T,
-    val: ICreateAgentAction[T],
+    val: ICreateAgentActionStrict[T],
   ) => {
     state[key] = val;
   };
