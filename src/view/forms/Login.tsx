@@ -1,34 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormProps } from 'view/forms';
-import { useLocalStore, observer } from 'mobx-react-lite';
 
 export interface LoginFormState {
   username: string;
   password: string;
 }
 
-function createStore() {
-  const state: LoginFormState = {
+export default function LoginForm({
+  onSubmit,
+  onSubmitBtnLabel = 'Login',
+}: FormProps) {
+  const [login, setLogin] = useState<LoginFormState>({
     username: '',
     password: '',
-  };
-
-  return state;
-}
-
-function LoginForm({ onSubmit, onSubmitBtnLabel = 'Login' }: FormProps) {
-  const state = useLocalStore(createStore);
+  });
 
   const onClick = async (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit(state);
-  };
-
-  const setState = <T extends keyof LoginFormState>(
-    key: T,
-    val: LoginFormState[T],
-  ) => {
-    state[key] = val;
+    onSubmit(login);
   };
 
   return (
@@ -37,8 +26,8 @@ function LoginForm({ onSubmit, onSubmitBtnLabel = 'Login' }: FormProps) {
         <label htmlFor="username">
           username
           <input
-            value={state.username}
-            onChange={(e) => setState('username', e.target.value)}
+            value={login.username}
+            onChange={(e) => setLogin({ ...login, username: e.target.value })}
             placeholder="username"
             type="text"
             id="username"
@@ -51,8 +40,8 @@ function LoginForm({ onSubmit, onSubmitBtnLabel = 'Login' }: FormProps) {
         <label htmlFor="password">
           password
           <input
-            value={state.password}
-            onChange={(e) => setState('password', e.target.value)}
+            value={login.password}
+            onChange={(e) => setLogin({ ...login, password: e.target.value })}
             placeholder="password"
             type="text"
             id="password"
@@ -67,5 +56,3 @@ function LoginForm({ onSubmit, onSubmitBtnLabel = 'Login' }: FormProps) {
     </form>
   );
 }
-
-export default observer(LoginForm);

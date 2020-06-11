@@ -1,5 +1,4 @@
-import React from 'react';
-import { useLocalStore, observer } from 'mobx-react-lite';
+import React, { useState } from 'react';
 import { FormProps, hasEmptyFields } from 'view/forms';
 
 export interface CreateUserFormState {
@@ -7,31 +6,22 @@ export interface CreateUserFormState {
   password: string;
 }
 
-function createStore() {
-  const store: CreateUserFormState = {
+export default function CreateUserForm({
+  onSubmit,
+  onSubmitBtnLabel,
+}: FormProps) {
+  const [user, setUser] = useState<CreateUserFormState>({
     username: '',
     password: '',
-  };
-
-  return store;
-}
-
-function CreateUserForm({ onSubmit, onSubmitBtnLabel }: FormProps) {
-  const state = useLocalStore(createStore);
+  });
 
   /**
    * Create a user and an agent from the form info
    */
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit(state);
+    onSubmit(user);
   };
-
-  const setState = (key: keyof CreateUserFormState, val: string) => {
-    state[key] = val;
-  };
-
-  const isDisabled = hasEmptyFields(state);
 
   return (
     <form>
@@ -39,8 +29,8 @@ function CreateUserForm({ onSubmit, onSubmitBtnLabel }: FormProps) {
         <label htmlFor="user-username">
           username
           <input
-            value={state.username}
-            onChange={(e) => setState('username', e.target.value)}
+            value={user.username}
+            onChange={(e) => setUser({ ...user, username: e.target.value })}
             placeholder="Username"
             type="text"
             id="user-username"
@@ -52,8 +42,8 @@ function CreateUserForm({ onSubmit, onSubmitBtnLabel }: FormProps) {
         <label htmlFor="user-password">
           password
           <input
-            value={state.password}
-            onChange={(e) => setState('password', e.target.value)}
+            value={user.password}
+            onChange={(e) => setUser({ ...user, password: e.target.value })}
             placeholder="Password"
             type="text"
             id="user-password"
@@ -62,11 +52,9 @@ function CreateUserForm({ onSubmit, onSubmitBtnLabel }: FormProps) {
         </label>
       </div>
 
-      <button type="submit" onClick={submit} disabled={isDisabled}>
+      <button type="submit" onClick={submit} disabled={hasEmptyFields(user)}>
         {onSubmitBtnLabel || 'Create User'}
       </button>
     </form>
   );
 }
-
-export default observer(CreateUserForm);

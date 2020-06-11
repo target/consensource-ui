@@ -1,41 +1,23 @@
-import React from 'react';
-import { useLocalStore, observer } from 'mobx-react-lite';
+import React, { useState } from 'react';
 import { FormProps, hasEmptyFields } from 'view/forms';
 import {
   createAgentAction,
   ICreateAgentActionStrict,
 } from 'services/protobuf/agent';
 
-function createStore() {
-  const store: ICreateAgentActionStrict = {
-    name: '',
-  };
-
-  return store;
-}
-
 /**
  * Form used to build a `CreateAgentAction` payload object
  */
-function CreateAgentActionForm({
+export default function CreateAgentActionForm({
   onSubmit,
   onSubmitBtnLabel = 'Create Agent',
 }: FormProps) {
-  const state = useLocalStore(createStore);
+  const [agent, setAgent] = useState<ICreateAgentActionStrict>({ name: '' });
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit(createAgentAction(state));
+    onSubmit(createAgentAction(agent));
   };
-
-  const setState = <T extends keyof ICreateAgentActionStrict>(
-    key: T,
-    val: ICreateAgentActionStrict[T],
-  ) => {
-    state[key] = val;
-  };
-
-  const isDisabled = hasEmptyFields(state);
 
   return (
     <form>
@@ -43,8 +25,8 @@ function CreateAgentActionForm({
         <label htmlFor="agent-name">
           name
           <input
-            value={state.name || ''}
-            onChange={(e) => setState('name', e.target.value)}
+            value={agent.name}
+            onChange={(e) => setAgent({ name: e.target.value })}
             placeholder="Name"
             type="text"
             id="agent-name"
@@ -52,11 +34,9 @@ function CreateAgentActionForm({
           />
         </label>
       </div>
-      <button type="submit" onClick={submit} disabled={isDisabled}>
+      <button type="submit" onClick={submit} disabled={hasEmptyFields(agent)}>
         {onSubmitBtnLabel}
       </button>
     </form>
   );
 }
-
-export default observer(CreateAgentActionForm);

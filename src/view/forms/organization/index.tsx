@@ -1,29 +1,13 @@
-import React from 'react';
-import { useLocalStore, observer } from 'mobx-react-lite';
-import { FormProps, hasEmptyFields } from 'view/forms';
+import React, { useState } from 'react';
+import { FormProps } from 'view/forms';
 import {
   createOrgAction,
   ICreateOrgActionStrict,
 } from 'services/protobuf/organization';
 import CreateContactForm from 'view/forms/organization/CreateContact';
 import CreateAddressForm from 'view/forms/organization/CreateFactoryAddress';
-import { Organization, Factory } from 'services/protobuf/compiled';
-import { hash, HashingAlgorithms } from 'services/utils';
-
-function createStore() {
-  const org: ICreateOrgActionStrict = {
-    contacts: [] as Organization.IContact[],
-    address: null,
-    name: '',
-    id: '',
-    organization_type: Organization.Type.UNSET_TYPE,
-  };
-
-  return {
-    org,
-    errMsg: '',
-  };
-}
+import { Organization } from 'services/protobuf/compiled';
+import { hash, HashingAlgorithms } from 'services/crypto';
 
 function makeOrgId(name: string) {
   return hash(name, HashingAlgorithms.sha256);
@@ -40,19 +24,24 @@ export interface CreateOrganizationFormProps extends FormProps {
  *   organization_type === Organization.Type.FACTORY)
  * - Third form is for the Org name
  */
-function CreateOrganizationForm({
+export default function CreateOrganizationForm({
   onSubmit,
   onSubmitBtnLabel = 'Create Organization',
   organization_type,
 }: CreateOrganizationFormProps) {
-  const state = useLocalStore(createStore);
-  const isDisabled = hasEmptyFields(state);
+  const [org, setOrg] = useState<ICreateOrgActionStrict>({
+    contacts: [] as Organization.IContact[],
+    address: null,
+    name: '',
+    id: '',
+    organization_type: Organization.Type.UNSET_TYPE,
+  });
 
   const isFactoryOrg = () => organization_type === Organization.Type.FACTORY;
 
   const onClick = async (event: React.FormEvent) => {
     event.preventDefault();
-    const { contacts, address, name } = state.org;
+    const { contacts, address, name } = org;
 
     onSubmit(
       createOrgAction({
@@ -65,22 +54,8 @@ function CreateOrganizationForm({
     );
   };
 
-  const onSubmitContact = (contact: Organization.Contact) => {
-    state.org.contacts = new Array(contact);
-  };
-
-  const onSubmitAddress = (address: Factory.Address) => {
-    state.org.address = address;
-  };
-
-  const setOrgName = (val: string) => {
-    state.org.name = val;
-  };
-
   const getCurrentFormTitle = () => {
-    const { org } = state;
-
-    if (!org.contacts) {
+    if (org.contacts.length === 0) {
       return 'Contact Info';
     }
 
@@ -92,17 +67,21 @@ function CreateOrganizationForm({
   };
 
   const getCurrentForm = () => {
-    const { org } = state;
-
-    if (!org.contacts) {
+    if (org.contacts.length === 0) {
       return (
-        <CreateContactForm onSubmit={onSubmitContact} onSubmitBtnLabel="Next" />
+        <CreateContactForm
+          onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
+          onSubmitBtnLabel="Next"
+        />
       );
     }
 
     if (isFactoryOrg() && !org.address) {
       return (
-        <CreateAddressForm onSubmit={onSubmitAddress} onSubmitBtnLabel="Next" />
+        <CreateAddressForm
+          onSubmit={(address) => setOrg({ ...org, address })}
+          onSubmitBtnLabel="Next"
+        />
       );
     }
 
@@ -113,8 +92,8 @@ function CreateOrganizationForm({
           <label htmlFor="factory-name">
             name
             <input
-              value={org.name || ''}
-              onChange={(e) => setOrgName(e.target.value)}
+              value={org.name}
+              onChange={(e) => setOrg({ ...org, name: e.target.value })}
               placeholder="Organization name"
               type="text"
               id="factory-name"
@@ -122,7 +101,7 @@ function CreateOrganizationForm({
             />
           </label>
         </div>
-        <button type="submit" onClick={onClick} disabled={isDisabled}>
+        <button type="submit" onClick={onClick} disabled={false}>
           {onSubmitBtnLabel}
         </button>
       </form>
@@ -131,11 +110,8 @@ function CreateOrganizationForm({
 
   return (
     <div>
-      <h1>{getCurrentFormTitle()}</h1>
-      <div>{state.errMsg}</div>
+      <h3>{getCurrentFormTitle()}</h3>
       {getCurrentForm()}
     </div>
   );
 }
-
-export default observer(CreateOrganizationForm);

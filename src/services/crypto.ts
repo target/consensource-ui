@@ -1,5 +1,6 @@
 import { createContext, CryptoFactory } from 'sawtooth-sdk/signing';
 import sjcl from 'sjcl';
+import { createHash } from 'crypto';
 
 export const CRYPTO_ALGORITHM = 'secp256k1';
 
@@ -40,4 +41,13 @@ export function getEncryptedPrivateKey(password: string, privateKey: any) {
 
 export function getDecryptedKeyHex(encryptedPrivateKey: any, password: string) {
   return sjcl.decrypt(password, encryptedPrivateKey);
+}
+
+export enum HashingAlgorithms {
+  sha256 = 'sha256',
+  sha512 = 'sha512',
+}
+
+export function hash(val: string, algorithm: HashingAlgorithms) {
+  return createHash(algorithm).update(val).digest('hex');
 }

@@ -17,6 +17,23 @@ import {
   ACTIONS,
 } from 'services/protobuf/transaction';
 
+export type OrgTypeStrings = keyof typeof Organization.Type;
+
+export interface IContactStrict extends Organization.IContact {
+  name: NonNullable<Organization.IContact['name']>;
+  phone_number: NonNullable<Organization.IContact['phone_number']>;
+  language_code: NonNullable<Organization.IContact['language_code']>;
+}
+
+export interface IFactoryAddressStrict extends Factory.IAddress {
+  street_line_1: NonNullable<Factory.IAddress['street_line_1']>;
+  street_line_2: NonNullable<Factory.IAddress['street_line_2']>;
+  city: NonNullable<Factory.IAddress['city']>;
+  state_province: NonNullable<Factory.IAddress['state_province']>;
+  country: NonNullable<Factory.IAddress['country']>;
+  postal_code: NonNullable<Factory.IAddress['postal_code']>;
+}
+
 /**
  * Interface to define the minimum required properties for
  * an `ICreateOrganizationAction` since protobuf defaults to

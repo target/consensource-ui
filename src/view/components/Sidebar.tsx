@@ -7,10 +7,11 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MapIcon from '@material-ui/icons/Map';
+import SearchIcon from '@material-ui/icons/Search';
 import HomeIcon from '@material-ui/icons/Home';
 import MailIcon from '@material-ui/icons/Mail';
 import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
 
 export interface SidebarProps {
   onDrawerClick: Function;
@@ -52,6 +53,7 @@ export default function Sidebar({
   isSidebarOpen,
 }: SidebarProps) {
   const classes = useStyles();
+  const history = useHistory();
 
   const onClick = () => {
     onDrawerClick();
@@ -74,21 +76,25 @@ export default function Sidebar({
       </div>
       <Divider />
       <List>
-        <ListItem button key="dashboard">
+        <ListItem
+          button
+          key="dashboard"
+          onClick={() => history.push('dashboard')}
+        >
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItem>
 
-        <ListItem button key="discover">
+        <ListItem button key="search" onClick={() => history.push('search')}>
           <ListItemIcon>
-            <MapIcon />
+            <SearchIcon />
           </ListItemIcon>
-          <ListItemText primary="Discover Factories" />
+          <ListItemText primary="Search Factories" />
         </ListItem>
 
-        <ListItem button key="email">
+        <ListItem button key="email" onClick={() => history.push('email')}>
           <ListItemIcon>
             <MailIcon />
           </ListItemIcon>

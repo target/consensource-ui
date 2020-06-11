@@ -4,6 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -18,11 +19,12 @@ const useStyles = makeStyles({
 });
 
 export default function ProfileDropdown() {
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const classes = useStyles();
 
-  const handleProfileClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleIconClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -30,12 +32,17 @@ export default function ProfileDropdown() {
     setAnchorEl(null);
   };
 
+  const handleProfileClick = () => {
+    setAnchorEl(null);
+    history.push('profile');
+  };
+
   return (
     <div className={classes.container}>
       <IconButton
         color="inherit"
         aria-label="profile"
-        onClick={handleProfileClick}
+        onClick={handleIconClick}
         edge="start"
       >
         <ProfileIcon />
@@ -47,8 +54,9 @@ export default function ProfileDropdown() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+
+        {/* TODO: Signout logic */}
         <MenuItem onClick={handleClose}>Logout</MenuItem>
       </Menu>
     </div>

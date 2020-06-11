@@ -1,21 +1,10 @@
-import React from 'react';
-import { useLocalStore, observer } from 'mobx-react-lite';
+import React, { useState } from 'react';
 import { FormProps, hasEmptyFields } from 'view/forms';
-import { createFactoryAddress } from 'services/protobuf/organization';
+import {
+  createFactoryAddress,
+  IFactoryAddressStrict,
+} from 'services/protobuf/organization';
 import { Factory } from 'services/protobuf/compiled';
-
-function createStore() {
-  const store: Factory.IAddress = {
-    street_line_1: '',
-    street_line_2: '',
-    city: '',
-    state_province: '',
-    country: '',
-    postal_code: '',
-  };
-
-  return store;
-}
 
 interface CreateContactFormProps extends FormProps {
   onSubmit: (address: Factory.Address) => any;
@@ -24,26 +13,25 @@ interface CreateContactFormProps extends FormProps {
 /**
  * Form to create a `Factory.Address` proto object
  */
-function CreateFactoryAddressForm({
+export default function CreateFactoryAddressForm({
   onSubmit,
   onSubmitBtnLabel = 'Create Factory',
 }: CreateContactFormProps) {
-  const state = useLocalStore(createStore);
-  const isDisabled = hasEmptyFields(state);
+  const [address, setAddress] = useState<IFactoryAddressStrict>({
+    street_line_1: '',
+    street_line_2: '',
+    city: '',
+    state_province: '',
+    country: '',
+    postal_code: '',
+  });
 
   /**
    * Create a user and an agent from the form info
    */
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit(createFactoryAddress(state));
-  };
-
-  const setState = <T extends keyof Factory.IAddress>(
-    key: T,
-    val: Factory.IAddress[T],
-  ) => {
-    state[key] = val;
+    onSubmit(createFactoryAddress(address));
   };
 
   return (
@@ -52,8 +40,10 @@ function CreateFactoryAddressForm({
         <label htmlFor="factory-street-line-1">
           Street Line 1
           <input
-            value={state.street_line_1 || ''}
-            onChange={(e) => setState('street_line_1', e.target.value)}
+            value={address.street_line_1}
+            onChange={(e) =>
+              setAddress({ ...address, street_line_1: e.target.value })
+            }
             placeholder="Street Line 1"
             type="text"
             id="factory-street-line-1"
@@ -65,8 +55,10 @@ function CreateFactoryAddressForm({
         <label htmlFor="factory-street-line-2">
           Street Line 2
           <input
-            value={state.street_line_2 || ''}
-            onChange={(e) => setState('street_line_2', e.target.value)}
+            value={address.street_line_2}
+            onChange={(e) =>
+              setAddress({ ...address, street_line_2: e.target.value })
+            }
             placeholder="Street Line 2"
             type="text"
             id="factory-street-line-2"
@@ -78,8 +70,8 @@ function CreateFactoryAddressForm({
         <label htmlFor="factory-city">
           City
           <input
-            value={state.city || ''}
-            onChange={(e) => setState('city', e.target.value)}
+            value={address.city}
+            onChange={(e) => setAddress({ ...address, city: e.target.value })}
             placeholder="City"
             type="text"
             id="factory-city"
@@ -90,8 +82,10 @@ function CreateFactoryAddressForm({
           <label htmlFor="factory-state-province">
             State Province
             <input
-              value={state.state_province || ''}
-              onChange={(e) => setState('state_province', e.target.value)}
+              value={address.state_province}
+              onChange={(e) =>
+                setAddress({ ...address, state_province: e.target.value })
+              }
               placeholder="State Province"
               type="text"
               id="factory-state-province"
@@ -103,8 +97,10 @@ function CreateFactoryAddressForm({
           <label htmlFor="factory-country">
             Country
             <input
-              value={state.country || ''}
-              onChange={(e) => setState('country', e.target.value)}
+              value={address.country}
+              onChange={(e) =>
+                setAddress({ ...address, country: e.target.value })
+              }
               placeholder="Country"
               type="text"
               id="factory-country"
@@ -117,8 +113,10 @@ function CreateFactoryAddressForm({
           <label htmlFor="factory-postal-code">
             Postal Code
             <input
-              value={state.postal_code || ''}
-              onChange={(e) => setState('postal_code', e.target.value)}
+              value={address.postal_code}
+              onChange={(e) =>
+                setAddress({ ...address, postal_code: e.target.value })
+              }
               placeholder="Postal Code"
               type="number"
               id="factory-postal-code"
@@ -128,11 +126,9 @@ function CreateFactoryAddressForm({
         </div>
       </div>
 
-      <button type="submit" onClick={submit} disabled={isDisabled}>
+      <button type="submit" onClick={submit} disabled={hasEmptyFields(address)}>
         {onSubmitBtnLabel}
       </button>
     </form>
   );
 }
-
-export default observer(CreateFactoryAddressForm);

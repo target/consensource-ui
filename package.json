@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "ConsenSource UI",
   "scripts": {
-    "start": "yarn generate-protobufs && react-scripts start",
-    "build": "yarn generate-protobufs && react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "clean": "rm -rf node_modules/ src/services/protobuf/compiled.js src/types/consensource/index.d.ts",

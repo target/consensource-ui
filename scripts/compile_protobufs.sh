@@ -11,7 +11,7 @@ ts_file="./src/services/protobuf/compiled/index.d.ts"
 proto_to_compile='payload.proto'
 
 ## Generate JS code for protos
-npx pbjs --keep-case -t static-module -w commonjs -o $js_file $(ls -d "$PWD"/protos/$proto_to_compile)
+npx pbjs --keep-case -t static-module -w commonjs -o $js_file $(ls -d "$PWD"/src/protos/$proto_to_compile)
 
 ## Generate TS definitions for the JS code
 npx pbts -o $ts_file $js_file

@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import CreateAgentActionForm from 'view/forms/CreateAgent';
-import { useLocalStore } from 'mobx-react-lite';
 import stores from 'stores';
 import { createAgentTransaction } from 'services/protobuf/agent';
 import BatchService from 'services/batch';
@@ -9,7 +8,7 @@ import { createBatch } from 'services/protobuf/batch';
 import { CreateAgentAction } from 'services/protobuf/compiled';
 
 export default function AgentSignUp() {
-  const state = useLocalStore(() => ({ errMsg: '' }));
+  const [errMsg, setErrMsg] = useState('');
   const history = useHistory();
 
   /**
@@ -25,14 +24,14 @@ export default function AgentSignUp() {
       await BatchService.submitBatch(batchListBytes);
       history.push('/dashboard');
     } catch ({ message }) {
-      state.errMsg = message;
+      setErrMsg(message);
     }
   };
 
   return (
     <div>
       <h1>Agent Signup</h1>
-      <div>{state.errMsg}</div>
+      <div>{errMsg}</div>
       <CreateAgentActionForm onSubmit={onSubmit} />
     </div>
   );

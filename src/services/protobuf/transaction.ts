@@ -1,4 +1,4 @@
-import { hash, HashingAlgorithms } from 'services/utils';
+import { hash, HashingAlgorithms, getSignerPubKeyHex } from 'services/crypto';
 import { Transaction, TransactionHeader } from 'sawtooth-sdk/protobuf';
 import {
   CertificateRegistryPayload,
@@ -8,7 +8,6 @@ import {
   FAMILY_NAME as familyName,
   FAMILY_VERSION as familyVersion,
 } from 'services/addressing';
-import { getSignerPubKeyHex } from 'services/crypto';
 
 export interface PayloadInfo {
   payloadBytes: string | Buffer | NodeJS.TypedArray | DataView;

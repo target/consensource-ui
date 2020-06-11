@@ -1,5 +1,4 @@
-import { hash, HashingAlgorithms } from 'services/utils';
-import { getSignerPubKeyHex } from 'services/crypto';
+import { hash, HashingAlgorithms, getSignerPubKeyHex } from 'services/crypto';
 
 export const FAMILY_NAMESPACE_LEN = 6;
 export const ADDRESS_PREFIX_LEN = 10;
