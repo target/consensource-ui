@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import {
-  fetchAllFactories,
-  FactoryResData,
-  FactoryResAddressData,
-} from 'services/api/factory';
+import { fetchAllFactories, FactoryResData } from 'services/api/factory';
 import MaterialTable from 'material-table';
 import { defaultIcons } from 'view/components/factoriesTable';
+import Button from '@material-ui/core/Button';
 
-const factoryAddressCols: FactoryResAddressData = {
-  street_line_1: 'Address',
-  city: 'City',
-  state_province: 'State Province ',
-  country: 'Country',
-  postal_code: 'Postal Code',
-};
+export interface IFactoryColumnVals {
+  address: string;
+  city: string;
+  state_province?: string;
+  country: string;
+  postal_code?: string;
+  certifications: JSX.Element[] | null;
+}
 
 export default function SearchFactories() {
   const [factories, setFactories] = useState<FactoryResData[]>([]);
@@ -32,17 +30,30 @@ export default function SearchFactories() {
     fetchFactories();
   }, []);
 
-  const columns = Object.entries(factoryAddressCols).map(([field, title]) => {
-    return { title, field };
-  });
+  const columns = [
+    { field: 'address', title: 'Address' },
+    { field: 'city', title: 'City' },
+    { field: 'state_province', title: 'State Province ' },
+    { field: 'country', title: 'Country' },
+    { field: 'postal_code', title: 'Postal Code' },
+    { field: 'certifications', title: 'Certifications' },
+  ];
 
   /**
    * Returns the address row with `street_line_1` and `street_line_2` concatenated
    */
-  const getRowFromAddress = (address: FactoryResAddressData) => {
+  const getRowFromFactoryRes = ({
+    address,
+    certificates,
+  }: FactoryResData): IFactoryColumnVals => {
+    const certifications =
+      certificates &&
+      certificates.map((cert) => <Button>{cert.standard_name}</Button>);
+
     return {
       ...address,
-      street_line_1: `${address.street_line_1} ${address.street_line_2}`,
+      certifications,
+      address: `${address.street_line_1} ${address.street_line_2}`,
     };
   };
 
@@ -53,7 +64,7 @@ export default function SearchFactories() {
         isLoading={!factories}
         icons={defaultIcons}
         columns={columns}
-        data={factories.map(({ address }) => getRowFromAddress(address))}
+        data={factories.map(getRowFromFactoryRes)}
         title="Factories"
       />
     </div>

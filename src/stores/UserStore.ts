@@ -49,6 +49,8 @@ export default class UserStore {
 
   @observable user: User | null = null;
 
+  @observable isAuthenticating = false;
+
   constructor(snackbarStore: SnackbarStore) {
     this.snackbarStore = snackbarStore;
     this.getUserFromLocalStorage();
@@ -92,6 +94,8 @@ export default class UserStore {
 
   @action.bound
   async authenticateUser(username: string, password: string) {
+    this.isAuthenticating = true;
+
     const payload: UserAuthPayload = { username, password };
     const res = await postUsersAuthenticate(payload);
     const decryptedKey = getDecryptedKeyHex(
@@ -108,5 +112,7 @@ export default class UserStore {
     };
 
     this.user = new User(this, user);
+
+    this.isAuthenticating = false;
   }
 }

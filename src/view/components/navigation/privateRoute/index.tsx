@@ -26,7 +26,7 @@ export default function PrivateRoute({
   redirectTo = DEFAULT_UNAUTH_REDIRECT_LOCATION,
 }: PrivateRouteProps) {
   const redirectLoggedOutUser = ({ location }: RouteComponentProps) => {
-    if (stores.userStore.user) {
+    if (stores.userStore.user || stores.userStore.isAuthenticating) {
       return React.createElement(component);
     }
 
