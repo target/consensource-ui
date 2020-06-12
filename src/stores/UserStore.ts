@@ -1,4 +1,4 @@
-import { observable, action, computed } from 'mobx';
+import { observable, action } from 'mobx';
 import {
   postUsersAuthenticate,
   UserAuthPayload,
@@ -10,8 +10,9 @@ import {
   createNewPrivateKey,
   createSigner,
   getDecryptedKeyHex,
+  getSignerPubKeyHex,
 } from 'services/crypto';
-import SnackbarStore from './SnackbarStore';
+import SnackbarStore from 'stores/SnackbarStore';
 
 export interface UserInfo {
   username: string;
@@ -29,35 +30,51 @@ export class User {
 
   @observable signer: sawtooth.signing.Signer;
 
-  // @observable org_id: string;
-
   constructor(userStore: UserStore, user: UserInfo) {
     this.userStore = userStore;
     this.username = user.username;
     this.password = user.password;
     this.signer = user.signer;
   }
+
+  get publicKeyString() {
+    return getSignerPubKeyHex(this.signer);
+  }
 }
 
 export default class UserStore {
   snackbarStore: SnackbarStore;
 
+  userStorageKey = 'USER';
+
   @observable user: User | null = null;
 
   constructor(snackbarStore: SnackbarStore) {
     this.snackbarStore = snackbarStore;
+    this.getUserFromLocalStorage();
+  }
+
+  getUserFromLocalStorage() {
+    const userString = window.localStorage.getItem(this.userStorageKey);
+
+    if (userString) {
+      const user: User = JSON.parse(userString);
+      this.authenticateUser(user.username, user.password);
+    }
   }
 
   @action.bound
   async createUser(username: string, password: string) {
     const privateKey = createNewPrivateKey();
     const signer = createSigner(privateKey);
+    const public_key = getSignerPubKeyHex(signer);
+    const encrypted_private_key = getEncryptedPrivateKey(password, privateKey);
 
     const userPayload: UserPayload = {
       username,
       password,
-      public_key: signer.getPublicKey().asHex(),
-      encrypted_private_key: getEncryptedPrivateKey(password, privateKey),
+      public_key,
+      encrypted_private_key,
     };
 
     await createUser(userPayload);
@@ -69,6 +86,8 @@ export default class UserStore {
     };
 
     this.user = new User(this, user);
+
+    window.localStorage.setItem(this.userStorageKey, JSON.stringify(user));
   }
 
   @action.bound
@@ -89,9 +108,5 @@ export default class UserStore {
     };
 
     this.user = new User(this, user);
-  }
-
-  @computed get isSignedIn() {
-    return this.user !== null;
   }
 }

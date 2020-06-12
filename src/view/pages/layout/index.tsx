@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Dashboard from 'view/pages/dashboard';
-import SearchFactories from 'view/pages/searchFactories';
 import Profile from 'view/pages/profile';
 import Snackbar from 'view/components/Snackbar';
 import stores from 'stores';
@@ -43,7 +42,6 @@ function Layout() {
       <div className={classes.navbar}>
         <Switch>
           <Route path="/dashboard" component={Dashboard} />
-          <Route path="/search" component={SearchFactories} />
           <Route path="/profile" component={Profile} />
         </Switch>
 

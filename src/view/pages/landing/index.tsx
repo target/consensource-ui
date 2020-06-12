@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import ButtonBase from '@material-ui/core/ButtonBase';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import stores from 'stores';
+import { autorun } from 'mobx';
 
 const useStyles = makeStyles({
   linkBtn: {
@@ -11,8 +13,21 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Home() {
+export default function Landing() {
   const classes = useStyles();
+  const history = useHistory();
+
+  const redirectIfLoggedIn = () => {
+    autorun(() => {
+      if (stores.userStore.user) {
+        history.push('/dashboard');
+      }
+    });
+  };
+
+  useEffect(() => {
+    redirectIfLoggedIn();
+  });
 
   return (
     <div>

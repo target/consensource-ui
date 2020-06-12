@@ -12,44 +12,35 @@ export interface Block {
   block_num: number;
 }
 
+const eventEmitter = new EventEmitter();
+
+const BLOCK_EVENT = 'block-event';
+
 // TODO: Convert this into a store so that we can perform
 // automatic DOM updates on block events
-export default class BlockListener {
-  blockStream: EventSource | EventSourcePolyfill;
+let blockStream: EventSource | EventSourcePolyfill;
 
-  eventEmitter: EventEmitter;
+if (window.EventSource) {
+  blockStream = new EventSource('/api/block-stream');
+} else {
+  blockStream = new EventSourcePolyfill('/api/block-stream');
+}
 
-  BLOCK_EVENT = 'block-event';
-
-  constructor() {
-    this.eventEmitter = new EventEmitter();
-
-    if (window.EventSource) {
-      this.blockStream = new EventSource('/api/block-stream');
-    } else {
-      this.blockStream = new EventSourcePolyfill('/api/block-stream');
-    }
-
-    this.blockStream.addEventListener(
-      this.BLOCK_EVENT,
-      this.onBlockEvent.bind(this),
-    );
-  }
-
-  onBlockEvent(event: any) {
-    try {
-      const blockData: Block = JSON.parse(event.data);
-      this.eventEmitter.emit(this.BLOCK_EVENT, blockData);
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  addBlockUpdateListener(f: VoidFunction) {
-    this.eventEmitter.on(this.BLOCK_EVENT, f);
-  }
-
-  removeBlockUpdateListener(f: VoidFunction) {
-    this.eventEmitter.removeListener(this.BLOCK_EVENT, f);
+export function onBlockEvent(event: any) {
+  try {
+    const blockData: Block = JSON.parse(event.data);
+    eventEmitter.emit(BLOCK_EVENT, blockData);
+  } catch ({ message }) {
+    console.error(message);
   }
 }
+
+export function addBlockUpdateListener(f: VoidFunction) {
+  eventEmitter.on(BLOCK_EVENT, f);
+}
+
+export function removeBlockUpdateListener(f: VoidFunction) {
+  eventEmitter.removeListener(BLOCK_EVENT, f);
+}
+
+blockStream.addEventListener(BLOCK_EVENT, onBlockEvent.bind(this));

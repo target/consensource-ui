@@ -31,7 +31,7 @@ export interface OrgReqParams {
 
 export async function fetchOrganizations(
   params?: OrgReqParams,
-): Promise<ApiRes<OrgResData>> {
+): Promise<ApiRes<OrgResData[]>> {
   const path = '/api/organizations';
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {

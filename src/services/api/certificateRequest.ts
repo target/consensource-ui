@@ -29,7 +29,7 @@ export interface CertRequestReqParam {
 
 export async function fetchCertRequests(
   params?: CertRequestReqParam,
-): Promise<ApiRes<CertRequestResData>> {
+): Promise<ApiRes<CertRequestResData[]>> {
   const path = '/api/requests';
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {
@@ -39,7 +39,7 @@ export async function fetchCertRequests(
   return res.data;
 }
 
-export async function fetchCertRequestsById(
+export async function fetchCertRequestById(
   requestId: string,
   params?: CertRequestReqParam,
 ): Promise<ApiRes<CertRequestResData>> {

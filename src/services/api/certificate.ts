@@ -24,7 +24,7 @@ export interface CertReqParam {
 
 export async function loadCertificates(
   params?: CertReqParam,
-): Promise<ApiRes<CertResData>> {
+): Promise<ApiRes<CertResData[]>> {
   const path = '/api/certificates';
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {

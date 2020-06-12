@@ -13,7 +13,7 @@ export interface Paging {
  * endpoints adhere to.
  */
 export interface ApiRes<T = {}> {
-  data: Array<T>;
+  data: T;
   link?: string;
   head?: number;
   paging?: Paging;

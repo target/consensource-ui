@@ -15,7 +15,13 @@ export default function AgentSignUp() {
    * Redirect a user to the dashboard screen if successful
    */
   const onSubmit = async (agentAction: CreateAgentAction) => {
-    const { signer } = stores.userStore.user!; // TODO: Fix this non-nullable pattern
+    let signer;
+
+    if (!stores.userStore.user) {
+      throw new Error('A signer is required to create an agent');
+    } else {
+      signer = stores.userStore.user.signer;
+    }
 
     const txns = new Array(createAgentTransaction(agentAction, signer));
     const batchListBytes = createBatch(txns, signer);

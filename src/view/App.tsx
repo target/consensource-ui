@@ -1,25 +1,22 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Home from 'view/pages/home';
+import Landing from 'view/pages/landing';
 import Layout from 'view/pages/layout';
 import PrivateRoute from 'view/components/navigation/privateRoute';
 import SignUp from 'view/pages/signup';
 import Login from 'view/pages/login';
-import BlockListener from 'services/blockListener';
+import SearchFactories from 'view/pages/searchFactories';
 
 export default function App() {
-  useEffect(() => {
-    new BlockListener();
-  }, []);
-
   return (
     <Router>
       <Switch>
-        {/* Note: `/login` and `/sign-up` must come before the PrivateRoute 
-        protecting all subpaths of `/` */}
+        {/* Note: All routes that are under `/` but not protected
+            by auth need to come before the <PrivateRoute /> */}
         <Route path="/login" component={Login} />
         <Route path="/sign-up" component={SignUp} />
-        <Route exact path="/" component={Home} />
+        <Route path="/search" component={SearchFactories} />
+        <Route exact path="/" component={Landing} />
         <PrivateRoute path="/" component={Layout} />
       </Switch>
     </Router>

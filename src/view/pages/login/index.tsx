@@ -1,18 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import LoginForm, { LoginFormState } from 'view/forms/Login';
 import stores from 'stores';
 
-function Login() {
+export default function Login() {
   const [errMsg, setErrMsg] = useState('');
   const history = useHistory();
-
-  useEffect(() => {
-    // Redirect a user to the dashboard if they are already logged in
-    if (stores.userStore.isSignedIn) {
-      history.push('/dashboard');
-    }
-  }, []);
 
   const onSubmit = async (loginInfo: LoginFormState) => {
     const { username, password } = loginInfo;
@@ -33,5 +26,3 @@ function Login() {
     </div>
   );
 }
-
-export default Login;

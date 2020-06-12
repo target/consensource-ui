@@ -27,7 +27,7 @@ export interface FactoryReqParams {
 
 export async function fetchAllFactories(
   params?: FactoryReqParams,
-): Promise<ApiRes<FactoryResData>> {
+): Promise<ApiRes<FactoryResData[]>> {
   const path = '/api/factories';
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {

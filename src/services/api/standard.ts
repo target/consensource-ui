@@ -34,7 +34,7 @@ export interface StandardBodyReqParams {
 
 export async function fetchAllOrgStandards(
   params?: StandardBodyReqParams,
-): Promise<ApiRes<StandardBodyResData>> {
+): Promise<ApiRes<StandardBodyResData[]>> {
   const path = '/api/standards_body/standards';
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {
@@ -59,7 +59,7 @@ export async function fetchStandard(
 
 export async function fetchAllStandards(
   params?: StandardReqParams,
-): Promise<ApiRes<StandardResData>> {
+): Promise<ApiRes<StandardResData[]>> {
   const path = '/api/standards';
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {

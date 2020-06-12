@@ -12,10 +12,7 @@ export default class SnackbarStore {
   }
 
   @action.bound
-  handleClose(
-    event: React.SyntheticEvent | React.MouseEvent, // eslint-disable-line @typescript-eslint/no-unused-vars
-    reason?: string, // eslint-disable-line @typescript-eslint/no-unused-vars
-  ) {
+  handleClose() {
     this.isOpen = false;
   }
 }

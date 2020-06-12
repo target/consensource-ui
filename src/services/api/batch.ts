@@ -8,9 +8,8 @@ export interface PostBatchRes extends ApiRes {
 }
 
 export interface BatchStatusRes
-  extends ApiRes<sawtooth.protobuf.ClientBatchStatus> {
+  extends ApiRes<sawtooth.protobuf.ClientBatchStatus[]> {
   link: string;
-  data: sawtooth.protobuf.ClientBatchStatus[];
 }
 
 /**

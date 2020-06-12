@@ -63,7 +63,13 @@ function Dashboard() {
   const [orgType, setOrgType] = useState(Organization.Type.UNSET_TYPE);
 
   const onSubmit = async (org: CreateOrganizationAction) => {
-    const { signer } = stores.userStore.user!; // TODO: Fix this non-nullable pattern
+    let signer;
+
+    if (!stores.userStore.user) {
+      throw new Error('A signer is required to create an agent');
+    } else {
+      signer = stores.userStore.user.signer;
+    }
 
     const txns = new Array(createOrgTransaction(org, signer));
     const batchListBytes = createBatch(txns, signer);

@@ -21,7 +21,7 @@ export interface AgentReqParams {
 
 export async function fetchAgents(
   params?: AgentReqParams,
-): Promise<ApiRes<AgentResData>> {
+): Promise<ApiRes<AgentResData[]>> {
   const path = '/api/agents';
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {
