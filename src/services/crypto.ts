@@ -1,4 +1,5 @@
 import { createContext, CryptoFactory } from 'sawtooth-sdk/signing';
+import { Secp256k1PrivateKey } from 'sawtooth-sdk/signing/secp256k1';
 import sjcl from 'sjcl';
 import { createHash } from 'crypto';
 
@@ -18,12 +19,18 @@ export const cryptoFactory = new CryptoFactory(cryptoContext);
  * and is not saved to the db or state.
  *
  */
-export function createSigner(privateKey: any): sawtooth.signing.Signer {
+export function createSigner(
+  privateKey: Secp256k1PrivateKey,
+): sawtooth.signing.Signer {
   return cryptoFactory.newSigner(privateKey);
 }
 
 export function createNewPrivateKey() {
   return cryptoContext.newRandomPrivateKey();
+}
+
+export function createPrivateKeyFromHex(key: string) {
+  return Secp256k1PrivateKey.fromHex(key);
 }
 
 export function getSignerPubKeyHex(signer: sawtooth.signing.Signer) {

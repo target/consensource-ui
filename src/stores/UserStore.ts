@@ -11,8 +11,10 @@ import {
   createSigner,
   getDecryptedKeyHex,
   getSignerPubKeyHex,
+  createPrivateKeyFromHex,
 } from 'services/crypto';
 import SnackbarStore from 'stores/SnackbarStore';
+import { Secp256k1PrivateKey } from 'sawtooth-sdk/signing/secp256k1';
 
 export interface UserInfo {
   username: string;
@@ -60,15 +62,15 @@ export default class UserStore {
     const userString = window.localStorage.getItem(this.userStorageKey);
 
     if (userString) {
-      const user: User = JSON.parse(userString);
-      this.authenticateUser(user.username, user.password);
+      const { username, password }: User = JSON.parse(userString);
+      this.authenticateUser(username, password);
     }
   }
 
   @action.bound
   async createUser(username: string, password: string) {
     const privateKey = createNewPrivateKey();
-    const signer = createSigner(privateKey);
+    const signer = createSigner(privateKey as Secp256k1PrivateKey);
     const public_key = getSignerPubKeyHex(signer);
     const encrypted_private_key = getEncryptedPrivateKey(password, privateKey);
 
@@ -98,12 +100,17 @@ export default class UserStore {
 
     const payload: UserAuthPayload = { username, password };
     const res = await postUsersAuthenticate(payload);
+
     const decryptedKey = getDecryptedKeyHex(
       res.encrypted_private_key,
       password,
     );
 
-    const signer = createSigner(decryptedKey);
+    const privateKey = createPrivateKeyFromHex(
+      decryptedKey,
+    ) as Secp256k1PrivateKey;
+
+    const signer = createSigner(privateKey);
 
     const user: UserInfo = {
       username,
