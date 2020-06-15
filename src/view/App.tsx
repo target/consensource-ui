@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Landing from 'view/pages/landing';
 import Layout from 'view/pages/layout';
-import PrivateRoute from 'view/components/navigation/privateRoute';
+import PrivateRoute from 'view/components/PrivateRoute';
 import SignUp from 'view/pages/signup';
 import Login from 'view/pages/login';
 import SearchFactories from 'view/pages/searchFactories';

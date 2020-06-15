@@ -3,7 +3,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
-import CreateOrgForm from 'view/forms/organization';
+import CreateOrgForm from 'view/widgets/forms/organization';
 import {
   Organization,
   CreateOrganizationAction,

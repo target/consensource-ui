@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormProps, hasEmptyFields } from 'view/forms';
+import { FormProps, hasEmptyFields } from 'view/widgets/forms';
 import {
   createOrgContact,
   IContactStrict,

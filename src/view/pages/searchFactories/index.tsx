@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { fetchAllFactories, FactoryResData } from 'services/api/factory';
 import MaterialTable from 'material-table';
-import { defaultIcons } from 'view/components/factoriesTable';
-import Button from '@material-ui/core/Button';
+import { defaultIcons, CertDialogButton } from 'view/widgets/tables/factory';
 
 export interface IFactoryColumnVals {
+  name: string;
   address: string;
   city: string;
   state_province?: string;
   country: string;
   postal_code?: string;
-  certifications: JSX.Element[] | null;
+  certifications: JSX.Element[] | string;
 }
 
 export default function SearchFactories() {
@@ -31,28 +31,33 @@ export default function SearchFactories() {
   }, []);
 
   const columns = [
+    { field: 'name', title: 'Name' },
+    { field: 'certifications', title: 'Certifications' },
     { field: 'address', title: 'Address' },
     { field: 'city', title: 'City' },
     { field: 'state_province', title: 'State Province ' },
     { field: 'country', title: 'Country' },
     { field: 'postal_code', title: 'Postal Code' },
-    { field: 'certifications', title: 'Certifications' },
   ];
 
   /**
    * Returns the address row with `street_line_1` and `street_line_2` concatenated
    */
   const getRowFromFactoryRes = ({
+    name,
     address,
     certificates,
   }: FactoryResData): IFactoryColumnVals => {
-    const certifications =
-      certificates &&
-      certificates.map((cert) => <Button>{cert.standard_name}</Button>);
+    const certifications = certificates
+      ? certificates.map((certificate) => (
+          <CertDialogButton certificate={certificate} />
+        ))
+      : '---';
 
     return {
       ...address,
       certifications,
+      name,
       address: `${address.street_line_1} ${address.street_line_2}`,
     };
   };

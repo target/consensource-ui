@@ -70,7 +70,7 @@ export default class UserStore {
   @action.bound
   async createUser(username: string, password: string) {
     const privateKey = createNewPrivateKey();
-    const signer = createSigner(privateKey as Secp256k1PrivateKey);
+    const signer = createSigner(privateKey);
     const public_key = getSignerPubKeyHex(signer);
     const encrypted_private_key = getEncryptedPrivateKey(password, privateKey);
 
@@ -106,9 +106,7 @@ export default class UserStore {
       password,
     );
 
-    const privateKey = createPrivateKeyFromHex(
-      decryptedKey,
-    ) as Secp256k1PrivateKey;
+    const privateKey = createPrivateKeyFromHex(decryptedKey);
 
     const signer = createSigner(privateKey);
 

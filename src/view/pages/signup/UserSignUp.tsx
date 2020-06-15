@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import CreateUserForm, { CreateUserFormState } from 'view/forms/CreateUser';
+import CreateUserForm, {
+  CreateUserFormState,
+} from 'view/widgets/forms/CreateUser';
 import stores from 'stores';
 
 export default function UserSignUp() {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import CreateAgentActionForm from 'view/forms/CreateAgent';
+import CreateAgentActionForm from 'view/widgets/forms/CreateAgent';
 import stores from 'stores';
 import { createAgentTransaction } from 'services/protobuf/agent';
 import BatchService from 'services/batch';

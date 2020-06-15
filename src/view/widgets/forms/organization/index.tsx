@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { FormProps } from 'view/forms';
+import { FormProps } from 'view/widgets/forms';
 import {
   createOrgAction,
   ICreateOrgActionStrict,
 } from 'services/protobuf/organization';
-import CreateContactForm from 'view/forms/organization/CreateContact';
-import CreateAddressForm from 'view/forms/organization/CreateFactoryAddress';
+import CreateContactForm from 'view/widgets/forms/organization/CreateContact';
+import CreateAddressForm from 'view/widgets/forms/organization/CreateFactoryAddress';
 import { Organization } from 'services/protobuf/compiled';
 import { hash, HashingAlgorithms } from 'services/crypto';
 

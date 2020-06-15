@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormProps } from 'view/forms';
+import { FormProps } from 'view/widgets/forms';
 
 export interface LoginFormState {
   username: string;

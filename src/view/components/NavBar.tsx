@@ -11,7 +11,7 @@ import { DRAWER_WIDTH } from 'view/components/Sidebar';
 
 export interface NavBarProps {
   onDrawerClick: Function;
-  isSidebarOpen: boolean;
+  isSidebarOpen?: boolean;
 }
 
 export const NAVBAR_HEIGHT = '9.75vh';

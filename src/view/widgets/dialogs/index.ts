@@ -1,0 +1,1 @@
+export { CertificationDialog } from './certification';

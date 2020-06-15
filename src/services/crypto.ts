@@ -26,7 +26,7 @@ export function createSigner(
 }
 
 export function createNewPrivateKey() {
-  return cryptoContext.newRandomPrivateKey();
+  return cryptoContext.newRandomPrivateKey() as Secp256k1PrivateKey;
 }
 
 export function createPrivateKeyFromHex(key: string) {
@@ -37,16 +37,17 @@ export function getSignerPubKeyHex(signer: sawtooth.signing.Signer) {
   return signer.getPublicKey().asHex();
 }
 
-/**
- * TODO: Use the right type for the param (blocked by sawtooth-sdk typings)
- *
- * Encrypts the private key using the provided password.
- */
-export function getEncryptedPrivateKey(password: string, privateKey: any) {
+export function getEncryptedPrivateKey(
+  password: string,
+  privateKey: Secp256k1PrivateKey,
+) {
   return sjcl.encrypt(password, privateKey.asHex());
 }
 
-export function getDecryptedKeyHex(encryptedPrivateKey: any, password: string) {
+export function getDecryptedKeyHex(
+  encryptedPrivateKey: string,
+  password: string,
+) {
   return sjcl.decrypt(password, encryptedPrivateKey);
 }
 

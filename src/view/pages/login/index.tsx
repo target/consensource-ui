@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import LoginForm, { LoginFormState } from 'view/forms/Login';
+import LoginForm, { LoginFormState } from 'view/widgets/forms/Login';
 import stores from 'stores';
 
 export default function Login() {

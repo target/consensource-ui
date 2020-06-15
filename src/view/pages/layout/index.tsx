@@ -20,6 +20,7 @@ const useStyles = makeStyles({
 
 function Layout() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const isSignedIn = !!stores.userStore.user;
 
   const classes = useStyles();
   const { snackbarStore } = stores;
