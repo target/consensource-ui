@@ -1,9 +1,9 @@
 import React from 'react';
-import { FactoryResData } from 'services/api/factory';
+import { FactoryResData, fetchAllFactories } from 'services/api/factory';
 import MaterialTable from 'material-table';
 import { defaultIcons } from 'view/tables/factory/icons';
 import { CertDialogButton } from 'view/tables/factory/CertDialogButton';
-import { useFactoryList } from 'services/hooks/useFactoryList';
+import { useBlockSubscribe } from 'services/hooks/useBlockSubscribe';
 
 export interface IFactoryColumnVals {
   name: string;
@@ -16,7 +16,7 @@ export interface IFactoryColumnVals {
 }
 
 export function FactoriesTable() {
-  const factories = useFactoryList();
+  const factories = useBlockSubscribe<FactoryResData>(fetchAllFactories);
 
   const columns = [
     { field: 'name', title: 'Name' },
