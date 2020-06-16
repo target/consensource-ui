@@ -3,10 +3,11 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
-import CreateOrgForm from 'view/widgets/forms/organization';
+import CreateOrgForm from 'view/forms/organization';
 import {
   Organization,
   CreateOrganizationAction,
+  CreateAgentAction,
 } from 'services/protobuf/compiled';
 import {
   OrgTypeStrings,
@@ -15,6 +16,10 @@ import {
 import stores from 'stores';
 import { createBatch } from 'services/protobuf/batch';
 import BatchService from 'services/batch';
+import { useHistory } from 'react-router-dom';
+import CreateAgentActionForm from 'view/forms/CreateAgent';
+
+import { createAgentTransaction } from 'services/protobuf/agent';
 
 interface SelectOrgTypeProps {
   onOrgSelect: (orgType: Organization.Type) => void;
@@ -33,6 +38,7 @@ function SelectOrgType({ onOrgSelect }: SelectOrgTypeProps) {
 
   return (
     <div>
+      <AgentSignUp />
       <h2>Org Types</h2>
       <FormGroup>
         {orgTypes.map((orgType) => (
@@ -59,6 +65,41 @@ function SelectOrgType({ onOrgSelect }: SelectOrgTypeProps) {
   );
 }
 
+function AgentSignUp() {
+  const [errMsg, setErrMsg] = useState('');
+  const history = useHistory();
+
+  /**
+   * Redirect a user to the dashboard screen if successful
+   */
+  const onSubmit = async (agentAction: CreateAgentAction) => {
+    if (!stores.userStore.user) {
+      setErrMsg('A signer is required to create an agent');
+      return;
+    }
+
+    const { signer } = stores.userStore.user;
+
+    const txns = new Array(createAgentTransaction(agentAction, signer));
+    const batchListBytes = createBatch(txns, signer);
+
+    try {
+      await BatchService.submitBatch(batchListBytes);
+      history.push('/dashboard');
+    } catch ({ message }) {
+      setErrMsg(message);
+    }
+  };
+
+  return (
+    <div>
+      <h1>Agent Signup</h1>
+      <div>{errMsg}</div>
+      <CreateAgentActionForm onSubmit={onSubmit} />
+    </div>
+  );
+}
+
 function Dashboard() {
   const [orgType, setOrgType] = useState(Organization.Type.UNSET_TYPE);
 
@@ -80,7 +121,12 @@ function Dashboard() {
     return <SelectOrgType onOrgSelect={(org) => setOrgType(org)} />;
   }
 
-  return <CreateOrgForm organization_type={orgType} onSubmit={onSubmit} />;
+  return (
+    <div>
+      <AgentSignUp />
+      <CreateOrgForm organization_type={orgType} onSubmit={onSubmit} />
+    </div>
+  );
 }
 
 export default Dashboard;

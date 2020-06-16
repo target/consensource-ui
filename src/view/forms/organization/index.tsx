@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { FormProps } from 'view/widgets/forms';
+import { FormProps } from 'view/forms';
 import {
   createOrgAction,
   ICreateOrgActionStrict,
 } from 'services/protobuf/organization';
-import CreateContactForm from 'view/widgets/forms/organization/CreateContact';
-import CreateAddressForm from 'view/widgets/forms/organization/CreateFactoryAddress';
+import CreateContactForm from 'view/forms/organization/CreateContact';
+import CreateAddressForm from 'view/forms/organization/CreateFactoryAddress';
 import { Organization } from 'services/protobuf/compiled';
 import { hash, HashingAlgorithms } from 'services/crypto';
 
@@ -101,7 +101,7 @@ export default function CreateOrganizationForm({
             />
           </label>
         </div>
-        <button type="submit" onClick={onClick} disabled={false}>
+        <button type="submit" onClick={onClick} disabled={!org.name}>
           {onSubmitBtnLabel}
         </button>
       </form>

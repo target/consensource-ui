@@ -1,6 +1,6 @@
 import React from 'react';
-import { FormProps } from 'view/widgets/forms';
-import CreateOrganizationForm from 'view/widgets/forms/organization';
+import { FormProps } from 'view/forms';
+import CreateOrganizationForm from 'view/forms/organization';
 import { createAssertionAction } from 'services/protobuf/assertion';
 import {
   Organization,

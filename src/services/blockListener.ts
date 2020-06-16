@@ -16,8 +16,6 @@ const eventEmitter = new EventEmitter();
 
 const BLOCK_EVENT = 'block-event';
 
-// TODO: Convert this into a store so that we can perform
-// automatic DOM updates on block events
 let blockStream: EventSource | EventSourcePolyfill;
 
 if (window.EventSource) {
@@ -27,12 +25,8 @@ if (window.EventSource) {
 }
 
 export function onBlockEvent(event: any) {
-  try {
-    const blockData: Block = JSON.parse(event.data);
-    eventEmitter.emit(BLOCK_EVENT, blockData);
-  } catch ({ message }) {
-    console.error(message);
-  }
+  const blockData: Block = JSON.parse(event.data);
+  eventEmitter.emit(BLOCK_EVENT, blockData);
 }
 
 export function addBlockUpdateListener(f: VoidFunction) {
@@ -43,4 +37,4 @@ export function removeBlockUpdateListener(f: VoidFunction) {
   eventEmitter.removeListener(BLOCK_EVENT, f);
 }
 
-blockStream.addEventListener(BLOCK_EVENT, onBlockEvent.bind(this));
+blockStream.addEventListener(BLOCK_EVENT, onBlockEvent);

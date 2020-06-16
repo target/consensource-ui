@@ -15,6 +15,7 @@ export interface FactoryResAddressData {
 export interface FactoryResData extends OrgResData {
   address: FactoryResAddressData;
   certificates: Array<CertResData> | null;
+  assertion_id?: string;
 }
 
 export interface FactoryReqParams {

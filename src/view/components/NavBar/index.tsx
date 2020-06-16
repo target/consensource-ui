@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
-import ProfileMenu from 'view/components/ProfileMenu';
+import ProfileMenu from 'view/components/NavBar/ProfileMenu';
 
 import { DRAWER_WIDTH } from 'view/components/Sidebar';
 

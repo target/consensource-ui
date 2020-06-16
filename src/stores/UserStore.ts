@@ -14,7 +14,6 @@ import {
   createPrivateKeyFromHex,
 } from 'services/crypto';
 import SnackbarStore from 'stores/SnackbarStore';
-import { Secp256k1PrivateKey } from 'sawtooth-sdk/signing/secp256k1';
 
 export interface UserInfo {
   username: string;
@@ -22,7 +21,6 @@ export interface UserInfo {
   signer: sawtooth.signing.Signer;
 }
 
-// TODO: Add the org_id of a user here
 export class User {
   userStore: UserStore;
 
@@ -47,7 +45,7 @@ export class User {
 export default class UserStore {
   snackbarStore: SnackbarStore;
 
-  userStorageKey = 'USER';
+  USER_STORAGE_KEY = 'USER';
 
   @observable user: User | null = null;
 
@@ -55,15 +53,20 @@ export default class UserStore {
 
   constructor(snackbarStore: SnackbarStore) {
     this.snackbarStore = snackbarStore;
-    this.getUserFromLocalStorage();
+    this.loadUserFromLocalStorage();
   }
 
-  getUserFromLocalStorage() {
-    const userString = window.localStorage.getItem(this.userStorageKey);
+  async loadUserFromLocalStorage() {
+    const userString = window.localStorage.getItem(this.USER_STORAGE_KEY);
 
     if (userString) {
       const { username, password }: User = JSON.parse(userString);
-      this.authenticateUser(username, password);
+
+      try {
+        await this.authenticateUser(username, password);
+      } catch {
+        this.user = null;
+      }
     }
   }
 
@@ -91,7 +94,7 @@ export default class UserStore {
 
     this.user = new User(this, user);
 
-    window.localStorage.setItem(this.userStorageKey, JSON.stringify(user));
+    window.localStorage.setItem(this.USER_STORAGE_KEY, JSON.stringify(user));
   }
 
   @action.bound
@@ -99,7 +102,15 @@ export default class UserStore {
     this.isAuthenticating = true;
 
     const payload: UserAuthPayload = { username, password };
-    const res = await postUsersAuthenticate(payload);
+
+    let res;
+
+    try {
+      res = await postUsersAuthenticate(payload);
+    } catch {
+      this.logout();
+      throw new Error('Failed to authenticate user');
+    }
 
     const decryptedKey = getDecryptedKeyHex(
       res.encrypted_private_key,
@@ -119,5 +130,11 @@ export default class UserStore {
     this.user = new User(this, user);
 
     this.isAuthenticating = false;
+  }
+
+  @action.bound
+  logout() {
+    window.localStorage.removeItem(this.USER_STORAGE_KEY);
+    this.user = null;
   }
 }

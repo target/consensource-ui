@@ -12,6 +12,7 @@ export interface CertResData {
   standard_version: string;
   valid_from: number;
   valid_to: number;
+  assertion_id?: string;
 }
 
 export interface CertReqParam {

@@ -27,11 +27,8 @@ export interface IContactStrict extends Organization.IContact {
 
 export interface IFactoryAddressStrict extends Factory.IAddress {
   street_line_1: NonNullable<Factory.IAddress['street_line_1']>;
-  street_line_2: NonNullable<Factory.IAddress['street_line_2']>;
   city: NonNullable<Factory.IAddress['city']>;
-  state_province: NonNullable<Factory.IAddress['state_province']>;
   country: NonNullable<Factory.IAddress['country']>;
-  postal_code: NonNullable<Factory.IAddress['postal_code']>;
 }
 
 /**

@@ -13,6 +13,7 @@ export interface StandardBodyResData {
   organization_id: string;
   name: string;
   versions: Array<StandardVersionResData>;
+  assertion_id?: string;
 }
 
 export interface StandardResData {

@@ -5,6 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import { useHistory } from 'react-router-dom';
+import stores from 'stores';
 
 const useStyles = makeStyles({
   root: {
@@ -32,6 +33,11 @@ export default function ProfileDropdown() {
     setAnchorEl(null);
   };
 
+  const handleLogout = () => {
+    stores.userStore.logout();
+    history.push('/');
+  };
+
   const handleProfileClick = () => {
     setAnchorEl(null);
     history.push('profile');
@@ -55,9 +61,7 @@ export default function ProfileDropdown() {
         onClose={handleClose}
       >
         <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-
-        {/* TODO: Signout logic */}
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </div>
   );

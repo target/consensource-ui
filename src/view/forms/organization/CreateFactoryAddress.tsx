@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormProps, hasEmptyFields } from 'view/widgets/forms';
+import { FormProps, hasEmptyFields } from 'view/forms';
 import {
   createFactoryAddress,
   IFactoryAddressStrict,
@@ -19,12 +19,11 @@ export default function CreateFactoryAddressForm({
 }: CreateContactFormProps) {
   const [address, setAddress] = useState<IFactoryAddressStrict>({
     street_line_1: '',
-    street_line_2: '',
     city: '',
-    state_province: '',
     country: '',
-    postal_code: '',
   });
+
+  const isDisabled = hasEmptyFields<IFactoryAddressStrict>(address);
 
   /**
    * Create a user and an agent from the form info
@@ -38,7 +37,7 @@ export default function CreateFactoryAddressForm({
     <form>
       <div>
         <label htmlFor="factory-street-line-1">
-          Street Line 1
+          Street Line 1 *
           <input
             value={address.street_line_1}
             onChange={(e) =>
@@ -55,7 +54,7 @@ export default function CreateFactoryAddressForm({
         <label htmlFor="factory-street-line-2">
           Street Line 2
           <input
-            value={address.street_line_2}
+            value={address.street_line_2 || ''}
             onChange={(e) =>
               setAddress({ ...address, street_line_2: e.target.value })
             }
@@ -68,7 +67,7 @@ export default function CreateFactoryAddressForm({
       </div>
       <div>
         <label htmlFor="factory-city">
-          City
+          City *
           <input
             value={address.city}
             onChange={(e) => setAddress({ ...address, city: e.target.value })}
@@ -82,7 +81,7 @@ export default function CreateFactoryAddressForm({
           <label htmlFor="factory-state-province">
             State Province
             <input
-              value={address.state_province}
+              value={address.state_province || ''}
               onChange={(e) =>
                 setAddress({ ...address, state_province: e.target.value })
               }
@@ -95,7 +94,7 @@ export default function CreateFactoryAddressForm({
         </div>
         <div>
           <label htmlFor="factory-country">
-            Country
+            Country *
             <input
               value={address.country}
               onChange={(e) =>
@@ -113,7 +112,7 @@ export default function CreateFactoryAddressForm({
           <label htmlFor="factory-postal-code">
             Postal Code
             <input
-              value={address.postal_code}
+              value={address.postal_code || ''}
               onChange={(e) =>
                 setAddress({ ...address, postal_code: e.target.value })
               }
@@ -126,7 +125,7 @@ export default function CreateFactoryAddressForm({
         </div>
       </div>
 
-      <button type="submit" onClick={submit} disabled={hasEmptyFields(address)}>
+      <button type="submit" onClick={submit} disabled={isDisabled}>
         {onSubmitBtnLabel}
       </button>
     </form>

@@ -20,7 +20,6 @@ const useStyles = makeStyles({
 
 function Layout() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const isSignedIn = !!stores.userStore.user;
 
   const classes = useStyles();
   const { snackbarStore } = stores;
@@ -48,7 +47,7 @@ function Layout() {
 
         <Snackbar
           message={snackbarStore.message}
-          isOpen={snackbarStore.isOpen}
+          open={snackbarStore.isOpen}
           onClose={snackbarStore.handleClose}
         />
       </div>

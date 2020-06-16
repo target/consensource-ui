@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
-import { CertificationDialog } from 'view/widgets/dialogs';
+import { CertificationDialog } from 'view/dialogs';
 import { CertResData } from 'services/api/certificate';
 
 export interface CertDialogButtonProps {
