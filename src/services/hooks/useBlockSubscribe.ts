@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
-import { addBlockUpdateListener } from 'services/blockListener';
+import {
+  addBlockUpdateListener,
+  removeBlockUpdateListener,
+} from 'services/blockListener';
 import { ApiRes } from 'services/api/utils';
 import { FactoryReqParams } from 'services/api/factory';
 
@@ -27,6 +30,8 @@ export const useBlockSubscribe = <T>(
   useEffect(() => {
     addBlockUpdateListener(fetchData);
     fetchData();
+
+    return removeBlockUpdateListener(fetchData);
   }, []);
 
   return data;
