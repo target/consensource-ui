@@ -4,23 +4,25 @@ import {
   removeBlockUpdateListener,
 } from 'services/blockListener';
 import { ApiRes } from 'services/api/utils';
-import { FactoryReqParams } from 'services/api/factory';
 
 /**
  * Hook function that queries an API endpoint, `fetchFn`,
- * which returns an array of data.
+ * which returns an array of data. Accepts an optional params object.
  *
- * Whenever a new block is created, `fetchFn` will be re-ran
+ * Whenever a new block is created, `fetchFn` will re-run
  * and the exported state object will be updated with the latest values.
+ *
+ * TODO: Logic to iterate through paging options and make subsequent fetches
  */
-export const useBlockSubscribe = <T>(
-  fetchFn: (params?: FactoryReqParams) => Promise<ApiRes<T[]>>,
+export const useBlockSubscribe = <T, S = {}>(
+  fetchFn: (params?: S) => Promise<ApiRes<T[]>>,
+  params?: S,
 ) => {
   const [data, setData] = useState<T[]>([]);
 
   const fetchData = async () => {
     try {
-      const res = await fetchFn();
+      const res = await fetchFn(params);
       setData(res.data);
     } catch {
       setData([]);
