@@ -30,6 +30,7 @@ function SelectOrgType({ onOrgSelect }: SelectOrgTypeProps) {
     'UNSET_TYPE',
   );
 
+  // Remove the UNSET_TYPE from list of orgs
   const orgTypes = Object.keys(Organization.Type).slice(1) as OrgTypeStrings[];
 
   const onClick = () => {
@@ -38,7 +39,6 @@ function SelectOrgType({ onOrgSelect }: SelectOrgTypeProps) {
 
   return (
     <div>
-      <AgentSignUp />
       <h2>Org Types</h2>
       <FormGroup>
         {orgTypes.map((orgType) => (
@@ -117,14 +117,14 @@ function Dashboard() {
     await BatchService.submitBatch(batchListBytes);
   };
 
-  if (orgType === Organization.Type.UNSET_TYPE) {
-    return <SelectOrgType onOrgSelect={(org) => setOrgType(org)} />;
-  }
-
   return (
     <div>
       <AgentSignUp />
-      <CreateOrgForm organization_type={orgType} onSubmit={onSubmit} />
+      {orgType === Organization.Type.UNSET_TYPE ? (
+        <SelectOrgType onOrgSelect={(org) => setOrgType(org)} />
+      ) : (
+        <CreateOrgForm organization_type={orgType} onSubmit={onSubmit} />
+      )}
     </div>
   );
 }

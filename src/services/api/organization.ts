@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ApiRes } from 'services/api/utils';
+import { BaseApiRes, PaginatedApiRes } from 'services/api/utils';
 import { Organization } from 'services/protobuf/compiled';
 
 export interface OrgResContactData {
@@ -31,7 +31,7 @@ export interface OrgReqParams {
 
 export async function fetchOrganizations(
   params?: OrgReqParams,
-): Promise<ApiRes<OrgResData[]>> {
+): Promise<PaginatedApiRes<OrgResData[]>> {
   const path = '/api/organizations';
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {
@@ -44,7 +44,7 @@ export async function fetchOrganizations(
 export async function fetchOrganizationById(
   orgId: string,
   params?: OrgReqParams,
-): Promise<ApiRes<OrgResData>> {
+): Promise<BaseApiRes<OrgResData>> {
   const path = `/api/organizations/${orgId}`;
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {

@@ -3,7 +3,7 @@ import {
   addBlockUpdateListener,
   removeBlockUpdateListener,
 } from 'services/blockListener';
-import { ApiRes } from 'services/api/utils';
+import { BaseApiRes } from 'services/api/utils';
 
 /**
  * Hook function that queries an API endpoint, `fetchFn`,
@@ -15,7 +15,7 @@ import { ApiRes } from 'services/api/utils';
  * TODO: Logic to iterate through paging options and make subsequent fetches
  */
 export const useBlockSubscribe = <T, S = {}>(
-  fetchFn: (params?: S) => Promise<ApiRes<T[]>>,
+  fetchFn: (params?: S) => Promise<BaseApiRes<T[]>>,
   params?: S,
 ) => {
   const [data, setData] = useState<T[]>([]);

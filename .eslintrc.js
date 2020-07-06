@@ -31,6 +31,7 @@ module.exports = {
     'react/jsx-indent': 'off',
     'max-classes-per-file': 'off',
     'import/prefer-default-export': 'off',
+    'no-console': 'off',
   },
   settings: {
     'import/resolver': {

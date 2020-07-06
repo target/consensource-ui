@@ -7,9 +7,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import SearchIcon from '@material-ui/icons/Search';
+import MapIcon from '@material-ui/icons/Map';
 import HomeIcon from '@material-ui/icons/Home';
-import MailIcon from '@material-ui/icons/Mail';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 
@@ -87,18 +86,11 @@ export default function Sidebar({
           <ListItemText primary="Dashboard" />
         </ListItem>
 
-        <ListItem button key="search" onClick={() => history.push('search')}>
+        <ListItem button key="map" onClick={() => history.push('map')}>
           <ListItemIcon>
-            <SearchIcon />
+            <MapIcon />
           </ListItemIcon>
-          <ListItemText primary="Search Factories" />
-        </ListItem>
-
-        <ListItem button key="email" onClick={() => history.push('email')}>
-          <ListItemIcon>
-            <MailIcon />
-          </ListItemIcon>
-          <ListItemText primary="Email Settings" />
+          <ListItemText primary="Factory Map" />
         </ListItem>
       </List>
     </Drawer>

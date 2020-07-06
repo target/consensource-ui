@@ -14,16 +14,16 @@ export default function Profile() {
     publicKeyString = stores.userStore.user.publicKeyString;
   }
 
-  useEffect(() => {
-    const fetchAgent = async () => {
-      try {
-        const { data } = await fetchAgentByPubKey(publicKeyString);
-        setAgent(data);
-      } catch ({ message }) {
-        setErrMsg(message);
-      }
-    };
+  const fetchAgent = async () => {
+    try {
+      const { data } = await fetchAgentByPubKey(publicKeyString);
+      setAgent(data);
+    } catch ({ message }) {
+      setErrMsg(message);
+    }
+  };
 
+  useEffect(() => {
     fetchAgent();
   });
 
@@ -36,7 +36,7 @@ export default function Profile() {
       <div>{errMsg}</div>
       <h1>Profile</h1>
       {Object.entries(agent).map(([key, val]) => (
-        <div>{`${key}: ${val}`}</div>
+        <div key={val}>{`${key}: ${val}`}</div>
       ))}
     </div>
   );

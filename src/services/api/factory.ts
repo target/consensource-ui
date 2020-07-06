@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ApiRes } from 'services/api/utils';
+import { BaseApiRes, PaginatedApiRes, SortingReq } from 'services/api/utils';
 import { OrgResData } from 'services/api/organization';
 import { CertResData } from 'services/api/certificate';
 
@@ -14,12 +14,22 @@ export interface FactoryResAddressData {
 
 export interface FactoryResData extends OrgResData {
   address: FactoryResAddressData;
-  certificates: Array<CertResData> | null;
+  certificates?: Array<CertResData>;
   assertion_id?: string;
 }
 
-export interface FactoryReqParams {
-  name?: string;
+export type FactoryReqFilterSortParams = Partial<FactoryResAddressData> & {
+  standard_name?: string; // Only value from `CertResData` we filter/sort on
+};
+
+/**
+ * Allows for optional query filtering/sorting on all fields
+ * of `FactoryResAddressData` and the `standard_name` of
+ * `CertResData`.
+ */
+export interface FactoryReqParams
+  extends FactoryReqFilterSortParams,
+    SortingReq<FactoryReqFilterSortParams> {
   limit?: number;
   offset?: number;
   head?: number;
@@ -28,7 +38,7 @@ export interface FactoryReqParams {
 
 export async function fetchAllFactories(
   params?: FactoryReqParams,
-): Promise<ApiRes<FactoryResData[]>> {
+): Promise<PaginatedApiRes<FactoryResData[]>> {
   const path = '/api/factories';
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {
@@ -41,7 +51,7 @@ export async function fetchAllFactories(
 export async function fetchFactoryByOrgId(
   orgId: string,
   params?: FactoryReqParams,
-): Promise<ApiRes<FactoryResData>> {
+): Promise<BaseApiRes<FactoryResData>> {
   const path = `/api/factories/${orgId}`;
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {

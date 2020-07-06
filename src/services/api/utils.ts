@@ -1,4 +1,4 @@
-export interface Paging {
+export interface PagingRes {
   first: string;
   last: string;
   limit: number;
@@ -8,15 +8,22 @@ export interface Paging {
   total: number;
 }
 
+export interface SortingReq<T> {
+  sort_key?: keyof T;
+  sort_dir?: string;
+}
+
 /**
- * Base response object that most of the API
- * endpoints adhere to.
+ * Base response object
  */
-export interface ApiRes<T = {}> {
+export interface BaseApiRes<T = {}> {
   data: T;
-  link?: string;
-  head?: number;
-  paging?: Paging;
+}
+
+export interface PaginatedApiRes<T = {}> extends BaseApiRes<T> {
+  link: string;
+  head: number;
+  paging: PagingRes;
 }
 
 export interface ExpansionRef {

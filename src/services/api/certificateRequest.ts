@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ApiRes, ExpansionRef } from 'services/api/utils';
+import { BaseApiRes, ExpansionRef } from 'services/api/utils';
 import { OrgResData } from 'services/api/organization';
 import { StandardResData } from 'services/api/standard';
 
@@ -29,7 +29,7 @@ export interface CertRequestReqParam {
 
 export async function fetchCertRequests(
   params?: CertRequestReqParam,
-): Promise<ApiRes<CertRequestResData[]>> {
+): Promise<BaseApiRes<CertRequestResData[]>> {
   const path = '/api/requests';
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {
@@ -42,7 +42,7 @@ export async function fetchCertRequests(
 export async function fetchCertRequestById(
   requestId: string,
   params?: CertRequestReqParam,
-): Promise<ApiRes<CertRequestResData>> {
+): Promise<BaseApiRes<CertRequestResData>> {
   const path = `/api/requests/${requestId}`;
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {

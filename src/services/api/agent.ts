@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ApiRes } from 'services/api/utils';
+import { BaseApiRes, PaginatedApiRes } from 'services/api/utils';
 import { Organization } from 'services/protobuf/compiled';
 
 export interface AgentResData {
@@ -21,7 +21,7 @@ export interface AgentReqParams {
 
 export async function fetchAgents(
   params?: AgentReqParams,
-): Promise<ApiRes<AgentResData[]>> {
+): Promise<PaginatedApiRes<AgentResData[]>> {
   const path = '/api/agents';
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {
@@ -34,7 +34,7 @@ export async function fetchAgents(
 export async function fetchAgentByPubKey(
   publicKey: string,
   params?: AgentReqParams,
-): Promise<ApiRes<AgentResData>> {
+): Promise<BaseApiRes<AgentResData>> {
   const path = `/api/agents/${publicKey}`;
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {

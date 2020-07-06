@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ApiRes } from 'services/api/utils';
+import { BaseApiRes } from 'services/api/utils';
 
 export interface StandardVersionResData {
   version: string;
@@ -35,7 +35,7 @@ export interface StandardBodyReqParams {
 
 export async function fetchAllOrgStandards(
   params?: StandardBodyReqParams,
-): Promise<ApiRes<StandardBodyResData[]>> {
+): Promise<BaseApiRes<StandardBodyResData[]>> {
   const path = '/api/standards_body/standards';
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {
@@ -60,7 +60,7 @@ export async function fetchStandard(
 
 export async function fetchAllStandards(
   params?: StandardReqParams,
-): Promise<ApiRes<StandardResData[]>> {
+): Promise<BaseApiRes<StandardResData[]>> {
   const path = '/api/standards';
 
   const res = await axios.get(path, { params }).catch(({ message }: Error) => {
