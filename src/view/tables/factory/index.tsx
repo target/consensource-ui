@@ -12,9 +12,15 @@ import MUIDataTable, {
 import stores from 'stores';
 import { CertResData } from 'services/api/certificate';
 
-export function FactoriesTable() {
-  const DEFAULT_ROWS_PER_PAGE = 15;
+export const DEFAULT_ROWS_PER_PAGE = 15;
 
+export const textLabels: MUIDataTableOptions['textLabels'] = {
+  body: {
+    noMatch: 'No factories found',
+  },
+};
+
+export function FactoriesTable() {
   /**
    * This option removes the ability to perform pagination, filtering, and sorting
    * on the UI and pushes that logic to the server.
@@ -32,7 +38,7 @@ export function FactoriesTable() {
 
   /**
    * Get the render element for the `Certificates` cell in our table.
-   * If the factory has an certificates, display them as an unordered list.
+   * If the factory has certificates, display them as an unordered list.
    */
   const getCertCell = (certificates?: CertResData[]) => {
     if (certificates) {
@@ -85,28 +91,30 @@ export function FactoriesTable() {
     },
   ];
 
-  const textLabels: MUIDataTableOptions['textLabels'] = {
-    body: {
-      noMatch: 'No factories found',
-    },
+  const fetchFactoryData = async (params: FactoryReqParams) => {
+    try {
+      const { data, paging } = await fetchAllFactories(params);
+
+      // console.log(data);
+
+      if (data) {
+        setFactoriesPage(data);
+      }
+
+      if (paging && paging.total) {
+        setCount(paging.total);
+      }
+    } catch ({ message }) {
+      console.error(message);
+
+      // TODO: snackbarStore currently only work within the <Layout /> component,
+      // and this table is not rendered in that default layout
+      stores.snackbarStore.open('There was an issue loading factories');
+    }
   };
 
   useEffect(() => {
-    const updateFactoriesTable = async (params: FactoryReqParams) => {
-      try {
-        const { data, paging } = await fetchAllFactories(params);
-        setCount(paging.total);
-        setFactoriesPage(data);
-      } catch ({ message }) {
-        console.error(message);
-
-        // TODO: snackbarStore currently only work within the <Layout /> component,
-        // and this table is not rendered in that default layout
-        stores.snackbarStore.open('There was an issue loading factories');
-      }
-    };
-
-    updateFactoriesTable(queryParams);
+    fetchFactoryData(queryParams);
   }, [queryParams]);
 
   const onFilterChange = (changedColumn: string, filterList: any[]) => {
