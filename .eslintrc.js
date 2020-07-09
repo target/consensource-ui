@@ -32,6 +32,7 @@ module.exports = {
     'max-classes-per-file': 'off',
     'import/prefer-default-export': 'off',
     'no-console': 'off',
+    'no-plusplus': 'off',
   },
   settings: {
     'import/resolver': {

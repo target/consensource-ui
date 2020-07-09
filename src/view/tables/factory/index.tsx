@@ -95,8 +95,6 @@ export function FactoriesTable() {
     try {
       const { data, paging } = await fetchAllFactories(params);
 
-      // console.log(data);
-
       if (data) {
         setFactoriesPage(data);
       }
