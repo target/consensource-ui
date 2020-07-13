@@ -12,39 +12,39 @@
   </a> -->
 
   <p>Certification transparency and authenticity to empower responsible sourcing</p>
-
-[**Read The Docs**](https://target.github.io/consensource-docs/docs/developer/application-developers-guide/client/)
-<br />
-
 </div>
 
 <hr />
 
 [![Build Status](https://travis-ci.org/target/consensource-ui.svg?branch=master)](https://travis-ci.org/target/consensource-ui)
 
-## Overview
+## Table Of Contents
 
-#### Details on the technical architecture can be found on our [docs site](https://target.github.io/consensource-docs/docs/developer/application-developers-guide/client/).
+- [Getting Started](#Getting-Started)
+  - [Overview](#Overview)
+  - [Development Environment Setup](#Development-Environment-Setup)
+    - [Docker setup](#Docker-setup)
+    - [Running the UI](#Running-the-UI)
+- [Available Commands](#Available-Commands)
+  - [`yarn start`](#yarn-start)
+  - [`yarn test`](#yarn-test)
+  - [`yarn build`](#yarn-build)
+  - [`yarn format`](#yarn-format)
+  - [`yarn lint`](#yarn-lint)
+  - [`yarn generate-protobufs`](#yarn-generate-protobufs)
+  - [`yarn clean`](#yarn-clean)
 
-The ConsenSource UI is comprised of a number of Mithril applications under the same router. The following views are defined:
+## Getting Started
 
--   [Retailer](https://localhost:8080/index_retailer.html)
--   [Auditor](https://localhost:8080/index_auditor.html)
--   [Factory](https://localhost:8080/index_factory.html)
--   [Standards Body](https://localhost:8080/index_standards_body.html)
+### Overview
 
-## Development
+The ConsenSource UI allows retailers, standards bodies, certifying bodies, and factories to build transactions and interact with the underlying ConsenSource blockchain. Account info such as username, private and public keys, etc, are stored in an off-chain database.
 
-### Environment Setup
+In addition to transaction building, the UI allows end users to explore factory profiles and discover new factories based on various certification criteria.
 
-```
-brew install node@8
-yarn
-```
+### Development Environment Setup
 
-### Running the app
-
-**Currently, the UI cannot be run without the rest of the ConsenSource project.**
+#### Docker setup
 
 In order to run the UI you will need to clone the [`consensource-compose repo`](https://github.com/target/consensource-compose) and follow the [setup instructions](https://github.com/target/consensource-compose#setup) to download the docker images for all of the services.
 
@@ -54,64 +54,53 @@ Once you have all of the images, you can run the following command to start the 
 ./docker-helper -r
 ```
 
-#### Starting the dev server
-
-To enable hot module reloading while developing, run the following command:
+#### Running the UI
 
 ```
+# Use correct Node version
+nvm use
+
+# Install dependencies
+yarn
+
+# Start the dev server
 yarn start
 ```
 
-#### TypeScript compilation
+## Available Commands
 
-When running the dev server, we also compile our TypeScript code to JavaScript. This is performed automatically via our [webpack config file](https://github.com/target/consensource-ui/blob/master/webpack.config.js).
+From a command line in the project directory, you can run:
 
-Note that this will also generate source map files to enable TypeScript debugging in the browser.
+### `yarn start`
 
-### Testing
+Runs the app in the development mode.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-Tests can be run with the following command:
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
 
-```
-yarn test
-```
+Read the [Development Environment Setup](#development-environment-setup) instructions for info on starting the backend services for ConsenSource.
 
-To generate a code coverage report:
+### `yarn test`
 
-```
-yarn test:coverage
-```
+Launches the test runner in the interactive watch mode.<br/>
 
-### Linting
+### `yarn build`
 
-Linting errors will fail in our CI, so it is important to verify that your code is linty before opening a PR.
+Builds the app and outputs to the `build` folder.<br/>
 
-```
-yarn lint
-```
+### `yarn format`
 
-#### Recommended VSCode plugins for linting
+Formats all globbed files using [prettier](https://prettier.io/) for consistency throughout the codebase.<br/>
 
--   [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
--   [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+### `yarn lint`
 
-### Generating Protobufs
+Lints all globbed files according to the rules specified in the `.eslintrc.js` file, emitting errors and warnings to the console.<br/>
 
-Services within the ConsenSource network communicate via [Protocol Buffers](https://developers.google.com/protocol-buffers).
+### `yarn generate-protobufs`
 
-In order to build the protobuf messages that get sent to the API, we have a [script](https://github.com/target/consensource-ui/blob/master/scripts/compile_protobufs.sh) that takes the content of our `/protos` folder and generates a JavaScript interface and TypeScript declaration file for that interface.
+Takes the content of our `/protos` folder and generates a JavaScript interface and TypeScript declaration file for the JS interface. Outputs these files to `src/services/protobuf/compiled/`.<br/>
 
-This script can be ran with the following command:
+### `yarn clean`
 
-```
-yarn generate-protobufs
-```
-
-**Note: This script is automatically ran before any other dependent scripts (`test`, `build`, etc.)**
-
-## Building / Release
-
-```
-yarn
-yarn build
-```
+Removes the the contents of `node_modules` and `src/services/protobuf/compiled/`.

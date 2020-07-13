@@ -6,8 +6,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom-fourteen",
-    "eject": "react-scripts eject",
-    "clean": "rm -rf node_modules/ src/services/protobuf/compiled.js src/types/consensource/index.d.ts",
+    "clean": "rm -rf node_modules/ src/services/protobuf/compiled/index.js src/services/protobuf/compiled/index.d.ts",
     "generate-protobufs": "./scripts/compile_protobufs.sh",
     "lint": "eslint './**/*.{js,ts,tsx}' --fix",
     "format": "prettier --write './**/*.{ts,tsx,js}'"

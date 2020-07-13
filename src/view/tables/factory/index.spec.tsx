@@ -22,9 +22,7 @@ describe('<FactoriesTable />', () => {
   const waitForTableRender = async () => {
     await act(async () => {
       render(<FactoriesTable />);
-      await waitForElementToBeRemoved(() =>
-        screen.getByText('No factories found'),
-      );
+      await waitForElementToBeRemoved(() => screen.getByText(loadingText));
     });
   };
 
@@ -35,11 +33,9 @@ describe('<FactoriesTable />', () => {
   });
 
   it('renders a table with data', async () => {
-    const name = 'Test Org';
-
     jest
       .spyOn(FactoryApi, 'fetchAllFactories')
-      .mockResolvedValue({ ...mockFactoryRes, data: [{ name }] } as any);
+      .mockResolvedValue(mockFactoryRes as any);
 
     await waitForTableRender();
   });
