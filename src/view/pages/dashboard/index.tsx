@@ -58,7 +58,11 @@ function SelectOrgType({ onOrgSelect }: SelectOrgTypeProps) {
         ))}
       </FormGroup>
 
-      <Button onClick={onClick} disabled={selectedOrgType === 'UNSET_TYPE'}>
+      <Button
+        color="secondary"
+        onClick={onClick}
+        disabled={selectedOrgType === 'UNSET_TYPE'}
+      >
         Continue
       </Button>
     </div>

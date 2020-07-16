@@ -6,24 +6,25 @@ import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import { useHistory } from 'react-router-dom';
 import stores from 'stores';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
-  root: {
-    display: 'flex',
-  },
-  paper: {
-    marginRight: 10,
-  },
   container: {
     marginLeft: 'auto',
   },
+  profile: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 });
 
-export default function ProfileDropdown() {
+export default function ProfileMenu() {
   const history = useHistory();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const classes = useStyles();
+
+  const username = stores.userStore && stores.userStore.user?.username;
 
   const handleIconClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -43,16 +44,8 @@ export default function ProfileDropdown() {
     history.push('profile');
   };
 
-  return (
-    <div className={classes.container}>
-      <IconButton
-        color="inherit"
-        aria-label="profile"
-        onClick={handleIconClick}
-        edge="start"
-      >
-        <ProfileIcon />
-      </IconButton>
+  function ProfileDropdown() {
+    return (
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
@@ -63,6 +56,23 @@ export default function ProfileDropdown() {
         <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
         <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
+    );
+  }
+
+  return (
+    <div className={classes.container}>
+      <div className={classes.profile}>
+        <IconButton
+          color="inherit"
+          aria-label="profile"
+          onClick={handleIconClick}
+          edge="start"
+        >
+          <ProfileIcon />
+        </IconButton>
+        <Typography>{username}</Typography>
+      </div>
+      <ProfileDropdown />
     </div>
   );
 }

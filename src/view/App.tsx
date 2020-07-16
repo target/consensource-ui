@@ -5,7 +5,6 @@ import Layout from 'view/pages/layout';
 import PrivateRoute from 'view/components/PrivateRoute';
 import SignUp from 'view/pages/signup';
 import Login from 'view/pages/login';
-import SearchFactories from 'view/pages/searchFactories';
 
 export default function App() {
   return (
@@ -15,7 +14,6 @@ export default function App() {
             by auth need to come before the <PrivateRoute /> */}
         <Route path="/login" component={Login} />
         <Route path="/sign-up" component={SignUp} />
-        <Route path="/search" component={SearchFactories} />
         <Route exact path="/" component={Landing} />
         <PrivateRoute path="/" component={Layout} />
       </Switch>
