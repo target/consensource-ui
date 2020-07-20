@@ -47,7 +47,6 @@ describe('BatchService', () => {
   });
 
   describe('waitForBatchCommit()', () => {
-    // TODO: Use snapshot tests
     let snackbarSpy: jest.SpyInstance;
 
     beforeEach(() => {

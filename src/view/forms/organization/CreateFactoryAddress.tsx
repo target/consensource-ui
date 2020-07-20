@@ -5,6 +5,9 @@ import {
   IFactoryAddressStrict,
 } from 'services/protobuf/organization';
 import { Factory } from 'services/protobuf/compiled';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 
 interface CreateContactFormProps extends FormProps {
   onSubmit: (address: Factory.Address) => any;
@@ -35,99 +38,85 @@ export default function CreateFactoryAddressForm({
 
   return (
     <form>
-      <div>
-        <label htmlFor="factory-street-line-1">
-          Street Line 1 *
-          <input
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            color="secondary"
             value={address.street_line_1}
             onChange={(e) =>
               setAddress({ ...address, street_line_1: e.target.value })
             }
-            placeholder="Street Line 1"
-            type="text"
-            id="factory-street-line-1"
+            label="Street Line 1"
+            id="street-line-1"
             required
           />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="factory-street-line-2">
-          Street Line 2
-          <input
-            value={address.street_line_2 || ''}
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            color="secondary"
+            value={address.street_line_2}
             onChange={(e) =>
               setAddress({ ...address, street_line_2: e.target.value })
             }
-            placeholder="Street Line 2"
-            type="text"
-            id="factory-street-line-2"
-            required
+            label="Street Line 2"
+            id="street-line-2"
           />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="factory-city">
-          City *
-          <input
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            color="secondary"
             value={address.city}
             onChange={(e) => setAddress({ ...address, city: e.target.value })}
-            placeholder="City"
-            type="text"
-            id="factory-city"
+            label="City"
+            id="city"
             required
           />
-        </label>
-        <div>
-          <label htmlFor="factory-state-province">
-            State Province
-            <input
-              value={address.state_province || ''}
-              onChange={(e) =>
-                setAddress({ ...address, state_province: e.target.value })
-              }
-              placeholder="State Province"
-              type="text"
-              id="factory-state-province"
-              required
-            />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="factory-country">
-            Country *
-            <input
-              value={address.country}
-              onChange={(e) =>
-                setAddress({ ...address, country: e.target.value })
-              }
-              placeholder="Country"
-              type="text"
-              id="factory-country"
-              required
-            />
-          </label>
-        </div>
-
-        <div>
-          <label htmlFor="factory-postal-code">
-            Postal Code
-            <input
-              value={address.postal_code || ''}
-              onChange={(e) =>
-                setAddress({ ...address, postal_code: e.target.value })
-              }
-              placeholder="Postal Code"
-              type="number"
-              id="factory-postal-code"
-              required
-            />
-          </label>
-        </div>
-      </div>
-
-      <button type="submit" onClick={submit} disabled={isDisabled}>
-        {onSubmitBtnLabel}
-      </button>
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            color="secondary"
+            value={address.state_province || ''}
+            onChange={(e) =>
+              setAddress({ ...address, state_province: e.target.value })
+            }
+            label="State Province"
+            id="state-province"
+            required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            color="secondary"
+            value={address.country}
+            onChange={(e) =>
+              setAddress({ ...address, country: e.target.value })
+            }
+            label="Country"
+            id="country"
+            required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            color="secondary"
+            value={address.postal_code || ''}
+            onChange={(e) =>
+              setAddress({ ...address, postal_code: e.target.value })
+            }
+            label="Postal Code"
+            id="postal-code"
+            required
+          />
+        </Grid>
+        <Button
+          color="secondary"
+          type="submit"
+          onClick={submit}
+          disabled={isDisabled}
+        >
+          {onSubmitBtnLabel}
+        </Button>
+      </Grid>
     </form>
   );
 }

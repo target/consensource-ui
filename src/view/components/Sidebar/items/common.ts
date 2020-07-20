@@ -7,6 +7,11 @@ export interface SidebarItemProps {
   isSelected: (route: string) => boolean;
 }
 
+export type SidebarItems = (({
+  onClick,
+  isSelected,
+}: SidebarItemProps) => JSX.Element)[];
+
 export const StyledListItem = withStyles({
   root: {
     flexDirection: 'column',

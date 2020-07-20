@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
-import { NAVBAR_HEIGHT } from 'view/components/NavBar';
-import { theme } from 'view/theme';
 import { items } from 'view/components/Sidebar/items';
 import { useHistory, useLocation } from 'react-router-dom';
 
-export const SIDEBAR_SPACING_UNITS = 11;
+export const SIDEBAR_SPACING_UNITS = 12.5;
 
 const useStyles = makeStyles({
   drawer: {
-    width: theme.spacing(SIDEBAR_SPACING_UNITS),
-    marginTop: NAVBAR_HEIGHT,
+    marginTop: 50, // "dense" AppBar height
     zIndex: 0,
+  },
+  list: {
+    paddingTop: 0, // Remove gap between AppBar and first List item
   },
 });
 
@@ -34,7 +34,7 @@ const Sidebar = () => {
 
   return (
     <Drawer variant="permanent" classes={{ paper: classes.drawer }}>
-      <List>
+      <List className={classes.list}>
         {items.map((item) =>
           React.createElement(item, { isSelected, onClick }),
         )}

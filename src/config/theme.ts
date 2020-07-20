@@ -1,5 +1,13 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
+declare module '@material-ui/core/styles/createMuiTheme' {
+  interface ThemeOptions {
+    status?: {
+      danger?: string;
+    };
+  }
+}
+
 export const theme = createMuiTheme({
   palette: {
     primary: {

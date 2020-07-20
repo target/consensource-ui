@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
-import { theme } from 'view/theme';
+import { theme } from 'config/theme';
 import App from 'view/App';
 import 'mobx-react-lite/batchingForReactDom';
 

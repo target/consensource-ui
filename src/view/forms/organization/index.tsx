@@ -8,6 +8,11 @@ import CreateContactForm from 'view/forms/organization/CreateContact';
 import CreateAddressForm from 'view/forms/organization/CreateFactoryAddress';
 import { Organization } from 'services/protobuf/compiled';
 import { hash, HashingAlgorithms } from 'services/crypto';
+import Key from '@material-ui/icons/VpnKey';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 
 function makeOrgId(name: string) {
   return hash(name, HashingAlgorithms.sha256);
@@ -71,7 +76,7 @@ export default function CreateOrganizationForm({
       return (
         <CreateContactForm
           onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
-          onSubmitBtnLabel="Next"
+          onSubmitBtnLabel="Continue"
         />
       );
     }
@@ -80,7 +85,7 @@ export default function CreateOrganizationForm({
       return (
         <CreateAddressForm
           onSubmit={(address) => setOrg({ ...org, address })}
-          onSubmitBtnLabel="Next"
+          onSubmitBtnLabel="Continue"
         />
       );
     }
@@ -88,30 +93,38 @@ export default function CreateOrganizationForm({
     // Org info form
     return (
       <form>
-        <div>
-          <label htmlFor="factory-name">
-            name
-            <input
+        <Grid container>
+          <Grid item xs={12}>
+            <TextField
+              color="secondary"
               value={org.name}
               onChange={(e) => setOrg({ ...org, name: e.target.value })}
-              placeholder="Organization name"
-              type="text"
-              id="factory-name"
+              label="Organization Name"
+              id="org-name"
               required
             />
-          </label>
-        </div>
-        <button type="submit" onClick={onClick} disabled={!org.name}>
-          {onSubmitBtnLabel}
-        </button>
+          </Grid>
+          <Button
+            variant="contained"
+            type="submit"
+            color="secondary"
+            onClick={onClick}
+            disabled={!org.name}
+            endIcon={<Key />}
+          >
+            {onSubmitBtnLabel}
+          </Button>
+        </Grid>
       </form>
     );
   };
 
   return (
-    <div>
-      <h3>{getCurrentFormTitle()}</h3>
+    <Grid container>
+      <Grid item xs={12}>
+        <Typography variant="h5">{getCurrentFormTitle()}</Typography>
+      </Grid>
       {getCurrentForm()}
-    </div>
+    </Grid>
   );
 }

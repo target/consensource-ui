@@ -5,6 +5,9 @@ import {
   IContactStrict,
 } from 'services/protobuf/organization';
 import { Organization } from 'services/protobuf/compiled';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 
 interface CreateContactFormProps extends FormProps {
   onSubmit: (contact: Organization.Contact) => any;
@@ -33,53 +36,51 @@ export default function CreateContactForm({
 
   return (
     <form>
-      <div>
-        <label htmlFor="contact-name">
-          name
-          <input
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <TextField
+            color="secondary"
             value={contact.name}
             onChange={(e) => setContact({ ...contact, name: e.target.value })}
-            placeholder="Name"
-            type="text"
+            label="Name"
             id="contact-name"
             required
           />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="contact-phone-number">
-          Phone Number
-          <input
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            color="secondary"
             value={contact.phone_number}
             onChange={(e) =>
               setContact({ ...contact, phone_number: e.target.value })
             }
-            placeholder="Phone Number"
-            type="text"
+            label="Phone Number"
             id="contact-phone-number"
             required
           />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="contact-language-code">
-          Language Code
-          <input
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            color="secondary"
             value={contact.language_code}
             onChange={(e) =>
               setContact({ ...contact, language_code: e.target.value })
             }
-            placeholder="Language Code"
-            type="text"
+            label="Language Code"
             id="contact-language-code"
             required
           />
-        </label>
-      </div>
+        </Grid>
 
-      <button type="submit" onClick={submit} disabled={hasEmptyFields(contact)}>
-        {onSubmitBtnLabel}
-      </button>
+        <Button
+          type="submit"
+          color="secondary"
+          onClick={submit}
+          disabled={hasEmptyFields(contact)}
+        >
+          {onSubmitBtnLabel}
+        </Button>
+      </Grid>
     </form>
   );
 }

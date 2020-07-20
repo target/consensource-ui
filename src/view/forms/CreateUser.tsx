@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { FormProps, hasEmptyFields } from 'view/forms';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 
 export interface CreateUserFormState {
   username: string;
@@ -18,43 +21,44 @@ export default function CreateUserForm({
   /**
    * Create a user and an agent from the form info
    */
-  const submit = async (event: React.FormEvent) => {
+  const onClick = async (event: React.FormEvent) => {
     event.preventDefault();
     onSubmit(user);
   };
 
   return (
     <form>
-      <div>
-        <label htmlFor="user-username">
-          username
-          <input
+      <Grid container>
+        <Grid item xs={12}>
+          <TextField
+            color="secondary"
             value={user.username}
             onChange={(e) => setUser({ ...user, username: e.target.value })}
-            placeholder="Username"
-            type="text"
-            id="user-username"
+            label="Username"
+            id="username"
             required
           />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="user-password">
-          password
-          <input
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            color="secondary"
             value={user.password}
             onChange={(e) => setUser({ ...user, password: e.target.value })}
-            placeholder="Password"
-            type="text"
-            id="user-password"
+            label="Password"
+            id="password"
             required
           />
-        </label>
-      </div>
-
-      <button type="submit" onClick={submit} disabled={hasEmptyFields(user)}>
-        {onSubmitBtnLabel || 'Create User'}
-      </button>
+        </Grid>
+        <Button
+          type="submit"
+          variant="contained"
+          color="secondary"
+          onClick={onClick}
+          disabled={hasEmptyFields(user)}
+        >
+          {onSubmitBtnLabel || 'Create User'}
+        </Button>
+      </Grid>
     </form>
   );
 }

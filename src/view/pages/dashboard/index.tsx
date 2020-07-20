@@ -1,73 +1,22 @@
 import React, { useState } from 'react';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import CreateOrgForm from 'view/forms/organization';
 import {
   Organization,
   CreateOrganizationAction,
   CreateAgentAction,
 } from 'services/protobuf/compiled';
-import {
-  OrgTypeStrings,
-  createOrgTransaction,
-} from 'services/protobuf/organization';
+import { createOrgTransaction } from 'services/protobuf/organization';
 import stores from 'stores';
 import { createBatch } from 'services/protobuf/batch';
 import BatchService from 'services/batch';
 import { useHistory } from 'react-router-dom';
 import CreateAgentActionForm from 'view/forms/CreateAgent';
-
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import { createAgentTransaction } from 'services/protobuf/agent';
-
-interface SelectOrgTypeProps {
-  onOrgSelect: (orgType: Organization.Type) => void;
-}
-
-function SelectOrgType({ onOrgSelect }: SelectOrgTypeProps) {
-  const [selectedOrgType, setSelectedOrgType] = useState<OrgTypeStrings>(
-    'UNSET_TYPE',
-  );
-
-  // Remove the UNSET_TYPE from list of orgs
-  const orgTypes = Object.keys(Organization.Type).slice(1) as OrgTypeStrings[];
-
-  const onClick = () => {
-    onOrgSelect(Organization.Type[selectedOrgType]);
-  };
-
-  return (
-    <div>
-      <h2>Org Types</h2>
-      <FormGroup>
-        {orgTypes.map((orgType) => (
-          <FormControlLabel
-            key={orgType}
-            control={
-              <Checkbox
-                checked={selectedOrgType === orgType}
-                onChange={() => {
-                  setSelectedOrgType(orgType);
-                }}
-                name={orgType}
-              />
-            }
-            label={orgType.split('_').join(' ').toLowerCase()}
-          />
-        ))}
-      </FormGroup>
-
-      <Button
-        color="secondary"
-        onClick={onClick}
-        disabled={selectedOrgType === 'UNSET_TYPE'}
-      >
-        Continue
-      </Button>
-    </div>
-  );
-}
+import { DEFAULT_FORM_PAPER_ELEVATION } from 'view/forms';
+import { SelectOrgType } from 'view/forms/organization/SelectOrgType';
 
 function AgentSignUp() {
   const [errMsg, setErrMsg] = useState('');
@@ -96,15 +45,23 @@ function AgentSignUp() {
   };
 
   return (
-    <div>
-      <h1>Agent Signup</h1>
-      <div>{errMsg}</div>
-      <CreateAgentActionForm onSubmit={onSubmit} />
-    </div>
+    <Paper elevation={DEFAULT_FORM_PAPER_ELEVATION}>
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <Typography variant="h5">Agent Signup</Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography variant="h6">{errMsg}</Typography>
+        </Grid>
+        <Grid item>
+          <CreateAgentActionForm onSubmit={onSubmit} />
+        </Grid>
+      </Grid>
+    </Paper>
   );
 }
 
-function Dashboard() {
+function OrgSignup() {
   const [orgType, setOrgType] = useState(Organization.Type.UNSET_TYPE);
 
   const onSubmit = async (org: CreateOrganizationAction) => {
@@ -122,13 +79,28 @@ function Dashboard() {
   };
 
   return (
+    <Paper elevation={DEFAULT_FORM_PAPER_ELEVATION}>
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <Typography variant="h5">Org Types</Typography>
+        </Grid>
+        <Grid item>
+          {orgType === Organization.Type.UNSET_TYPE ? (
+            <SelectOrgType onOrgSelect={(org) => setOrgType(org)} />
+          ) : (
+            <CreateOrgForm organization_type={orgType} onSubmit={onSubmit} />
+          )}
+        </Grid>
+      </Grid>
+    </Paper>
+  );
+}
+
+function Dashboard() {
+  return (
     <div>
       <AgentSignUp />
-      {orgType === Organization.Type.UNSET_TYPE ? (
-        <SelectOrgType onOrgSelect={(org) => setOrgType(org)} />
-      ) : (
-        <CreateOrgForm organization_type={orgType} onSubmit={onSubmit} />
-      )}
+      <OrgSignup />
     </div>
   );
 }

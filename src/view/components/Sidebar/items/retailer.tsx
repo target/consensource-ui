@@ -9,7 +9,7 @@ import {
   StyledListItemIcon,
 } from 'view/components/Sidebar/items/common';
 
-export const DashboardItem = ({ onClick, isSelected }: SidebarItemProps) => {
+function DashboardItem({ onClick, isSelected }: SidebarItemProps) {
   const route = '/dashboard';
 
   return (
@@ -27,9 +27,9 @@ export const DashboardItem = ({ onClick, isSelected }: SidebarItemProps) => {
       </ListItemText>
     </StyledListItem>
   );
-};
+}
 
-export const SearchItem = ({ onClick, isSelected }: SidebarItemProps) => {
+function SearchItem({ onClick, isSelected }: SidebarItemProps) {
   const route = '/search';
 
   return (
@@ -45,4 +45,6 @@ export const SearchItem = ({ onClick, isSelected }: SidebarItemProps) => {
       <Typography variant="caption">SEARCH</Typography>
     </StyledListItem>
   );
-};
+}
+
+export const RetailerSidebarItems = [DashboardItem, SearchItem];

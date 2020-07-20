@@ -30,7 +30,6 @@ describe('TransactionApi', () => {
       it('returns a rejected promise with an error message', async () => {
         const err = { message: 'error' };
         mockedAxios.post.mockRejectedValueOnce(err);
-        // TODO: Use a snapshot here
         await expect(
           TransactionApi.postBatches(mockBatchListBytes),
         ).rejects.toEqual(`Failed to POST /api/batches: ${err.message}`);

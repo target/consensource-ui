@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Landing from 'view/pages/landing';
-import Layout from 'view/pages/layout';
+import Layout from 'view/components/Layout';
 import PrivateRoute from 'view/components/PrivateRoute';
 import SignUp from 'view/pages/signup';
 import Login from 'view/pages/login';

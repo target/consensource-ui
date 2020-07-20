@@ -1,3 +1,5 @@
+export const DEFAULT_FORM_PAPER_ELEVATION = 5;
+
 /**
  * Helper function that checks if any values in `state` have not been set.
  * Returns true if there is any key in `state` that is falsey.

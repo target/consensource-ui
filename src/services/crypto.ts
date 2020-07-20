@@ -10,7 +10,6 @@ export const cryptoContext = createContext(CRYPTO_ALGORITHM);
 export const cryptoFactory = new CryptoFactory(cryptoContext);
 
 /**
- * TODO: Use the right type for the param (blocked by sawtooth-sdk typings)
  *
  * Creates a new signer to be sign transactions with. Also saves
  * the private key to session storage, and the signer in cache.
