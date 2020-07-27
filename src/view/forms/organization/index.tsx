@@ -93,7 +93,7 @@ export default function CreateOrganizationForm({
     // Org info form
     return (
       <form>
-        <Grid container>
+        <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
               color="secondary"
@@ -104,16 +104,18 @@ export default function CreateOrganizationForm({
               required
             />
           </Grid>
-          <Button
-            variant="contained"
-            type="submit"
-            color="secondary"
-            onClick={onClick}
-            disabled={!org.name}
-            endIcon={<Key />}
-          >
-            {onSubmitBtnLabel}
-          </Button>
+          <Grid item xs={12}>
+            <Button
+              variant="contained"
+              type="submit"
+              color="secondary"
+              onClick={onClick}
+              disabled={!org.name}
+              endIcon={<Key />}
+            >
+              {onSubmitBtnLabel}
+            </Button>
+          </Grid>
         </Grid>
       </form>
     );

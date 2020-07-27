@@ -7,20 +7,18 @@ export interface CertificationDialogProps extends DialogProps {
   certificate: CertResData;
 }
 
-export const CertificationDialog = ({
+export function CertificationDialog({
   open,
   onClose,
   certificate,
-}: CertificationDialogProps) => {
+}: CertificationDialogProps) {
   return (
     <Dialog
       onClose={onClose}
       aria-labelledby="certificate-dialog-title"
       open={open}
     >
-      <DialogTitle id="certificate-dialog-title">
-        {certificate.standard_name}
-      </DialogTitle>
+      <DialogTitle>{certificate.standard_name}</DialogTitle>
     </Dialog>
   );
-};
+}

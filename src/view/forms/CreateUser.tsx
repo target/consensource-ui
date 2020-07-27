@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FormProps, hasEmptyFields } from 'view/forms';
+
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -28,7 +29,7 @@ export default function CreateUserForm({
 
   return (
     <form>
-      <Grid container>
+      <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
             color="secondary"
@@ -49,15 +50,17 @@ export default function CreateUserForm({
             required
           />
         </Grid>
-        <Button
-          type="submit"
-          variant="contained"
-          color="secondary"
-          onClick={onClick}
-          disabled={hasEmptyFields(user)}
-        >
-          {onSubmitBtnLabel || 'Create User'}
-        </Button>
+        <Grid item xs={12}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="secondary"
+            onClick={onClick}
+            disabled={hasEmptyFields(user)}
+          >
+            {onSubmitBtnLabel || 'Create User'}
+          </Button>
+        </Grid>
       </Grid>
     </form>
   );

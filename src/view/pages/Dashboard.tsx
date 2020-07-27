@@ -96,7 +96,7 @@ function OrgSignup() {
   );
 }
 
-function Dashboard() {
+export function Dashboard() {
   return (
     <div>
       <AgentSignUp />
@@ -104,5 +104,3 @@ function Dashboard() {
     </div>
   );
 }
-
-export default Dashboard;

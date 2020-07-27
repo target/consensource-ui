@@ -41,7 +41,7 @@ export default function ProfileMenu() {
 
   const handleProfileClick = () => {
     setAnchorEl(null);
-    history.push('profile');
+    history.push('/profile');
   };
 
   function ProfileDropdown() {

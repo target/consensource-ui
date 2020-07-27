@@ -23,7 +23,7 @@ function DashboardItem({ onClick, isSelected }: SidebarItemProps) {
         <HomeIcon />
       </StyledListItemIcon>
       <ListItemText>
-        <Typography variant="caption">DASHBOARD</Typography>
+        <Typography variant="button">DASHBOARD</Typography>
       </ListItemText>
     </StyledListItem>
   );
@@ -42,7 +42,7 @@ function SearchItem({ onClick, isSelected }: SidebarItemProps) {
       <StyledListItemIcon>
         <SearchIcon />
       </StyledListItemIcon>
-      <Typography variant="caption">SEARCH</Typography>
+      <Typography variant="button">SEARCH</Typography>
     </StyledListItem>
   );
 }

@@ -5,19 +5,22 @@ import { makeStyles } from '@material-ui/core/styles';
 import { items } from 'view/components/Sidebar/items';
 import { useHistory, useLocation } from 'react-router-dom';
 
-export const SIDEBAR_SPACING_UNITS = 12.5;
+const drawerWidth = 100;
 
 const useStyles = makeStyles({
   drawer: {
+    width: drawerWidth,
+  },
+  drawerPaper: {
     marginTop: 50, // "dense" AppBar height
-    zIndex: 0,
+    width: drawerWidth,
   },
   list: {
     paddingTop: 0, // Remove gap between AppBar and first List item
   },
 });
 
-const Sidebar = () => {
+export function Sidebar() {
   const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
@@ -33,14 +36,17 @@ const Sidebar = () => {
   };
 
   return (
-    <Drawer variant="permanent" classes={{ paper: classes.drawer }}>
+    <Drawer
+      variant="permanent"
+      className={classes.drawer}
+      classes={{ paper: classes.drawerPaper }}
+    >
       <List className={classes.list}>
-        {items.map((item) =>
-          React.createElement(item, { isSelected, onClick }),
+        {items.map((item, i) =>
+          // eslint-disable-next-line react/no-array-index-key
+          React.createElement(item, { isSelected, onClick, key: i }),
         )}
       </List>
     </Drawer>
   );
-};
-
-export default Sidebar;
+}

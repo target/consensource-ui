@@ -71,15 +71,16 @@ export default function CreateContactForm({
             required
           />
         </Grid>
-
-        <Button
-          type="submit"
-          color="secondary"
-          onClick={submit}
-          disabled={hasEmptyFields(contact)}
-        >
-          {onSubmitBtnLabel}
-        </Button>
+        <Grid item xs={12}>
+          <Button
+            type="submit"
+            color="secondary"
+            onClick={submit}
+            disabled={hasEmptyFields(contact)}
+          >
+            {onSubmitBtnLabel}
+          </Button>
+        </Grid>
       </Grid>
     </form>
   );

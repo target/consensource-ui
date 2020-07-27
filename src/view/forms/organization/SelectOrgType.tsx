@@ -23,8 +23,16 @@ export function SelectOrgType({ onOrgSelect }: SelectOrgTypeProps) {
     onOrgSelect(Organization.Type[selectedOrgType]);
   };
 
+  const onChange = (orgType: OrgTypeStrings) => {
+    if (orgType === selectedOrgType) {
+      setSelectedOrgType('UNSET_TYPE');
+    } else {
+      setSelectedOrgType(orgType);
+    }
+  };
+
   return (
-    <Grid container>
+    <Grid container spacing={2}>
       <Grid item xs={12}>
         <FormGroup>
           {orgTypes.map((orgType) => (
@@ -34,7 +42,7 @@ export function SelectOrgType({ onOrgSelect }: SelectOrgTypeProps) {
                 <Checkbox
                   checked={selectedOrgType === orgType}
                   onChange={() => {
-                    setSelectedOrgType(orgType);
+                    onChange(orgType);
                   }}
                   name={orgType}
                 />
@@ -44,13 +52,15 @@ export function SelectOrgType({ onOrgSelect }: SelectOrgTypeProps) {
           ))}
         </FormGroup>
 
-        <Button
-          color="secondary"
-          onClick={onClick}
-          disabled={selectedOrgType === 'UNSET_TYPE'}
-        >
-          Continue
-        </Button>
+        <Grid item xs={12}>
+          <Button
+            color="secondary"
+            onClick={onClick}
+            disabled={selectedOrgType === 'UNSET_TYPE'}
+          >
+            Continue
+          </Button>
+        </Grid>
       </Grid>
     </Grid>
   );

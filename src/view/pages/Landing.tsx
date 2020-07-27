@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Landing() {
+export function Landing() {
   const classes = useStyles();
   const history = useHistory();
 

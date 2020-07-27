@@ -11,6 +11,8 @@ import MUIDataTable, {
 } from 'mui-datatables';
 import stores from 'stores';
 import { CertResData } from 'services/api/certificate';
+import Typography from '@material-ui/core/Typography';
+import { FactoryPageLinkIcon } from 'view/tables/factory/FactoryPageLinkIcon';
 
 export const DEFAULT_ROWS_PER_PAGE = 15;
 
@@ -28,6 +30,11 @@ export function FactoriesTable() {
    * [MUI Datatable Docs](https://github.com/gregnb/mui-datatables#remote-data)
    */
   const serverSide = true;
+
+  /**
+   * Remove paper elevation to allow parent components more flexibility
+   */
+  const elevation = 0;
 
   // Since `serverSide` is enabled, we need to manually
   // track the factories count
@@ -88,6 +95,10 @@ export function FactoriesTable() {
       name: 'postal_code',
       label: 'Postal Code',
       options: { filterType: 'textField' },
+    },
+    {
+      name: 'factory_page_link',
+      label: ' ', // TODO: https://github.com/gregnb/mui-datatables/issues/953#issuecomment-534289311
     },
   ];
 
@@ -150,6 +161,7 @@ export function FactoriesTable() {
    * Expands all properties of `FactoryResData`
    */
   const getRowFromFactory = ({
+    id,
     name,
     address,
     certificates,
@@ -157,17 +169,19 @@ export function FactoriesTable() {
     return {
       name,
       certificates,
+      factory_page_link: <FactoryPageLinkIcon factoryId={id} />,
       ...address,
     };
   };
 
   return (
     <MUIDataTable
-      title={<h1>Factories</h1>}
+      title={<Typography variant="h4">Factories</Typography>}
       data={factoriesPage.map(getRowFromFactory)}
       columns={columns}
       options={{
         count,
+        elevation,
         serverSide,
         textLabels,
         onFilterChange,

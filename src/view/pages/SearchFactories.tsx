@@ -1,6 +1,6 @@
 import React from 'react';
 import { FactoriesTable } from 'view/tables/factory';
 
-export default function SearchFactories() {
+export function SearchFactories() {
   return <FactoriesTable />;
 }

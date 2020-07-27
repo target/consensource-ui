@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { fetchAgentByPubKey, AgentResData } from 'services/api/agent';
 import stores from 'stores';
 
-export default function Profile() {
+export function Profile() {
   const [agent, setAgent] = useState<AgentResData | null>(null);
   const [errMsg, setErrMsg] = useState('');
 

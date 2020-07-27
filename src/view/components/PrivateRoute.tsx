@@ -20,7 +20,7 @@ export const DEFAULT_UNAUTH_REDIRECT_LOCATION = '/sign-up';
  * <PrivateRoute path="/" component={Layout} />
  * ```
  */
-export default function PrivateRoute({
+export function PrivateRoute({
   path,
   component,
   redirectTo = DEFAULT_UNAUTH_REDIRECT_LOCATION,

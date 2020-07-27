@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import LoginForm, { LoginFormState } from 'view/forms/Login';
 import stores from 'stores';
 
-export default function Login() {
+export function Login() {
   const [errMsg, setErrMsg] = useState('');
   const history = useHistory();
 

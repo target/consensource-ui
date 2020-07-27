@@ -1,38 +1,52 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Dashboard from 'view/pages/dashboard';
-import Profile from 'view/pages/profile';
+import { Dashboard } from 'view/pages/Dashboard';
+import { Profile } from 'view/pages/Profile';
 import Snackbar from '@material-ui/core/Snackbar';
 import stores from 'stores';
-import { observer } from 'mobx-react-lite';
-import NavBar, { NAVBAR_SPACING_UNITS } from 'view/components/NavBar';
+import { NavBar, NAVBAR_SPACING_UNITS } from 'view/components/NavBar';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import Sidebar, { SIDEBAR_SPACING_UNITS } from 'view/components/Sidebar';
-import SearchFactories from 'view/pages/searchFactories';
+import { Sidebar } from 'view/components/Sidebar';
+import { SearchFactories } from 'view/pages/SearchFactories';
+import { FactoryProfile } from 'view/pages/FactoryProfile';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
+    root: {
+      display: 'flex',
+    },
     content: {
-      marginLeft: theme.spacing(SIDEBAR_SPACING_UNITS),
       marginTop: theme.spacing(NAVBAR_SPACING_UNITS),
-      padding: `${theme.spacing(2)}px ${theme.spacing(3)}px`,
+      padding: `${theme.spacing(3)}px`,
     },
   }),
 );
 
-function Layout() {
+export function Layout() {
   const classes = useStyles();
   const { snackbarStore } = stores;
 
   return (
-    <div>
+    <div className={classes.root}>
       <NavBar />
       <Sidebar />
-      <div className={classes.content}>
+      <main className={classes.content}>
         <Switch>
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/profile" component={Profile} />
-          <Route path="/search" component={SearchFactories} />
+          <Route path="/dashboard">
+            <Dashboard />
+          </Route>
+
+          <Route path="/profile">
+            <Profile />
+          </Route>
+
+          <Route path="/search">
+            <SearchFactories />
+          </Route>
+
+          <Route path="/factories/:factoryId">
+            <FactoryProfile />
+          </Route>
         </Switch>
 
         <Snackbar
@@ -41,9 +55,7 @@ function Layout() {
           onClose={snackbarStore.handleClose}
           autoHideDuration={3000}
         />
-      </div>
+      </main>
     </div>
   );
 }
-
-export default observer(Layout);

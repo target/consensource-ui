@@ -108,14 +108,16 @@ export default function CreateFactoryAddressForm({
             required
           />
         </Grid>
-        <Button
-          color="secondary"
-          type="submit"
-          onClick={submit}
-          disabled={isDisabled}
-        >
-          {onSubmitBtnLabel}
-        </Button>
+        <Grid item xs={12}>
+          <Button
+            color="secondary"
+            type="submit"
+            onClick={submit}
+            disabled={isDisabled}
+          >
+            {onSubmitBtnLabel}
+          </Button>
+        </Grid>
       </Grid>
     </form>
   );
