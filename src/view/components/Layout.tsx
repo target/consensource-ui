@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) =>
     content: {
       marginTop: theme.spacing(NAVBAR_SPACING_UNITS),
       padding: `${theme.spacing(3)}px`,
+      flexGrow: 1,
     },
   }),
 );

@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { useHistory } from 'react-router-dom';
 import stores from 'stores';
 import Typography from '@material-ui/core/Typography';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles({
   container: {
@@ -18,13 +19,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ProfileMenu() {
+export const ProfileMenu = observer(() => {
   const history = useHistory();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const classes = useStyles();
 
-  const username = stores.userStore && stores.userStore.user?.username;
+  const username = stores.userStore?.user?.username;
 
   const handleIconClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -44,21 +45,6 @@ export default function ProfileMenu() {
     history.push('/profile');
   };
 
-  function ProfileDropdown() {
-    return (
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-      </Menu>
-    );
-  }
-
   return (
     <div className={classes.container}>
       <div className={classes.profile}>
@@ -72,7 +58,24 @@ export default function ProfileMenu() {
         </IconButton>
         <Typography>{username}</Typography>
       </div>
-      <ProfileDropdown />
+      <Menu
+        keepMounted
+        anchorEl={anchorEl}
+        open={!!anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        getContentAnchorEl={null}
+      >
+        <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      </Menu>
     </div>
   );
-}
+});

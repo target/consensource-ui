@@ -36,6 +36,11 @@ export function FactoriesTable() {
    */
   const elevation = 0;
 
+  /**
+   * Prevent rows from being selectable (default action is to delete rows, which we don't allow)
+   */
+  const selectableRows = 'none';
+
   // Since `serverSide` is enabled, we need to manually
   // track the factories count
   const [count, setCount] = useState(0);
@@ -181,6 +186,7 @@ export function FactoriesTable() {
       columns={columns}
       options={{
         count,
+        selectableRows,
         elevation,
         serverSide,
         textLabels,
