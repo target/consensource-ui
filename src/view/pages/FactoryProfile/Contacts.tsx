@@ -2,7 +2,7 @@ import React from 'react';
 import { OrgResContactData } from 'services/api/organization';
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
-import { InfoItem } from 'view/pages/FactoryProfile/InfoItem';
+import { InfoItem } from 'view/components/InfoItem';
 
 interface FactoryProfileContactsProps {
   contacts: OrgResContactData[];

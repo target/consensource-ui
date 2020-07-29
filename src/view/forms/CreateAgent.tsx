@@ -3,6 +3,7 @@ import { FormProps, hasEmptyFields } from 'view/forms';
 import {
   createAgentAction,
   ICreateAgentActionStrict,
+  createAgentTransaction,
 } from 'services/protobuf/agent';
 import Button from '@material-ui/core/Button';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -10,19 +11,40 @@ import TextField from '@material-ui/core/TextField';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Grid from '@material-ui/core/Grid';
 import Key from '@material-ui/icons/VpnKey';
+import Typography from '@material-ui/core/Typography';
+import stores from 'stores';
+import { createBatch } from 'services/protobuf/batch';
+import BatchService from 'services/batch';
 
 /**
  * Form used to build a `CreateAgentAction` payload object
  */
-export default function CreateAgentActionForm({
+export function CreateAgentForm({
   onSubmit,
   onSubmitBtnLabel = 'Create Agent',
 }: FormProps) {
+  const [errMsg, setErrMsg] = useState('');
   const [agent, setAgent] = useState<ICreateAgentActionStrict>({ name: '' });
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit(createAgentAction(agent));
+    if (!stores.userStore.user) {
+      setErrMsg('A signer is required to create an agent');
+      return;
+    }
+
+    const { signer } = stores.userStore.user;
+    const agentAction = createAgentAction(agent);
+
+    const txns = new Array(createAgentTransaction(agentAction, signer));
+    const batchListBytes = createBatch(txns, signer);
+
+    try {
+      await BatchService.submitBatch(batchListBytes);
+      onSubmit();
+    } catch ({ message }) {
+      setErrMsg(message);
+    }
   };
 
   return (
@@ -45,6 +67,12 @@ export default function CreateAgentActionForm({
             }}
           />
         </Grid>
+
+        {errMsg && (
+          <Grid item xs={12}>
+            <Typography variant="h6">{errMsg}</Typography>
+          </Grid>
+        )}
 
         <Grid item xs={12}>
           <Button

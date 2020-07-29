@@ -8,12 +8,12 @@ import { Link } from 'react-router-dom';
 
 export const NAVBAR_SPACING_UNITS = 5;
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(({ palette, zIndex }: Theme) =>
   createStyles({
     navbar: {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.primary.contrastText,
-      zIndex: theme.zIndex.drawer + 1,
+      backgroundColor: palette.primary.main,
+      color: palette.primary.contrastText,
+      zIndex: zIndex.drawer + 1,
     },
     profile: {
       marginLeft: 'auto',

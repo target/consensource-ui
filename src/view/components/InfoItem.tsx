@@ -1,7 +1,7 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import { Typography } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 export interface InfoItemProps {
   title: string;
@@ -12,6 +12,9 @@ const useStyles = makeStyles(
   createStyles({
     title: {
       fontWeight: 'bold',
+    },
+    val: {
+      wordWrap: 'break-word',
     },
   }),
 );
@@ -24,7 +27,9 @@ export function InfoItem({ title, val }: InfoItemProps) {
       <Typography variant="body1" className={classes.title}>
         {title}
       </Typography>
-      <Typography variant="body2">{val || '-'}</Typography>
+      <Typography variant="body2" className={classes.val}>
+        {val || '-'}
+      </Typography>
     </Grid>
   );
 }

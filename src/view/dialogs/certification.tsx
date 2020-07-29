@@ -15,7 +15,7 @@ export function CertificationDialog({
   return (
     <Dialog
       onClose={onClose}
-      aria-labelledby="certificate-dialog-title"
+      aria-labelledby="certification-dialog-title"
       open={open}
     >
       <DialogTitle>{certificate.standard_name}</DialogTitle>

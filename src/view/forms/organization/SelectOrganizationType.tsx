@@ -7,11 +7,13 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { Organization } from 'services/protobuf/compiled';
 
-interface SelectOrgTypeProps {
+interface SelectOrganizationTypeProps {
   onOrgSelect: (orgType: Organization.Type) => void;
 }
 
-export function SelectOrgType({ onOrgSelect }: SelectOrgTypeProps) {
+export function SelectOrganizationType({
+  onOrgSelect,
+}: SelectOrganizationTypeProps) {
   const [selectedOrgType, setSelectedOrgType] = useState<OrgTypeStrings>(
     'UNSET_TYPE',
   );
@@ -32,36 +34,38 @@ export function SelectOrgType({ onOrgSelect }: SelectOrgTypeProps) {
   };
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <FormGroup>
-          {orgTypes.map((orgType) => (
-            <FormControlLabel
-              key={orgType}
-              control={
-                <Checkbox
-                  checked={selectedOrgType === orgType}
-                  onChange={() => {
-                    onChange(orgType);
-                  }}
-                  name={orgType}
-                />
-              }
-              label={orgType.split('_').join(' ').toLowerCase()}
-            />
-          ))}
-        </FormGroup>
-
+    <form>
+      <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Button
-            color="secondary"
-            onClick={onClick}
-            disabled={selectedOrgType === 'UNSET_TYPE'}
-          >
-            Continue
-          </Button>
+          <FormGroup>
+            {orgTypes.map((orgType) => (
+              <FormControlLabel
+                key={orgType}
+                control={
+                  <Checkbox
+                    checked={selectedOrgType === orgType}
+                    onChange={() => {
+                      onChange(orgType);
+                    }}
+                    name={orgType}
+                  />
+                }
+                label={orgType.split('_').join(' ').toLowerCase()}
+              />
+            ))}
+          </FormGroup>
+
+          <Grid item xs={12}>
+            <Button
+              color="secondary"
+              onClick={onClick}
+              disabled={selectedOrgType === 'UNSET_TYPE'}
+            >
+              Continue
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </form>
   );
 }

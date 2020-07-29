@@ -6,7 +6,7 @@ export interface AgentResData {
   public_key: string;
   name: string;
   created_on: number;
-  organization: {
+  organization?: {
     id: string;
     name: string;
     organization_type: Organization.Type;
