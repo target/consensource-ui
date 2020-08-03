@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import {
   postUsersAuthenticate,
   UserAuthPayload,
@@ -54,6 +54,11 @@ export default class UserStore {
   constructor(snackbarStore: SnackbarStore) {
     this.snackbarStore = snackbarStore;
     this.loadUserFromLocalStorage();
+  }
+
+  @computed
+  get isAuthenticated() {
+    return !this.isAuthenticating && !!this.user;
   }
 
   async loadUserFromLocalStorage() {

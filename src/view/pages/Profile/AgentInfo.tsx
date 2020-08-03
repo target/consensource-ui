@@ -3,9 +3,8 @@ import { InfoItem } from 'view/components/InfoItem';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { AgentResData } from 'services/api/agent';
-import { CreateAgentForm } from 'view/forms/CreateAgent';
+import { CreateAgentForm, CreateOrganizationForm } from 'view/forms';
 import stores from 'stores';
-import { CreateOrganizationForm } from 'view/forms/organization';
 
 export interface AgentInfoProps {
   agent: AgentResData | null;
@@ -16,19 +15,15 @@ interface AgentOrgInfoProps {
 }
 
 function AgentOrgInfo({ org }: AgentOrgInfoProps) {
-  const onSubmit = () => {
-    stores.snackbarStore.open('Sucessfully created org');
-  };
-
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Typography variant="h6">Agent Organization Info</Typography>
+        <Typography variant="h6">Organization</Typography>
       </Grid>
 
       {!org && (
         <Grid item xs={4}>
-          <CreateOrganizationForm onSubmit={onSubmit} />
+          <CreateOrganizationForm />
         </Grid>
       )}
 
@@ -36,7 +31,7 @@ function AgentOrgInfo({ org }: AgentOrgInfoProps) {
         <>
           <InfoItem title="Name" val={org.name} />
           <InfoItem
-            title="Organization type"
+            title="Organization Type"
             val={org.organization_type.toString()}
           />
           <InfoItem title="Id" val={org.id} />
@@ -47,10 +42,6 @@ function AgentOrgInfo({ org }: AgentOrgInfoProps) {
 }
 
 export function AgentInfo({ agent }: AgentInfoProps) {
-  const onSubmit = () => {
-    stores.snackbarStore.open('Sucessfully created agent');
-  };
-
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -59,7 +50,7 @@ export function AgentInfo({ agent }: AgentInfoProps) {
 
       {!agent && (
         <Grid item xs={4}>
-          <CreateAgentForm onSubmit={onSubmit} />
+          <CreateAgentForm />
         </Grid>
       )}
 

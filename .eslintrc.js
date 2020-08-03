@@ -29,6 +29,7 @@ module.exports = {
     '@typescript-eslint/interface-name-prefix': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'react/jsx-indent': 'off',
+    'react/require-default-props': 'off',
     'max-classes-per-file': 'off',
     'import/prefer-default-export': 'off',
     'no-console': 'off',

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FormProps } from 'view/forms';
 import {
   createOrgAction,
   ICreateOrgActionStrict,
@@ -18,6 +17,7 @@ import { SelectOrganizationType } from 'view/forms/organization/SelectOrganizati
 import { createBatch } from 'services/protobuf/batch';
 import BatchService from 'services/batch';
 import stores from 'stores';
+import { FormErrMsg } from 'view/forms/utils';
 
 function makeOrgId(name: string) {
   return hash(name, HashingAlgorithms.sha256);
@@ -31,7 +31,8 @@ function makeOrgId(name: string) {
  *   organization_type === Organization.Type.FACTORY)
  * - Fourth form is for the Org name
  */
-export function CreateOrganizationForm({ onSubmit }: FormProps) {
+export function CreateOrganizationForm() {
+  const [errMsg, setErrMsg] = useState('');
   const [org, setOrg] = useState<ICreateOrgActionStrict>({
     contacts: [] as Organization.IContact[],
     address: null,
@@ -57,11 +58,8 @@ export function CreateOrganizationForm({ onSubmit }: FormProps) {
 
     try {
       await BatchService.submitBatch(batchListBytes);
-      if (onSubmit) {
-        onSubmit();
-      }
-    } catch (err) {
-      console.error(err);
+    } catch ({ message }) {
+      setErrMsg(message);
     }
   };
 
@@ -74,7 +72,7 @@ export function CreateOrganizationForm({ onSubmit }: FormProps) {
           </Grid>
 
           <SelectOrganizationType
-            onOrgSelect={(organization_type) =>
+            onSubmit={(organization_type) =>
               setOrg({ ...org, organization_type })
             }
           />
@@ -91,7 +89,7 @@ export function CreateOrganizationForm({ onSubmit }: FormProps) {
 
           <CreateContactForm
             onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
-            onSubmitBtnLabel="Continue"
+            submitLabel="Continue"
           />
         </>
       );
@@ -106,7 +104,7 @@ export function CreateOrganizationForm({ onSubmit }: FormProps) {
 
           <CreateAddressForm
             onSubmit={(address) => setOrg({ ...org, address })}
-            onSubmitBtnLabel="Continue"
+            submitLabel="Continue"
           />
         </>
       );
@@ -120,6 +118,7 @@ export function CreateOrganizationForm({ onSubmit }: FormProps) {
 
         <form>
           <Grid container spacing={2}>
+            <FormErrMsg msg={errMsg} />
             <Grid item xs={12}>
               <TextField
                 color="secondary"

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormProps, hasEmptyFields } from 'view/forms';
+import { hasEmptyFields } from 'view/forms/utils';
 import {
   createOrgContact,
   IContactStrict,
@@ -9,8 +9,9 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 
-interface CreateContactFormProps extends FormProps {
+interface CreateContactFormProps {
   onSubmit: (contact: Organization.Contact) => any;
+  submitLabel?: string;
 }
 
 /**
@@ -18,7 +19,7 @@ interface CreateContactFormProps extends FormProps {
  */
 export default function CreateContactForm({
   onSubmit,
-  onSubmitBtnLabel = 'Create Contact',
+  submitLabel = 'Create Contact',
 }: CreateContactFormProps) {
   const [contact, setContact] = useState<IContactStrict>({
     name: '',
@@ -26,10 +27,7 @@ export default function CreateContactForm({
     language_code: '',
   });
 
-  /**
-   * Create an organization contact from the form info
-   */
-  const submit = async (event: React.FormEvent) => {
+  const submit = (event: React.FormEvent) => {
     event.preventDefault();
     onSubmit(createOrgContact(contact));
   };
@@ -78,7 +76,7 @@ export default function CreateContactForm({
             onClick={submit}
             disabled={hasEmptyFields(contact)}
           >
-            {onSubmitBtnLabel}
+            {submitLabel}
           </Button>
         </Grid>
       </Grid>

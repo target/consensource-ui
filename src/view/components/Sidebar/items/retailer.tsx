@@ -10,7 +10,7 @@ import {
 } from 'view/components/Sidebar/items/common';
 
 function DashboardItem({ onClick, isSelected }: SidebarItemProps) {
-  const route = '/dashboard';
+  const route = '/';
 
   return (
     <StyledListItem

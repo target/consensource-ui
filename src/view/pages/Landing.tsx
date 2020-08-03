@@ -1,17 +1,25 @@
 import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import ButtonBase from '@material-ui/core/ButtonBase';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { Paper, Button, Grid, Typography } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 import stores from 'stores';
 import { autorun } from 'mobx';
 
-const useStyles = makeStyles({
-  linkBtn: {
-    textAlign: 'center',
-  },
-});
+const useStyles = makeStyles(({ palette }) =>
+  createStyles({
+    paper: {
+      padding: 15,
+    },
+    type: {
+      color: palette.grey['800'],
+      textAlign: 'center',
+    },
+    linkBtn: {
+      textAlign: 'center',
+      margin: 10,
+    },
+  }),
+);
 
 export function Landing() {
   const classes = useStyles();
@@ -20,45 +28,51 @@ export function Landing() {
   const redirectIfLoggedIn = () => {
     autorun(() => {
       if (stores.userStore.user) {
-        history.push('/dashboard');
+        history.push('/');
       }
     });
   };
 
   useEffect(() => {
     redirectIfLoggedIn();
-  });
+  }, []);
 
   return (
-    <div>
-      <div>
-        <Grid
-          container
-          spacing={0}
-          direction="column"
-          alignItems="center"
-          justify="center"
-          style={{ minHeight: '100vh' }}
-        >
-          <Grid item xs={12}>
-            <Typography variant="h1">ConsenSource</Typography>
-          </Grid>
-
-          <Grid container spacing={0} justify="center">
-            <Grid item xs={2} className={classes.linkBtn}>
-              <ButtonBase component={Link} to="/login">
-                <Typography variant="h4">Login</Typography>
-              </ButtonBase>
-            </Grid>
-
-            <Grid item xs={2} className={classes.linkBtn}>
-              <ButtonBase component={Link} to="/sign-up">
-                <Typography variant="h4">Sign Up</Typography>
-              </ButtonBase>
-            </Grid>
-          </Grid>
+    <Paper elevation={6} className={classes.paper}>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="h1" className={classes.type}>
+            ConsenSource
+          </Typography>
+          <Typography variant="h5" className={classes.type}>
+            Certification <b>transparency</b> and <b>authenticity</b> to empower
+            responsible sourcing
+          </Typography>
         </Grid>
-      </div>
-    </div>
+
+        <Grid item xs className={classes.linkBtn}>
+          <Button
+            component={Link}
+            to="/sign-up"
+            size="large"
+            variant="contained"
+            color="secondary"
+            className={classes.linkBtn}
+          >
+            Sign Up
+          </Button>
+          <Button
+            component={Link}
+            to="/login"
+            size="large"
+            variant="contained"
+            color="secondary"
+            className={classes.linkBtn}
+          >
+            Login
+          </Button>
+        </Grid>
+      </Grid>
+    </Paper>
   );
 }

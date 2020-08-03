@@ -18,7 +18,7 @@ export function FactoryProfileCertifications({
       </Grid>
 
       {!certifications || certifications.length === 0 ? (
-        <Grid item xs={12}>
+        <Grid item xs={2}>
           <Typography variant="body1">No certifications</Typography>
         </Grid>
       ) : (

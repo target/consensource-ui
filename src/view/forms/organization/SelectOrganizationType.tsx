@@ -8,11 +8,13 @@ import Grid from '@material-ui/core/Grid';
 import { Organization } from 'services/protobuf/compiled';
 
 interface SelectOrganizationTypeProps {
-  onOrgSelect: (orgType: Organization.Type) => void;
+  onSubmit: (orgType: Organization.Type) => void;
+  submitLabel?: string;
 }
 
 export function SelectOrganizationType({
-  onOrgSelect,
+  onSubmit,
+  submitLabel = 'Select Org Type',
 }: SelectOrganizationTypeProps) {
   const [selectedOrgType, setSelectedOrgType] = useState<OrgTypeStrings>(
     'UNSET_TYPE',
@@ -21,8 +23,9 @@ export function SelectOrganizationType({
   // Remove the UNSET_TYPE from list of orgs
   const orgTypes = Object.keys(Organization.Type).slice(1) as OrgTypeStrings[];
 
-  const onClick = () => {
-    onOrgSelect(Organization.Type[selectedOrgType]);
+  const onClick = (event: React.FormEvent) => {
+    event.preventDefault();
+    onSubmit(Organization.Type[selectedOrgType]);
   };
 
   const onChange = (orgType: OrgTypeStrings) => {
@@ -61,7 +64,7 @@ export function SelectOrganizationType({
               onClick={onClick}
               disabled={selectedOrgType === 'UNSET_TYPE'}
             >
-              Continue
+              {submitLabel}
             </Button>
           </Grid>
         </Grid>

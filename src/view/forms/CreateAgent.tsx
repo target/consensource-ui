@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormProps, hasEmptyFields } from 'view/forms';
+import { hasEmptyFields, FormErrMsg } from 'view/forms/utils';
 import {
   createAgentAction,
   ICreateAgentActionStrict,
@@ -11,23 +11,17 @@ import TextField from '@material-ui/core/TextField';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Grid from '@material-ui/core/Grid';
 import Key from '@material-ui/icons/VpnKey';
-import Typography from '@material-ui/core/Typography';
 import stores from 'stores';
 import { createBatch } from 'services/protobuf/batch';
 import BatchService from 'services/batch';
 
-/**
- * Form used to build a `CreateAgentAction` payload object
- */
-export function CreateAgentForm({
-  onSubmit,
-  onSubmitBtnLabel = 'Create Agent',
-}: FormProps) {
+export function CreateAgentForm() {
   const [errMsg, setErrMsg] = useState('');
   const [agent, setAgent] = useState<ICreateAgentActionStrict>({ name: '' });
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
+
     if (!stores.userStore.user) {
       setErrMsg('A signer is required to create an agent');
       return;
@@ -41,7 +35,6 @@ export function CreateAgentForm({
 
     try {
       await BatchService.submitBatch(batchListBytes);
-      onSubmit();
     } catch ({ message }) {
       setErrMsg(message);
     }
@@ -50,6 +43,7 @@ export function CreateAgentForm({
   return (
     <form>
       <Grid container spacing={2}>
+        <FormErrMsg msg={errMsg} />
         <Grid item xs={12}>
           <TextField
             color="secondary"
@@ -68,12 +62,6 @@ export function CreateAgentForm({
           />
         </Grid>
 
-        {errMsg && (
-          <Grid item xs={12}>
-            <Typography variant="h6">{errMsg}</Typography>
-          </Grid>
-        )}
-
         <Grid item xs={12}>
           <Button
             type="submit"
@@ -83,7 +71,7 @@ export function CreateAgentForm({
             disabled={hasEmptyFields(agent)}
             endIcon={<Key />}
           >
-            {onSubmitBtnLabel}
+            Create Agent
           </Button>
         </Grid>
       </Grid>

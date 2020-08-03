@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormProps, hasEmptyFields } from 'view/forms';
+import { hasEmptyFields } from 'view/forms/utils';
 import {
   createFactoryAddress,
   IFactoryAddressStrict,
@@ -9,8 +9,9 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 
-interface CreateContactFormProps extends FormProps {
+interface CreateContactFormProps {
   onSubmit: (address: Factory.Address) => any;
+  submitLabel?: string;
 }
 
 /**
@@ -18,7 +19,7 @@ interface CreateContactFormProps extends FormProps {
  */
 export default function CreateFactoryAddressForm({
   onSubmit,
-  onSubmitBtnLabel = 'Create Factory',
+  submitLabel = 'Create Factory Address',
 }: CreateContactFormProps) {
   const [address, setAddress] = useState<IFactoryAddressStrict>({
     street_line_1: '',
@@ -26,12 +27,10 @@ export default function CreateFactoryAddressForm({
     country: '',
   });
 
-  const isDisabled = hasEmptyFields<IFactoryAddressStrict>(address);
-
   /**
    * Create a user and an agent from the form info
    */
-  const submit = async (event: React.FormEvent) => {
+  const submit = (event: React.FormEvent) => {
     event.preventDefault();
     onSubmit(createFactoryAddress(address));
   };
@@ -113,9 +112,9 @@ export default function CreateFactoryAddressForm({
             color="secondary"
             type="submit"
             onClick={submit}
-            disabled={isDisabled}
+            disabled={hasEmptyFields(address)}
           >
-            {onSubmitBtnLabel}
+            {submitLabel}
           </Button>
         </Grid>
       </Grid>

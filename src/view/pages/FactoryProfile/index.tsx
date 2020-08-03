@@ -8,7 +8,7 @@ import { FactoryProfileContacts } from 'view/pages/FactoryProfile/Contacts';
 import { FactoryProfileAddress } from 'view/pages/FactoryProfile/Address';
 import { FactoryProfileCertifications } from 'view/pages/FactoryProfile/Certifications';
 import { UnverifiedFactoryAlert } from 'view/pages/FactoryProfile/UnverifiedFactoryAlert';
-import { ClaimedIconButton } from 'view/components/ClaimedIconButton';
+import { ClaimedIconButton } from 'view/components';
 
 const useStyles = makeStyles(
   createStyles({

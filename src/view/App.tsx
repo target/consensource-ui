@@ -1,22 +1,23 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Layout } from 'view/components/Layout';
-import { Landing } from 'view/pages/Landing';
-import { PrivateRoute } from 'view/components/PrivateRoute';
-import { SignUp } from 'view/pages/SignUp';
-import { Login } from 'view/pages/Login';
+import { ThemeProvider } from '@material-ui/core/styles';
+import { theme } from 'config/theme';
+import {
+  AuthenticatedLayout,
+  UnauthenticatedLayout,
+} from 'view/components/Layout';
+import stores from 'stores';
+import { observer } from 'mobx-react-lite';
 
-export default function App() {
+export const App = observer(() => {
+  // TODO: Display a global loading state if `isAuthenticating` is true
+  // in order to prevent login screen flashing
+  const Layout = stores.userStore.isAuthenticated
+    ? AuthenticatedLayout
+    : UnauthenticatedLayout;
+
   return (
-    <Router>
-      <Switch>
-        {/* Note: All routes that are under `/` but not protected
-            by auth need to come before the <PrivateRoute /> */}
-        <Route path="/login" component={Login} />
-        <Route path="/sign-up" component={SignUp} />
-        <Route exact path="/" component={Landing} />
-        <PrivateRoute path="/" component={Layout} />
-      </Switch>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Layout />
+    </ThemeProvider>
   );
-}
+});

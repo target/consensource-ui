@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import { makeStyles } from '@material-ui/core/styles';
+import { Drawer, List } from '@material-ui/core';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { items } from 'view/components/Sidebar/items';
 import { useHistory, useLocation } from 'react-router-dom';
 
 const drawerWidth = 100;
 
-const useStyles = makeStyles({
-  drawer: {
-    width: drawerWidth,
-  },
-  drawerPaper: {
-    marginTop: 50, // "dense" AppBar height
-    width: drawerWidth,
-  },
-  list: {
-    paddingTop: 0, // Remove gap between AppBar and first List item
-  },
-});
+const useStyles = makeStyles(({ palette }) =>
+  createStyles({
+    drawer: {
+      width: drawerWidth,
+    },
+    drawerPaper: {
+      marginTop: 45, // "dense" AppBar height minus 5
+      width: drawerWidth,
+      backgroundColor: palette.grey['100'],
+    },
+    list: {
+      paddingTop: 0, // Remove gap between AppBar and first List item
+    },
+  }),
+);
 
 export function Sidebar() {
   const classes = useStyles();
@@ -44,6 +46,7 @@ export function Sidebar() {
       <List className={classes.list}>
         {items.map((item, i) =>
           // eslint-disable-next-line react/no-array-index-key
+          // TODO: Add a divider to every item except the last one
           React.createElement(item, { isSelected, onClick, key: i }),
         )}
       </List>

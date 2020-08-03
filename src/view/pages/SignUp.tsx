@@ -1,37 +1,28 @@
-import React, { useState } from 'react';
-import CreateUserForm, { CreateUserFormState } from 'view/forms/CreateUser';
-import { DEFAULT_FORM_PAPER_ELEVATION } from 'view/forms';
-import stores from 'stores';
-import { useHistory } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+import React from 'react';
+import { CreateUserForm } from 'view/forms';
+import { Grid, Typography, Paper } from '@material-ui/core';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(
+  createStyles({
+    container: {
+      padding: 15,
+    },
+  }),
+);
 
 export function SignUp() {
-  const [errMsg, setErrMsg] = useState('');
-  const history = useHistory();
-
-  const onSubmit = async ({ username, password }: CreateUserFormState) => {
-    try {
-      await stores.userStore.createUser(username, password);
-      history.push('/dashboard');
-    } catch ({ message }) {
-      setErrMsg(message);
-    }
-  };
+  const classes = useStyles();
 
   return (
-    <Paper elevation={DEFAULT_FORM_PAPER_ELEVATION}>
+    <Paper elevation={6} className={classes.container}>
       <Grid container>
         <Grid item xs={12}>
-          <Typography variant="h5">User Sign Up</Typography>
+          <Typography variant="h4">Sign Up</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <Typography variant="h6">{errMsg}</Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <CreateUserForm onSubmit={onSubmit} />
-        </Grid>
+      </Grid>
+      <Grid item xs>
+        <CreateUserForm />
       </Grid>
     </Paper>
   );

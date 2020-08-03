@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import { FormProps, hasEmptyFields } from 'view/forms';
+import { hasEmptyFields, FormErrMsg } from 'view/forms/utils';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import stores from 'stores';
+import { useHistory } from 'react-router-dom';
 
 export interface LoginFormState {
   username: string;
   password: string;
 }
 
-export default function LoginForm({
-  onSubmit,
-  onSubmitBtnLabel = 'Login',
-}: FormProps) {
+export function LoginForm() {
+  const history = useHistory();
+  const [errMsg, setErrMsg] = useState('');
   const [login, setLogin] = useState<LoginFormState>({
     username: '',
     password: '',
@@ -20,12 +21,21 @@ export default function LoginForm({
 
   const onClick = async (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit(login);
+
+    const { username, password } = login;
+
+    try {
+      await stores.userStore.authenticateUser(username, password);
+      history.push('/');
+    } catch ({ message }) {
+      setErrMsg(message);
+    }
   };
 
   return (
     <form>
-      <Grid container>
+      <Grid container spacing={2}>
+        <FormErrMsg msg={errMsg} />
         <Grid item xs={12}>
           <TextField
             color="secondary"
@@ -46,15 +56,17 @@ export default function LoginForm({
             required
           />
         </Grid>
-        <Button
-          type="submit"
-          variant="contained"
-          color="secondary"
-          onClick={onClick}
-          disabled={hasEmptyFields(login)}
-        >
-          {onSubmitBtnLabel || 'Login'}
-        </Button>
+        <Grid item xs={12}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="secondary"
+            onClick={onClick}
+            disabled={hasEmptyFields(login)}
+          >
+            Login
+          </Button>
+        </Grid>
       </Grid>
     </form>
   );
