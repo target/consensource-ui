@@ -1,7 +1,7 @@
 import React from 'react';
 import Dialog, { DialogProps } from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { CertResData } from 'services/api/certificate';
+import { CertResData } from 'services/api';
 
 export interface CertificationDialogProps extends DialogProps {
   certificate: CertResData;

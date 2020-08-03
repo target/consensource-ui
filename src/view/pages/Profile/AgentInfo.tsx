@@ -2,7 +2,7 @@ import React from 'react';
 import { InfoItem } from 'view/components/InfoItem';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import { AgentResData } from 'services/api/agent';
+import { AgentResData } from 'services/api';
 import { CreateAgentForm, CreateOrganizationForm } from 'view/forms';
 
 export interface AgentInfoProps {

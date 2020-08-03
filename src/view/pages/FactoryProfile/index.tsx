@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FactoryResData, fetchFactoryByOrgId } from 'services/api/factory';
+import { FactoryResData, fetchFactoryByOrgId } from 'services/api';
 import { useParams } from 'react-router-dom';
 import { Typography, Grid } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';

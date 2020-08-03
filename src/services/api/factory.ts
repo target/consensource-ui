@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { BaseApiRes, PaginatedApiRes, SortingReq } from 'services/api/utils';
-import { OrgResData } from 'services/api/organization';
-import { CertResData } from 'services/api/certificate';
+import { OrgResData, CertResData } from 'services/api';
 
 export interface FactoryResAddressData {
   street_line_1: string;

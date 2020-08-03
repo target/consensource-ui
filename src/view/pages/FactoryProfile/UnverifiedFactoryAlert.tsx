@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { UnverifiedFactoryDialog } from 'view/dialogs';
-import { FactoryResData } from 'services/api/factory';
+import { FactoryResData } from 'services/api';
 
 export interface UnverifiedFactoryAlertProps {
   factory: FactoryResData;

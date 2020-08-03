@@ -4,7 +4,7 @@ import {
   UserAuthPayload,
   UserPayload,
   createUser,
-} from 'services/api/user';
+} from 'services/api';
 import {
   getEncryptedPrivateKey,
   createNewPrivateKey,

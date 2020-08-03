@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import Check from '@material-ui/icons/AssignmentTurnedInOutlined';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { CertResData } from 'services/api/certificate';
+import { CertResData } from 'services/api';
 
 export interface CertificationCardProps {
   certification: CertResData;

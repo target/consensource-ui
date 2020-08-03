@@ -1,3 +1,3 @@
-export { CertificationDialog } from 'view/dialogs/Certification';
-export { UnverifiedFactoryDialog } from 'view/dialogs/UnverifiedFactory';
-export { ClaimedDialog } from 'view/dialogs/Claimed';
+export * from 'view/dialogs/Certification';
+export * from 'view/dialogs/UnverifiedFactory';
+export * from 'view/dialogs/Claimed';

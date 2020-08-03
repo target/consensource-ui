@@ -1,4 +1,4 @@
-import * as BatchApi from 'services/api/batch';
+import { getBatchStatus, postBatches } from 'services/api';
 import stores from 'stores';
 import { ClientBatchStatus } from 'sawtooth-sdk/protobuf';
 
@@ -21,7 +21,7 @@ class BatchService {
    */
   async waitForBatchCommit(batchStatusLink: string): Promise<void> {
     const { snackbarStore } = stores;
-    const res = await BatchApi.getBatchStatus(batchStatusLink);
+    const res = await getBatchStatus(batchStatusLink);
 
     // Because we currently only submit a single batch at a time
     // we can assume the only batch status entry is in index 0
@@ -55,7 +55,7 @@ class BatchService {
     let res;
 
     try {
-      res = await BatchApi.postBatches(batchListBytes);
+      res = await postBatches(batchListBytes);
     } catch ({ message }) {
       throw new Error(`Failed to submit batch: ${message}`);
     }

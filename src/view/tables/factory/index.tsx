@@ -4,13 +4,13 @@ import {
   fetchAllFactories,
   FactoryReqParams,
   FactoryReqFilterSortParams,
-} from 'services/api/factory';
+  CertResData,
+} from 'services/api';
 import MUIDataTable, {
   MUIDataTableOptions,
   MUIDataTableColumn,
 } from 'mui-datatables';
 import stores from 'stores';
-import { CertResData } from 'services/api/certificate';
 import Typography from '@material-ui/core/Typography';
 import { FactoryPageLinkIcon } from 'view/tables/factory/FactoryPageLinkIcon';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { OrgResContactData } from 'services/api/organization';
+import { OrgResContactData } from 'services/api';
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
 import { InfoItem } from 'view/components';

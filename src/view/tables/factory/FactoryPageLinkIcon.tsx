@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import Tooltip from '@material-ui/core/Tooltip';
-import { OrgResData } from 'services/api/organization';
+import { OrgResData } from 'services/api';
 
 export interface FactoryPageLinkIconProps {
   factoryId: OrgResData['id'];

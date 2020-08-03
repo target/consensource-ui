@@ -3,7 +3,7 @@ import stores from 'stores';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { observer } from 'mobx-react-lite';
-import { fetchAgentByPubKey, AgentResData } from 'services/api/agent';
+import { fetchAgentByPubKey, AgentResData } from 'services/api';
 import { User } from 'stores/UserStore';
 import { UserInfo } from 'view/pages/Profile/UserInfo';
 import { AgentInfo } from 'view/pages/Profile/AgentInfo';
