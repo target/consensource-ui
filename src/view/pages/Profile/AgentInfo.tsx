@@ -4,7 +4,6 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { AgentResData } from 'services/api/agent';
 import { CreateAgentForm, CreateOrganizationForm } from 'view/forms';
-import stores from 'stores';
 
 export interface AgentInfoProps {
   agent: AgentResData | null;

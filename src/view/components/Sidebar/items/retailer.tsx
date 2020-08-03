@@ -4,18 +4,17 @@ import SearchIcon from '@material-ui/icons/Search';
 import HomeIcon from '@material-ui/icons/Home';
 import Typography from '@material-ui/core/Typography';
 import {
+  SidebarItemsWithRoutes,
   SidebarItemProps,
   StyledListItem,
   StyledListItemIcon,
 } from 'view/components/Sidebar/items/common';
 
-function DashboardItem({ onClick, isSelected }: SidebarItemProps) {
-  const route = '/';
-
+function DashboardItem({ onClick, isSelected, route }: SidebarItemProps) {
   return (
     <StyledListItem
       button
-      selected={isSelected(route)}
+      selected={isSelected}
       key={route}
       onClick={() => onClick(route)}
     >
@@ -29,13 +28,11 @@ function DashboardItem({ onClick, isSelected }: SidebarItemProps) {
   );
 }
 
-function SearchItem({ onClick, isSelected }: SidebarItemProps) {
-  const route = '/search';
-
+function SearchItem({ onClick, isSelected, route }: SidebarItemProps) {
   return (
     <StyledListItem
       button
-      selected={isSelected(route)}
+      selected={isSelected}
       key={route}
       onClick={() => onClick(route)}
     >
@@ -47,4 +44,7 @@ function SearchItem({ onClick, isSelected }: SidebarItemProps) {
   );
 }
 
-export const RetailerSidebarItems = [DashboardItem, SearchItem];
+export const RetailerSidebarItems: SidebarItemsWithRoutes = [
+  ['/', DashboardItem],
+  ['/search', SearchItem],
+];

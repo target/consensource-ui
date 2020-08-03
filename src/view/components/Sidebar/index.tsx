@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Drawer, List } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { items } from 'view/components/Sidebar/items';
@@ -25,16 +25,25 @@ const useStyles = makeStyles(({ palette }) =>
 export function Sidebar() {
   const classes = useStyles();
   const history = useHistory();
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   // Track route changes to update the selected sidebar item
-  const [curRoute, setCurRoute] = useState(location.pathname);
+  const [curRoute, setCurRoute] = useState(pathname);
 
-  const isSelected = (route: string) => curRoute.includes(route);
+  const isSelected = (route: string) => {
+    if (route === '/') {
+      return curRoute === '/';
+    }
+
+    return curRoute.includes(route);
+  };
+
+  useEffect(() => {
+    setCurRoute(pathname);
+  }, [pathname]);
 
   const onClick = (route: string) => {
     history.push(route);
-    setCurRoute(route);
   };
 
   return (
@@ -44,10 +53,15 @@ export function Sidebar() {
       classes={{ paper: classes.drawerPaper }}
     >
       <List className={classes.list}>
-        {items.map((item, i) =>
+        {items.map(([route, component], i) =>
           // eslint-disable-next-line react/no-array-index-key
           // TODO: Add a divider to every item except the last one
-          React.createElement(item, { isSelected, onClick, key: i }),
+          React.createElement(component, {
+            isSelected: isSelected(route),
+            onClick,
+            route,
+            key: route,
+          }),
         )}
       </List>
     </Drawer>

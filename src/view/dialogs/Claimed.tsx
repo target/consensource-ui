@@ -19,7 +19,11 @@ export function ClaimedDialog({ open, handleClose }: ClaimedDialogProps) {
     >
       <DialogTitle>Claimed data</DialogTitle>
       <DialogContent>
-        <DialogContentText>This means that... 🤔</DialogContentText>
+        <DialogContentText>
+          <span role="img" aria-label="claimed dialog">
+            This means that... 🤔
+          </span>
+        </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="secondary">

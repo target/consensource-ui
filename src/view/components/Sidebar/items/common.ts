@@ -4,13 +4,13 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 
 export interface SidebarItemProps {
   onClick: (route: string) => void;
-  isSelected: (route: string) => boolean;
+  isSelected: boolean;
+  route: string;
 }
 
-export type SidebarItems = (({
-  onClick,
-  isSelected,
-}: SidebarItemProps) => JSX.Element)[];
+type SidebarItem = (props: SidebarItemProps) => JSX.Element;
+
+export type SidebarItemsWithRoutes = Array<[string, SidebarItem]>;
 
 export const StyledListItem = withStyles({
   root: {

@@ -18,7 +18,9 @@ export function FactoryPageLinkIcon({ factoryId }: FactoryPageLinkIconProps) {
       <Tooltip title="View factory profile">
         <IconButton
           onMouseOver={() => setColor('primary')}
+          onFocus={() => setColor('primary')}
           onMouseOut={() => setColor('inherit')}
+          onBlur={() => setColor('inherit')}
           aria-label="view factory profile"
         >
           <OpenInNewIcon color={color} />

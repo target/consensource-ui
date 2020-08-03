@@ -37,6 +37,12 @@ export const Profile = observer(() => {
         <Typography variant="h3">Profile</Typography>
       </Grid>
 
+      {errMsg && (
+        <Grid item xs={12}>
+          <Typography color="error">{errMsg}</Typography>
+        </Grid>
+      )}
+
       {userStore.user && (
         <Grid item xs={12}>
           <UserInfo user={userStore.user} />
