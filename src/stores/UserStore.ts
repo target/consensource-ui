@@ -13,7 +13,6 @@ import {
   getSignerPubKeyHex,
   createPrivateKeyFromHex,
 } from 'services/crypto';
-import SnackbarStore from 'stores/SnackbarStore';
 
 export interface UserInfo {
   username: string;
@@ -43,16 +42,13 @@ export class User {
 }
 
 export default class UserStore {
-  snackbarStore: SnackbarStore;
-
   USER_STORAGE_KEY = 'USER';
 
   @observable user: User | null = null;
 
   @observable isAuthenticating = false;
 
-  constructor(snackbarStore: SnackbarStore) {
-    this.snackbarStore = snackbarStore;
+  constructor() {
     this.loadUserFromLocalStorage();
   }
 

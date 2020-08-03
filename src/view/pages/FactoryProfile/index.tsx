@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FactoryResData, fetchFactoryByOrgId } from 'services/api/factory';
 import { useParams } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { Typography, Grid } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { FactoryProfileContacts } from 'view/pages/FactoryProfile/Contacts';
 import { FactoryProfileAddress } from 'view/pages/FactoryProfile/Address';
