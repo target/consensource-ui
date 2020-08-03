@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import stores from 'stores';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
+import { Typography, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { fetchAgentByPubKey, AgentResData } from 'services/api';
 import { User } from 'stores/UserStore';
 import { UserInfo } from 'view/pages/Profile/UserInfo';
 import { AgentInfo } from 'view/pages/Profile/AgentInfo';
+import { useRequest } from 'services/hooks';
 
 // TODO: Remove checks on user store when session tokens are setup
 export const Profile = observer(() => {
   const { userStore } = stores;
+
+  const { data, loading, error } = useRequest(
+    fetchAgentByPubKey(publicKeyString),
+  );
 
   const [agent, setAgent] = useState<AgentResData | null>(null);
   const [errMsg, setErrMsg] = useState('');
