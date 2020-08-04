@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { FactoryResData, fetchFactoryByOrgId } from 'services/api';
+import React from 'react';
+import { fetchFactoryByOrgId } from 'services/api';
 import { useParams } from 'react-router-dom';
 import { Typography, Grid } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
@@ -25,27 +25,24 @@ export function FactoryProfile() {
   const classes = useStyles();
   const { factoryId } = useParams();
 
-  const [errMsg, setErrMsg] = useState('');
-  const [factory, setFactory] = useState<FactoryResData | null>(null);
+  const [{ data, loading, error }] = fetchFactoryByOrgId(factoryId);
 
-  const fetchFactory = async () => {
-    try {
-      const { data } = await fetchFactoryByOrgId(factoryId, { expand: true });
-      setFactory(data);
-    } catch ({ message }) {
-      setErrMsg('Failed to fetch factory');
-    }
-  };
+  if (error || !data) {
+    return (
+      <Grid item xs={12}>
+        <Typography color="error">Failed to load factory details</Typography>
+      </Grid>
+    );
+  }
 
-  useEffect(() => {
-    fetchFactory();
-  }, []);
-
-  const isFactoryUnverified = factory && !!factory.assertion_id;
-
-  if (!factory) {
+  if (loading) {
     return <div>Loading!</div>;
   }
+
+  const { data: factory } = data;
+
+  // A factory is unverified if it is an assertion
+  const isFactoryUnverified = !!factory.assertion_id;
 
   return (
     <Grid container spacing={6}>

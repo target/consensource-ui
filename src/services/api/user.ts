@@ -1,26 +1,28 @@
 import axios from 'axios';
 import sjcl from 'sjcl';
 
-export interface UserPayload {
+export interface UserCreateReqParams {
   username: string;
   password: string;
   public_key: string;
   encrypted_private_key: sjcl.SjclCipherEncrypted;
 }
 
-export interface UserAuthPayload {
+export interface UserAuthReqParams {
   username: string;
   password: string;
 }
 
-export interface UserAuthRes {
+export interface UserAuthResData {
   status: string;
   username: string;
   public_key: string;
   encrypted_private_key: string;
 }
 
-export async function createUser(userCreate: UserPayload): Promise<any> {
+export async function createUser(
+  userCreate: UserCreateReqParams,
+): Promise<any> {
   const url = '/api/users';
 
   const res = await axios.post(url, userCreate).catch((e: any) => {
@@ -31,8 +33,8 @@ export async function createUser(userCreate: UserPayload): Promise<any> {
 }
 
 export async function postUsersAuthenticate(
-  userAuth: UserAuthPayload,
-): Promise<UserAuthRes> {
+  userAuth: UserAuthReqParams,
+): Promise<UserAuthResData> {
   const url = '/api/users/authenticate';
 
   const res = await axios.post(url, userAuth).catch((e: any) => {

@@ -34,7 +34,7 @@ export function CreateAgentForm() {
     const batchListBytes = createBatch(txns, signer);
 
     try {
-      await BatchService.submitBatch(batchListBytes);
+      BatchService.submitBatch(batchListBytes);
     } catch ({ message }) {
       setErrMsg(message);
     }

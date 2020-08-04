@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   FactoryResData,
   fetchAllFactories,
@@ -10,8 +10,7 @@ import MUIDataTable, {
   MUIDataTableOptions,
   MUIDataTableColumn,
 } from 'mui-datatables';
-import stores from 'stores';
-import Typography from '@material-ui/core/Typography';
+import { Typography } from '@material-ui/core';
 import { FactoryPageLinkIcon } from 'view/tables/factory/FactoryPageLinkIcon';
 
 export const DEFAULT_ROWS_PER_PAGE = 15;
@@ -23,30 +22,10 @@ export const textLabels: MUIDataTableOptions['textLabels'] = {
 };
 
 export function FactoriesTable() {
-  /**
-   * This option removes the ability to perform pagination, filtering, and sorting
-   * on the UI and pushes that logic to the server.
-   *
-   * [MUI Datatable Docs](https://github.com/gregnb/mui-datatables#remote-data)
-   */
-  const serverSide = true;
-
-  /**
-   * Remove paper elevation to allow parent components more flexibility
-   */
-  const elevation = 0;
-
-  /**
-   * Prevent rows from being selectable (default action is to delete rows, which we don't allow)
-   */
-  const selectableRows = 'none';
-
-  // Since `serverSide` is enabled, we need to manually
-  // track the factories count
-  const [count, setCount] = useState(0);
-
-  const [factoriesPage, setFactoriesPage] = useState<FactoryResData[]>([]);
   const [queryParams, setQueryParams] = useState<FactoryReqParams>({});
+  const [{ data }] = fetchAllFactories(queryParams);
+
+  const factoriesPage = data?.data || [];
 
   /**
    * Get the render element for the `Certificates` cell in our table.
@@ -107,30 +86,6 @@ export function FactoriesTable() {
     },
   ];
 
-  const fetchFactoryData = async (params: FactoryReqParams) => {
-    try {
-      const { data, paging } = await fetchAllFactories(params);
-
-      if (data) {
-        setFactoriesPage(data);
-      }
-
-      if (paging && paging.total) {
-        setCount(paging.total);
-      }
-    } catch ({ message }) {
-      console.error(message);
-
-      // TODO: snackbarStore currently only work within the <Layout /> component,
-      // and this table is not rendered in that default layout
-      stores.snackbarStore.open('There was an issue loading factories');
-    }
-  };
-
-  useEffect(() => {
-    fetchFactoryData(queryParams);
-  }, [queryParams]);
-
   const onFilterChange = (changedColumn: string, filterList: any[]) => {
     const colIndex = columns.findIndex(({ name }) => name === changedColumn);
 
@@ -185,10 +140,26 @@ export function FactoriesTable() {
       data={factoriesPage.map(getRowFromFactory)}
       columns={columns}
       options={{
-        count,
-        selectableRows,
-        elevation,
-        serverSide,
+        /**
+         * This option removes the ability to perform pagination, filtering, and sorting
+         * on the UI and pushes that logic to the server.
+         *
+         * [MUI Datatable Docs](https://github.com/gregnb/mui-datatables#remote-data)
+         */
+        serverSide: true,
+        /**
+         * Remove paper elevation to allow parent components more flexibility
+         */
+        elevation: 0,
+        /**
+         * Since `serverSide` is enabled, we need to manually
+         *  track the factories count
+         */
+        count: data?.paging?.total || 0,
+        /**
+         * Prevent rows from being selectable (default action is to delete rows, which we don't allow)
+         */
+        selectableRows: 'none',
         textLabels,
         onFilterChange,
         onChangePage,

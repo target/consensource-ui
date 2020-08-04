@@ -1,4 +1,4 @@
-import axios from 'axios';
+import useAxios from 'axios-hooks';
 import { BaseApiRes } from 'services/api/utils';
 
 export interface StandardVersionResData {
@@ -33,39 +33,36 @@ export interface StandardBodyReqParams {
   offset?: number;
 }
 
-export async function fetchAllOrgStandards(
-  params?: StandardBodyReqParams,
-): Promise<BaseApiRes<StandardBodyResData[]>> {
-  const path = '/api/standards_body/standards';
-
-  const res = await axios.get(path, { params }).catch(({ message }: Error) => {
-    throw new Error(`Failed to GET ${path}: ${message}`);
+export function fetchAllOrgStandards(params?: StandardBodyReqParams) {
+  return useAxios<BaseApiRes<StandardBodyResData[]>>({
+    method: 'GET',
+    url: '/api/standards_body/standards',
+    params,
   });
-
-  return res.data;
 }
 
-export async function fetchStandard(
-  standardId: string,
-  params?: StandardBodyReqParams,
-): Promise<StandardBodyResData | null> {
-  const allOrgStandards = await fetchAllOrgStandards(params);
-
-  const matchingStandard = allOrgStandards.data.find(
-    (standard) => standard.standard_id === standardId,
-  );
-
-  return matchingStandard || null;
-}
-
-export async function fetchAllStandards(
-  params?: StandardReqParams,
-): Promise<BaseApiRes<StandardResData[]>> {
-  const path = '/api/standards';
-
-  const res = await axios.get(path, { params }).catch(({ message }: Error) => {
-    throw new Error(`Failed to GET ${path}: ${message}`);
+export function fetchAllStandards(params?: StandardReqParams) {
+  return useAxios<BaseApiRes<StandardResData[]>>({
+    method: 'GET',
+    url: '/api/standards',
+    params,
   });
-
-  return res.data;
 }
+
+// DEPRECATED
+//
+// TODO: Implement this logic on the backend
+//
+//
+// export function fetchStandard(
+//   standardId: string,
+//   params?: StandardBodyReqParams,
+// ): Promise<StandardBodyResData | null> {
+//   const allOrgStandards = await fetchAllOrgStandards(params);
+
+//   const matchingStandard = allOrgStandards.data.find(
+//     (standard) => standard.standard_id === standardId,
+//   );
+
+//   return matchingStandard || null;
+// }

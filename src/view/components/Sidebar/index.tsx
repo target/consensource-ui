@@ -53,7 +53,7 @@ export function Sidebar() {
       classes={{ paper: classes.drawerPaper }}
     >
       <List className={classes.list}>
-        {items.map(([route, component], i) =>
+        {items.map(([route, component]) =>
           // eslint-disable-next-line react/no-array-index-key
           // TODO: Add a divider to every item except the last one
           React.createElement(component, {

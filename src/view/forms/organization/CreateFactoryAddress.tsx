@@ -80,7 +80,6 @@ export default function CreateFactoryAddressForm({
             }
             label="State Province"
             id="state-province"
-            required
           />
         </Grid>
         <Grid item xs={12}>
@@ -104,7 +103,6 @@ export default function CreateFactoryAddressForm({
             }
             label="Postal Code"
             id="postal-code"
-            required
           />
         </Grid>
         <Grid item xs={12}>

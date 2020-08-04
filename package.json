@@ -58,6 +58,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/styles": "^4.9.14",
     "axios": "^0.19.2",
+    "axios-hooks": "^2.1.0",
     "eventsource": "^1.0.7",
     "http-proxy-middleware": "^1.0.4",
     "mobx": "^5.15.4",

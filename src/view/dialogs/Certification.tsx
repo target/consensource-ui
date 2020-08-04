@@ -13,11 +13,7 @@ export function CertificationDialog({
   certificate,
 }: CertificationDialogProps) {
   return (
-    <Dialog
-      onClose={onClose}
-      aria-labelledby="certification-dialog-title"
-      open={open}
-    >
+    <Dialog onClose={onClose} open={open}>
       <DialogTitle>{certificate.standard_name}</DialogTitle>
     </Dialog>
   );

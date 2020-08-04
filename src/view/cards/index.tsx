@@ -1,1 +1,1 @@
-export { CertificationCard } from 'view/cards/Certifications';
+export * from 'view/cards/Certifications';

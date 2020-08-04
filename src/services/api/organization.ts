@@ -1,4 +1,4 @@
-import axios from 'axios';
+import useAxios from 'axios-hooks';
 import { BaseApiRes, PaginatedApiRes } from 'services/api/utils';
 import { Organization } from 'services/protobuf/compiled';
 
@@ -29,27 +29,18 @@ export interface OrgReqParams {
   head?: number;
 }
 
-export async function fetchOrganizations(
-  params?: OrgReqParams,
-): Promise<PaginatedApiRes<OrgResData[]>> {
-  const path = '/api/organizations';
-
-  const res = await axios.get(path, { params }).catch(({ message }: Error) => {
-    throw new Error(`Failed to GET ${path}: ${message}`);
+export function fetchOrganizations(params?: OrgReqParams) {
+  return useAxios<PaginatedApiRes<OrgResData[]>>({
+    method: 'GET',
+    url: '/api/organizations',
+    params,
   });
-
-  return res.data;
 }
 
-export async function fetchOrganizationById(
-  orgId: string,
-  params?: OrgReqParams,
-): Promise<BaseApiRes<OrgResData>> {
-  const path = `/api/organizations/${orgId}`;
-
-  const res = await axios.get(path, { params }).catch(({ message }: Error) => {
-    throw new Error(`Failed to GET ${path}: ${message}`);
+export function fetchOrganizationById(orgId: string, params?: OrgReqParams) {
+  return useAxios<BaseApiRes<OrgResData>>({
+    method: 'GET',
+    url: `/api/organizations/${orgId}`,
+    params,
   });
-
-  return res.data;
 }

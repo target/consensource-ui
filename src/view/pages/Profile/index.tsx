@@ -1,51 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import stores from 'stores';
 import { Typography, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { fetchAgentByPubKey, AgentResData } from 'services/api';
-import { User } from 'stores/UserStore';
 import { UserInfo } from 'view/pages/Profile/UserInfo';
 import { AgentInfo } from 'view/pages/Profile/AgentInfo';
-import { useRequest } from 'services/hooks';
+
+interface AgentInfoContainerProps {
+  agentPubKey: AgentResData['public_key'];
+}
+
+/**
+ * Fetching our agent is dependent upon the userStore having a user
+ * field with a public key field.
+ *
+ * Since the user is potentially null, we separate the agent API
+ * call into a separate component in order to conditionally fetch
+ * the agent only once we have a public key from the user.
+ */
+function AgentInfoContainer({ agentPubKey }: AgentInfoContainerProps) {
+  const [{ data, error, loading }] = fetchAgentByPubKey(agentPubKey);
+
+  return (
+    <Grid container>
+      {error && (
+        <Grid item xs={12}>
+          <Typography color="error">Failed to load agent info</Typography>
+        </Grid>
+      )}
+
+      {loading && <p>Loading</p>}
+      {data && <AgentInfo agent={data.data} />}
+    </Grid>
+  );
+}
 
 // TODO: Remove checks on user store when session tokens are setup
 export const Profile = observer(() => {
   const { userStore } = stores;
-
-  const { data, loading, error } = useRequest(
-    fetchAgentByPubKey(publicKeyString),
-  );
-
-  const [agent, setAgent] = useState<AgentResData | null>(null);
-  const [errMsg, setErrMsg] = useState('');
-
-  const fetchAgent = async (publicKeyString: User['publicKeyString']) => {
-    try {
-      const { data } = await fetchAgentByPubKey(publicKeyString);
-      setAgent(data);
-    } catch ({ message }) {
-      setErrMsg(message);
-    }
-  };
-
-  useEffect(() => {
-    if (userStore.user) {
-      const { publicKeyString } = userStore.user;
-      fetchAgent(publicKeyString);
-    }
-  }, [userStore.user]);
-
   return (
     <Grid container spacing={6}>
       <Grid container item justify="center" xs={12}>
         <Typography variant="h3">Profile</Typography>
       </Grid>
-
-      {errMsg && (
-        <Grid item xs={12}>
-          <Typography color="error">{errMsg}</Typography>
-        </Grid>
-      )}
 
       {userStore.user && (
         <Grid item xs={12}>
@@ -54,7 +51,9 @@ export const Profile = observer(() => {
       )}
 
       <Grid item xs={12}>
-        <AgentInfo agent={agent} />
+        {userStore.user && (
+          <AgentInfoContainer agentPubKey={userStore.user.publicKeyString} />
+        )}
       </Grid>
     </Grid>
   );

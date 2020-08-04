@@ -1,8 +1,8 @@
 import { observable, action, computed } from 'mobx';
 import {
   postUsersAuthenticate,
-  UserAuthPayload,
-  UserPayload,
+  UserAuthReqParams,
+  UserCreateReqParams,
   createUser,
 } from 'services/api';
 import {
@@ -78,7 +78,7 @@ export default class UserStore {
     const public_key = getSignerPubKeyHex(signer);
     const encrypted_private_key = getEncryptedPrivateKey(password, privateKey);
 
-    const userPayload: UserPayload = {
+    const userPayload: UserCreateReqParams = {
       username,
       password,
       public_key,
@@ -102,7 +102,7 @@ export default class UserStore {
   async authenticateUser(username: string, password: string) {
     this.isAuthenticating = true;
 
-    const payload: UserAuthPayload = { username, password };
+    const payload: UserAuthReqParams = { username, password };
 
     let res;
 
