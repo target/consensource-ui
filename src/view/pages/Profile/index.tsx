@@ -2,7 +2,7 @@ import React from 'react';
 import stores from 'stores';
 import { Typography, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
-import { fetchAgentByPubKey, AgentResData } from 'services/api';
+import { fetchAgentByPubKey, AgentResData, is5xxError } from 'services/api';
 import { UserInfo } from 'view/pages/Profile/UserInfo';
 import { AgentInfo } from 'view/pages/Profile/AgentInfo';
 
@@ -20,17 +20,19 @@ interface AgentInfoContainerProps {
  */
 function AgentInfoContainer({ agentPubKey }: AgentInfoContainerProps) {
   const [{ data, error, loading }] = fetchAgentByPubKey(agentPubKey);
+  const agent = data?.data || null;
 
   return (
     <Grid container>
-      {error && (
+      {loading && <p>Loading</p>}
+
+      {is5xxError(error) && (
         <Grid item xs={12}>
           <Typography color="error">Failed to load agent info</Typography>
         </Grid>
       )}
 
-      {loading && <p>Loading</p>}
-      {data && <AgentInfo agent={data.data} />}
+      <AgentInfo agent={agent} />
     </Grid>
   );
 }

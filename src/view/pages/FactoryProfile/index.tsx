@@ -27,16 +27,16 @@ export function FactoryProfile() {
 
   const [{ data, loading, error }] = fetchFactoryByOrgId(factoryId);
 
+  if (loading) {
+    return <div>Loading!</div>;
+  }
+
   if (error || !data) {
     return (
       <Grid item xs={12}>
         <Typography color="error">Failed to load factory details</Typography>
       </Grid>
     );
-  }
-
-  if (loading) {
-    return <div>Loading!</div>;
   }
 
   const { data: factory } = data;

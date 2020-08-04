@@ -1,3 +1,5 @@
+import { AxiosError } from 'axios';
+
 export interface PagingRes {
   first: string;
   last: string;
@@ -29,4 +31,8 @@ export interface PaginatedApiRes<T = {}> extends BaseApiRes<T> {
 export interface ExpansionRef {
   id: string;
   link: string;
+}
+
+export function is5xxError(error?: AxiosError) {
+  return error && error.response && error.response.status >= 500;
 }

@@ -6,3 +6,4 @@ export * from 'services/api/factory';
 export * from 'services/api/organization';
 export * from 'services/api/standard';
 export * from 'services/api/user';
+export * from 'services/api/utils';
