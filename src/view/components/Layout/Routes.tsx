@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import {
   Landing,
   SignUp,
@@ -11,6 +11,8 @@ import {
 } from 'view/pages';
 
 export function UnauthenticatedRoutes() {
+  const { pathname } = useLocation();
+
   return (
     <Switch>
       <Route path="/login">
@@ -30,7 +32,8 @@ export function UnauthenticatedRoutes() {
         render={() => (
           <Redirect
             to={{
-              pathname: '/',
+              pathname: '/login',
+              state: { from: pathname },
             }}
           />
         )}

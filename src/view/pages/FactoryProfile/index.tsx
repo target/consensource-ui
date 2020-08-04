@@ -1,4 +1,5 @@
 import React from 'react';
+import { useAsync } from 'react-async-hook';
 import { fetchFactoryByOrgId } from 'services/api';
 import { useParams } from 'react-router-dom';
 import { Typography, Grid } from '@material-ui/core';
@@ -25,13 +26,13 @@ export function FactoryProfile() {
   const classes = useStyles();
   const { factoryId } = useParams();
 
-  const [{ data, loading, error }] = fetchFactoryByOrgId(factoryId);
+  const { result, error, loading } = useAsync(fetchFactoryByOrgId, [factoryId]);
 
   if (loading) {
     return <div>Loading!</div>;
   }
 
-  if (error || !data) {
+  if (error || !result) {
     return (
       <Grid item xs={12}>
         <Typography color="error">Failed to load factory details</Typography>
@@ -39,7 +40,7 @@ export function FactoryProfile() {
     );
   }
 
-  const { data: factory } = data;
+  const { data: factory } = result;
 
   // A factory is unverified if it is an assertion
   const isFactoryUnverified = !!factory.assertion_id;

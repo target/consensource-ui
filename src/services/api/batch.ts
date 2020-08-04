@@ -15,13 +15,11 @@ export interface BatchStatusRes
 /**
  * Make a `POST` request to `/api/batches`
  */
-export async function postBatches(
-  batchListBytes: Uint8Array,
-): Promise<PostBatchRes> {
+export async function postBatches(batchListBytes: Uint8Array) {
   const url = '/api/batches';
 
   const res = await axios
-    .post(url, batchListBytes, {
+    .post<PostBatchRes>(url, batchListBytes, {
       headers: { 'Content-Type': 'application/octet-stream' },
       transformRequest: [(data) => data],
     })
@@ -35,14 +33,14 @@ export async function postBatches(
 /**
  * Given a batchStatusUrl, poll with a `wait` param set to `BATCH_STATUS_WAIT`
  */
-export async function getBatchStatus(
-  batchStatusUrl: string,
-): Promise<BatchStatusRes> {
+export async function getBatchStatus(batchStatusUrl: string) {
   const url = `/api${batchStatusUrl}&wait=${BATCH_STATUS_WAIT}`;
 
-  const res = await axios.get(url).catch(({ message }: Error) => {
-    throw new Error(`Failed to GET ${url}: ${message}`);
-  });
+  const res = await axios
+    .get<BatchStatusRes>(url)
+    .catch(({ message }: Error) => {
+      throw new Error(`Failed to GET ${url}: ${message}`);
+    });
 
   return res.data;
 }

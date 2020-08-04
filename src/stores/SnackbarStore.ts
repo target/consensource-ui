@@ -1,6 +1,6 @@
 import { action, observable } from 'mobx';
 
-export default class SnackbarStore {
+export class SnackbarStore {
   @observable isOpen = false;
 
   @observable message = '';

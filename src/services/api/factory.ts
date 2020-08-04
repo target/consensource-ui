@@ -1,6 +1,6 @@
+import axios from 'axios';
 import { BaseApiRes, PaginatedApiRes, SortingReq } from 'services/api/utils';
 import { OrgResData, CertResData } from 'services/api';
-import useAxios from 'axios-hooks';
 
 export interface FactoryResAddressData {
   street_line_1: string;
@@ -35,18 +35,29 @@ export interface FactoryReqParams
   expand?: boolean;
 }
 
-export function fetchAllFactories(params?: FactoryReqParams) {
-  return useAxios<PaginatedApiRes<FactoryResData[]>>({
-    method: 'GET',
-    url: '/api/factories',
-    params,
-  });
+export async function fetchAllFactories(params?: FactoryReqParams) {
+  const path = '/api/factories';
+
+  const res = await axios
+    .get<PaginatedApiRes<FactoryResData[]>>(path, { params })
+    .catch(({ message }: Error) => {
+      throw new Error(`Failed to GET ${path}: ${message}`);
+    });
+
+  return res.data;
 }
 
-export function fetchFactoryByOrgId(orgId: string, params?: FactoryReqParams) {
-  return useAxios<BaseApiRes<FactoryResData>>({
-    method: 'GET',
-    url: `/api/factories/${orgId}`,
-    params,
-  });
+export async function fetchFactoryByOrgId(
+  orgId: string,
+  params?: FactoryReqParams,
+) {
+  const path = `/api/factories/${orgId}`;
+
+  const res = await axios
+    .get<BaseApiRes<FactoryResData>>(path, { params })
+    .catch(({ message }: Error) => {
+      throw new Error(`Failed to GET ${path}: ${message}`);
+    });
+
+  return res.data;
 }

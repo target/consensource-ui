@@ -1,5 +1,5 @@
-import UserStore from 'stores/UserStore';
-import SnackbarStore from 'stores/SnackbarStore';
+import { UserStore } from 'stores/UserStore';
+import { SnackbarStore } from 'stores/SnackbarStore';
 
 const snackbarStore = new SnackbarStore();
 const userStore = new UserStore();

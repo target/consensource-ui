@@ -1,4 +1,4 @@
-import useAxios from 'axios-hooks';
+import axios from 'axios';
 import { BaseApiRes, ExpansionRef } from 'services/api/utils';
 import { OrgResData, StandardResData } from 'services/api';
 
@@ -26,21 +26,29 @@ export interface CertRequestReqParam {
   head?: number;
 }
 
-export function fetchCertRequests(params?: CertRequestReqParam) {
-  return useAxios<BaseApiRes<CertRequestResData[]>>({
-    method: 'GET',
-    url: '/api/requests',
-    params,
-  });
+export async function fetchCertRequests(params?: CertRequestReqParam) {
+  const path = '/api/requests';
+
+  const res = await axios
+    .get<BaseApiRes<CertRequestResData[]>>(path, { params })
+    .catch(({ message }: Error) => {
+      throw new Error(`Failed to GET ${path}: ${message}`);
+    });
+
+  return res.data;
 }
 
-export function fetchCertRequestById(
+export async function fetchCertRequestById(
   requestId: string,
   params?: CertRequestReqParam,
 ) {
-  return useAxios<BaseApiRes<CertRequestResData[]>>({
-    method: 'GET',
-    url: `/api/requests/${requestId}`,
-    params,
-  });
+  const path = `/api/requests/${requestId}`;
+
+  const res = await axios
+    .get<BaseApiRes<CertRequestResData>>(path, { params })
+    .catch(({ message }: Error) => {
+      throw new Error(`Failed to GET ${path}: ${message}`);
+    });
+
+  return res.data;
 }

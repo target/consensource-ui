@@ -1,4 +1,4 @@
-import useAxios from 'axios-hooks';
+import axios from 'axios';
 import { PaginatedApiRes } from 'services/api/utils';
 
 export interface CertResData {
@@ -23,10 +23,14 @@ export interface CertReqParam {
   head?: number;
 }
 
-export function loadCertificates(params?: CertReqParam) {
-  return useAxios<PaginatedApiRes<CertResData[]>>({
-    method: 'GET',
-    url: '/api/certificates',
-    params,
-  });
+export async function loadCertificates(params?: CertReqParam) {
+  const path = '/api/certificates';
+
+  const res = await axios
+    .get<PaginatedApiRes<CertResData[]>>(path, { params })
+    .catch(({ message }: Error) => {
+      throw new Error(`Failed to GET ${path}: ${message}`);
+    });
+
+  return res.data;
 }

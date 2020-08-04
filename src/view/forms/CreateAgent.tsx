@@ -13,7 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import Key from '@material-ui/icons/VpnKey';
 import stores from 'stores';
 import { createBatch } from 'services/protobuf/batch';
-import BatchService from 'services/batch';
+import { submitBatch } from 'services/batch';
 
 export function CreateAgentForm() {
   const [errMsg, setErrMsg] = useState('');
@@ -34,7 +34,7 @@ export function CreateAgentForm() {
     const batchListBytes = createBatch(txns, signer);
 
     try {
-      BatchService.submitBatch(batchListBytes);
+      submitBatch(batchListBytes);
     } catch ({ message }) {
       setErrMsg(message);
     }

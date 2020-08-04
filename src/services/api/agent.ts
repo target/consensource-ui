@@ -1,6 +1,6 @@
-import { PaginatedApiRes } from 'services/api/utils';
+import axios, { AxiosResponse } from 'axios';
+import { PaginatedApiRes, BaseApiRes } from 'services/api/utils';
 import { Organization } from 'services/protobuf/compiled';
-import useAxios from 'axios-hooks';
 
 export interface AgentResData {
   public_key: string;
@@ -19,18 +19,33 @@ export interface AgentReqParams {
   head?: number;
 }
 
-export function fetchAgents(params?: AgentReqParams) {
-  return useAxios<PaginatedApiRes<AgentResData[]>>({
-    method: 'GET',
-    url: '/api/agents',
-    params,
-  });
+export async function fetchAgents(params?: AgentReqParams) {
+  const path = '/api/agents';
+
+  const res = await axios
+    .get<PaginatedApiRes<AgentResData[]>>(path, { params })
+    .catch(({ message }: Error) => {
+      throw new Error(`Failed to GET ${path}: ${message}`);
+    });
+
+  return res.data;
 }
 
-export function fetchAgentByPubKey(publicKey: string, params?: AgentReqParams) {
-  return useAxios<PaginatedApiRes<AgentResData>>({
-    method: 'GET',
-    url: `/api/agents/${publicKey}`,
-    params,
-  });
+export async function fetchAgentByPubKey(
+  agentPubKey: string,
+  params?: AgentReqParams,
+) {
+  const path = `/api/agents/${agentPubKey}`;
+
+  const res = await axios
+    .get<BaseApiRes<AgentResData>>(path, { params })
+    .catch((error) => {
+      if (error.response && error.response.status === 404) {
+        return { data: { data: null } } as AxiosResponse<BaseApiRes<null>>;
+      }
+
+      throw new Error(`Failed to GET ${path}: ${error.message}`);
+    });
+
+  return res.data;
 }

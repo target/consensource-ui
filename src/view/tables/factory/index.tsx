@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useAsync } from 'react-async-hook';
 import {
   FactoryResData,
   fetchAllFactories,
@@ -23,9 +24,9 @@ export const textLabels: MUIDataTableOptions['textLabels'] = {
 
 export function FactoriesTable() {
   const [queryParams, setQueryParams] = useState<FactoryReqParams>({});
-  const [{ data }] = fetchAllFactories(queryParams);
+  const { result } = useAsync(fetchAllFactories, [queryParams]);
 
-  const factoriesPage = data?.data || [];
+  const factoriesPage = result?.data || [];
 
   /**
    * Get the render element for the `Certificates` cell in our table.
@@ -155,7 +156,7 @@ export function FactoriesTable() {
          * Since `serverSide` is enabled, we need to manually
          *  track the factories count
          */
-        count: data?.paging?.total || 0,
+        count: result?.paging?.total ?? 0,
         /**
          * Prevent rows from being selectable (default action is to delete rows, which we don't allow)
          */

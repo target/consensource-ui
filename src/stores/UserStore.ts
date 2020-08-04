@@ -41,7 +41,7 @@ export class User {
   }
 }
 
-export default class UserStore {
+export class UserStore {
   USER_STORAGE_KEY = 'USER';
 
   @observable user: User | null = null;

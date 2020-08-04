@@ -1,4 +1,4 @@
-import useAxios from 'axios-hooks';
+import axios from 'axios';
 import { BaseApiRes } from 'services/api/utils';
 
 export interface StandardVersionResData {
@@ -33,20 +33,28 @@ export interface StandardBodyReqParams {
   offset?: number;
 }
 
-export function fetchAllOrgStandards(params?: StandardBodyReqParams) {
-  return useAxios<BaseApiRes<StandardBodyResData[]>>({
-    method: 'GET',
-    url: '/api/standards_body/standards',
-    params,
-  });
+export async function fetchAllOrgStandards(params?: StandardBodyReqParams) {
+  const path = '/api/standards_body/standards';
+
+  const res = await axios
+    .get<BaseApiRes<StandardBodyResData[]>>(path, { params })
+    .catch(({ message }: Error) => {
+      throw new Error(`Failed to GET ${path}: ${message}`);
+    });
+
+  return res.data;
 }
 
-export function fetchAllStandards(params?: StandardReqParams) {
-  return useAxios<BaseApiRes<StandardResData[]>>({
-    method: 'GET',
-    url: '/api/standards',
-    params,
-  });
+export async function fetchAllStandards(params?: StandardReqParams) {
+  const path = '/api/standards';
+
+  const res = await axios
+    .get<BaseApiRes<StandardResData[]>>(path, { params })
+    .catch(({ message }: Error) => {
+      throw new Error(`Failed to GET ${path}: ${message}`);
+    });
+
+  return res.data;
 }
 
 // DEPRECATED

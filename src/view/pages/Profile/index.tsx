@@ -2,9 +2,10 @@ import React from 'react';
 import stores from 'stores';
 import { Typography, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
-import { fetchAgentByPubKey, AgentResData, is5xxError } from 'services/api';
+import { fetchAgentByPubKey, AgentResData } from 'services/api';
 import { UserInfo } from 'view/pages/Profile/UserInfo';
 import { AgentInfo } from 'view/pages/Profile/AgentInfo';
+import { useAsync } from 'react-async-hook';
 
 interface AgentInfoContainerProps {
   agentPubKey: AgentResData['public_key'];
@@ -19,20 +20,19 @@ interface AgentInfoContainerProps {
  * the agent only once we have a public key from the user.
  */
 function AgentInfoContainer({ agentPubKey }: AgentInfoContainerProps) {
-  const [{ data, error, loading }] = fetchAgentByPubKey(agentPubKey);
-  const agent = data?.data || null;
+  const { result, error, loading } = useAsync(fetchAgentByPubKey, [
+    agentPubKey,
+  ]);
 
   return (
     <Grid container>
       {loading && <p>Loading</p>}
-
-      {is5xxError(error) && (
+      {error && (
         <Grid item xs={12}>
           <Typography color="error">Failed to load agent info</Typography>
         </Grid>
       )}
-
-      <AgentInfo agent={agent} />
+      {result && <AgentInfo agent={result.data} />}
     </Grid>
   );
 }

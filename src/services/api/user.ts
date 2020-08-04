@@ -20,30 +20,29 @@ export interface UserAuthResData {
   encrypted_private_key: string;
 }
 
-export async function createUser(
-  userCreate: UserCreateReqParams,
-): Promise<any> {
+// TODO: Return type definition
+export async function createUser(payload: UserCreateReqParams) {
   const url = '/api/users';
 
-  const res = await axios.post(url, userCreate).catch((e: any) => {
+  const res = await axios.post(url, payload).catch((e: any) => {
     throw new Error(`Failed to POST ${url}: ${e.message}`);
   });
 
   return res.data;
 }
 
-export async function postUsersAuthenticate(
-  userAuth: UserAuthReqParams,
-): Promise<UserAuthResData> {
+export async function postUsersAuthenticate(payload: UserAuthReqParams) {
   const url = '/api/users/authenticate';
 
-  const res = await axios.post(url, userAuth).catch((e: any) => {
-    if (e.error && e.error.status === 401) {
-      throw new Error('User not found');
-    }
+  const res = await axios
+    .post<UserAuthResData>(url, payload)
+    .catch((e: any) => {
+      if (e.error && e.error.status === 401) {
+        throw new Error('User not found');
+      }
 
-    throw new Error('Unable to login at this time');
-  });
+      throw new Error('Unable to login at this time');
+    });
 
   return res.data;
 }
