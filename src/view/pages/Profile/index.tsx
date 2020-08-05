@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import stores from 'stores';
 import { Typography, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
@@ -20,7 +20,7 @@ interface AgentInfoContainerProps {
  * call into a separate component in order to conditionally fetch
  * the agent only once we have a public key from the user.
  */
-function AgentInfoContainer({ agentPubKey }: AgentInfoContainerProps) {
+const AgentInfoContainer: FC<AgentInfoContainerProps> = ({ agentPubKey }) => {
   const { result, loading, error } = useAsync(fetchAgentByPubKey, [
     agentPubKey,
   ]);
@@ -32,11 +32,7 @@ function AgentInfoContainer({ agentPubKey }: AgentInfoContainerProps) {
       </Grid>
 
       <Grid item xs={12}>
-        <AsyncCircularProgress
-          isLoading={loading}
-          minDisplayTimeMs={1000}
-          size={60}
-        >
+        <AsyncCircularProgress isLoading={loading} size={60}>
           {error && (
             <Grid item xs={12}>
               <Typography color="error">Failed to load agent info</Typography>
@@ -48,7 +44,7 @@ function AgentInfoContainer({ agentPubKey }: AgentInfoContainerProps) {
       </Grid>
     </Grid>
   );
-}
+};
 
 // TODO: Remove checks on user store when session tokens are setup
 export const Profile = observer(() => {

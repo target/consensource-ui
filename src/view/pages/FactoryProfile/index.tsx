@@ -4,11 +4,11 @@ import { fetchFactoryByOrgId } from 'services/api';
 import { useParams } from 'react-router-dom';
 import { Typography, Grid } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { FactoryProfileContacts } from 'view/pages/FactoryProfile/Contacts';
-import { FactoryProfileAddress } from 'view/pages/FactoryProfile/Address';
-import { FactoryProfileCertifications } from 'view/pages/FactoryProfile/Certifications';
-import { UnverifiedFactoryAlert } from 'view/pages/FactoryProfile/UnverifiedFactoryAlert';
-import { ClaimedIconButton } from 'view/components';
+import { ClaimedIconButton, AsyncCircularProgress } from 'view/components';
+import { FactoryProfileContacts } from './Contacts';
+import { FactoryProfileAddress } from './Address';
+import { FactoryProfileCertifications } from './Certifications';
+import { UnverifiedFactoryAlert } from './UnverifiedFactoryAlert';
 
 const useStyles = makeStyles(
   createStyles({
@@ -28,56 +28,51 @@ export function FactoryProfile() {
 
   const { result, error, loading } = useAsync(fetchFactoryByOrgId, [factoryId]);
 
-  if (loading) {
-    return <div>Loading!</div>;
-  }
-
-  if (error || !result) {
-    return (
-      <Grid item xs={12}>
-        <Typography color="error">Failed to load factory details</Typography>
-      </Grid>
-    );
-  }
-
-  const { data: factory } = result;
-
-  // A factory is unverified if it is an assertion
-  const isFactoryUnverified = !!factory.assertion_id;
-
   return (
-    <Grid container spacing={6}>
-      <Grid container item justify="center" xs={12}>
-        <Typography variant="h2" className={classes.title}>
-          {factory.name}
-        </Typography>
-
-        {!isFactoryUnverified && (
-          <div className={classes.claimedIconBtn}>
-            <ClaimedIconButton size="large" />
-          </div>
-        )}
-      </Grid>
-
-      {isFactoryUnverified && (
-        <Grid container justify="center">
-          <Grid item xs={12} sm={10} md={8} lg={6}>
-            <UnverifiedFactoryAlert factory={factory} />
-          </Grid>
+    <AsyncCircularProgress isLoading={loading} size={60}>
+      {error && (
+        <Grid item xs={12}>
+          <Typography color="error">Failed to load factory details</Typography>
         </Grid>
       )}
 
-      <Grid item xs={12}>
-        <FactoryProfileCertifications certifications={factory.certificates} />
-      </Grid>
+      {result && (
+        <Grid container spacing={6}>
+          <Grid container item justify="center" xs={12}>
+            <Typography variant="h2" className={classes.title}>
+              {result.data.name}
+            </Typography>
 
-      <Grid item xs={12}>
-        <FactoryProfileContacts contacts={factory.contacts} />
-      </Grid>
+            {!result.data.assertion_id && (
+              <div className={classes.claimedIconBtn}>
+                <ClaimedIconButton size="large" />
+              </div>
+            )}
+          </Grid>
 
-      <Grid item xs={12}>
-        <FactoryProfileAddress address={factory.address} />
-      </Grid>
-    </Grid>
+          {result.data.assertion_id && (
+            <Grid container justify="center">
+              <Grid item xs={12} sm={10} md={8} lg={6}>
+                <UnverifiedFactoryAlert factory={result.data} />
+              </Grid>
+            </Grid>
+          )}
+
+          <Grid item xs={12}>
+            <FactoryProfileCertifications
+              certifications={result.data.certificates}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <FactoryProfileContacts contacts={result.data.contacts} />
+          </Grid>
+
+          <Grid item xs={12}>
+            <FactoryProfileAddress address={result.data.address} />
+          </Grid>
+        </Grid>
+      )}
+    </AsyncCircularProgress>
   );
 }
