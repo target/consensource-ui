@@ -3,8 +3,9 @@ import stores from 'stores';
 import { Typography, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { fetchAgentByPubKey, AgentResData } from 'services/api';
-import { UserInfo } from 'view/pages/Profile/UserInfo';
-import { AgentInfo } from 'view/pages/Profile/AgentInfo';
+import { AsyncCircularProgress } from 'view/components';
+import { UserInfo } from './UserInfo';
+import { AgentInfo } from './AgentInfo';
 import { useAsync } from 'react-async-hook';
 
 interface AgentInfoContainerProps {
@@ -20,19 +21,31 @@ interface AgentInfoContainerProps {
  * the agent only once we have a public key from the user.
  */
 function AgentInfoContainer({ agentPubKey }: AgentInfoContainerProps) {
-  const { result, error, loading } = useAsync(fetchAgentByPubKey, [
+  const { result, loading, error } = useAsync(fetchAgentByPubKey, [
     agentPubKey,
   ]);
 
   return (
-    <Grid container>
-      {loading && <p>Loading</p>}
-      {error && (
-        <Grid item xs={12}>
-          <Typography color="error">Failed to load agent info</Typography>
-        </Grid>
-      )}
-      {result && <AgentInfo agent={result.data} />}
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Typography variant="h4">Agent Info</Typography>
+      </Grid>
+
+      <Grid item xs={12}>
+        <AsyncCircularProgress
+          isLoading={loading}
+          minDisplayTimeMs={1000}
+          size={60}
+        >
+          {error && (
+            <Grid item xs={12}>
+              <Typography color="error">Failed to load agent info</Typography>
+            </Grid>
+          )}
+
+          {result && <AgentInfo agent={result.data} />}
+        </AsyncCircularProgress>
+      </Grid>
     </Grid>
   );
 }
@@ -40,6 +53,7 @@ function AgentInfoContainer({ agentPubKey }: AgentInfoContainerProps) {
 // TODO: Remove checks on user store when session tokens are setup
 export const Profile = observer(() => {
   const { userStore } = stores;
+
   return (
     <Grid container spacing={6}>
       <Grid container item justify="center" xs={12}>

@@ -43,10 +43,6 @@ function AgentOrgInfo({ org }: AgentOrgInfoProps) {
 export function AgentInfo({ agent }: AgentInfoProps) {
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h4">Agent Info</Typography>
-      </Grid>
-
       {!agent && (
         <Grid item xs={4}>
           <CreateAgentForm />
