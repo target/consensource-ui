@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import sjcl from 'sjcl';
 
 export interface UserCreateReqParams {
@@ -36,8 +36,8 @@ export async function postUsersAuthenticate(payload: UserAuthReqParams) {
 
   const res = await axios
     .post<UserAuthResData>(url, payload)
-    .catch((e: any) => {
-      if (e.error && e.error.status === 401) {
+    .catch((e: AxiosError) => {
+      if (e?.response?.status === 401) {
         throw new Error('User not found');
       }
 

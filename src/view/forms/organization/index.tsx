@@ -15,7 +15,6 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import { SelectOrganizationType } from 'view/forms/organization/SelectOrganizationType';
 import { createBatch } from 'services/protobuf/batch';
-import { submitBatch } from 'services/batch';
 import stores from 'stores';
 import { FormErrMsg } from 'view/forms/utils';
 
@@ -57,7 +56,7 @@ export function CreateOrganizationForm() {
     const batchListBytes = createBatch(txns, signer);
 
     try {
-      await submitBatch(batchListBytes);
+      await stores.batchStore.submitBatch(batchListBytes);
     } catch ({ message }) {
       setErrMsg(message);
     }

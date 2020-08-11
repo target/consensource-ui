@@ -16,7 +16,7 @@ export function SignUp() {
 
   return (
     <Paper elevation={6} className={classes.container}>
-      <Grid container>
+      <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h4">Sign Up</Typography>
         </Grid>

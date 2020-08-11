@@ -1,40 +1,42 @@
 import React, { useState } from 'react';
-import { hasEmptyFields, FormErrMsg } from 'view/forms/utils';
+import {
+  hasEmptyFields,
+  FormErrMsg,
+  TransactionFormProps,
+} from 'view/forms/utils';
 import {
   createAgentAction,
   ICreateAgentActionStrict,
   createAgentTransaction,
 } from 'services/protobuf/agent';
-import Button from '@material-ui/core/Button';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import TextField from '@material-ui/core/TextField';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Grid from '@material-ui/core/Grid';
-import Key from '@material-ui/icons/VpnKey';
-import stores from 'stores';
+import { Grid, TextField, InputAdornment, Button } from '@material-ui/core';
+import { VpnKey as Key, AccountCircle } from '@material-ui/icons';
 import { createBatch } from 'services/protobuf/batch';
-import { submitBatch } from 'services/batch';
+import stores from 'stores';
 
-export function CreateAgentForm() {
+export function CreateAgentForm({ setBatchStatusUrl }: TransactionFormProps) {
   const [errMsg, setErrMsg] = useState('');
   const [agent, setAgent] = useState<ICreateAgentActionStrict>({ name: '' });
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!stores.userStore.user) {
+    const { userStore, batchStore } = stores;
+
+    if (!userStore.user) {
       setErrMsg('A signer is required to create an agent');
       return;
     }
 
-    const { signer } = stores.userStore.user;
+    const { signer } = userStore.user;
     const agentAction = createAgentAction(agent);
 
     const txns = new Array(createAgentTransaction(agentAction, signer));
     const batchListBytes = createBatch(txns, signer);
 
     try {
-      submitBatch(batchListBytes);
+      const statusLink = await batchStore.submitBatch(batchListBytes);
+      setBatchStatusUrl(statusLink);
     } catch ({ message }) {
       setErrMsg(message);
     }

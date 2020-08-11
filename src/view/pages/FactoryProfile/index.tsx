@@ -45,7 +45,7 @@ export function FactoryProfile() {
 
             {!result.data.assertion_id && (
               <div className={classes.claimedIconBtn}>
-                <ClaimedIconButton size="large" />
+                <ClaimedIconButton fontSize="large" />
               </div>
             )}
           </Grid>

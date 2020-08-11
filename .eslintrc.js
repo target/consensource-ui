@@ -30,11 +30,12 @@ module.exports = {
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'react/jsx-indent': 'off',
     'react/require-default-props': 'off',
-    'react/prop-types': 'off',
     'max-classes-per-file': 'off',
     'import/prefer-default-export': 'off',
     'no-console': 'off',
     'no-plusplus': 'off',
+    'react/prop-types': 'off',
+    'react/jsx-props-no-spreading': 'off',
   },
   settings: {
     'import/resolver': {

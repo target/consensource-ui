@@ -1,6 +1,11 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import { PendingBatch } from 'stores';
+
+export interface TransactionFormProps {
+  setBatchStatusUrl: (statusUrl: PendingBatch['statusUrl']) => void;
+}
 
 /**
  * Helper function that checks if any values in `state` have not been set.

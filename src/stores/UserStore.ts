@@ -61,10 +61,13 @@ export class UserStore {
     const userString = window.localStorage.getItem(this.USER_STORAGE_KEY);
 
     if (userString) {
-      const { username, password }: User = JSON.parse(userString);
+      const user: User = JSON.parse(userString);
 
       try {
-        await this.authenticateUser(username, password);
+        await this.authenticateUser({
+          username: user.username,
+          password: user.password,
+        });
       } catch {
         this.user = null;
       }
@@ -99,32 +102,29 @@ export class UserStore {
   }
 
   @action.bound
-  async authenticateUser(username: string, password: string) {
+  async authenticateUser(authPayload: UserAuthReqParams) {
     this.isAuthenticating = true;
-
-    const payload: UserAuthReqParams = { username, password };
 
     let res;
 
     try {
-      res = await postUsersAuthenticate(payload);
+      res = await postUsersAuthenticate(authPayload);
     } catch {
+      // TODO: Remove once session tokens are in place
+      this.isAuthenticating = false;
       this.logout();
       throw new Error('Failed to authenticate user');
     }
 
-    const decryptedKey = getDecryptedKeyHex(
-      res.encrypted_private_key,
-      password,
+    const privateKey = createPrivateKeyFromHex(
+      getDecryptedKeyHex(res.encrypted_private_key, authPayload.password),
     );
-
-    const privateKey = createPrivateKeyFromHex(decryptedKey);
 
     const signer = createSigner(privateKey);
 
     const user: UserInfo = {
-      username,
-      password,
+      username: authPayload.username,
+      password: authPayload.password,
       signer,
     };
 

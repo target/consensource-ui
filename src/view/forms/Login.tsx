@@ -22,10 +22,8 @@ export function LoginForm() {
   const onClick = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const { username, password } = login;
-
     try {
-      await stores.userStore.authenticateUser(username, password);
+      await stores.userStore.authenticateUser(login);
       history.push('/');
     } catch ({ message }) {
       setErrMsg(message);

@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUserOutlined';
-import IconButton from '@material-ui/core/IconButton';
-import { SvgIconTypeMap } from '@material-ui/core/SvgIcon';
-import Tooltip from '@material-ui/core/Tooltip';
+import { VerifiedUserOutlined } from '@material-ui/icons';
+import { Tooltip, IconButton, SvgIconProps } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { ClaimedDialog } from 'view/dialogs';
-
-export interface ClaimedIconButtonProps {
-  size?: SvgIconTypeMap['props']['fontSize'];
-}
 
 const useStyles = makeStyles(({ palette }: Theme) =>
   createStyles({
@@ -18,7 +12,7 @@ const useStyles = makeStyles(({ palette }: Theme) =>
   }),
 );
 
-export function ClaimedIconButton({ size }: ClaimedIconButtonProps) {
+export function ClaimedIconButton(props: SvgIconProps) {
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
   const classes = useStyles();
@@ -30,10 +24,7 @@ export function ClaimedIconButton({ size }: ClaimedIconButtonProps) {
           aria-label="claimed-icon"
           onClick={() => setDialogIsOpen(true)}
         >
-          <VerifiedUserIcon
-            className={classes.icon}
-            fontSize={size || 'default'}
-          />
+          <VerifiedUserOutlined className={classes.icon} {...props} />
         </IconButton>
       </Tooltip>
       <ClaimedDialog

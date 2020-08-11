@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
-
 import React, { useEffect, useState, FC } from 'react';
 import { CircularProgress, CircularProgressProps } from '@material-ui/core';
 
@@ -31,6 +29,9 @@ export interface AsyncCircularProgressProps extends CircularProgressProps {
  *
  * Elements passed as children will not be rendered until both
  * loading is complete, and the timer is no longer active.
+ *
+ * TODO: Logic to not display timer if loading is done once waitTimeMs
+ * is expired
  */
 export const AsyncCircularProgress: FC<AsyncCircularProgressProps> = ({
   minDisplayTimeMs = 750,
