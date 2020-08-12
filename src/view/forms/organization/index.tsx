@@ -4,19 +4,16 @@ import {
   ICreateOrgActionStrict,
   createOrgTransaction,
 } from 'services/protobuf/organization';
-import CreateContactForm from 'view/forms/organization/CreateContact';
-import CreateAddressForm from 'view/forms/organization/CreateFactoryAddress';
 import { Organization } from 'services/protobuf/compiled';
 import { hash, HashingAlgorithms } from 'services/crypto';
-import Key from '@material-ui/icons/VpnKey';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import { VpnKey as Key } from '@material-ui/icons';
+import { Button, Typography, Grid, TextField } from '@material-ui/core';
 import { SelectOrganizationType } from 'view/forms/organization/SelectOrganizationType';
 import { createBatch } from 'services/protobuf/batch';
-import stores from 'stores';
-import { FormErrMsg } from 'view/forms/utils';
+import { useStores } from 'services/hooks';
+import { FormErrMsg, TransactionFormProps } from 'view/forms/utils';
+import { CreateContactForm } from './CreateContact';
+import { CreateFactoryAddressForm } from './CreateFactoryAddress';
 
 function makeOrgId(name: string) {
   return hash(name, HashingAlgorithms.sha256);
@@ -30,7 +27,10 @@ function makeOrgId(name: string) {
  *   organization_type === Organization.Type.FACTORY)
  * - Fourth form is for the Org name
  */
-export function CreateOrganizationForm() {
+export function CreateOrganizationForm({
+  setBatchStatusUrl,
+}: TransactionFormProps) {
+  const { userStore, batchStore } = useStores();
   const [errMsg, setErrMsg] = useState('');
   const [org, setOrg] = useState<ICreateOrgActionStrict>({
     contacts: [] as Organization.IContact[],
@@ -45,10 +45,10 @@ export function CreateOrganizationForm() {
 
     let signer;
 
-    if (!stores.userStore.user) {
+    if (!userStore.user) {
       throw new Error('A signer is required to create an organization');
     } else {
-      signer = stores.userStore.user.signer;
+      signer = userStore.user.signer;
     }
 
     const action = createOrgAction({ ...org, id: makeOrgId(org.name) });
@@ -56,7 +56,8 @@ export function CreateOrganizationForm() {
     const batchListBytes = createBatch(txns, signer);
 
     try {
-      await stores.batchStore.submitBatch(batchListBytes);
+      const statusLink = await batchStore.submitBatch(batchListBytes);
+      setBatchStatusUrl(statusLink);
     } catch ({ message }) {
       setErrMsg(message);
     }
@@ -101,7 +102,7 @@ export function CreateOrganizationForm() {
             <Typography variant="h6">Address Info</Typography>
           </Grid>
 
-          <CreateAddressForm
+          <CreateFactoryAddressForm
             onSubmit={(address) => setOrg({ ...org, address })}
             submitLabel="Continue"
           />

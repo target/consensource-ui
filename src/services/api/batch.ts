@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { BaseApiRes } from 'services/api/utils';
+import { ClientBatchStatus } from 'sawtooth-sdk/protobuf';
+import { BaseApiRes } from './utils';
 
 export const BATCH_STATUS_WAIT = 60;
 
@@ -7,8 +8,7 @@ export interface PostBatchRes extends BaseApiRes {
   link: string;
 }
 
-export interface BatchStatusRes
-  extends BaseApiRes<sawtooth.protobuf.ClientBatchStatus[]> {
+export interface BatchStatusRes extends BaseApiRes<ClientBatchStatus[]> {
   link: string;
 }
 

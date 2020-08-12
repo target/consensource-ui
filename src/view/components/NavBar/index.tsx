@@ -3,7 +3,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import { ProfileMenu } from 'view/components/NavBar/ProfileMenu';
 import { Link } from 'react-router-dom';
-import stores from 'stores';
+import { useStores } from 'services/hooks';
 
 export const NAVBAR_SPACING_UNITS = 5;
 
@@ -26,7 +26,7 @@ const useStyles = makeStyles(({ palette, zIndex }: Theme) =>
 
 export function NavBar() {
   const classes = useStyles();
-  const { isAuthenticated } = stores.userStore;
+  const { userStore } = useStores();
 
   return (
     <AppBar position="fixed" className={classes.navbar}>
@@ -37,7 +37,7 @@ export function NavBar() {
           </Typography>
         </Link>
 
-        {isAuthenticated && <ProfileMenu />}
+        {userStore.isAuthenticated && <ProfileMenu />}
       </Toolbar>
     </AppBar>
   );

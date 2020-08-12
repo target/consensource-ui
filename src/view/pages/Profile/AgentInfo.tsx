@@ -1,7 +1,6 @@
 import React from 'react';
 import { InfoItem } from 'view/components/InfoItem';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
+import { Typography, Grid } from '@material-ui/core';
 import { AgentResData } from 'services/api';
 import { CreateAgentForm, CreateOrganizationForm } from 'view/forms';
 import { useBatchStatus } from 'services/hooks';
@@ -15,6 +14,8 @@ export interface AgentOrgInfoProps {
 }
 
 const AgentOrgInfo = ({ org }: AgentOrgInfoProps) => {
+  const { batchStatus, setBatchStatusUrl } = useBatchStatus();
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
@@ -23,8 +24,12 @@ const AgentOrgInfo = ({ org }: AgentOrgInfoProps) => {
 
       {!org && (
         <Grid item xs>
-          <CreateOrganizationForm />
+          <CreateOrganizationForm setBatchStatusUrl={setBatchStatusUrl} />
         </Grid>
+      )}
+
+      {batchStatus && (
+        <InfoItem title="Batch Status" val={batchStatus.toString()} />
       )}
 
       {org && (
@@ -52,7 +57,9 @@ export const AgentInfo = ({ agent }: AgentInfoProps) => {
         </Grid>
       )}
 
-      <div>Is resolved: {batchStatus ? 'resolved' : 'unresolved'}</div>
+      {batchStatus && (
+        <InfoItem title="Batch Status" val={batchStatus.toString()} />
+      )}
 
       {agent && (
         <>

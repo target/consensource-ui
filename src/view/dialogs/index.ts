@@ -1,3 +1,3 @@
-export * from 'view/dialogs/Certification';
-export * from 'view/dialogs/UnverifiedFactory';
-export * from 'view/dialogs/Claimed';
+export * from './Certification';
+export * from './UnverifiedFactory';
+export * from './Claimed';

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { OrgTypeStrings } from 'services/protobuf/organization';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import {
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  Button,
+  Grid,
+} from '@material-ui/core';
 import { Organization } from 'services/protobuf/compiled';
 
 interface SelectOrganizationTypeProps {

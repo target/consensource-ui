@@ -5,9 +5,7 @@ import {
   IFactoryAddressStrict,
 } from 'services/protobuf/organization';
 import { Factory } from 'services/protobuf/compiled';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import { Button, Grid, TextField } from '@material-ui/core';
 
 interface CreateContactFormProps {
   onSubmit: (address: Factory.Address) => any;
@@ -17,10 +15,10 @@ interface CreateContactFormProps {
 /**
  * Form to create a `Factory.Address` proto object
  */
-export default function CreateFactoryAddressForm({
+export const CreateFactoryAddressForm = ({
   onSubmit,
   submitLabel = 'Create Factory Address',
-}: CreateContactFormProps) {
+}: CreateContactFormProps) => {
   const [address, setAddress] = useState<IFactoryAddressStrict>({
     street_line_1: '',
     city: '',
@@ -118,4 +116,4 @@ export default function CreateFactoryAddressForm({
       </Grid>
     </form>
   );
-}
+};

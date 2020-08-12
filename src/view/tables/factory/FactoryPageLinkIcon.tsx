@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import IconButton from '@material-ui/core/IconButton';
-import { SvgIconProps } from '@material-ui/core/SvgIcon';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-import Tooltip from '@material-ui/core/Tooltip';
+import { SvgIconProps, IconButton, Tooltip } from '@material-ui/core';
+import { OpenInNew as OpenInNewIcon } from '@material-ui/icons';
 import { OrgResData } from 'services/api';
 
 export interface FactoryPageLinkIconProps {

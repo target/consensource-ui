@@ -1,19 +1,16 @@
-import { UserStore } from 'stores/UserStore';
-import { SnackbarStore } from 'stores/SnackbarStore';
-import { BatchStore } from 'stores/BatchStore';
+import { createContext } from 'react';
+import { UserStore } from './UserStore';
+import { SnackbarStore } from './SnackbarStore';
+import { BatchStore } from './BatchStore';
 
-const snackbarStore = new SnackbarStore();
-const userStore = new UserStore();
-const batchStore = new BatchStore();
-
-const stores = {
-  userStore,
-  snackbarStore,
-  batchStore,
+export const stores = {
+  snackbarStore: new SnackbarStore(),
+  userStore: new UserStore(),
+  batchStore: new BatchStore(),
 };
 
-export * from 'stores/UserStore';
-export * from 'stores/SnackbarStore';
-export * from 'stores/BatchStore';
+export const StoresContext = createContext(stores);
 
-export default stores;
+export * from './UserStore';
+export * from './SnackbarStore';
+export * from './BatchStore';

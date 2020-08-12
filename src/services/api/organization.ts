@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { BaseApiRes, PaginatedApiRes } from 'services/api/utils';
 import { Organization } from 'services/protobuf/compiled';
+import { BaseApiRes, PaginatedApiRes } from './utils';
 
 export interface OrgResContactData {
   name: string;

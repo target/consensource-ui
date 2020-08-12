@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
-import { PaginatedApiRes, BaseApiRes } from 'services/api/utils';
 import { Organization } from 'services/protobuf/compiled';
+import { PaginatedApiRes, BaseApiRes } from './utils';
 
 export interface AgentResData {
   public_key: string;

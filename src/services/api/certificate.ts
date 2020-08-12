@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PaginatedApiRes } from 'services/api/utils';
+import { PaginatedApiRes } from './utils';
 
 export interface CertResData {
   id: string;

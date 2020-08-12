@@ -1,18 +1,23 @@
-import { useState, useEffect } from 'react';
-import stores, { PendingBatch } from 'stores';
+import { useState } from 'react';
+import { BatchStatus } from 'stores';
+import { reaction } from 'mobx';
+import { useStores } from './useStores';
 
 export const useBatchStatus = () => {
-  const { batchStore } = stores;
+  const { batchStore } = useStores();
 
   const [batchStatusUrl, setBatchStatusUrl] = useState<
-    PendingBatch['statusUrl']
+    BatchStatus['statusUrl']
   >('');
 
-  const [batchStatus, setBatchStatus] = useState<PendingBatch['status']>(null);
+  const [batchStatus, setBatchStatus] = useState<BatchStatus['status']>(null);
 
-  useEffect(() => {
-    setBatchStatus(batchStore.getBatchStatus(batchStatusUrl));
-  }, [batchStore.pendingBatches, batchStatusUrl]);
+  reaction(
+    () => batchStore.pendingBatches.map((batch) => batch.statusUrl),
+    () => {
+      setBatchStatus(batchStore.getBatchStatus(batchStatusUrl));
+    },
+  );
 
   return { batchStatus, setBatchStatusUrl };
 };

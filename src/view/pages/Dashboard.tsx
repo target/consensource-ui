@@ -1,6 +1,5 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
+import { Typography, Grid } from '@material-ui/core';
 
 export function Dashboard() {
   return (

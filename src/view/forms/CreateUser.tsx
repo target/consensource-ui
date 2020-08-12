@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { hasEmptyFields, FormErrMsg } from 'view/forms/utils';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import stores from 'stores';
+import { Button, Grid, TextField } from '@material-ui/core';
+import { useStores } from 'services/hooks';
 import { useHistory } from 'react-router-dom';
 
 export interface CreateUserFormState {
@@ -13,6 +11,7 @@ export interface CreateUserFormState {
 
 export function CreateUserForm() {
   const history = useHistory();
+  const { userStore } = useStores();
   const [errMsg, setErrMsg] = useState('');
   const [user, setUser] = useState<CreateUserFormState>({
     username: '',
@@ -28,7 +27,7 @@ export function CreateUserForm() {
     const { username, password } = user;
 
     try {
-      await stores.userStore.createUser(username, password);
+      await userStore.createUser(username, password);
       history.push('/');
     } catch ({ message }) {
       setErrMsg(message);

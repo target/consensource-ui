@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
+import { Button } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { UnverifiedFactoryDialog } from 'view/dialogs';
 import { FactoryResData } from 'services/api';

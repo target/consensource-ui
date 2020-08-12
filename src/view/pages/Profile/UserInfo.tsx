@@ -1,7 +1,6 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import { User } from 'stores/UserStore';
+import { Typography, Grid } from '@material-ui/core';
+import { User } from 'stores';
 import { InfoItem } from 'view/components';
 
 export interface UserInfoProps {

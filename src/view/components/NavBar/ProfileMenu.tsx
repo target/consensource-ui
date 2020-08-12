@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import ProfileIcon from '@material-ui/icons/AccountCircle';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import { AccountCircle as ProfileIcon } from '@material-ui/icons';
+import { Menu, MenuItem, IconButton, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
 import { useHistory } from 'react-router-dom';
-import stores from 'stores';
-import Typography from '@material-ui/core/Typography';
+import { useStores } from 'services/hooks';
 import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles({
@@ -21,11 +18,12 @@ const useStyles = makeStyles({
 
 export const ProfileMenu = observer(() => {
   const history = useHistory();
+  const { userStore } = useStores();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const classes = useStyles();
 
-  const username = stores.userStore?.user?.username;
+  const username = userStore?.user?.username;
 
   const handleIconClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -36,7 +34,7 @@ export const ProfileMenu = observer(() => {
   };
 
   const handleLogout = () => {
-    stores.userStore.logout();
+    userStore.logout();
     history.push('/');
   };
 

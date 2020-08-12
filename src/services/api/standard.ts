@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BaseApiRes } from 'services/api/utils';
+import { BaseApiRes } from './utils';
 
 export interface StandardVersionResData {
   version: string;

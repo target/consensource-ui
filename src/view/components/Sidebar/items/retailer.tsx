@@ -1,8 +1,6 @@
 import React from 'react';
-import ListItemText from '@material-ui/core/ListItemText';
-import SearchIcon from '@material-ui/icons/Search';
-import HomeIcon from '@material-ui/icons/Home';
-import Typography from '@material-ui/core/Typography';
+import { ListItemText, Typography } from '@material-ui/core';
+import { Home as HomeIcon, Search as SearchIcon } from '@material-ui/icons';
 import {
   SidebarItemsWithRoutes,
   SidebarItemProps,

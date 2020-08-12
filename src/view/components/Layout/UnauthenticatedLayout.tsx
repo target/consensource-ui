@@ -3,7 +3,7 @@ import { Grid, Snackbar } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { NavBar, NAVBAR_SPACING_UNITS } from 'view/components';
 import { UnauthenticatedRoutes } from 'view/components/Layout/Routes';
-import stores from 'stores';
+import { useStores } from 'services/hooks';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) =>
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) =>
 
 export function UnauthenticatedLayout() {
   const classes = useStyles();
-  const { snackbarStore } = stores;
+  const { snackbarStore } = useStores();
 
   return (
     <Router>

@@ -1,1 +1,1 @@
-export * from 'view/cards/Certifications';
+export * from './Certifications';

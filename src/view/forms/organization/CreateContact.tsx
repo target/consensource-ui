@@ -5,9 +5,7 @@ import {
   IContactStrict,
 } from 'services/protobuf/organization';
 import { Organization } from 'services/protobuf/compiled';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
+import { Grid, TextField, Button } from '@material-ui/core';
 
 interface CreateContactFormProps {
   onSubmit: (contact: Organization.Contact) => any;
@@ -17,10 +15,10 @@ interface CreateContactFormProps {
 /**
  * Form to create a `Organization.Contact` proto object
  */
-export default function CreateContactForm({
+export const CreateContactForm = ({
   onSubmit,
   submitLabel = 'Create Contact',
-}: CreateContactFormProps) {
+}: CreateContactFormProps) => {
   const [contact, setContact] = useState<IContactStrict>({
     name: '',
     phone_number: '',
@@ -82,4 +80,4 @@ export default function CreateContactForm({
       </Grid>
     </form>
   );
-}
+};

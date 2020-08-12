@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Paper, Button, Grid, Typography } from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
-import stores from 'stores';
+import { useStores } from 'services/hooks';
 import { autorun } from 'mobx';
 
 const useStyles = makeStyles(({ palette }) =>
@@ -22,12 +22,13 @@ const useStyles = makeStyles(({ palette }) =>
 );
 
 export function Landing() {
+  const { userStore } = useStores();
   const classes = useStyles();
   const history = useHistory();
 
   const redirectIfLoggedIn = () => {
     autorun(() => {
-      if (stores.userStore.user) {
+      if (userStore.user) {
         history.push('/');
       }
     });

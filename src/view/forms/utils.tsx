@@ -1,10 +1,9 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { PendingBatch } from 'stores';
+import { Grid, Typography } from '@material-ui/core';
+import { BatchStatus } from 'stores';
 
 export interface TransactionFormProps {
-  setBatchStatusUrl: (statusUrl: PendingBatch['statusUrl']) => void;
+  setBatchStatusUrl: (statusUrl: BatchStatus['statusUrl']) => void;
 }
 
 /**

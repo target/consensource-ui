@@ -1,6 +1,6 @@
 import React from 'react';
 import { FactoriesTable } from 'view/tables/factory';
-import Grid from '@material-ui/core/Grid';
+import { Grid } from '@material-ui/core';
 
 export function SearchFactories() {
   return (

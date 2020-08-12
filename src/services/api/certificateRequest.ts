@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { BaseApiRes, ExpansionRef } from 'services/api/utils';
-import { OrgResData, StandardResData } from 'services/api';
+import { BaseApiRes, ExpansionRef } from './utils';
+import { StandardResData } from './standard';
+import { OrgResData } from './organization';
 
 export enum CertReqStatusEnum {
   Open,

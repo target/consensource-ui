@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import stores from 'stores';
+import { useStores } from 'services/hooks';
 import {
   Typography,
   Grid,
@@ -56,7 +56,7 @@ const AgentInfoContainer: FC<AgentInfoContainerProps> = ({ agentPubKey }) => {
 
 // TODO: Remove checks on user store when session tokens are setup
 export const Profile = observer(() => {
-  const { userStore } = stores;
+  const { userStore } = useStores();
 
   return (
     <Grid container spacing={6}>
