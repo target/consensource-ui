@@ -2,7 +2,13 @@ import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { AuthenticatedRoutes } from 'view/components/Layout/Routes';
 import { useStores } from 'services/hooks';
-import { AuthedNavBar, NAVBAR_SPACING_UNITS, Sidebar } from 'view/components';
+import {
+  AuthedNavBar,
+  NAVBAR_SPACING_UNITS,
+  Sidebar,
+  FullScreenLoading,
+  ProgressWithMinDisplay,
+} from 'view/components';
 import { Snackbar } from '@material-ui/core';
 import { BrowserRouter as Router } from 'react-router-dom';
 
@@ -21,21 +27,30 @@ const useStyles = makeStyles((theme) =>
 
 export function AuthenticatedLayout() {
   const classes = useStyles();
-  const { snackbarStore } = useStores();
+  const {
+    snackbarStore,
+    userStore: { isAuthenticating },
+  } = useStores();
 
   return (
     <Router>
       <div className={classes.container}>
         <AuthedNavBar />
         <Sidebar />
+
         <main className={classes.content}>
-          <AuthenticatedRoutes />
-          <Snackbar
-            message={snackbarStore.message}
-            open={snackbarStore.isOpen}
-            onClose={snackbarStore.handleClose}
-            autoHideDuration={3000}
-          />
+          <ProgressWithMinDisplay
+            isLoading={isAuthenticating}
+            progressIndicator={<FullScreenLoading />}
+          >
+            <AuthenticatedRoutes />
+            <Snackbar
+              message={snackbarStore.message}
+              open={snackbarStore.isOpen}
+              onClose={snackbarStore.handleClose}
+              autoHideDuration={3000}
+            />
+          </ProgressWithMinDisplay>
         </main>
       </div>
     </Router>

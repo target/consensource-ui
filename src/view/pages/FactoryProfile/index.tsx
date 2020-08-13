@@ -2,9 +2,9 @@ import React from 'react';
 import { useAsync } from 'react-async-hook';
 import { fetchFactoryByOrgId } from 'services/api';
 import { useParams } from 'react-router-dom';
-import { Typography, Grid } from '@material-ui/core';
+import { Typography, Grid, CircularProgress } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { ClaimedIconButton, AsyncCircularProgress } from 'view/components';
+import { ClaimedIconButton, ProgressWithMinDisplay } from 'view/components';
 import { FactoryProfileContacts } from './Contacts';
 import { FactoryProfileAddress } from './Address';
 import { FactoryProfileCertifications } from './Certifications';
@@ -29,7 +29,10 @@ export function FactoryProfile() {
   const { result, error, loading } = useAsync(fetchFactoryByOrgId, [factoryId]);
 
   return (
-    <AsyncCircularProgress isLoading={loading} size={60}>
+    <ProgressWithMinDisplay
+      isLoading={loading}
+      progressIndicator={<CircularProgress size={60} />}
+    >
       {error && (
         <Grid item xs={12}>
           <Typography color="error">Failed to load factory details</Typography>
@@ -73,6 +76,6 @@ export function FactoryProfile() {
           </Grid>
         </Grid>
       )}
-    </AsyncCircularProgress>
+    </ProgressWithMinDisplay>
   );
 }

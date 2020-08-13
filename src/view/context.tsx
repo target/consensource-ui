@@ -14,11 +14,11 @@ import { stores, User } from 'stores';
 export const AuthContext = createContext({} as User);
 
 export interface AuthProviderProps {
-  value: User;
+  user: User;
 }
 
-export const AuthProvider: FC<AuthProviderProps> = ({ value, children }) => {
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+export const AuthProvider: FC<AuthProviderProps> = ({ user, children }) => {
+  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
 };
 
 export const StoresContext = createContext(stores);

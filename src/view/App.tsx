@@ -21,7 +21,7 @@ export const App = observer(() => {
     <StoresContext.Provider value={stores}>
       <ThemeProvider theme={theme}>
         {isAuthenticated || isAuthenticating ? (
-          <AuthProvider value={user || ({} as User)}>
+          <AuthProvider user={user || ({} as User)}>
             <AuthenticatedLayout />
           </AuthProvider>
         ) : (

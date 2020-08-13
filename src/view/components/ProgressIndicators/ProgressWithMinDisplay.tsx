@@ -1,7 +1,6 @@
 import React, { useEffect, useState, FC } from 'react';
-import { CircularProgress, CircularProgressProps } from '@material-ui/core';
 
-export interface AsyncCircularProgressProps extends CircularProgressProps {
+export interface ProgressWithMinDisplayProps {
   /**
    * **Default value**: 750
    *
@@ -18,6 +17,11 @@ export interface AsyncCircularProgressProps extends CircularProgressProps {
    * quickly.
    */
   waitTimeMs?: number;
+  /**
+   * React node that will be displayed while either `isLoading` is true,
+   * or the elapsed time between `waitTimeMs` and `minDisplayTimeMs` has passed
+   */
+  progressIndicator: React.ReactNode;
   isLoading: boolean;
 }
 
@@ -30,15 +34,13 @@ export interface AsyncCircularProgressProps extends CircularProgressProps {
  * Elements passed as children will not be rendered until both
  * loading is complete, and the timer is no longer active.
  *
- * TODO: Logic to not display timer if loading is done once waitTimeMs
- * is expired
  */
-export const AsyncCircularProgress: FC<AsyncCircularProgressProps> = ({
+export const ProgressWithMinDisplay: FC<ProgressWithMinDisplayProps> = ({
   minDisplayTimeMs = 750,
   waitTimeMs = 250,
   isLoading,
+  progressIndicator,
   children,
-  ...props
 }) => {
   const [displayTimerActive, setDisplayTimerActive] = useState(false);
   const [waitTimerActive, setWaitTimerActive] = useState(true);
@@ -51,10 +53,9 @@ export const AsyncCircularProgress: FC<AsyncCircularProgressProps> = ({
   };
 
   const setDisplayTimeout = () => {
-    setTimeout(
-      () => setDisplayTimerActive(false),
-      minDisplayTimeMs + waitTimeMs,
-    );
+    setTimeout(() => {
+      setDisplayTimerActive(false);
+    }, minDisplayTimeMs + waitTimeMs);
   };
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export const AsyncCircularProgress: FC<AsyncCircularProgressProps> = ({
   }
 
   return displayTimerActive || isLoading ? (
-    <CircularProgress {...props} />
+    <>{progressIndicator}</>
   ) : (
     <>{children}</>
   );

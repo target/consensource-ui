@@ -24,10 +24,10 @@ export const useBatchStatus = () => {
     const { status } = res.data[0];
 
     if (status === ClientBatchStatus.Status.PENDING) {
-      return pollBatchStatus(link);
+      await pollBatchStatus(link);
+    } else {
+      setBatchStatus(status);
     }
-
-    return setBatchStatus(status);
   };
 
   useEffect(() => {
