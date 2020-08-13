@@ -1,4 +1,3 @@
 export * from './useBlockSubscribe';
-export * from './useStores';
+export * from './contextHooks';
 export * from './useBatchStatus';
-export * from './useAuth';
