@@ -10,7 +10,7 @@ import { VpnKey as Key } from '@material-ui/icons';
 import { Button, Typography, Grid, TextField } from '@material-ui/core';
 import { SelectOrganizationType } from 'view/forms/organization/SelectOrganizationType';
 import { createBatch } from 'services/protobuf/batch';
-import { useStores } from 'services/hooks';
+import { useStores, useAuth } from 'services/hooks';
 import { FormErrMsg, TransactionFormProps } from 'view/forms/utils';
 import { CreateContactForm } from './CreateContact';
 import { CreateFactoryAddressForm } from './CreateFactoryAddress';
@@ -30,7 +30,8 @@ function makeOrgId(name: string) {
 export function CreateOrganizationForm({
   setBatchStatusUrl,
 }: TransactionFormProps) {
-  const { userStore, batchStore } = useStores();
+  const { batchStore } = useStores();
+  const { signer } = useAuth();
   const [errMsg, setErrMsg] = useState('');
   const [org, setOrg] = useState<ICreateOrgActionStrict>({
     contacts: [] as Organization.IContact[],
@@ -42,14 +43,6 @@ export function CreateOrganizationForm({
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    let signer;
-
-    if (!userStore.user) {
-      throw new Error('A signer is required to create an organization');
-    } else {
-      signer = userStore.user.signer;
-    }
 
     const action = createOrgAction({ ...org, id: makeOrgId(org.name) });
     const txns = new Array(createOrgTransaction(action, signer));

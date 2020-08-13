@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import { ProfileMenu } from 'view/components/NavBar/ProfileMenu';
 import { Link } from 'react-router-dom';
-import { useStores } from 'services/hooks';
 
 export const NAVBAR_SPACING_UNITS = 5;
 
@@ -24,9 +23,8 @@ const useStyles = makeStyles(({ palette, zIndex }: Theme) =>
   }),
 );
 
-export function NavBar() {
+export const BaseNavBar: FC = ({ children }) => {
   const classes = useStyles();
-  const { userStore } = useStores();
 
   return (
     <AppBar position="fixed" className={classes.navbar}>
@@ -36,9 +34,16 @@ export function NavBar() {
             ConsenSource
           </Typography>
         </Link>
-
-        {userStore.isAuthenticated && <ProfileMenu />}
+        {children}
       </Toolbar>
     </AppBar>
   );
-}
+};
+
+export const AuthedNavBar = () => {
+  return (
+    <BaseNavBar>
+      <ProfileMenu />
+    </BaseNavBar>
+  );
+};

@@ -12,22 +12,17 @@ import {
 import { Grid, TextField, InputAdornment, Button } from '@material-ui/core';
 import { VpnKey as Key, AccountCircle } from '@material-ui/icons';
 import { createBatch } from 'services/protobuf/batch';
-import { useStores } from 'services/hooks';
+import { useAuth, useStores } from 'services/hooks';
 
 export function CreateAgentForm({ setBatchStatusUrl }: TransactionFormProps) {
-  const { userStore, batchStore } = useStores();
+  const { batchStore } = useStores();
+  const { signer } = useAuth();
   const [errMsg, setErrMsg] = useState('');
   const [agent, setAgent] = useState<ICreateAgentActionStrict>({ name: '' });
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!userStore.user) {
-      setErrMsg('A signer is required to create an agent');
-      return;
-    }
-
-    const { signer } = userStore.user;
     const agentAction = createAgentAction(agent);
 
     const txns = new Array(createAgentTransaction(agentAction, signer));

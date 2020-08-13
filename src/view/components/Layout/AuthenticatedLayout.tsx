@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { AuthenticatedRoutes } from 'view/components/Layout/Routes';
 import { useStores } from 'services/hooks';
-import { NavBar, NAVBAR_SPACING_UNITS, Sidebar } from 'view/components';
+import { AuthedNavBar, NAVBAR_SPACING_UNITS, Sidebar } from 'view/components';
 import { Snackbar } from '@material-ui/core';
 import { BrowserRouter as Router } from 'react-router-dom';
 
@@ -26,7 +26,7 @@ export function AuthenticatedLayout() {
   return (
     <Router>
       <div className={classes.container}>
-        <NavBar />
+        <AuthedNavBar />
         <Sidebar />
         <main className={classes.content}>
           <AuthenticatedRoutes />

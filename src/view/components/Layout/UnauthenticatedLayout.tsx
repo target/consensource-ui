@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Snackbar } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { NavBar, NAVBAR_SPACING_UNITS } from 'view/components';
+import { BaseNavBar, NAVBAR_SPACING_UNITS } from 'view/components';
 import { UnauthenticatedRoutes } from 'view/components/Layout/Routes';
 import { useStores } from 'services/hooks';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -28,7 +28,7 @@ export function UnauthenticatedLayout() {
         justify="center"
         container
       >
-        <NavBar />
+        <BaseNavBar />
         <main className={classes.content}>
           <UnauthenticatedRoutes />
           <Snackbar
