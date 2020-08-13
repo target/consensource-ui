@@ -7,7 +7,7 @@ import {
   NAVBAR_SPACING_UNITS,
   Sidebar,
   FullScreenLoading,
-  ProgressWithMinDisplay,
+  LoadingWithMinDisplay,
 } from 'view/components';
 import { Snackbar } from '@material-ui/core';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -39,7 +39,7 @@ export function AuthenticatedLayout() {
         <Sidebar />
 
         <main className={classes.content}>
-          <ProgressWithMinDisplay
+          <LoadingWithMinDisplay
             isLoading={isAuthenticating}
             progressIndicator={<FullScreenLoading />}
           >
@@ -50,7 +50,7 @@ export function AuthenticatedLayout() {
               onClose={snackbarStore.handleClose}
               autoHideDuration={3000}
             />
-          </ProgressWithMinDisplay>
+          </LoadingWithMinDisplay>
         </main>
       </div>
     </Router>

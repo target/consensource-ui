@@ -12,7 +12,7 @@ import { ExpandMore } from '@material-ui/icons';
 import { observer } from 'mobx-react-lite';
 import { useAsync } from 'react-async-hook';
 import { fetchAgentByPubKey } from 'services/api';
-import { ProgressWithMinDisplay } from 'view/components';
+import { LoadingWithMinDisplay } from 'view/components';
 import { AgentInfo } from './AgentInfo';
 import { UserInfo } from './UserInfo';
 
@@ -49,7 +49,7 @@ export const Profile = observer(() => {
                 </Typography>
               </Grid>
               <Grid item xs={12}>
-                <ProgressWithMinDisplay
+                <LoadingWithMinDisplay
                   isLoading={loading}
                   progressIndicator={<CircularProgress size={60} />}
                 >
@@ -62,7 +62,7 @@ export const Profile = observer(() => {
                   )}
 
                   {result && <AgentInfo agent={result.data} />}
-                </ProgressWithMinDisplay>
+                </LoadingWithMinDisplay>
               </Grid>
             </Grid>
           </AccordionDetails>

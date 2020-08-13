@@ -1,6 +1,6 @@
 import React, { useEffect, useState, FC } from 'react';
 
-export interface ProgressWithMinDisplayProps {
+export interface LoadingWithMinDisplayProps {
   /**
    * **Default value**: 750
    *
@@ -35,7 +35,7 @@ export interface ProgressWithMinDisplayProps {
  * loading is complete, and the timer is no longer active.
  *
  */
-export const ProgressWithMinDisplay: FC<ProgressWithMinDisplayProps> = ({
+export const LoadingWithMinDisplay: FC<LoadingWithMinDisplayProps> = ({
   minDisplayTimeMs = 750,
   waitTimeMs = 250,
   isLoading,
@@ -67,9 +67,5 @@ export const ProgressWithMinDisplay: FC<ProgressWithMinDisplayProps> = ({
     return null;
   }
 
-  return displayTimerActive || isLoading ? (
-    <>{progressIndicator}</>
-  ) : (
-    <>{children}</>
-  );
+  return <>{displayTimerActive || isLoading ? progressIndicator : children}</>;
 };

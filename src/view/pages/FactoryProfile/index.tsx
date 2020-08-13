@@ -4,7 +4,7 @@ import { fetchFactoryByOrgId } from 'services/api';
 import { useParams } from 'react-router-dom';
 import { Typography, Grid, CircularProgress } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { ClaimedIconButton, ProgressWithMinDisplay } from 'view/components';
+import { ClaimedIconButton, LoadingWithMinDisplay } from 'view/components';
 import { FactoryProfileContacts } from './Contacts';
 import { FactoryProfileAddress } from './Address';
 import { FactoryProfileCertifications } from './Certifications';
@@ -29,7 +29,7 @@ export function FactoryProfile() {
   const { result, error, loading } = useAsync(fetchFactoryByOrgId, [factoryId]);
 
   return (
-    <ProgressWithMinDisplay
+    <LoadingWithMinDisplay
       isLoading={loading}
       progressIndicator={<CircularProgress size={60} />}
     >
@@ -76,6 +76,6 @@ export function FactoryProfile() {
           </Grid>
         </Grid>
       )}
-    </ProgressWithMinDisplay>
+    </LoadingWithMinDisplay>
   );
 }
