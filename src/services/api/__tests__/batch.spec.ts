@@ -54,26 +54,26 @@ describe('TransactionApi', () => {
   });
 
   describe('getBatchStatus()', () => {
-    const batchStatusUrl = 'test';
+    const batchStatusLink = 'test';
 
     describe('given an unsuccessful call to "api/batches"', () => {
       it('returns a rejected promise with an error message', async () => {
         const err = { message: 'error' };
         mockedAxios.get.mockRejectedValueOnce(err);
         await expect(
-          TransactionApi.getBatchStatus(batchStatusUrl),
+          TransactionApi.getBatchStatus(batchStatusLink),
         ).rejects.toEqual(`Failed to GET /apitest&wait=60: ${err.message}`);
       });
     });
 
     describe('given a successful call to "api/batches"', () => {
       it('returns a response object with a link to wait on and confirms the correct request params were used', async () => {
-        const url = `/api${batchStatusUrl}&wait=${TransactionApi.BATCH_STATUS_WAIT}`;
+        const url = `/api${batchStatusLink}&wait=${TransactionApi.BATCH_STATUS_WAIT}`;
         const res = { data: [] };
         mockedAxios.get.mockResolvedValueOnce(res);
 
         await expect(
-          TransactionApi.getBatchStatus(batchStatusUrl),
+          TransactionApi.getBatchStatus(batchStatusLink),
         ).resolves.toEqual(res);
         expect(mockedAxios.get).toHaveBeenCalledWith(url);
       });

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import { BatchStatus } from 'stores';
+import { BatchStatusRes } from 'services/api';
 
 export interface TransactionFormProps {
-  setBatchStatusUrl: (statusUrl: BatchStatus['statusUrl']) => void;
+  setBatchStatusLink: (statusLink: BatchStatusRes['link']) => void;
 }
 
 /**

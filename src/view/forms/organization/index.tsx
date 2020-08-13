@@ -10,8 +10,9 @@ import { VpnKey as Key } from '@material-ui/icons';
 import { Button, Typography, Grid, TextField } from '@material-ui/core';
 import { SelectOrganizationType } from 'view/forms/organization/SelectOrganizationType';
 import { createBatch } from 'services/protobuf/batch';
-import { useStores, useAuth } from 'services/hooks';
+import { useAuth } from 'services/hooks';
 import { FormErrMsg, TransactionFormProps } from 'view/forms/utils';
+import { postBatches } from 'services/api';
 import { CreateContactForm } from './CreateContact';
 import { CreateFactoryAddressForm } from './CreateFactoryAddress';
 
@@ -28,9 +29,8 @@ function makeOrgId(name: string) {
  * - Fourth form is for the Org name
  */
 export function CreateOrganizationForm({
-  setBatchStatusUrl,
+  setBatchStatusLink,
 }: TransactionFormProps) {
-  const { batchStore } = useStores();
   const { signer } = useAuth();
   const [errMsg, setErrMsg] = useState('');
   const [org, setOrg] = useState<ICreateOrgActionStrict>({
@@ -49,8 +49,8 @@ export function CreateOrganizationForm({
     const batchListBytes = createBatch(txns, signer);
 
     try {
-      const statusLink = await batchStore.submitBatch(batchListBytes);
-      setBatchStatusUrl(statusLink);
+      const { link } = await postBatches(batchListBytes);
+      setBatchStatusLink(link);
     } catch ({ message }) {
       setErrMsg(message);
     }

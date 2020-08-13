@@ -14,7 +14,7 @@ export interface AgentOrgInfoProps {
 }
 
 const AgentOrgInfo = ({ org }: AgentOrgInfoProps) => {
-  const { batchStatus, setBatchStatusUrl } = useBatchStatus();
+  const { batchStatus, setBatchStatusLink } = useBatchStatus();
 
   return (
     <Grid container spacing={2}>
@@ -24,7 +24,7 @@ const AgentOrgInfo = ({ org }: AgentOrgInfoProps) => {
 
       {!org && (
         <Grid item xs>
-          <CreateOrganizationForm setBatchStatusUrl={setBatchStatusUrl} />
+          <CreateOrganizationForm setBatchStatusLink={setBatchStatusLink} />
         </Grid>
       )}
 
@@ -47,13 +47,13 @@ const AgentOrgInfo = ({ org }: AgentOrgInfoProps) => {
 };
 
 export const AgentInfo = ({ agent }: AgentInfoProps) => {
-  const { batchStatus, setBatchStatusUrl } = useBatchStatus();
+  const { batchStatus, setBatchStatusLink } = useBatchStatus();
 
   return (
     <Grid container spacing={2}>
       {!agent && (
         <Grid item xs>
-          <CreateAgentForm setBatchStatusUrl={setBatchStatusUrl} />
+          <CreateAgentForm setBatchStatusLink={setBatchStatusLink} />
         </Grid>
       )}
 

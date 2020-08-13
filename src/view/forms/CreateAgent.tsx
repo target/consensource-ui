@@ -12,10 +12,10 @@ import {
 import { Grid, TextField, InputAdornment, Button } from '@material-ui/core';
 import { VpnKey as Key, AccountCircle } from '@material-ui/icons';
 import { createBatch } from 'services/protobuf/batch';
-import { useAuth, useStores } from 'services/hooks';
+import { useAuth } from 'services/hooks';
+import { postBatches } from 'services/api';
 
-export function CreateAgentForm({ setBatchStatusUrl }: TransactionFormProps) {
-  const { batchStore } = useStores();
+export function CreateAgentForm({ setBatchStatusLink }: TransactionFormProps) {
   const { signer } = useAuth();
   const [errMsg, setErrMsg] = useState('');
   const [agent, setAgent] = useState<ICreateAgentActionStrict>({ name: '' });
@@ -29,8 +29,8 @@ export function CreateAgentForm({ setBatchStatusUrl }: TransactionFormProps) {
     const batchListBytes = createBatch(txns, signer);
 
     try {
-      const statusLink = await batchStore.submitBatch(batchListBytes);
-      setBatchStatusUrl(statusLink);
+      const { link } = await postBatches(batchListBytes);
+      setBatchStatusLink(link);
     } catch ({ message }) {
       setErrMsg(message);
     }

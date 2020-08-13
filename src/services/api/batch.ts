@@ -31,10 +31,10 @@ export async function postBatches(batchListBytes: Uint8Array) {
 }
 
 /**
- * Given a batchStatusUrl, poll with a `wait` param set to `BATCH_STATUS_WAIT`
+ * Given a batchStatusLink, poll with a `wait` param set to `BATCH_STATUS_WAIT`
  */
-export async function getBatchStatus(batchStatusUrl: string) {
-  const url = `/api${batchStatusUrl}&wait=${BATCH_STATUS_WAIT}`;
+export async function getBatchStatus(batchStatusLink: string) {
+  const url = `/api${batchStatusLink}&wait=${BATCH_STATUS_WAIT}`;
 
   const res = await axios
     .get<BatchStatusRes>(url)

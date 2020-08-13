@@ -1,8 +1,9 @@
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core';
 import { theme } from 'config/theme';
-import { stores, StoresContext, User } from 'stores';
-import { useStores, AuthProvider } from 'services/hooks';
+import { stores, User } from 'stores';
+import { useStores } from 'services/hooks';
+import { AuthProvider, StoresContext } from 'view/context';
 import { observer } from 'mobx-react-lite';
 import {
   AuthenticatedLayout,
