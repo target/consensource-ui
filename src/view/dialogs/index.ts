@@ -1,3 +1,3 @@
 export * from './Certification';
-export * from './Claimed';
-export * from './Unclaimed';
+export * from './ClaimedData';
+export * from './UnclaimedData';
