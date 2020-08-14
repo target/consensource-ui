@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import { UnverifiedFactoryDialog } from 'view/dialogs';
+import { UnclaimedDialog } from 'view/dialogs';
 import { FactoryResData } from 'services/api';
 
 export interface UnverifiedFactoryAlertProps {
@@ -24,10 +24,9 @@ export function UnverifiedFactoryAlert({
         <AlertTitle>Unverified Factory</AlertTitle>
         Information about this factory is from third party sources
       </Alert>
-      <UnverifiedFactoryDialog
+      <UnclaimedDialog
         open={dialogIsOpen}
         handleClose={() => setDialogIsOpen(false)}
-        factory={factory}
       />
     </div>
   );

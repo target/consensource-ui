@@ -2,9 +2,13 @@ import React from 'react';
 import { useAsync } from 'react-async-hook';
 import { fetchFactoryByOrgId } from 'services/api';
 import { useParams } from 'react-router-dom';
-import { Typography, Grid, CircularProgress } from '@material-ui/core';
+import { Typography, Grid } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { ClaimedIconButton, LoadingWithMinDisplay } from 'view/components';
+import {
+  ClaimedIconButton,
+  LoadingWithMinDisplay,
+  FullScreenLoading,
+} from 'view/components';
 import { FactoryProfileContacts } from './Contacts';
 import { FactoryProfileAddress } from './Address';
 import { FactoryProfileCertifications } from './Certifications';
@@ -31,7 +35,7 @@ export function FactoryProfile() {
   return (
     <LoadingWithMinDisplay
       isLoading={loading}
-      progressIndicator={<CircularProgress size={60} />}
+      progressIndicator={<FullScreenLoading />}
     >
       {error && (
         <Grid item xs={12}>

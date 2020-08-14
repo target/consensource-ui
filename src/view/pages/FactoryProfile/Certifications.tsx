@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Grow } from '@material-ui/core';
 import { CertResData } from 'services/api';
 import { CertificationCard } from 'view/cards';
 
@@ -22,9 +22,11 @@ export function FactoryProfileCertifications({
         </Grid>
       ) : (
         certifications.map((certification) => (
-          <Grid item xs={12} md={8} lg={4}>
-            <CertificationCard certification={certification} />
-          </Grid>
+          <Grow in timeout={1000} style={{ transformOrigin: '0 0 0' }}>
+            <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+              <CertificationCard certification={certification} />
+            </Grid>
+          </Grow>
         ))
       )}
     </Grid>

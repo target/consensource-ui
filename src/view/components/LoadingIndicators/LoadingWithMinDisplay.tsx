@@ -42,6 +42,7 @@ export const LoadingWithMinDisplay: FC<LoadingWithMinDisplayProps> = ({
   progressIndicator,
   children,
 }) => {
+  console.log(isLoading);
   const [displayTimerActive, setDisplayTimerActive] = useState(false);
   const [waitTimerActive, setWaitTimerActive] = useState(true);
 

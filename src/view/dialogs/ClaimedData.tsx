@@ -2,23 +2,19 @@ import React from 'react';
 import {
   DialogTitle,
   Dialog,
-  DialogProps,
   DialogContent,
   DialogContentText,
   DialogActions,
   Button,
 } from '@material-ui/core';
+import { DialogProps } from './utils';
 
-export interface ClaimedDialogProps extends DialogProps {
-  handleClose: () => void;
-}
-
-export function ClaimedDialog({ open, handleClose }: ClaimedDialogProps) {
+export function ClaimedDialog({ open, handleClose }: DialogProps) {
   return (
     <Dialog
-      onClose={handleClose}
       aria-labelledby="claimed-dialog-title"
       open={open}
+      onClose={handleClose}
     >
       <DialogTitle>Claimed data</DialogTitle>
       <DialogContent>

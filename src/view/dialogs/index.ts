@@ -1,3 +1,3 @@
 export * from './Certification';
-export * from './UnverifiedFactory';
 export * from './Claimed';
+export * from './Unclaimed';
