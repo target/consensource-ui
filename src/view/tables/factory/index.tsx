@@ -1,1 +1,1 @@
-export * from './FactoryTable';
+export * from './SearchFactories';

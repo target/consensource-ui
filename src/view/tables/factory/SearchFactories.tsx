@@ -4,83 +4,26 @@ import {
   fetchAllFactoriesWithCerts,
   FactoryReqParams,
   FactoryReqFilterSortParams,
-  CertResData,
   FactoryResWithCertsData,
 } from 'services/api';
-import MUIDataTable, {
-  MUIDataTableOptions,
-  MUIDataTableColumn,
-} from 'mui-datatables';
+import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
 import { Typography } from '@material-ui/core';
-import { FactoryProfileLinkIcon } from './FactoryProfileLinkIcon';
+import {
+  baseFactoryTableCols,
+  DEFAULT_ROWS_PER_PAGE,
+  textLabels,
+  getRowFromFactory,
+  FactoryProfileLinkIcon,
+} from './utils';
 
-export const DEFAULT_ROWS_PER_PAGE = 15;
-
-export const textLabels: MUIDataTableOptions['textLabels'] = {
-  body: {
-    noMatch: 'No factories found',
-  },
-};
-
-export function FactoriesTable() {
+export const SearchFactoriesTable = () => {
   const [queryParams, setQueryParams] = useState<FactoryReqParams>({});
   const { result } = useAsync(fetchAllFactoriesWithCerts, [queryParams]);
 
   const factoriesPage = result?.data || [];
 
-  /**
-   * Get the render element for the `Certificates` cell in our table.
-   * If the factory has certificates, display them as an unordered list.
-   */
-  const getCertCell = (certificates?: CertResData[]) => {
-    if (certificates) {
-      const certsList = certificates.map(({ standard_name }) => (
-        <li>{standard_name}</li>
-      ));
-
-      return <ul>{certsList}</ul>;
-    }
-
-    return null;
-  };
-
   const columns: MUIDataTableColumn[] = [
-    { name: 'name', label: 'Name', options: { filterType: 'textField' } },
-    {
-      name: 'certificates',
-      label: 'Certifications',
-      options: {
-        customBodyRender: getCertCell,
-      },
-    },
-    {
-      name: 'street_line_1',
-      label: 'Street Line 1',
-      options: { filterType: 'textField' },
-    },
-    {
-      name: 'street_line_2',
-      label: 'Street Line 2',
-      options: { filterType: 'textField' },
-    },
-    {
-      name: 'city',
-      label: 'City',
-      options: {
-        filterType: 'textField',
-      },
-    },
-    {
-      name: 'state_province',
-      label: 'State/Province',
-      options: { filterType: 'textField' },
-    },
-    { name: 'country', label: 'Country', options: { filterType: 'dropdown' } },
-    {
-      name: 'postal_code',
-      label: 'Postal Code',
-      options: { filterType: 'textField' },
-    },
+    ...baseFactoryTableCols,
     {
       name: 'factory_page_link',
       label: ' ', // TODO: https://github.com/gregnb/mui-datatables/issues/953#issuecomment-534289311
@@ -119,26 +62,20 @@ export function FactoriesTable() {
   };
 
   /**
-   * Expands all properties of `FactoryResWithCertsData`
+   * Expands all properties of `FactoryResWithCertsData` and
+   * includes the link to the factory profile page
    */
-  const getRowFromFactory = ({
-    id,
-    name,
-    address,
-    certificates,
-  }: FactoryResWithCertsData) => {
+  const getRowWithLink = (factory: FactoryResWithCertsData) => {
     return {
-      name,
-      certificates,
-      factory_page_link: <FactoryProfileLinkIcon factoryId={id} />,
-      ...address,
+      ...getRowFromFactory(factory),
+      factory_page_link: <FactoryProfileLinkIcon factoryId={factory.id} />,
     };
   };
 
   return (
     <MUIDataTable
       title={<Typography variant="h4">Factories</Typography>}
-      data={factoriesPage.map(getRowFromFactory)}
+      data={factoriesPage.map(getRowWithLink)}
       columns={columns}
       options={{
         /**
@@ -169,4 +106,4 @@ export function FactoriesTable() {
       }}
     />
   );
-}
+};

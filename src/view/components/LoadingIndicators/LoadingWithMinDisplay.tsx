@@ -6,24 +6,25 @@ export interface LoadingWithMinDisplayProps {
   /**
    * **Default value**: 750
    *
-   * Minimum number of milliseconds to display the progress animation for.
-   * Note that the timer will only begin once wait timer has expired.
+   * Minimum number of milliseconds to display the loading animation for.
+   * Note that the timer will only begin once the wait timer has expired.
    *
    */
   minDisplayTimeMs?: number;
   /**
    * **Default value**: 250
    *
-   * Number of milliseconds to wait before displaying the progress animation.
-   * Can be used to prevent the animation from displaying if loading completes
-   * quickly.
+   * Number of milliseconds to wait before displaying the loading animation.
+   * Used to prevent the loading animation from flashing on screen very briefly
+   * if loading completes in less than `waitTimeMs` milliseconds.
    */
   waitTimeMs?: number;
   /**
    * **Default value**: <LoadingSpinner size={FullScreenSpinnerSize} />
    *
    * React node that will be displayed while either `isLoading` is true,
-   * or the elapsed time between `waitTimeMs` and `minDisplayTimeMs` has passed.
+   * or the elapsed time between `waitTimeMs` and `minDisplayTimeMs` has
+   * not passed.
    */
   loadingIndicator?: React.ReactNode;
   isLoading: boolean;
@@ -38,8 +39,7 @@ export interface LoadingWithMinDisplayProps {
  * loading is complete, and the timer is no longer active.
  *
  * If loading is completed before the `waitTimeMs` timeout is complete,
- * then no loading indicator will be displayed
- * *
+ * then no loading indicator will be displayed.
  */
 export const LoadingWithMinDisplay: FC<LoadingWithMinDisplayProps> = ({
   minDisplayTimeMs = 7500,

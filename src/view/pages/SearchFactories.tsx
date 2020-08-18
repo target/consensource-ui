@@ -1,12 +1,12 @@
 import React from 'react';
-import { FactoriesTable } from 'view/tables/factory';
+import { SearchFactoriesTable } from 'view/tables';
 import { Grid } from '@material-ui/core';
 
 export function SearchFactories() {
   return (
     <Grid container>
       <Grid item xs>
-        <FactoriesTable />
+        <SearchFactoriesTable />
       </Grid>
     </Grid>
   );

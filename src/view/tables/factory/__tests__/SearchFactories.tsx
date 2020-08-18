@@ -10,21 +10,22 @@ import {
   getByText,
 } from '@testing-library/react';
 import * as FactoryApi from 'services/api/factory';
-import { FactoriesTable, DEFAULT_ROWS_PER_PAGE, textLabels } from '.';
+import { DEFAULT_ROWS_PER_PAGE, textLabels } from '../utils';
+import { SearchFactoriesTable } from '..';
 
-describe('<FactoriesTable />', () => {
+describe('<SearchFactoriesTable />', () => {
   const loadingText = textLabels!.body!.noMatch!;
 
   const waitForTableRender = async () => {
     await act(async () => {
-      render(<FactoriesTable />);
+      render(<SearchFactoriesTable />);
       await waitForElementToBeRemoved(() => screen.getByText(loadingText));
     });
   };
 
   it('renders an empty table', () => {
     jest.spyOn(FactoryApi, 'fetchAllFactories').mockResolvedValue({} as any);
-    render(<FactoriesTable />);
+    render(<SearchFactoriesTable />);
     expect(screen.getByText(loadingText)).toBeInTheDocument();
   });
 
