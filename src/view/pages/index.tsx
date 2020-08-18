@@ -1,5 +1,5 @@
 export * from './FactoryProfile';
-export * from './Profile';
+export * from './UserProfile';
 export * from './Dashboard';
 export * from './Landing';
 export * from './Login';

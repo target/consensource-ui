@@ -6,13 +6,12 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  CircularProgress,
 } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 import { observer } from 'mobx-react-lite';
 import { useAsync } from 'react-async-hook';
 import { fetchAgentByPubKey } from 'services/api';
-import { LoadingWithMinDisplay } from 'view/components';
+import { LoadingWithMinDisplay, LoadingSpinner } from 'view/components';
 import { AgentInfo } from './AgentInfo';
 import { UserInfo } from './UserInfo';
 
@@ -51,7 +50,7 @@ export const Profile = observer(() => {
               <Grid item xs={12}>
                 <LoadingWithMinDisplay
                   isLoading={loading}
-                  progressIndicator={<CircularProgress size={60} />}
+                  loadingIndicator={<LoadingSpinner size={60} />}
                 >
                   {error && (
                     <Grid item xs={12}>

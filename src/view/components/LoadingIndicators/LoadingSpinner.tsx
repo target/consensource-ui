@@ -1,7 +1,12 @@
 import React from 'react';
-import { CircularProgress, Grid, Typography } from '@material-ui/core';
+import {
+  CircularProgress,
+  CircularProgressProps,
+  Grid,
+  Typography,
+} from '@material-ui/core';
 
-export const FullScreenLoading = () => {
+export const LoadingSpinner = (props: CircularProgressProps) => {
   return (
     <Grid
       container
@@ -11,7 +16,7 @@ export const FullScreenLoading = () => {
       spacing={2}
     >
       <Grid item xs={12}>
-        <CircularProgress size={window.screen.width / 8} />
+        <CircularProgress {...props} />
       </Grid>
       <Grid item xs={12}>
         <Typography variant="h5">Loading...</Typography>

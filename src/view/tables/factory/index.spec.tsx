@@ -1,9 +1,4 @@
 import React from 'react';
-import {
-  FactoriesTable,
-  DEFAULT_ROWS_PER_PAGE,
-  textLabels,
-} from 'view/tables/factory';
 import { mockFactoryRes } from 'services/api/__tests__/__mocks__/factory';
 import {
   render,
@@ -15,6 +10,7 @@ import {
   getByText,
 } from '@testing-library/react';
 import * as FactoryApi from 'services/api/factory';
+import { FactoriesTable, DEFAULT_ROWS_PER_PAGE, textLabels } from '.';
 
 describe('<FactoriesTable />', () => {
   const loadingText = textLabels!.body!.noMatch!;

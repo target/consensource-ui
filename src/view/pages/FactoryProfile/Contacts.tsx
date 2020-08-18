@@ -3,7 +3,7 @@ import { OrgResContactData } from 'services/api';
 import { Typography, Grid } from '@material-ui/core';
 import { InfoItem } from 'view/components';
 
-interface FactoryProfileContactsProps {
+interface ContactsProps {
   contacts: OrgResContactData[];
 }
 
@@ -23,9 +23,7 @@ function Contact({ contact }: ContactProps) {
   );
 }
 
-export function FactoryProfileContacts({
-  contacts,
-}: FactoryProfileContactsProps) {
+export function Contacts({ contacts }: ContactsProps) {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>

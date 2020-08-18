@@ -4,3 +4,4 @@ export * from './Sidebar';
 export * from './NavBar';
 export * from './LoadingIndicators';
 export * from './SequentialGrow';
+export * from './UnverifiedFactoryAlert';

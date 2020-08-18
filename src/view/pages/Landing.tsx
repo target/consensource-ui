@@ -55,8 +55,7 @@ export function Landing() {
           <Button
             component={Link}
             to="/sign-up"
-            size="large"
-            variant="contained"
+            size="medium"
             color="secondary"
             className={classes.linkBtn}
           >
@@ -65,9 +64,9 @@ export function Landing() {
           <Button
             component={Link}
             to="/login"
-            size="large"
-            variant="contained"
+            size="medium"
             color="secondary"
+            variant="contained"
             className={classes.linkBtn}
           >
             Login

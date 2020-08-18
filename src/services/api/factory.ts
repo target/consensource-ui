@@ -14,8 +14,11 @@ export interface FactoryResAddressData {
 
 export interface FactoryResData extends OrgResData {
   address: FactoryResAddressData;
-  certificates?: Array<CertResData>;
   assertion_id?: string;
+}
+
+export interface FactoryResWithCertsData extends FactoryResData {
+  certificates: Array<CertResData>;
 }
 
 export type FactoryReqFilterSortParams = Partial<FactoryResAddressData> & {
@@ -33,7 +36,21 @@ export interface FactoryReqParams
   limit?: number;
   offset?: number;
   head?: number;
-  expand?: boolean;
+}
+
+export async function fetchAllFactoriesWithCerts(params?: FactoryReqParams) {
+  const path = '/api/factories';
+  const paramsWithCert = { ...params, expand: true };
+
+  const res = await axios
+    .get<PaginatedApiRes<FactoryResWithCertsData[]>>(path, {
+      params: paramsWithCert,
+    })
+    .catch(({ message }: Error) => {
+      throw new Error(`Failed to GET ${path}: ${message}`);
+    });
+
+  return res.data;
 }
 
 export async function fetchAllFactories(params?: FactoryReqParams) {
@@ -41,6 +58,22 @@ export async function fetchAllFactories(params?: FactoryReqParams) {
 
   const res = await axios
     .get<PaginatedApiRes<FactoryResData[]>>(path, { params })
+    .catch(({ message }: Error) => {
+      throw new Error(`Failed to GET ${path}: ${message}`);
+    });
+
+  return res.data;
+}
+
+export async function fetchFactoryByOrgIdWithCerts(
+  orgId: string,
+  params?: FactoryReqParams,
+) {
+  const path = `/api/factories/${orgId}`;
+  const paramsWithCert = { ...params, expand: true };
+
+  const res = await axios
+    .get<BaseApiRes<FactoryResWithCertsData>>(path, { params: paramsWithCert })
     .catch(({ message }: Error) => {
       throw new Error(`Failed to GET ${path}: ${message}`);
     });

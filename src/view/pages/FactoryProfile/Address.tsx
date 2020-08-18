@@ -3,11 +3,11 @@ import { Typography, Grid } from '@material-ui/core';
 import { FactoryResAddressData } from 'services/api';
 import { InfoItem } from 'view/components/InfoItem';
 
-interface FactoryProfileAddress {
+interface Address {
   address: FactoryResAddressData;
 }
 
-export function FactoryProfileAddress({ address }: FactoryProfileAddress) {
+export function Address({ address }: Address) {
   const {
     street_line_1,
     street_line_2,

@@ -6,8 +6,8 @@ import {
   AuthedNavBar,
   NAVBAR_SPACING_UNITS,
   Sidebar,
-  FullScreenLoading,
   LoadingWithMinDisplay,
+  AuthSpinner,
 } from 'view/components';
 import { Snackbar } from '@material-ui/core';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -41,7 +41,7 @@ export function AuthenticatedLayout() {
         <main className={classes.content}>
           <LoadingWithMinDisplay
             isLoading={isAuthenticating}
-            progressIndicator={<FullScreenLoading />}
+            loadingIndicator={<AuthSpinner />}
           >
             <AuthenticatedRoutes />
             <Snackbar

@@ -2,15 +2,8 @@ import React, { useState } from 'react';
 import { Button } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { UnclaimedDialog } from 'view/dialogs';
-import { FactoryResData } from 'services/api';
 
-export interface UnverifiedFactoryAlertProps {
-  factory: FactoryResData;
-}
-
-export function UnverifiedFactoryAlert({
-  factory,
-}: UnverifiedFactoryAlertProps) {
+export const UnverifiedFactoryAlert = () => {
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
   return (
@@ -30,4 +23,4 @@ export function UnverifiedFactoryAlert({
       />
     </div>
   );
-}
+};

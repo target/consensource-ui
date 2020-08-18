@@ -4,11 +4,13 @@ import { SvgIconProps, IconButton, Tooltip } from '@material-ui/core';
 import { OpenInNew as OpenInNewIcon } from '@material-ui/icons';
 import { OrgResData } from 'services/api';
 
-export interface FactoryPageLinkIconProps {
+export interface FactoryProfileLinkIconProps {
   factoryId: OrgResData['id'];
 }
 
-export function FactoryPageLinkIcon({ factoryId }: FactoryPageLinkIconProps) {
+export function FactoryProfileLinkIcon({
+  factoryId,
+}: FactoryProfileLinkIconProps) {
   const [color, setColor] = useState<SvgIconProps['color']>('inherit');
 
   return (

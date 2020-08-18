@@ -23,8 +23,8 @@ export function UnclaimedDialog({ open, handleClose }: DialogProps) {
           data is about your organization, you can claim it.
         </DialogContentText>
         <DialogContentText>
-          More information on 3rd party data sources and the claims process can
-          be found here.
+          Click here for more information on 3rd party data sources and the
+          claims process in ConsenSource.
         </DialogContentText>
       </DialogContent>
       <DialogActions>
