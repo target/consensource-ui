@@ -1,16 +1,18 @@
 import React from 'react';
 import { useAsync } from 'react-async-hook';
-import { useParams } from 'react-router-dom';
 import { Typography, Grid } from '@material-ui/core';
 import { LoadingWithMinDisplay } from 'view/components';
-import { fetchFactoryByOrgIdWithCerts } from 'services/api';
+import { fetchFactoryByOrgIdWithCerts, FactoryResData } from 'services/api';
 import { Contacts } from './Contacts';
 import { Address } from './Address';
 import { Certifications } from './Certifications';
 import { Header } from './Header';
 
-export const FactoryProfile = () => {
-  const { factoryId } = useParams();
+export interface FactoryProfile {
+  factoryId: FactoryResData['id'];
+}
+
+export const FactoryProfile = ({ factoryId }: FactoryProfile) => {
   const { result, error, loading } = useAsync(fetchFactoryByOrgIdWithCerts, [
     factoryId,
   ]);

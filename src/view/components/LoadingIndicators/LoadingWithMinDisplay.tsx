@@ -55,7 +55,6 @@ export const LoadingWithMinDisplay: FC<LoadingWithMinDisplayProps> = ({
   const setWaitTimeout = () => {
     setTimeout(() => {
       setWaitTimerActive(false);
-
       if (loadingRef.current) {
         setDisplayTimerActive(true);
       }
@@ -64,13 +63,14 @@ export const LoadingWithMinDisplay: FC<LoadingWithMinDisplayProps> = ({
 
   const setDisplayTimeout = () => {
     setTimeout(() => {
-      setDisplayTimerActive(false);
+      if (displayTimerActive) {
+        setDisplayTimerActive(false);
+      }
     }, minDisplayTimeMs + waitTimeMs);
   };
 
   useEffect(() => {
     loadingRef.current = isLoading;
-
     setWaitTimeout();
     setDisplayTimeout();
   }, [isLoading]);

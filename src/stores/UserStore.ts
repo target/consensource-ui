@@ -3,7 +3,7 @@ import {
   postUsersAuthenticate,
   UserAuthReqParams,
   UserCreateReqParams,
-  createUser,
+  postUser,
 } from 'services/api';
 import {
   getEncryptedPrivateKey,
@@ -74,6 +74,11 @@ export class UserStore {
     }
   }
 
+  storeUser(user: UserInfo) {
+    this.user = new User(this, user);
+    window.localStorage.setItem(this.USER_STORAGE_KEY, JSON.stringify(user));
+  }
+
   @action.bound
   async createUser(username: string, password: string) {
     const privateKey = createNewPrivateKey();
@@ -88,22 +93,15 @@ export class UserStore {
       encrypted_private_key,
     };
 
-    await createUser(userPayload);
-
-    const user: UserInfo = {
-      username,
-      password,
-      signer,
-    };
-
-    this.user = new User(this, user);
-
-    window.localStorage.setItem(this.USER_STORAGE_KEY, JSON.stringify(user));
+    await postUser(userPayload);
+    this.storeUser({ username, password, signer });
   }
 
   @action.bound
   async authenticateUser(authPayload: UserAuthReqParams) {
     this.isAuthenticating = true;
+
+    const { username, password } = authPayload;
 
     let res;
 
@@ -117,18 +115,12 @@ export class UserStore {
     }
 
     const privateKey = createPrivateKeyFromHex(
-      getDecryptedKeyHex(res.encrypted_private_key, authPayload.password),
+      getDecryptedKeyHex(res.encrypted_private_key, password),
     );
 
     const signer = createSigner(privateKey);
 
-    const user: UserInfo = {
-      username: authPayload.username,
-      password: authPayload.password,
-      signer,
-    };
-
-    this.user = new User(this, user);
+    this.storeUser({ username, password, signer });
 
     this.isAuthenticating = false;
   }

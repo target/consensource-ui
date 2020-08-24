@@ -8,9 +8,12 @@ export interface PagingRes {
   total: number;
 }
 
+export type SortingDir = 'asc' | 'desc';
+
+// TODO: Backend implementation for sorting
 export interface SortingReq<T> {
   sort_key?: keyof T;
-  sort_dir?: string;
+  sort_dir?: SortingDir;
 }
 
 /**

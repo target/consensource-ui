@@ -1,5 +1,5 @@
 import React from 'react';
-import { mockFactoryRes } from 'services/api/__tests__/__mocks__/factory';
+import { mockFactoryResWithCerts } from 'services/api/__tests__/__mocks__';
 import {
   render,
   screen,
@@ -24,15 +24,17 @@ describe('<SearchFactoriesTable />', () => {
   };
 
   it('renders an empty table', () => {
-    jest.spyOn(FactoryApi, 'fetchAllFactories').mockResolvedValue({} as any);
+    jest
+      .spyOn(FactoryApi, 'fetchAllFactoriesWithCerts')
+      .mockReturnValue({} as any);
     render(<SearchFactoriesTable />);
     expect(screen.getByText(loadingText)).toBeInTheDocument();
   });
 
-  it('renders a table with data', async () => {
+  it.only('renders a table with data', async () => {
     jest
-      .spyOn(FactoryApi, 'fetchAllFactories')
-      .mockResolvedValue(mockFactoryRes as any);
+      .spyOn(FactoryApi, 'fetchAllFactoriesWithCerts')
+      .mockReturnValue(mockFactoryResWithCerts as any);
 
     await waitForTableRender();
   });
@@ -40,8 +42,8 @@ describe('<SearchFactoriesTable />', () => {
   it('sets the count for the number of records', async () => {
     const total = 2;
 
-    jest.spyOn(FactoryApi, 'fetchAllFactories').mockResolvedValue({
-      ...mockFactoryRes,
+    jest.spyOn(FactoryApi, 'fetchAllFactoriesWithCerts').mockReturnValue({
+      ...mockFactoryResWithCerts,
       paging: { total },
     } as any);
 
@@ -53,8 +55,8 @@ describe('<SearchFactoriesTable />', () => {
   describe('updates query params based on...', () => {
     it('sorting', async () => {
       const fetchSpy = jest
-        .spyOn(FactoryApi, 'fetchAllFactories')
-        .mockResolvedValue(mockFactoryRes as any);
+        .spyOn(FactoryApi, 'fetchAllFactoriesWithCerts')
+        .mockReturnValue(mockFactoryResWithCerts as any);
 
       await waitForTableRender();
 
@@ -69,8 +71,8 @@ describe('<SearchFactoriesTable />', () => {
 
     it('filters', async () => {
       const fetchSpy = jest
-        .spyOn(FactoryApi, 'fetchAllFactories')
-        .mockResolvedValue(mockFactoryRes as any);
+        .spyOn(FactoryApi, 'fetchAllFactoriesWithCerts')
+        .mockReturnValue(mockFactoryResWithCerts as any);
 
       await waitForTableRender();
 
@@ -89,12 +91,12 @@ describe('<SearchFactoriesTable />', () => {
       // Create more records than can be held on a single page
       const mockFactoryResExpanded = { data: [] } as any;
       for (let i = 0; i < DEFAULT_ROWS_PER_PAGE + 1; i++) {
-        mockFactoryResExpanded.data.push(mockFactoryRes.data[0]);
+        mockFactoryResExpanded.data.push(mockFactoryResWithCerts.data[0]);
       }
 
       const fetchSpy = jest
-        .spyOn(FactoryApi, 'fetchAllFactories')
-        .mockResolvedValue(mockFactoryResExpanded as any);
+        .spyOn(FactoryApi, 'fetchAllFactoriesWithCerts')
+        .mockReturnValue(mockFactoryResExpanded as any);
 
       await waitForTableRender();
 
@@ -110,8 +112,8 @@ describe('<SearchFactoriesTable />', () => {
 
     it('rows per page', async () => {
       const fetchSpy = jest
-        .spyOn(FactoryApi, 'fetchAllFactories')
-        .mockResolvedValue(mockFactoryRes as any);
+        .spyOn(FactoryApi, 'fetchAllFactoriesWithCerts')
+        .mockReturnValue(mockFactoryResWithCerts as any);
 
       await waitForTableRender();
 

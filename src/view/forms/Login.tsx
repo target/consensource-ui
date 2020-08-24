@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { hasEmptyFields, FormErrMsg } from 'view/forms/utils';
 import { Button, Grid, TextField } from '@material-ui/core';
 import { useStores } from 'services/hooks';
-import { useHistory } from 'react-router-dom';
+
+export interface LoginFormProps {
+  onSubmit: Function;
+}
 
 export interface LoginFormState {
   username: string;
   password: string;
 }
 
-export function LoginForm() {
-  const history = useHistory();
+export function LoginForm({ onSubmit }: LoginFormProps) {
   const { userStore } = useStores();
   const [errMsg, setErrMsg] = useState('');
   const [login, setLogin] = useState<LoginFormState>({
@@ -23,7 +25,7 @@ export function LoginForm() {
 
     try {
       await userStore.authenticateUser(login);
-      history.push('/');
+      onSubmit();
     } catch ({ message }) {
       setErrMsg(message);
     }

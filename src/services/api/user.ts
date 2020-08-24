@@ -21,7 +21,7 @@ export interface UserAuthResData {
 }
 
 // TODO: Return type definition
-export async function createUser(payload: UserCreateReqParams) {
+export async function postUser(payload: UserCreateReqParams) {
   const url = '/api/users';
 
   const res = await axios.post(url, payload).catch((e: any) => {

@@ -10,7 +10,7 @@ import {
   FactoryProfile,
 } from 'view/pages';
 
-export function UnauthenticatedRoutes() {
+export const UnauthenticatedRoutes = () => {
   const { pathname } = useLocation();
 
   return (
@@ -32,7 +32,7 @@ export function UnauthenticatedRoutes() {
         render={() => (
           <Redirect
             to={{
-              pathname: '/',
+              pathname: '/login',
               state: { from: pathname },
             }}
           />
@@ -40,9 +40,9 @@ export function UnauthenticatedRoutes() {
       />
     </Switch>
   );
-}
+};
 
-export function AuthenticatedRoutes() {
+export const AuthenticatedRoutes = () => {
   return (
     <Switch>
       <Route exact path="/">
@@ -57,9 +57,14 @@ export function AuthenticatedRoutes() {
         <SearchFactories />
       </Route>
 
-      <Route path="/factories/:factoryId">
-        <FactoryProfile />
-      </Route>
+      <Route
+        path="/factories/:factoryId"
+        render={({
+          match: {
+            params: { factoryId },
+          },
+        }) => <FactoryProfile factoryId={factoryId} />}
+      />
     </Switch>
   );
-}
+};

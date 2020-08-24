@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { AuthenticatedRoutes } from 'view/components/Layout/Routes';
 import { useStores } from 'services/hooks';
 import {
   AuthedNavBar,
@@ -10,7 +9,7 @@ import {
   AuthSpinner,
 } from 'view/components';
 import { Snackbar } from '@material-ui/core';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { AuthenticatedRoutes } from './Routes';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -33,26 +32,24 @@ export function AuthenticatedLayout() {
   } = useStores();
 
   return (
-    <Router>
-      <div className={classes.container}>
-        <AuthedNavBar />
-        <Sidebar />
+    <div className={classes.container}>
+      <AuthedNavBar />
+      <Sidebar />
 
-        <main className={classes.content}>
-          <LoadingWithMinDisplay
-            isLoading={isAuthenticating}
-            loadingIndicator={<AuthSpinner />}
-          >
-            <AuthenticatedRoutes />
-            <Snackbar
-              message={snackbarStore.message}
-              open={snackbarStore.isOpen}
-              onClose={snackbarStore.handleClose}
-              autoHideDuration={3000}
-            />
-          </LoadingWithMinDisplay>
-        </main>
-      </div>
-    </Router>
+      <main className={classes.content}>
+        <LoadingWithMinDisplay
+          isLoading={isAuthenticating}
+          loadingIndicator={<AuthSpinner />}
+        >
+          <AuthenticatedRoutes />
+          <Snackbar
+            message={snackbarStore.message}
+            open={snackbarStore.isOpen}
+            onClose={snackbarStore.handleClose}
+            autoHideDuration={3000}
+          />
+        </LoadingWithMinDisplay>
+      </main>
+    </div>
   );
 }

@@ -5,6 +5,7 @@ import {
   FactoryReqParams,
   FactoryReqFilterSortParams,
   FactoryResWithCertsData,
+  SortingDir,
 } from 'services/api';
 import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
 import { Typography } from '@material-ui/core';
@@ -48,7 +49,7 @@ export const SearchFactoriesTable = () => {
     setQueryParams({
       ...queryParams,
       sort_key: changedColumn as keyof FactoryReqFilterSortParams,
-      sort_dir: direction,
+      sort_dir: direction as SortingDir,
     });
   };
 
@@ -63,7 +64,7 @@ export const SearchFactoriesTable = () => {
 
   /**
    * Expands all properties of `FactoryResWithCertsData` and
-   * includes the link to the factory profile page
+   * includes the link to the factory
    */
   const getRowWithLink = (factory: FactoryResWithCertsData) => {
     return {
