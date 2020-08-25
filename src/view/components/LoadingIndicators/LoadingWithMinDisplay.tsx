@@ -42,7 +42,7 @@ export interface LoadingWithMinDisplayProps {
  * then no loading indicator will be displayed.
  */
 export const LoadingWithMinDisplay: FC<LoadingWithMinDisplayProps> = ({
-  minDisplayTimeMs = 7500,
+  minDisplayTimeMs = 750,
   waitTimeMs = 250,
   loadingIndicator = <LoadingSpinner size={FullScreenSpinnerSize} />,
   isLoading,

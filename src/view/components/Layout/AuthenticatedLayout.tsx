@@ -33,8 +33,10 @@ export function AuthenticatedLayout() {
 
   return (
     <div className={classes.container}>
-      <AuthedNavBar />
-      <Sidebar />
+      <nav>
+        <AuthedNavBar />
+        <Sidebar />
+      </nav>
 
       <main className={classes.content}>
         <LoadingWithMinDisplay

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Drawer, List } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { items } from 'view/components/Sidebar/items';
-import { useHistory, useLocation } from 'react-router-dom';
+import { sidebarItems } from './items';
 
-const drawerWidth = 100;
+const drawerWidth = 240;
 
 const useStyles = makeStyles(({ palette }) =>
   createStyles({
@@ -12,7 +11,7 @@ const useStyles = makeStyles(({ palette }) =>
       width: drawerWidth,
     },
     drawerPaper: {
-      marginTop: 45, // "dense" AppBar height minus 5
+      marginTop: 45, // "dense" Toolbar height
       width: drawerWidth,
       backgroundColor: palette.grey['100'],
     },
@@ -22,29 +21,8 @@ const useStyles = makeStyles(({ palette }) =>
   }),
 );
 
-export function Sidebar() {
+export const Sidebar = () => {
   const classes = useStyles();
-  const history = useHistory();
-  const { pathname } = useLocation();
-
-  // Track route changes to update the selected sidebar item
-  const [curRoute, setCurRoute] = useState(pathname);
-
-  const isSelected = (route: string) => {
-    if (route === '/') {
-      return curRoute === '/';
-    }
-
-    return curRoute.includes(route);
-  };
-
-  useEffect(() => {
-    setCurRoute(pathname);
-  }, [pathname]);
-
-  const onClick = (route: string) => {
-    history.push(route);
-  };
 
   return (
     <Drawer
@@ -52,18 +30,7 @@ export function Sidebar() {
       className={classes.drawer}
       classes={{ paper: classes.drawerPaper }}
     >
-      <List className={classes.list}>
-        {items.map(([route, component]) =>
-          // eslint-disable-next-line react/no-array-index-key
-          // TODO: Add a divider to every item except the last one
-          React.createElement(component, {
-            isSelected: isSelected(route),
-            onClick,
-            route,
-            key: route,
-          }),
-        )}
-      </List>
+      <List className={classes.list}>{React.createElement(sidebarItems)}</List>
     </Drawer>
   );
-}
+};
