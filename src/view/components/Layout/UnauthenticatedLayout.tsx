@@ -26,7 +26,10 @@ export function UnauthenticatedLayout() {
       justify="center"
       container
     >
-      <BaseNavBar />
+      <nav>
+        <BaseNavBar />
+      </nav>
+
       <main className={classes.content}>
         <UnauthenticatedRoutes />
         <Snackbar
