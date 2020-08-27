@@ -1,14 +1,13 @@
 import React from 'react';
-import { Grid, Snackbar } from '@material-ui/core';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { BaseNavBar, NAVBAR_SPACING_UNITS } from 'view/components';
+import { Grid, Snackbar, makeStyles, createStyles } from '@material-ui/core';
 import { useStores } from 'services/hooks';
+import { BaseNavBar } from 'view/components';
 import { UnauthenticatedRoutes } from './Routes';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     content: {
-      marginTop: theme.spacing(NAVBAR_SPACING_UNITS),
+      marginTop: theme.spacing(5),
       padding: `${theme.spacing(3)}px`,
     },
     container: { height: '80vh' },

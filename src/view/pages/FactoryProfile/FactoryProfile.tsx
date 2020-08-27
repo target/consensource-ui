@@ -2,7 +2,7 @@ import React from 'react';
 import { useAsync } from 'react-async-hook';
 import { Typography, Grid } from '@material-ui/core';
 import { LoadingWithMinDisplay } from 'view/components';
-import { fetchFactoryByOrgIdWithCerts, FactoryResData } from 'services/api';
+import { fetchFactoryByOrgId, FactoryResData } from 'services/api';
 import { Contacts } from './Contacts';
 import { Address } from './Address';
 import { Certifications } from './Certifications';
@@ -13,8 +13,11 @@ export interface FactoryProfile {
 }
 
 export const FactoryProfile = ({ factoryId }: FactoryProfile) => {
-  const { result, error, loading } = useAsync(fetchFactoryByOrgIdWithCerts, [
+  // Including the `expand` param includes certificates with factories
+  const baseParms = { expand: true };
+  const { result, error, loading } = useAsync(fetchFactoryByOrgId, [
     factoryId,
+    baseParms,
   ]);
 
   return (
@@ -35,7 +38,8 @@ export const FactoryProfile = ({ factoryId }: FactoryProfile) => {
           </Grid>
 
           <Grid item xs={12}>
-            <Certifications certifications={result.data.certificates} />
+            {/* TODO: `certificates` shouldn't be possibly undefined when expand param is included */}
+            <Certifications certifications={result.data.certificates || []} />
           </Grid>
 
           <Grid item xs={12}>

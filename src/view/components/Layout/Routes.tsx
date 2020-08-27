@@ -1,14 +1,6 @@
 import React from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
-import {
-  Landing,
-  SignUp,
-  Login,
-  Dashboard,
-  Profile,
-  SearchFactories,
-  FactoryProfile,
-} from 'view/pages';
+import * as Pages from 'view/pages';
 
 export const UnauthenticatedRoutes = () => {
   const { pathname } = useLocation();
@@ -16,15 +8,15 @@ export const UnauthenticatedRoutes = () => {
   return (
     <Switch>
       <Route path="/login">
-        <Login />
+        <Pages.Login />
       </Route>
 
       <Route path="/sign-up">
-        <SignUp />
+        <Pages.SignUp />
       </Route>
 
       <Route exact path="/">
-        <Landing />
+        <Pages.Landing />
       </Route>
 
       <Route
@@ -46,15 +38,15 @@ export const AuthenticatedRoutes = () => {
   return (
     <Switch>
       <Route exact path="/">
-        <Dashboard />
+        <Pages.Dashboard />
       </Route>
 
       <Route path="/profile">
-        <Profile />
+        <Pages.Profile />
       </Route>
 
       <Route path="/search">
-        <SearchFactories />
+        <Pages.SearchFactories />
       </Route>
 
       <Route
@@ -63,7 +55,7 @@ export const AuthenticatedRoutes = () => {
           match: {
             params: { factoryId },
           },
-        }) => <FactoryProfile factoryId={factoryId} />}
+        }) => <Pages.FactoryProfile factoryId={factoryId} />}
       />
     </Switch>
   );

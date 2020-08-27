@@ -1,9 +1,8 @@
 import React from 'react';
-import { Drawer, List } from '@material-ui/core';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { Drawer, List, makeStyles, createStyles } from '@material-ui/core';
 import { sidebarItems } from './items';
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 const useStyles = makeStyles(({ palette }) =>
   createStyles({

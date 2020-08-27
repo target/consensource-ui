@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 import { Organization } from 'services/protobuf/compiled';
 import { PaginatedApiRes, BaseApiRes } from './utils';
 
@@ -39,12 +39,12 @@ export async function fetchAgentByPubKey(
 
   const res = await axios
     .get<BaseApiRes<AgentResData>>(path, { params })
-    .catch((error) => {
-      if (error.response && error.response.status === 404) {
+    .catch((err: AxiosError) => {
+      if (err.response?.status === 404) {
         return { data: { data: null } } as AxiosResponse<BaseApiRes<null>>;
       }
 
-      throw new Error(`Failed to GET ${path}: ${error.message}`);
+      throw new Error(`Failed to GET ${path}: ${err.message}`);
     });
 
   return res.data;

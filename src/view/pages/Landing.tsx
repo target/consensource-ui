@@ -1,6 +1,12 @@
 import React, { useEffect } from 'react';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Paper, Button, Grid, Typography } from '@material-ui/core';
+import {
+  Paper,
+  Button,
+  Grid,
+  Typography,
+  makeStyles,
+  createStyles,
+} from '@material-ui/core';
 import { Link, useHistory } from 'react-router-dom';
 import { useStores } from 'services/hooks';
 import { autorun } from 'mobx';

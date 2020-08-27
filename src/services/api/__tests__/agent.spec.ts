@@ -5,44 +5,43 @@ import { mocked } from 'ts-jest/utils';
 jest.mock('axios');
 const mockedAxios = mocked(axios, true);
 
-describe('AgentApi', () => {
-  const agent_1 = {
-    public_key: 'public_key_1',
-    name: 'name_1',
-    created_on: 1,
-  };
-  const agent_2 = {
-    public_key: 'public_key_2',
-    name: 'name_2',
-    created_on: 2,
-    organization: {
-      id: 'org',
-      name: 'org_name',
-      organization_type: 2 as Organization.Type.STANDARDS_BODY,
-    },
-  };
+describe('fetchAgents()', () => {
+  it('catches errors and throws a new error with a message', async () => {
+    const path = '/api/agents';
+    const errMsg = 'error';
 
-  describe('fetchAllAgents()', () => {
-    describe('when called', () => {
-      it('will return all agents in an array', async () => {
-        mockedAxios.get.mockResolvedValueOnce({
-          data: [agent_1, agent_2],
-        });
-        await expect(AgentApi.fetchAllAgents()).resolves.toEqual({
-          data: [agent_1, agent_2],
-        });
-      });
+    mockedAxios.get.mockRejectedValue({ message: errMsg });
+
+    await expect(AgentApi.fetchAgents()).rejects.toEqual(
+      Error(`Failed to GET ${path}: ${errMsg}`),
+    );
+
+    expect(mockedAxios.get).toHaveBeenCalledWith(path, {
+      params: undefined,
+    });
+  });
+});
+
+describe('fetchAgentByPubKey()', () => {
+  it('catches 404 errors and returns a null data object', async () => {
+    mockedAxios.get.mockRejectedValue({ response: { status: 404 } });
+    await expect(AgentApi.fetchAgentByPubKey('bad_key')).resolves.toEqual({
+      data: null,
     });
   });
 
-  describe('fetchAgent()', () => {
-    describe('when given a valid public key', () => {
-      it('will return the agent associated with the key', async () => {
-        mockedAxios.get.mockResolvedValueOnce({ data: agent_1 });
-        await expect(AgentApi.fetchAgent('public_key_1')).resolves.toEqual({
-          data: agent_1,
-        });
-      });
+  it('catches non-404 errors and throws a new error with a message', async () => {
+    const path = '/api/agents/bad_key';
+    const errMsg = 'error';
+
+    mockedAxios.get.mockRejectedValue({ message: errMsg });
+
+    await expect(AgentApi.fetchAgentByPubKey('bad_key')).rejects.toEqual(
+      Error(`Failed to GET ${path}: ${errMsg}`),
+    );
+
+    expect(mockedAxios.get).toHaveBeenCalledWith(path, {
+      params: undefined,
     });
   });
 });

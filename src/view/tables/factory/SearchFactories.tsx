@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useAsync } from 'react-async-hook';
 import {
-  fetchAllFactoriesWithCerts,
+  fetchAllFactories,
+  FactoryResData,
   FactoryReqParams,
   FactoryReqFilterSortParams,
-  FactoryResWithCertsData,
   SortingDir,
 } from 'services/api';
 import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
@@ -18,8 +18,11 @@ import {
 } from './utils';
 
 export const SearchFactoriesTable = () => {
-  const [queryParams, setQueryParams] = useState<FactoryReqParams>({});
-  const { result } = useAsync(fetchAllFactoriesWithCerts, [queryParams]);
+  // Including the `expand` param includes certificates with factories
+  const baseParms = { expand: true };
+
+  const [queryParams, setQueryParams] = useState<FactoryReqParams>(baseParms);
+  const { result } = useAsync(fetchAllFactories, [queryParams]);
 
   const factoriesPage = result?.data || [];
 
@@ -66,7 +69,7 @@ export const SearchFactoriesTable = () => {
    * Expands all properties of `FactoryResWithCertsData` and
    * includes the link to the factory
    */
-  const getRowWithLink = (factory: FactoryResWithCertsData) => {
+  const getRowWithLink = (factory: FactoryResData) => {
     return {
       ...getRowFromFactory(factory),
       factory_page_link: <FactoryProfileLinkIcon factoryId={factory.id} />,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { MUIDataTableOptions, MUIDataTableColumn } from 'mui-datatables';
-import { CertResData, FactoryResWithCertsData } from 'services/api';
+import { CertResData, FactoryResData } from 'services/api';
 
 export const DEFAULT_ROWS_PER_PAGE = 15;
 
@@ -11,13 +11,13 @@ export const textLabels: MUIDataTableOptions['textLabels'] = {
 };
 
 /**
- * Expands all properties of `FactoryResWithCertsData`
+ * Expands all properties of `FactoryResData`
  */
 export const getRowFromFactory = ({
   name,
   address,
   certificates,
-}: FactoryResWithCertsData) => {
+}: FactoryResData) => {
   return {
     name,
     certificates,

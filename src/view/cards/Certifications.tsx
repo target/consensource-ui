@@ -7,10 +7,10 @@ import {
   Typography,
   Divider,
   Grid,
-  Icon,
+  makeStyles,
+  createStyles,
 } from '@material-ui/core';
-import { AssignmentTurnedInOutlined as Check } from '@material-ui/icons';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { AssignmentTurnedInOutlined as CheckIcon } from '@material-ui/icons';
 import { CertResData } from 'services/api';
 
 export interface CertificationCardProps {
@@ -67,9 +67,7 @@ export function CertificationCard({ certification }: CertificationCardProps) {
 
           <Grid container item spacing={4}>
             <Grid item xs={1}>
-              <Icon>
-                <Check className={classes.check} />
-              </Icon>
+              <CheckIcon className={classes.check} />
             </Grid>
             <Grid item xs>
               <Typography variant="body1">

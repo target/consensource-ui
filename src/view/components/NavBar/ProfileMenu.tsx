@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { AccountCircle as ProfileIcon } from '@material-ui/icons';
-import { Menu, MenuItem, IconButton, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import {
+  Menu,
+  MenuItem,
+  IconButton,
+  Typography,
+  makeStyles,
+} from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { useStores } from 'services/hooks';
 import { observer } from 'mobx-react-lite';

@@ -1,7 +1,12 @@
 import React from 'react';
 import { LoginForm } from 'view/forms';
-import { Grid, Typography, Paper } from '@material-ui/core';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import {
+  Grid,
+  Typography,
+  Paper,
+  makeStyles,
+  createStyles,
+} from '@material-ui/core';
 import { useLocation, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(

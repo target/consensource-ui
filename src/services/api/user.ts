@@ -22,26 +22,26 @@ export interface UserAuthResData {
 
 // TODO: Return type definition
 export async function postUser(payload: UserCreateReqParams) {
-  const url = '/api/users';
+  const path = '/api/users';
 
-  const res = await axios.post(url, payload).catch((e: any) => {
-    throw new Error(`Failed to POST ${url}: ${e.message}`);
+  const res = await axios.post(path, payload).catch(({ message }: any) => {
+    throw new Error(`Failed to POST ${path}: ${message}`);
   });
 
   return res.data;
 }
 
 export async function postUsersAuthenticate(payload: UserAuthReqParams) {
-  const url = '/api/users/authenticate';
+  const path = '/api/users/authenticate';
 
   const res = await axios
-    .post<UserAuthResData>(url, payload)
-    .catch((e: AxiosError) => {
-      if (e?.response?.status === 401) {
+    .post<UserAuthResData>(path, payload)
+    .catch((err: AxiosError) => {
+      if (err.response?.status === 401) {
         throw new Error('User not found');
       }
 
-      throw new Error('Unable to login at this time');
+      throw new Error(`Failed to POST ${path}: ${err.message}`);
     });
 
   return res.data;

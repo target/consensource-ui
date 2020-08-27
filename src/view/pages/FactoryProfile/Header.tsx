@@ -1,8 +1,7 @@
 import React from 'react';
-import { Typography, Grid } from '@material-ui/core';
+import { Typography, Grid, makeStyles, createStyles } from '@material-ui/core';
 import { ClaimedIconButton, UnverifiedFactoryAlert } from 'view/components';
 import { FactoryResData } from 'services/api';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(
   createStyles({

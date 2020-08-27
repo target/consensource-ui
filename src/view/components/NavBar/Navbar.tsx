@@ -1,10 +1,14 @@
 import React, { FC } from 'react';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
-import { ProfileMenu } from 'view/components/NavBar/ProfileMenu';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  makeStyles,
+  createStyles,
+  Theme,
+} from '@material-ui/core';
 import { Link } from 'react-router-dom';
-
-export const NAVBAR_SPACING_UNITS = 5;
+import { ProfileMenu } from './ProfileMenu';
 
 const useStyles = makeStyles(({ palette, zIndex }: Theme) =>
   createStyles({

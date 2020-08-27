@@ -1,82 +1,36 @@
-import { mocked } from 'ts-jest/utils';
+import * as BatchApi from 'services/api/batch';
 import axios from 'axios';
-import * as TransactionApi from 'services/api/batch';
-import { Batch, BatchList, Transaction } from 'sawtooth-sdk/protobuf';
+import { mocked } from 'ts-jest/utils';
 
 jest.mock('axios');
 const mockedAxios = mocked(axios, true);
 
-describe('TransactionApi', () => {
-  const mockTransaction = Transaction.create({
-    header: Buffer.from('test-header'),
-    headerSignature: 'test-headerSignature',
-    payload: Buffer.from('test-payload'),
+describe('postBatches()', () => {
+  it('makes a post call with the appropriate headers and transformations', async () => {
+    const path = '/api/batches';
+
+    mockedAxios.post.mockResolvedValueOnce({});
+
+    await BatchApi.postBatches({} as Uint8Array);
+
+    expect(mockedAxios.post).toHaveBeenCalledWith(
+      path,
+      {},
+      {
+        headers: { 'Content-Type': 'application/octet-stream' },
+        transformRequest: [expect.any(Function)],
+      },
+    );
   });
 
-  const mockBatch = Batch.create({
-    header: Buffer.from('test-header'),
-    headerSignature: 'test-headerSignature',
-    transactions: [mockTransaction],
-  });
+  it('catches errors and throws a new error with a message', async () => {
+    const path = '/api/batches';
+    const errMsg = 'error';
 
-  const mockBatchList = BatchList.create({
-    batches: [mockBatch],
-  });
+    mockedAxios.post.mockRejectedValueOnce({ message: errMsg });
 
-  describe('postBatches()', () => {
-    const mockBatchListBytes = BatchList.encode(mockBatchList).finish();
-
-    describe('given an unsuccessful call to "api/batches"', () => {
-      it('returns a rejected promise with an error message', async () => {
-        const err = { message: 'error' };
-        mockedAxios.post.mockRejectedValueOnce(err);
-        await expect(
-          TransactionApi.postBatches(mockBatchListBytes),
-        ).rejects.toEqual(`Failed to POST /api/batches: ${err.message}`);
-      });
-    });
-
-    describe('given a successful call to "api/batches"', () => {
-      it('returns a response object with a link to wait on and confirms the correct request params were used', async () => {
-        const res = { link: 'link' };
-        const url = '/api/batches';
-        mockedAxios.post.mockResolvedValueOnce(res);
-
-        await expect(
-          TransactionApi.postBatches(mockBatchListBytes),
-        ).resolves.toEqual(res);
-        expect(mockedAxios.post).toHaveBeenCalledWith(url, {
-          data: mockBatchListBytes,
-          headers: { 'Content-Type': 'application/octet-stream' },
-        });
-      });
-    });
-  });
-
-  describe('getBatchStatus()', () => {
-    const batchStatusLink = 'test';
-
-    describe('given an unsuccessful call to "api/batches"', () => {
-      it('returns a rejected promise with an error message', async () => {
-        const err = { message: 'error' };
-        mockedAxios.get.mockRejectedValueOnce(err);
-        await expect(
-          TransactionApi.getBatchStatus(batchStatusLink),
-        ).rejects.toEqual(`Failed to GET /apitest&wait=60: ${err.message}`);
-      });
-    });
-
-    describe('given a successful call to "api/batches"', () => {
-      it('returns a response object with a link to wait on and confirms the correct request params were used', async () => {
-        const url = `/api${batchStatusLink}&wait=${TransactionApi.BATCH_STATUS_WAIT}`;
-        const res = { data: [] };
-        mockedAxios.get.mockResolvedValueOnce(res);
-
-        await expect(
-          TransactionApi.getBatchStatus(batchStatusLink),
-        ).resolves.toEqual(res);
-        expect(mockedAxios.get).toHaveBeenCalledWith(url);
-      });
-    });
+    await expect(BatchApi.postBatches({} as Uint8Array)).rejects.toEqual(
+      Error(`Failed to POST ${path}: ${errMsg}`),
+    );
   });
 });

@@ -1,6 +1,5 @@
 import React from 'react';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, makeStyles, createStyles } from '@material-ui/core';
 
 export interface InfoItemProps {
   title: string;

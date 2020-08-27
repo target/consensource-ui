@@ -1,7 +1,12 @@
 import React from 'react';
 import { CreateUserForm } from 'view/forms';
-import { Grid, Typography, Paper } from '@material-ui/core';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import {
+  Grid,
+  Typography,
+  Paper,
+  makeStyles,
+  createStyles,
+} from '@material-ui/core';
 
 const useStyles = makeStyles(
   createStyles({

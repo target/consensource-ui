@@ -1,20 +1,18 @@
 import React from 'react';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { useStores } from 'services/hooks';
+import { Snackbar, makeStyles, createStyles } from '@material-ui/core';
 import {
   AuthedNavBar,
-  NAVBAR_SPACING_UNITS,
   Sidebar,
   LoadingWithMinDisplay,
   AuthSpinner,
 } from 'view/components';
-import { Snackbar } from '@material-ui/core';
 import { AuthenticatedRoutes } from './Routes';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     content: {
-      marginTop: theme.spacing(NAVBAR_SPACING_UNITS),
+      marginTop: theme.spacing(5),
       padding: `${theme.spacing(3)}px`,
       flexGrow: 1, // TODO: Determine if this style is needed
     },

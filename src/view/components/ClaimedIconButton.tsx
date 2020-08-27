@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { VerifiedUserOutlined } from '@material-ui/icons';
-import { Tooltip, IconButton, SvgIconProps } from '@material-ui/core';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import {
+  Tooltip,
+  IconButton,
+  SvgIconProps,
+  makeStyles,
+  createStyles,
+  Theme,
+} from '@material-ui/core';
 import { ClaimedDialog } from 'view/dialogs';
 
 const useStyles = makeStyles(({ palette }: Theme) =>
