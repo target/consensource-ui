@@ -8,13 +8,7 @@ export const Login = () => {
   const history = useHistory();
 
   return (
-    <Grid
-      container
-      direction="column"
-      alignItems="center"
-      justify="center"
-      spacing={2}
-    >
+    <Grid container direction="column" alignItems="center" spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h4">Login</Typography>
       </Grid>

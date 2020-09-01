@@ -32,15 +32,15 @@ export function Landing() {
   const classes = useStyles();
   const history = useHistory();
 
-  const redirectIfLoggedIn = () => {
-    autorun(() => {
-      if (userStore.user) {
-        history.push('/');
-      }
-    });
-  };
-
   useEffect(() => {
+    const redirectIfLoggedIn = () => {
+      autorun(() => {
+        if (userStore.user) {
+          history.push('/');
+        }
+      });
+    };
+
     redirectIfLoggedIn();
   }, []);
 

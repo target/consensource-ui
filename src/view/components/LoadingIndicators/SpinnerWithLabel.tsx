@@ -18,13 +18,7 @@ export const SpinnerWithLabel = ({
   size = FullScreenSpinnerSize,
 }: SpinnerWithLabelProps) => {
   return (
-    <Grid
-      container
-      direction="column"
-      alignItems="center"
-      justify="center"
-      spacing={2}
-    >
+    <Grid container direction="column" alignItems="center" spacing={2}>
       <Grid item xs={12}>
         <CircularProgress size={size} />
       </Grid>
