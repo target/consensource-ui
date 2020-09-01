@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) =>
     content: {
       marginTop: theme.spacing(5),
       padding: `${theme.spacing(3)}px`,
-      flexGrow: 1, // TODO: Determine if this style is needed
+      flexGrow: 1,
     },
     container: {
       display: 'flex',

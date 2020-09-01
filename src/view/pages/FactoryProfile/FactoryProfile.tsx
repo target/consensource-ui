@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAsync } from 'react-async-hook';
 import { Typography, Grid } from '@material-ui/core';
-import { LoadingWithMinDisplay } from 'view/components';
+import { LoadingWithMinDisplay, SpinnerWithLabel } from 'view/components';
 import { fetchFactoryByOrgId, FactoryResData } from 'services/api';
 import { Contacts } from './Contacts';
 import { Address } from './Address';
@@ -21,7 +21,10 @@ export const FactoryProfile = ({ factoryId }: FactoryProfile) => {
   ]);
 
   return (
-    <LoadingWithMinDisplay isLoading={loading}>
+    <LoadingWithMinDisplay
+      isLoading={loading}
+      loadingIndicator={<SpinnerWithLabel label="Loading factory info..." />}
+    >
       {error && (
         <Grid item xs={12}>
           <Typography color="error">Failed to load factory details</Typography>

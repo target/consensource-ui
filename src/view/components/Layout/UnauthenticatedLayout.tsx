@@ -9,8 +9,8 @@ const useStyles = makeStyles((theme) =>
     content: {
       marginTop: theme.spacing(5),
       padding: `${theme.spacing(3)}px`,
+      flexGrow: 1,
     },
-    container: { height: '80vh' },
   }),
 );
 
@@ -19,12 +19,7 @@ export function UnauthenticatedLayout() {
   const { snackbarStore } = useStores();
 
   return (
-    <Grid
-      className={classes.container}
-      alignItems="center"
-      justify="center"
-      container
-    >
+    <Grid alignItems="center" justify="center" container>
       <nav>
         <BaseNavBar />
       </nav>

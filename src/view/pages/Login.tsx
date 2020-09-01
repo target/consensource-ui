@@ -1,37 +1,26 @@
 import React from 'react';
 import { LoginForm } from 'view/forms';
-import {
-  Grid,
-  Typography,
-  Paper,
-  makeStyles,
-  createStyles,
-} from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { useLocation, useHistory } from 'react-router-dom';
 
-const useStyles = makeStyles(
-  createStyles({
-    container: {
-      padding: 15,
-    },
-  }),
-);
-
-export function Login() {
+export const Login = () => {
   const { state } = useLocation();
   const history = useHistory();
-  const classes = useStyles();
 
   return (
-    <Paper elevation={6} className={classes.container}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography variant="h4">Login</Typography>
-        </Grid>
-        <Grid item xs>
-          <LoginForm onSubmit={() => history.push(state.from)} />
-        </Grid>
+    <Grid
+      container
+      direction="column"
+      alignItems="center"
+      justify="center"
+      spacing={2}
+    >
+      <Grid item xs={12}>
+        <Typography variant="h4">Login</Typography>
       </Grid>
-    </Paper>
+      <Grid item>
+        <LoginForm onSubmit={() => history.push(state.from)} />
+      </Grid>
+    </Grid>
   );
-}
+};

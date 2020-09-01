@@ -2,11 +2,37 @@ import React from 'react';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import * as Pages from 'view/pages';
 
+/**
+ * Routes that are shared between both the authenticated and unauthenticated views
+ */
+export const SharedRoutes = () => {
+  return (
+    <>
+      <Route path="/search">
+        <Pages.SearchFactories />
+      </Route>
+
+      <Route
+        path="/factories/:factoryId"
+        render={({
+          match: {
+            params: { factoryId },
+          },
+        }) => <Pages.FactoryProfile factoryId={factoryId} />}
+      />
+    </>
+  );
+};
+
 export const UnauthenticatedRoutes = () => {
   const { pathname } = useLocation();
 
   return (
     <Switch>
+      <Route exact path="/">
+        <Pages.Landing />
+      </Route>
+
       <Route path="/login">
         <Pages.Login />
       </Route>
@@ -15,9 +41,7 @@ export const UnauthenticatedRoutes = () => {
         <Pages.SignUp />
       </Route>
 
-      <Route exact path="/">
-        <Pages.Landing />
-      </Route>
+      <SharedRoutes />
 
       <Route
         path="*"
@@ -35,6 +59,8 @@ export const UnauthenticatedRoutes = () => {
 };
 
 export const AuthenticatedRoutes = () => {
+  const { pathname } = useLocation();
+
   return (
     <Switch>
       <Route exact path="/">
@@ -45,17 +71,18 @@ export const AuthenticatedRoutes = () => {
         <Pages.Profile />
       </Route>
 
-      <Route path="/search">
-        <Pages.SearchFactories />
-      </Route>
+      <SharedRoutes />
 
       <Route
-        path="/factories/:factoryId"
-        render={({
-          match: {
-            params: { factoryId },
-          },
-        }) => <Pages.FactoryProfile factoryId={factoryId} />}
+        path="*"
+        render={() => (
+          <Redirect
+            to={{
+              pathname: '/',
+              state: { from: pathname },
+            }}
+          />
+        )}
       />
     </Switch>
   );

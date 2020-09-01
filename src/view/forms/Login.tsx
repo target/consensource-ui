@@ -33,7 +33,13 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
 
   return (
     <form>
-      <Grid container spacing={2}>
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        justify="center"
+        spacing={2}
+      >
         <FormErrMsg msg={errMsg} />
         <Grid item xs={12}>
           <TextField

@@ -12,9 +12,6 @@ import { useStores } from 'services/hooks';
 import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles({
-  container: {
-    marginLeft: 'auto',
-  },
   profile: {
     display: 'flex',
     alignItems: 'center',
@@ -49,7 +46,7 @@ export const ProfileMenu = observer(() => {
   };
 
   return (
-    <div className={classes.container}>
+    <div>
       <div className={classes.profile}>
         <IconButton
           color="inherit"
