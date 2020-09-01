@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAsync } from 'react-async-hook';
+import { useQuery } from 'react-query';
 import { Typography, Grid } from '@material-ui/core';
 import { LoadingWithMinDisplay, SpinnerWithLabel } from 'view/components';
 import { fetchFactoryByOrgId, FactoryResData } from 'services/api';
@@ -15,14 +15,13 @@ export interface FactoryProfile {
 export const FactoryProfile = ({ factoryId }: FactoryProfile) => {
   // Including the `expand` param includes certificates with factories
   const baseParms = { expand: true };
-  const { result, error, loading } = useAsync(fetchFactoryByOrgId, [
-    factoryId,
-    baseParms,
-  ]);
+  const { isLoading, error, data } = useQuery('fetchFactoryByOrgId', () =>
+    fetchFactoryByOrgId(factoryId, baseParms),
+  );
 
   return (
     <LoadingWithMinDisplay
-      isLoading={loading}
+      isLoading={isLoading}
       loadingIndicator={<SpinnerWithLabel label="Loading factory info..." />}
     >
       {error && (
@@ -31,26 +30,23 @@ export const FactoryProfile = ({ factoryId }: FactoryProfile) => {
         </Grid>
       )}
 
-      {result && (
+      {data && (
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <Header
-              name={result.data.name}
-              isClaimed={!result.data.assertion_id}
-            />
+            <Header name={data.data.name} isClaimed={!data.data.assertion_id} />
           </Grid>
 
           <Grid item xs={12}>
             {/* TODO: `certificates` shouldn't be possibly undefined when expand param is included */}
-            <Certifications certifications={result.data.certificates || []} />
+            <Certifications certifications={data.data.certificates || []} />
           </Grid>
 
           <Grid item xs={12}>
-            <Contacts contacts={result.data.contacts} />
+            <Contacts contacts={data.data.contacts} />
           </Grid>
 
           <Grid item xs={12}>
-            <Address address={result.data.address} />
+            <Address address={data.data.address} />
           </Grid>
         </Grid>
       )}

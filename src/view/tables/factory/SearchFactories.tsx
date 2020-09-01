@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAsync } from 'react-async-hook';
+import { useQuery } from 'react-query';
 import {
   fetchAllFactories,
   FactoryResData,
@@ -19,12 +19,15 @@ import {
 
 export const SearchFactoriesTable = () => {
   // Including the `expand` param includes certificates with factories
-  const baseParms = { expand: true };
+  const [queryParams, setQueryParams] = useState<FactoryReqParams>({
+    expand: true,
+  });
 
-  const [queryParams, setQueryParams] = useState<FactoryReqParams>(baseParms);
-  const { result } = useAsync(fetchAllFactories, [queryParams]);
+  const { data } = useQuery('fetchAllFactories', () =>
+    fetchAllFactories(queryParams),
+  );
 
-  const factoriesPage = result?.data || [];
+  const factoriesPage = data?.data || [];
 
   const columns: MUIDataTableColumn[] = [
     ...baseFactoryTableCols,
@@ -97,7 +100,7 @@ export const SearchFactoriesTable = () => {
          * Since `serverSide` is enabled, we need to manually
          *  track the factories count
          */
-        count: result?.paging?.total ?? 0,
+        count: data?.paging?.total ?? 0,
         /**
          * Prevent rows from being selectable (default action is to delete rows, which we don't allow)
          */

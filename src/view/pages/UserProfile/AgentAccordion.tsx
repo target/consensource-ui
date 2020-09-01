@@ -7,7 +7,7 @@ import {
   AccordionDetails,
 } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
-import { useAsync } from 'react-async-hook';
+import { useQuery } from 'react-query';
 import { User } from 'stores';
 import { fetchAgentByPubKey } from 'services/api';
 import { LoadingWithMinDisplay, SpinnerWithLabel } from 'view/components';
@@ -18,9 +18,9 @@ export interface AgentAccordionProps {
 }
 
 export const AgentAccordion = ({ agentPubKey }: AgentAccordionProps) => {
-  const { result, loading, error } = useAsync(fetchAgentByPubKey, [
-    agentPubKey,
-  ]);
+  const { data, isLoading, error } = useQuery('fetchAgentByPubKey', () =>
+    fetchAgentByPubKey(agentPubKey),
+  );
 
   return (
     <Accordion>
@@ -35,12 +35,12 @@ export const AgentAccordion = ({ agentPubKey }: AgentAccordionProps) => {
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography variant="h6">
-              {result?.data ? 'Agent Info' : 'Create an Agent'}
+              {data?.data ? 'Agent Info' : 'Create an Agent'}
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <LoadingWithMinDisplay
-              isLoading={loading}
+              isLoading={isLoading}
               loadingIndicator={<SpinnerWithLabel size={60} />}
             >
               {error && (
@@ -50,7 +50,7 @@ export const AgentAccordion = ({ agentPubKey }: AgentAccordionProps) => {
                   </Typography>
                 </Grid>
               )}
-              {result && <AgentInfo agent={result.data} />}
+              {data && <AgentInfo agent={data.data} />}
             </LoadingWithMinDisplay>
           </Grid>
         </Grid>
