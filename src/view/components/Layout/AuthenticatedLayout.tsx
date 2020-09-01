@@ -5,7 +5,7 @@ import {
   AuthedNavBar,
   Sidebar,
   LoadingWithMinDisplay,
-  AuthSpinner,
+  SpinnerWithLabel,
 } from 'view/components';
 import { AuthenticatedRoutes } from './Routes';
 
@@ -39,7 +39,7 @@ export function AuthenticatedLayout() {
       <main className={classes.content}>
         <LoadingWithMinDisplay
           isLoading={isAuthenticating}
-          loadingIndicator={<AuthSpinner />}
+          loadingIndicator={<SpinnerWithLabel label="Authenticating..." />}
         >
           <AuthenticatedRoutes />
           <Snackbar

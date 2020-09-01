@@ -7,6 +7,16 @@ type ResolvedBatchStatus = Exclude<
   ClientBatchStatus.Status.PENDING
 >;
 
+/**
+ * Custom hook that can be used to track the status of a batch
+ * that has been submitted to the ConsenSource network.
+ *
+ * The `batchStatus` is initalized to null. When `setBatchStatusLink` is
+ * called with a path to `/batch_statuses?<batch_ids>`, the hook will poll
+ * the endpoint every 60 seconds until all batches are resolved.
+ *
+ * **Note:** Currently this hook only supports the polling of a single batch.
+ */
 export const useBatchStatus = () => {
   const [batchStatusLink, setBatchStatusLink] = useState<
     BatchStatusRes['link']

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, FC } from 'react';
-import { LoadingSpinner } from './LoadingSpinner';
-import { FullScreenSpinnerSize } from './utils';
+import { SpinnerWithLabel } from './SpinnerWithLabel';
 
 export interface LoadingWithMinDisplayProps {
   /**
@@ -20,7 +19,7 @@ export interface LoadingWithMinDisplayProps {
    */
   waitTimeMs?: number;
   /**
-   * **Default value**: <LoadingSpinner size={FullScreenSpinnerSize} />
+   * **Default value**: <SpinnerWithLabel />
    *
    * React node that will be displayed while either `isLoading` is true,
    * or the elapsed time between `waitTimeMs` and `minDisplayTimeMs` has
@@ -44,7 +43,7 @@ export interface LoadingWithMinDisplayProps {
 export const LoadingWithMinDisplay: FC<LoadingWithMinDisplayProps> = ({
   minDisplayTimeMs = 750,
   waitTimeMs = 250,
-  loadingIndicator = <LoadingSpinner size={FullScreenSpinnerSize} />,
+  loadingIndicator = <SpinnerWithLabel />,
   isLoading,
   children,
 }) => {

@@ -1,4 +1,3 @@
 export * from './LoadingWithMinDisplay';
-export * from './LoadingSpinner';
-export * from './AuthSpinner';
+export * from './SpinnerWithLabel';
 export * from './utils';
