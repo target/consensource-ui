@@ -3,7 +3,7 @@ import { SpinnerWithLabel } from './SpinnerWithLabel';
 
 export interface LoadingWithMinDisplayProps {
   /**
-   * **Default value**: 750
+   * **Default value**: _750_
    *
    * Minimum number of milliseconds to display the loading animation for.
    * Note that the timer will only begin once the wait timer has expired.
@@ -11,7 +11,7 @@ export interface LoadingWithMinDisplayProps {
    */
   minDisplayTimeMs?: number;
   /**
-   * **Default value**: 250
+   * **Default value**: _250_
    *
    * Number of milliseconds to wait before displaying the loading animation.
    * Used to prevent the loading animation from flashing on screen very briefly
@@ -19,13 +19,16 @@ export interface LoadingWithMinDisplayProps {
    */
   waitTimeMs?: number;
   /**
-   * **Default value**: <SpinnerWithLabel />
+   * **Default value**: _<SpinnerWithLabel />_
    *
    * React node that will be displayed while either `isLoading` is true,
    * or the elapsed time between `waitTimeMs` and `minDisplayTimeMs` has
    * not passed.
    */
   loadingIndicator?: React.ReactNode;
+  /**
+   * Boolean value indicating whether or not loading has completed.
+   */
   isLoading: boolean;
 }
 
@@ -39,6 +42,7 @@ export interface LoadingWithMinDisplayProps {
  *
  * If loading is completed before the `waitTimeMs` timeout is complete,
  * then no loading indicator will be displayed.
+ *
  */
 export const LoadingWithMinDisplay: FC<LoadingWithMinDisplayProps> = ({
   minDisplayTimeMs = 750,

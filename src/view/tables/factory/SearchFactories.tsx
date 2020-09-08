@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import qs from 'query-string';
 import { useQuery } from 'react-query';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   fetchAllFactories,
   FactoryResData,
@@ -8,64 +10,76 @@ import {
   SortingDir,
 } from 'services/api';
 import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
-import { Typography } from '@material-ui/core';
+import { FactoryProfileLinkIcon } from './FactoryProfileLinkIcon';
+import { FailedToLoadError } from './FailedToLoadError';
+import { TableTitle } from './TableTitle';
 import {
   baseFactoryTableCols,
   DEFAULT_ROWS_PER_PAGE,
   textLabels,
   getRowFromFactory,
-  FactoryProfileLinkIcon,
 } from './utils';
 
 export const SearchFactoriesTable = () => {
-  // Including the `expand` param includes certificates with factories
-  const [queryParams, setQueryParams] = useState<FactoryReqParams>({
-    expand: true,
-  });
+  const history = useHistory();
+  const location = useLocation();
+  const [queryParams, setQueryParams] = useState<FactoryReqParams>({});
 
-  const { data } = useQuery('fetchAllFactories', () =>
-    fetchAllFactories(queryParams),
+  const { data, isLoading, error } = useQuery(
+    ['fetchAllFactories', queryParams],
+    (key, params: FactoryReqParams) => fetchAllFactories(params),
   );
 
-  const factoriesPage = data?.data || [];
+  /**
+   * Performs two updates:
+   *   1. Updates the URL query params
+   *   2. Updates the `queryParams` state object
+   */
+  const updateQueryParams = (newParams: FactoryReqParams) => {
+    history.push({ search: qs.stringify(newParams, { skipNull: true }) });
+    setQueryParams(newParams);
+  };
+
+  /**
+   * If the route contains a query string, parse the query
+   * and update the search params. Else, update the search
+   * params with our base params.
+   */
+  const initQueryParams = () => {
+    const baseParams = {
+      expand: true,
+      limit: DEFAULT_ROWS_PER_PAGE,
+    };
+
+    if (location.search) {
+      updateQueryParams(qs.parse(location.search));
+    } else {
+      updateQueryParams(baseParams);
+    }
+  };
+
+  useEffect(() => {
+    initQueryParams();
+  }, []);
 
   const columns: MUIDataTableColumn[] = [
     ...baseFactoryTableCols,
     {
       name: 'factory_page_link',
+      options: { empty: true },
       label: ' ', // TODO: https://github.com/gregnb/mui-datatables/issues/953#issuecomment-534289311
     },
   ];
 
   const onFilterChange = (changedColumn: string, filterList: any[]) => {
     const colIndex = columns.findIndex(({ name }) => name === changedColumn);
+    // TODO: How to handle cert info with multiple values
+    const filterVal = filterList[colIndex][0];
 
-    if (colIndex !== -1) {
-      // TODO: How to handle cert info with multiple values
-      const filterVal = filterList[colIndex][0];
-
-      setQueryParams({
-        ...queryParams,
-        [changedColumn]: filterVal,
-      });
-    }
-  };
-
-  const onColumnSortChange = (changedColumn: string, direction: string) => {
-    setQueryParams({
+    updateQueryParams({
       ...queryParams,
-      sort_key: changedColumn as keyof FactoryReqFilterSortParams,
-      sort_dir: direction as SortingDir,
+      [changedColumn]: filterVal,
     });
-  };
-
-  const onChangePage = (page: number) => {
-    const rowsPerPage = queryParams.limit || DEFAULT_ROWS_PER_PAGE;
-    setQueryParams({ ...queryParams, offset: page * rowsPerPage });
-  };
-
-  const onChangeRowsPerPage = (rowsPerPage: number) => {
-    setQueryParams({ ...queryParams, limit: rowsPerPage });
   };
 
   /**
@@ -79,37 +93,51 @@ export const SearchFactoriesTable = () => {
     };
   };
 
+  if (error) {
+    return <FailedToLoadError />;
+  }
+
   return (
     <MUIDataTable
-      title={<Typography variant="h4">Factories</Typography>}
-      data={factoriesPage.map(getRowWithLink)}
+      title={<TableTitle />}
+      data={data?.data.map(getRowWithLink) || []}
       columns={columns}
       options={{
         /**
          * This option removes the ability to perform pagination, filtering, and sorting
          * on the UI and pushes that logic to the server.
-         *
-         * [MUI Datatable Docs](https://github.com/gregnb/mui-datatables#remote-data)
          */
         serverSide: true,
-        /**
-         * Remove paper elevation to allow parent components more flexibility
-         */
-        elevation: 0,
-        /**
-         * Since `serverSide` is enabled, we need to manually
-         *  track the factories count
-         */
-        count: data?.paging?.total ?? 0,
         /**
          * Prevent rows from being selectable (default action is to delete rows, which we don't allow)
          */
         selectableRows: 'none',
+        searchPlaceholder: 'Search for factories',
+        searchOpen: true,
+        count: data?.paging.total,
+        searchText: queryParams.address,
+        rowsPerPage: queryParams.limit,
         textLabels,
         onFilterChange,
-        onChangePage,
-        onChangeRowsPerPage,
-        onColumnSortChange,
+        onSearchChange: (searchText) => {
+          updateQueryParams({ ...queryParams, address: searchText });
+        },
+        onChangePage: (page) => {
+          updateQueryParams({
+            ...queryParams,
+            offset: page * (queryParams.limit || DEFAULT_ROWS_PER_PAGE),
+          });
+        },
+        onChangeRowsPerPage: (rowsPerPage) => {
+          updateQueryParams({ ...queryParams, limit: rowsPerPage });
+        },
+        onColumnSortChange: (changedColumn, direction) => {
+          updateQueryParams({
+            ...queryParams,
+            sort_key: changedColumn as keyof FactoryReqFilterSortParams,
+            sort_dir: direction as SortingDir,
+          });
+        },
       }}
     />
   );

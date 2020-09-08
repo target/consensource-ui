@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import sjcl from 'sjcl';
 
 export interface UserCreateReqParams {
@@ -22,26 +22,19 @@ export interface UserAuthResData {
 
 // TODO: Return type definition
 export async function postUser(payload: UserCreateReqParams) {
-  const path = '/api/users';
-
-  const res = await axios.post(path, payload).catch(({ message }: any) => {
-    throw new Error(`Failed to POST ${path}: ${message}`);
-  });
-
+  const res = await axios.post('/api/users', payload);
   return res.data;
 }
 
 export async function postUsersAuthenticate(payload: UserAuthReqParams) {
-  const path = '/api/users/authenticate';
-
   const res = await axios
-    .post<UserAuthResData>(path, payload)
-    .catch((err: AxiosError) => {
+    .post<UserAuthResData>('/api/users/authenticate', payload)
+    .catch((err) => {
       if (err.response?.status === 401) {
         throw new Error('User not found');
       }
 
-      throw new Error(`Failed to POST ${path}: ${err.message}`);
+      throw new Error(err);
     });
 
   return res.data;

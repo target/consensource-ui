@@ -1,6 +1,7 @@
 import React from 'react';
 import { Typography, makeStyles, createStyles, Theme } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { useSelectedRoute } from 'services/hooks';
 
 const useStyles = makeStyles(({ spacing }: Theme) =>
   createStyles({
@@ -12,16 +13,29 @@ const useStyles = makeStyles(({ spacing }: Theme) =>
         textDecoration: 'underline',
       },
     },
+    selected: {
+      fontWeight: 'bold',
+      textDecoration: 'underline',
+    },
   }),
 );
 
-export const SearchFactoriesNavLink = () => {
+export interface NavbarLink {
+  label: string;
+  route: string;
+}
+
+export const NavbarLink = ({ label, route }: NavbarLink) => {
   const classes = useStyles();
+  const isSelected = useSelectedRoute(route);
 
   return (
-    <Link to="/search" className={classes.link}>
-      <Typography variant="body1" noWrap>
-        Search Factories
+    <Link to={route} className={classes.link}>
+      <Typography
+        variant="body1"
+        className={`${isSelected && classes.selected}`}
+      >
+        {label}
       </Typography>
     </Link>
   );

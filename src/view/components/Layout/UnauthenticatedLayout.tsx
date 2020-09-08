@@ -1,14 +1,13 @@
 import React from 'react';
 import { Grid, Snackbar, makeStyles, createStyles } from '@material-ui/core';
 import { useStores } from 'services/hooks';
-import { BaseNavBar } from 'view/components';
+import { UnauthedNavBar } from 'view/components';
 import { UnauthenticatedRoutes } from './Routes';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     content: {
-      marginTop: theme.spacing(5),
-      padding: `${theme.spacing(3)}px`,
+      margin: theme.spacing(8),
       flexGrow: 1,
     },
   }),
@@ -21,7 +20,7 @@ export function UnauthenticatedLayout() {
   return (
     <Grid alignItems="center" justify="center" container>
       <nav>
-        <BaseNavBar />
+        <UnauthedNavBar />
       </nav>
 
       <main className={classes.content}>

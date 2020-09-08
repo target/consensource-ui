@@ -28,13 +28,12 @@ export interface CertRequestReqParam {
 }
 
 export async function fetchCertRequests(params?: CertRequestReqParam) {
-  const path = '/api/requests';
-
-  const res = await axios
-    .get<BaseApiRes<CertRequestResData[]>>(path, { params })
-    .catch(({ message }: Error) => {
-      throw new Error(`Failed to GET ${path}: ${message}`);
-    });
+  const res = await axios.get<BaseApiRes<CertRequestResData[]>>(
+    '/api/requests',
+    {
+      params,
+    },
+  );
 
   return res.data;
 }
@@ -43,13 +42,10 @@ export async function fetchCertRequestById(
   requestId: string,
   params?: CertRequestReqParam,
 ) {
-  const path = `/api/requests/${requestId}`;
-
-  const res = await axios
-    .get<BaseApiRes<CertRequestResData>>(path, { params })
-    .catch(({ message }: Error) => {
-      throw new Error(`Failed to GET ${path}: ${message}`);
-    });
+  const res = await axios.get<BaseApiRes<CertRequestResData>>(
+    `/api/requests/${requestId}`,
+    { params },
+  );
 
   return res.data;
 }

@@ -12,14 +12,16 @@ export function Certifications({ certifications }: CertificationsProps) {
   const hasCertifications = certifications.length > 0;
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
+    <Grid container direction="column" spacing={2}>
+      <Grid item>
         <Typography variant="h4">Certifications</Typography>
       </Grid>
 
       {!hasCertifications && (
-        <Grid item xs={2}>
-          <Typography variant="body1">No certifications</Typography>
+        <Grid item>
+          <Typography variant="body1">
+            <i>No certifications</i>
+          </Typography>
         </Grid>
       )}
 

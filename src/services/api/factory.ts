@@ -20,6 +20,7 @@ export interface FactoryResData extends OrgResData {
 
 export type FactoryReqFilterSortParams = Partial<FactoryResAddressData> & {
   standard_name?: string; // Only value from `CertResData` we filter/sort on
+  address?: string; // Used for full text searches on all address fields
 };
 
 /**
@@ -37,13 +38,12 @@ export interface FactoryReqParams
 }
 
 export async function fetchAllFactories(params?: FactoryReqParams) {
-  const path = '/api/factories';
-
-  const res = await axios
-    .get<PaginatedApiRes<FactoryResData[]>>(path, { params })
-    .catch(({ message }: Error) => {
-      throw new Error(`Failed to GET ${path}: ${message}`);
-    });
+  const res = await axios.get<PaginatedApiRes<FactoryResData[]>>(
+    '/api/factories',
+    {
+      params,
+    },
+  );
 
   return res.data;
 }
@@ -52,13 +52,10 @@ export async function fetchFactoryByOrgId(
   orgId: string,
   params?: FactoryReqParams,
 ) {
-  const path = `/api/factories/${orgId}`;
-
-  const res = await axios
-    .get<BaseApiRes<FactoryResData>>(path, { params })
-    .catch(({ message }: Error) => {
-      throw new Error(`Failed to GET ${path}: ${message}`);
-    });
+  const res = await axios.get<BaseApiRes<FactoryResData>>(
+    `/api/factories/${orgId}`,
+    { params },
+  );
 
   return res.data;
 }

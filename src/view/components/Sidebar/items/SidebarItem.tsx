@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useSelectedRoute } from 'services/hooks';
 import {
   ListItem,
   ListItemText,
@@ -10,9 +11,23 @@ import {
 } from '@material-ui/core';
 
 export interface SidebarItemProps {
+  /**
+   * If passed, the item will not have a divider on the bottom
+   */
   lastItem?: boolean;
+  /**
+   * Route that the user will be redirected to when clicking
+   * on the item
+   */
   route: string;
+  /**
+   * Icon that will be displayed to the left of the label
+   */
   icon: JSX.Element;
+  /**
+   * Name of the page that a user will be redirected to  when
+   * clicking on the item
+   */
   label: string;
 }
 
@@ -20,6 +35,10 @@ const useStyles = makeStyles(
   createStyles({
     listItem: {
       height: 65,
+    },
+    link: {
+      textDecoration: 'none',
+      color: 'inherit',
     },
   }),
 );
@@ -31,35 +50,21 @@ export const SidebarItem = ({
   label,
 }: SidebarItemProps) => {
   const classes = useStyles();
-  const history = useHistory();
-  const { pathname } = useLocation();
-
-  // Track route changes to update the selected sidebar item
-  const [curRoute, setCurRoute] = useState(pathname);
-
-  const isSelected =
-    route === '/' ? curRoute === '/' : curRoute.includes(route);
-
-  useEffect(() => {
-    setCurRoute(pathname);
-  }, [pathname]);
-
-  const onClick = () => {
-    history.push(route);
-  };
+  const isSelected = useSelectedRoute(route);
 
   return (
-    <ListItem
-      button
-      divider={!lastItem}
-      selected={isSelected}
-      onClick={onClick}
-      className={classes.listItem}
-    >
-      <ListItemIcon>{icon}</ListItemIcon>
-      <ListItemText>
-        <Typography variant="button">{label}</Typography>
-      </ListItemText>
-    </ListItem>
+    <Link to={route} className={classes.link}>
+      <ListItem
+        button
+        divider={!lastItem}
+        selected={isSelected}
+        className={classes.listItem}
+      >
+        <ListItemIcon>{icon}</ListItemIcon>
+        <ListItemText>
+          <Typography variant="button">{label}</Typography>
+        </ListItemText>
+      </ListItem>
+    </Link>
   );
 };

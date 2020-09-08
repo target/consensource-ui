@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { SvgIconProps, IconButton, Tooltip } from '@material-ui/core';
 import { OpenInNew as OpenInNewIcon } from '@material-ui/icons';
 import { OrgResData } from 'services/api';
@@ -11,10 +11,13 @@ export interface FactoryProfileLinkIconProps {
 export function FactoryProfileLinkIcon({
   factoryId,
 }: FactoryProfileLinkIconProps) {
+  const { pathname } = useLocation();
   const [color, setColor] = useState<SvgIconProps['color']>('inherit');
 
   return (
-    <Link to={`factories/${factoryId}`}>
+    <Link
+      to={{ pathname: `factories/${factoryId}`, state: { from: pathname } }}
+    >
       <Tooltip title="View factory profile">
         <IconButton
           onMouseOver={() => setColor('primary')}

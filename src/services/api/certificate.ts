@@ -24,13 +24,10 @@ export interface CertReqParam {
 }
 
 export async function loadCertificates(params?: CertReqParam) {
-  const path = '/api/certificates';
-
-  const res = await axios
-    .get<PaginatedApiRes<CertResData[]>>(path, { params })
-    .catch(({ message }: Error) => {
-      throw new Error(`Failed to GET ${path}: ${message}`);
-    });
+  const res = await axios.get<PaginatedApiRes<CertResData[]>>(
+    '/api/certificates',
+    { params },
+  );
 
   return res.data;
 }

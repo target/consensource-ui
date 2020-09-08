@@ -23,13 +23,15 @@ describe('<SearchFactoriesTable />', () => {
     });
   };
 
-  it('renders an empty table', () => {
-    jest.spyOn(FactoryApi, 'fetchAllFactories').mockReturnValue({} as any);
+  it.only('renders an empty table', () => {
+    jest
+      .spyOn(FactoryApi, 'fetchAllFactories')
+      .mockReturnValueOnce({ data: [], paging: { total: 0 } } as any);
     render(<SearchFactoriesTable />);
     expect(screen.getByText(loadingText)).toBeInTheDocument();
   });
 
-  it.only('renders a table with data', async () => {
+  it('renders a table with data', async () => {
     jest
       .spyOn(FactoryApi, 'fetchAllFactories')
       .mockReturnValue(mockFactoryResWithCerts as any);

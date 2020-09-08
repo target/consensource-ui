@@ -5,6 +5,9 @@ import { Grid, makeStyles, createStyles } from '@material-ui/core';
 const useStyles = makeStyles(
   createStyles({
     container: { width: '100%' },
+    icon: {
+      paddingTop: 10,
+    },
   }),
 );
 

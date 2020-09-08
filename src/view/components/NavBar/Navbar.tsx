@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { ProfileMenu } from './ProfileMenu';
-import { SearchFactoriesNavLink } from './SearchFactoriesNavLink';
+import { NavbarLink } from './NavbarLink';
 
 const useStyles = makeStyles(({ palette, zIndex }: Theme) =>
   createStyles({
@@ -18,10 +18,13 @@ const useStyles = makeStyles(({ palette, zIndex }: Theme) =>
       color: palette.primary.contrastText,
       zIndex: zIndex.drawer + 1,
     },
-    logo: {
+    logoContainer: {
+      flexGrow: 1,
+    },
+    navbarText: {
       textDecoration: 'none',
       color: 'white',
-      flexGrow: 1,
+      display: 'inline-block',
     },
   }),
 );
@@ -31,11 +34,13 @@ export const BaseNavBar: FC = ({ children: AuthItems }) => {
 
   // TODO: Replace with SVG
   const Logo = () => (
-    <Link to="/" className={classes.logo}>
-      <Typography variant="h5" noWrap>
-        ConsenSource
-      </Typography>
-    </Link>
+    <div className={classes.logoContainer}>
+      <Link to="/" className={classes.navbarText}>
+        <Typography variant="h5" noWrap>
+          ConsenSource
+        </Typography>
+      </Link>
+    </div>
   );
 
   return (
@@ -44,10 +49,18 @@ export const BaseNavBar: FC = ({ children: AuthItems }) => {
         {/* Note that all items after <Logo /> will be on the right side
         of the NavBar due to the `flexGrow: 1` styling */}
         <Logo />
-        <SearchFactoriesNavLink />
+        <NavbarLink label="Search Factories" route="/search" />
         {AuthItems}
       </Toolbar>
     </AppBar>
+  );
+};
+
+export const UnauthedNavBar = () => {
+  return (
+    <BaseNavBar>
+      <NavbarLink label="Login" route="/login" />
+    </BaseNavBar>
   );
 };
 

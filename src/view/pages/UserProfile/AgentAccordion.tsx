@@ -41,7 +41,7 @@ export const AgentAccordion = ({ agentPubKey }: AgentAccordionProps) => {
           <Grid item xs={12}>
             <LoadingWithMinDisplay
               isLoading={isLoading}
-              loadingIndicator={<SpinnerWithLabel size={60} />}
+              loadingIndicator={<SpinnerWithLabel spinnerSize={60} />}
             >
               {error && (
                 <Grid item xs={12}>

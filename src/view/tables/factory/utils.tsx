@@ -1,6 +1,7 @@
 import React from 'react';
 import { MUIDataTableOptions, MUIDataTableColumn } from 'mui-datatables';
 import { CertResData, FactoryResData } from 'services/api';
+import { CertificatesCell } from './CertificatesCell';
 
 export const DEFAULT_ROWS_PER_PAGE = 15;
 
@@ -17,27 +18,13 @@ export const getRowFromFactory = ({
   name,
   address,
   certificates,
-}: FactoryResData) => {
-  return {
-    name,
-    certificates,
-    ...address,
-  };
-};
+}: FactoryResData) => ({ name, certificates, ...address });
 
 /**
- * Get the render element for the `Certificates` cell in our table.
- * If the factory has certificates, display them as an unordered list.
+ * If the cell has a value, returns that value. Else,
+ * returns a placeholder value.
  */
-const getCertCell = (certificates: CertResData[]) => {
-  return (
-    <ul>
-      {certificates.map(({ standard_name }) => (
-        <li>{standard_name}</li>
-      ))}
-    </ul>
-  );
-};
+export const getCellValOrDefault = (value: string) => value || '-';
 
 export const baseFactoryTableCols: MUIDataTableColumn[] = [
   { name: 'name', label: 'Name', options: { filterType: 'textField' } },
@@ -45,35 +32,45 @@ export const baseFactoryTableCols: MUIDataTableColumn[] = [
     name: 'certificates',
     label: 'Certifications',
     options: {
-      customBodyRender: getCertCell,
+      customBodyRender: (value: CertResData[]) => (
+        <CertificatesCell certificates={value} />
+      ),
     },
   },
   {
     name: 'street_line_1',
     label: 'Street Line 1',
-    options: { filterType: 'textField' },
+    options: { filterType: 'textField', customBodyRender: getCellValOrDefault },
   },
   {
     name: 'street_line_2',
     label: 'Street Line 2',
-    options: { filterType: 'textField' },
+    options: {
+      filterType: 'textField',
+      customBodyRender: getCellValOrDefault,
+    },
   },
   {
     name: 'city',
     label: 'City',
     options: {
       filterType: 'textField',
+      customBodyRender: getCellValOrDefault,
     },
   },
   {
     name: 'state_province',
     label: 'State/Province',
-    options: { filterType: 'textField' },
+    options: { filterType: 'textField', customBodyRender: getCellValOrDefault },
   },
-  { name: 'country', label: 'Country', options: { filterType: 'dropdown' } },
+  {
+    name: 'country',
+    label: 'Country',
+    options: { filterType: 'dropdown', customBodyRender: getCellValOrDefault },
+  },
   {
     name: 'postal_code',
     label: 'Postal Code',
-    options: { filterType: 'textField' },
+    options: { filterType: 'textField', customBodyRender: getCellValOrDefault },
   },
 ];

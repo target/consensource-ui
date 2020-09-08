@@ -30,13 +30,10 @@ export interface OrgReqParams {
 }
 
 export async function fetchOrganizations(params?: OrgReqParams) {
-  const path = '/api/organizations';
-
-  const res = await axios
-    .get<PaginatedApiRes<OrgResData[]>>(path, { params })
-    .catch(({ message }: Error) => {
-      throw new Error(`Failed to GET ${path}: ${message}`);
-    });
+  const res = await axios.get<PaginatedApiRes<OrgResData[]>>(
+    '/api/organizations',
+    { params },
+  );
 
   return res.data;
 }
@@ -45,13 +42,10 @@ export async function fetchOrganizationById(
   orgId: string,
   params?: OrgReqParams,
 ) {
-  const path = `/api/organizations/${orgId}`;
-
-  const res = await axios
-    .get<BaseApiRes<OrgResData>>(path, { params })
-    .catch(({ message }: Error) => {
-      throw new Error(`Failed to GET ${path}: ${message}`);
-    });
+  const res = await axios.get<BaseApiRes<OrgResData>>(
+    `/api/organizations/${orgId}`,
+    { params },
+  );
 
   return res.data;
 }

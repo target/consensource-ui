@@ -1,6 +1,11 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { Typography, Grid, makeStyles, createStyles } from '@material-ui/core';
-import { ClaimedIconButton, UnverifiedFactoryAlert } from 'view/components';
+import {
+  ClaimedIconButton,
+  UnverifiedFactoryAlert,
+  GoBackButton,
+} from 'view/components';
 import { FactoryResData } from 'services/api';
 
 const useStyles = makeStyles(
@@ -20,34 +25,65 @@ export interface HeaderProps {
   isClaimed: boolean;
 }
 
-const ClaimedHeader = ({ name }: { name: HeaderProps['name'] }) => {
+export interface ClaimedHeaderProps {
+  name: HeaderProps['name'];
+}
+
+export interface UnclaimedHeaderProps {
+  name: HeaderProps['name'];
+}
+
+const BackToSearchButton = () => {
+  const { state } = useLocation();
+
+  if (state?.from === '/search') {
+    return <GoBackButton tooltipLabel="Return to factory search" />;
+  }
+
+  return null;
+};
+
+const ClaimedHeader = ({ name }: ClaimedHeaderProps) => {
   const classes = useStyles();
 
   return (
-    <Grid container item justify="center" xs={12}>
-      <Typography variant="h2" className={classes.title}>
-        {name}
-      </Typography>
+    <Grid container>
+      <Grid item xs={2}>
+        <BackToSearchButton />
+      </Grid>
 
-      <div className={classes.claimedIconBtn}>
-        <ClaimedIconButton fontSize="large" />
-      </div>
+      <Grid container item justify="center" spacing={2} xs={8}>
+        <Typography variant="h2" className={classes.title}>
+          {name}
+        </Typography>
+
+        <div className={classes.claimedIconBtn}>
+          <ClaimedIconButton fontSize="large" />
+        </div>
+      </Grid>
     </Grid>
   );
 };
 
-const UnclaimedHeader = ({ name }: { name: HeaderProps['name'] }) => {
+const UnclaimedHeader = ({ name }: UnclaimedHeaderProps) => {
   const classes = useStyles();
 
   return (
-    <Grid container justify="center" spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h2" className={classes.title}>
-          {name}
-        </Typography>
+    <Grid container>
+      <Grid item xs={2}>
+        <BackToSearchButton />
       </Grid>
-      <Grid item xs={12} sm={10} md={8} lg={6}>
-        <UnverifiedFactoryAlert />
+
+      <Grid container item justify="center" spacing={2} xs={8}>
+        <Grid item xs={12}>
+          <Typography variant="h2" className={classes.title}>
+            {name}
+          </Typography>
+        </Grid>
+
+        <Grid item xs={12}>
+          <UnverifiedFactoryAlert />
+        </Grid>
       </Grid>
     </Grid>
   );

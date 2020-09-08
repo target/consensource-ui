@@ -34,25 +34,18 @@ export interface StandardBodyReqParams {
 }
 
 export async function fetchAllOrgStandards(params?: StandardBodyReqParams) {
-  const path = '/api/standards_body/standards';
-
-  const res = await axios
-    .get<BaseApiRes<StandardBodyResData[]>>(path, { params })
-    .catch(({ message }: Error) => {
-      throw new Error(`Failed to GET ${path}: ${message}`);
-    });
+  const res = await axios.get<BaseApiRes<StandardBodyResData[]>>(
+    '/api/standards_body/standards',
+    { params },
+  );
 
   return res.data;
 }
 
 export async function fetchAllStandards(params?: StandardReqParams) {
-  const path = '/api/standards';
-
-  const res = await axios
-    .get<BaseApiRes<StandardResData[]>>(path, { params })
-    .catch(({ message }: Error) => {
-      throw new Error(`Failed to GET ${path}: ${message}`);
-    });
+  const res = await axios.get<BaseApiRes<StandardResData[]>>('/api/standards', {
+    params,
+  });
 
   return res.data;
 }

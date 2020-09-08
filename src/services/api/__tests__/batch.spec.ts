@@ -22,15 +22,4 @@ describe('postBatches()', () => {
       },
     );
   });
-
-  it('catches errors and throws a new error with a message', async () => {
-    const path = '/api/batches';
-    const errMsg = 'error';
-
-    mockedAxios.post.mockRejectedValueOnce({ message: errMsg });
-
-    await expect(BatchApi.postBatches({} as Uint8Array)).rejects.toEqual(
-      Error(`Failed to POST ${path}: ${errMsg}`),
-    );
-  });
 });

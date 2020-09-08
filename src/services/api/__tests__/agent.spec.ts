@@ -5,23 +5,6 @@ import { mocked } from 'ts-jest/utils';
 jest.mock('axios');
 const mockedAxios = mocked(axios, true);
 
-describe('fetchAgents()', () => {
-  it('catches errors and throws a new error with a message', async () => {
-    const path = '/api/agents';
-    const errMsg = 'error';
-
-    mockedAxios.get.mockRejectedValue({ message: errMsg });
-
-    await expect(AgentApi.fetchAgents()).rejects.toEqual(
-      Error(`Failed to GET ${path}: ${errMsg}`),
-    );
-
-    expect(mockedAxios.get).toHaveBeenCalledWith(path, {
-      params: undefined,
-    });
-  });
-});
-
 describe('fetchAgentByPubKey()', () => {
   it('catches 404 errors and returns a null data object', async () => {
     mockedAxios.get.mockRejectedValue({ response: { status: 404 } });
@@ -30,7 +13,7 @@ describe('fetchAgentByPubKey()', () => {
     });
   });
 
-  it('catches non-404 errors and throws a new error with a message', async () => {
+  it('catches non-404 errors and throws an error', async () => {
     const path = '/api/agents/bad_key';
     const errMsg = 'error';
 
