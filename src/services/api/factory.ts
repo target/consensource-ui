@@ -14,11 +14,10 @@ export interface FactoryResAddressData {
 
 export interface FactoryResData extends OrgResData {
   address: FactoryResAddressData;
-  assertion_id?: string;
   certificates?: Array<CertResData>;
 }
 
-export type FactoryReqFilterSortParams = Partial<FactoryResAddressData> & {
+export type FactoryReqFilterParams = Partial<FactoryResAddressData> & {
   standard_name?: string; // Only value from `CertResData` we filter/sort on
   address?: string; // Used for full text searches on all address fields
 };
@@ -29,8 +28,8 @@ export type FactoryReqFilterSortParams = Partial<FactoryResAddressData> & {
  * `CertResData`.
  */
 export interface FactoryReqParams
-  extends FactoryReqFilterSortParams,
-    SortingReq<FactoryReqFilterSortParams> {
+  extends FactoryReqFilterParams,
+    SortingReq<FactoryReqFilterParams> {
   limit?: number;
   offset?: number;
   head?: number;

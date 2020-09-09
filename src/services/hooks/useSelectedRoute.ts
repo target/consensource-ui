@@ -7,14 +7,16 @@ import { useHistory } from 'react-router-dom';
  */
 export const useSelectedRoute = (route: string) => {
   const history = useHistory();
-  const [isSelected, setIsSelected] = useState(false);
+
+  const isRouteSelected = (pathname: string) =>
+    route === '/' ? pathname === '/' : pathname.includes(route);
+
+  const [isSelected, setIsSelected] = useState(
+    isRouteSelected(history.location.pathname),
+  );
 
   useEffect(() => {
-    history.listen(({ pathname }) => {
-      const isRouteSelected =
-        route === '/' ? pathname === '/' : pathname.includes(route);
-      setIsSelected(isRouteSelected);
-    });
+    history.listen(({ pathname }) => setIsSelected(isRouteSelected(pathname)));
   }, [history]);
 
   return isSelected;

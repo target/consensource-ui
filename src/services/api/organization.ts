@@ -19,6 +19,7 @@ export interface OrgResData {
   contacts: Array<OrgResContactData>;
   authorizations: Array<OrgResAuthData>;
   organization_type: Organization.Type;
+  assertion_id?: string;
 }
 
 export interface OrgReqParams {

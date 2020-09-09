@@ -14,7 +14,7 @@ export interface FactoryProfile {
 
 export const FactoryProfile = ({ factoryId }: FactoryProfile) => {
   // Including the `expand` param includes certificates with factories
-  const baseParms = { expand: true };
+  const baseParms = { expand: false };
   const { isLoading, error, data } = useQuery('fetchFactoryByOrgId', () =>
     fetchFactoryByOrgId(factoryId, baseParms),
   );
