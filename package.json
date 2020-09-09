@@ -38,7 +38,7 @@
         "eslint-plugin-prettier": "^3.1.2",
         "jest": "^25.1.0",
         "jest-localstorage-mock": "^2.4.0",
-        "prebuild-install": "^5.0.0",
+        "prebuild-install": "^5.3.5",
         "prettier": "^1.19.1",
         "protobufjs": "^6.8.8",
         "source-map-loader": "^0.2.4",
