@@ -42,13 +42,13 @@
         "prettier": "^1.19.1",
         "protobufjs": "^6.8.8",
         "source-map-loader": "^0.2.4",
-        "terser-webpack-plugin": "1.4.2",
-        "ts-jest": "^25.2.1",
+        "terser-webpack-plugin": "^4.1.0",
+        "ts-jest": "^25.5.1",
         "ts-loader": "^6.2.1",
         "typescript": "^3.8.3",
         "webpack": "^4.44.1",
         "webpack-cli": "^3.3.0",
-        "webpack-dev-server": "^3.10.3"
+        "webpack-dev-server": "^3.11.0"
     },
     "dependencies": {
         "eventsource": "^1.0.7",
