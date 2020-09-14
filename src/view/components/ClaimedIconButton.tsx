@@ -8,7 +8,7 @@ import {
   createStyles,
   Theme,
 } from '@material-ui/core';
-import { ClaimedDialog } from 'view/dialogs';
+import { ClaimedDialog } from 'view/modals';
 
 const useStyles = makeStyles(({ palette }: Theme) =>
   createStyles({

@@ -63,7 +63,7 @@ export const SearchFactoriesTable = () => {
             customSearchRender: debounceSearchRender(500),
             setFilterChipProps: () => filterChipProps,
             customFilterDialogFooter: (currentFilterList, applyNewFilters) => (
-              <FilterFooterButton onClick={applyNewFilters} />
+              <FilterFooterButton applyNewFilters={applyNewFilters} />
             ),
           }}
         />

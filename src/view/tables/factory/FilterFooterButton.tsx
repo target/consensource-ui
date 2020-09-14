@@ -8,10 +8,12 @@ export interface FilterFooterButtonProps {
    * function is not passed from the parent component if there
    * are no active table filters
    */
-  onClick?: Function;
+  applyNewFilters?: Function;
 }
 
-export const FilterFooterButton = ({ onClick }: FilterFooterButtonProps) => {
+export const FilterFooterButton = ({
+  applyNewFilters,
+}: FilterFooterButtonProps) => {
   const [label, setLabel] = useState('Apply Filters');
 
   /**
@@ -19,11 +21,11 @@ export const FilterFooterButton = ({ onClick }: FilterFooterButtonProps) => {
    * any sort of useful loading indicator. Using this timeout hack allows
    * us to at least set a loading text.
    */
-  const handleClick = () => {
-    if (onClick) {
+  const onClick = () => {
+    if (applyNewFilters) {
       setLabel('Loading...');
       setTimeout(() => {
-        onClick();
+        applyNewFilters();
       }, 100);
     }
   };
@@ -34,7 +36,7 @@ export const FilterFooterButton = ({ onClick }: FilterFooterButtonProps) => {
         fullWidth
         variant="contained"
         color="primary"
-        onClick={handleClick}
+        onClick={onClick}
         endIcon={<FilterIcon />}
       >
         {label}

@@ -22,57 +22,15 @@ export const filterChipProps: MUIDataTableChip = {
 };
 
 /**
- * Expands all properties of `FactoryResData`
+ * Expands all properties of `FactoryResData` and stringify the
+ * certificates array. This is done because the filter components
+ * only accept an array of strings as values.
  */
 export const getRowFromFactory = ({
   name,
   address,
   certificates,
 }: FactoryResData) => {
-  if (name === 'pattest') {
-    certificates = [
-      {
-        id: 'test1',
-        certifying_body_id: 'test1',
-        certifying_body: 'test1',
-        factory_id: 'test1',
-        factory_name: 'test1',
-        standard_id: 'test1',
-        standard_name: 'test1',
-        standard_version: 'test1',
-        valid_from: 0,
-        valid_to: 0,
-        assertion_id: 'test1',
-      },
-      {
-        id: 'test1',
-        certifying_body_id: 'test1',
-        certifying_body: 'test1',
-        factory_id: 'test1',
-        factory_name: 'test1',
-        standard_id: 'test1',
-        standard_name: 'test2',
-        standard_version: 'test1',
-        valid_from: 0,
-        valid_to: 0,
-        assertion_id: 'test1',
-      },
-    ];
-  }
-
-  // let certificatesStr;
-
-  // if (certificates && certificates.length > 0) {
-  //   certificatesStr = certificates
-  //     .reduce(
-  //       (prevVal, { standard_name }) => `${prevVal}, ${standard_name}`,
-  //       '',
-  //     )
-  //     .substring(1);
-  // } else {
-  //   certificatesStr = 'None';
-  // }
-
   return { name, certificates: JSON.stringify(certificates), ...address };
 };
 

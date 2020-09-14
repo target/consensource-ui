@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
-import { UnclaimedDialog } from 'view/dialogs';
+import { UnclaimedDialog } from 'view/modals';
 
 export const UnverifiedFactoryAlert = () => {
   const [dialogIsOpen, setDialogIsOpen] = useState(false);

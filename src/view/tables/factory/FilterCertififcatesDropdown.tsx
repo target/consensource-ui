@@ -29,20 +29,6 @@ export const FilterCertififcatesDropdown = ({
     fetchAllStandards(),
   );
 
-  // TODO: Remove
-  if (data) {
-    data.data = [
-      {
-        standard_id: 'test1',
-        standard_name: 'test1',
-      },
-      {
-        standard_id: 'test1',
-        standard_name: 'test2',
-      },
-    ];
-  }
-
   return (
     <>
       <InputLabel>Certifications</InputLabel>

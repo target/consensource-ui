@@ -17,6 +17,7 @@ const useStyles = makeStyles(({ palette }) =>
   createStyles({
     certName: {
       borderBottom: `2px solid ${palette.primary.main}`,
+      cursor: 'pointer',
     },
   }),
 );
