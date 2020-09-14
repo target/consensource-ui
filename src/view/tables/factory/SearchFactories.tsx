@@ -5,9 +5,12 @@ import MUIDataTable, {
   MUIDataTableColumn,
   debounceSearchRender,
 } from 'mui-datatables';
-import { LoadingWithMinDisplay, SpinnerWithLabel } from 'view/components';
+import {
+  LoadingWithMinDisplay,
+  SpinnerWithLabel,
+  WarningIconError,
+} from 'view/components';
 import { FactoryProfileLinkIcon } from './FactoryProfileLinkIcon';
-import { FailedToLoadError } from './FailedToLoadError';
 import { TableTitle } from './TableTitle';
 import { FilterFooterButton } from './FilterFooterButton';
 import {
@@ -48,7 +51,11 @@ export const SearchFactoriesTable = () => {
       isLoading={isLoading}
       loadingIndicator={<SpinnerWithLabel label="Loading factories..." />}
     >
-      {error && <FailedToLoadError />}
+      {error && (
+        <WarningIconError typeVariant="h5" iconFontSize="large">
+          Failed to load factories
+        </WarningIconError>
+      )}
       {data && (
         <MUIDataTable
           title={<TableTitle />}

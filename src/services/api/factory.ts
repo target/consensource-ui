@@ -14,7 +14,7 @@ export interface FactoryResAddressData {
 
 export interface FactoryResData extends OrgResData {
   address: FactoryResAddressData;
-  certificates?: Array<CertResData>;
+  certificates?: CertResData[];
 }
 
 export type FactoryReqFilterParams = Partial<FactoryResAddressData> & {

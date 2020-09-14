@@ -5,9 +5,9 @@ import {
   MUIDataTableColumnOptions,
   MUIDataTableChip,
 } from 'mui-datatables';
-import { FactoryResData } from 'services/api';
+import { FactoryResData, CertResData } from 'services/api';
 import { TextField } from '@material-ui/core';
-import { FilterCertififcatesDropdown } from './FilterCertififcatesDropdown';
+import { FilterStandardsDropdown } from './FilterStandardsDropdown';
 import { CertificatesCell } from './CertificatesCell';
 
 export const textLabels: MUIDataTableOptions['textLabels'] = {
@@ -104,21 +104,27 @@ export const baseFactoryTableCols: MUIDataTableColumn[] = [
         <CertificatesCell certificates={JSON.parse(value)} />
       ),
       customFilterListOptions: {
-        render: (value) => getCustomFilterChip('Certifications', value),
+        render: (value) => getCustomFilterChip('Standards', value),
       },
       filterOptions: {
         logic: (prop, filterValue) => {
           if (filterValue.length === 0) return false;
 
+          const certificates: CertResData[] = JSON.parse(prop);
+
+          if (certificates.length === 0) return true;
+
           const idx = filterValue.findIndex((filter) =>
-            prop.toLowerCase().includes(filter.toLowerCase()),
+            certificates
+              .map(({ standard_name }) => standard_name.toLowerCase())
+              .includes(filter.toLowerCase()),
           );
 
           return idx === -1;
         },
         display: (filterList, onChange, index, column) => (
-          <FilterCertififcatesDropdown
-            activeCertFilters={filterList[index]}
+          <FilterStandardsDropdown
+            activeStandardFilters={filterList[index]}
             onChange={onChange}
             index={index}
             column={column}

@@ -7,3 +7,4 @@ export * from './SequentialGrow';
 export * from './UnverifiedFactoryAlert';
 export * from './GoBackButton';
 export * from './LoadingButton';
+export * from './WarningIconError';

@@ -32,7 +32,7 @@ export const CertificatesCell = ({ certificates }: CertificatesCellProps) => {
   return (
     <List>
       {certificates.map((cert) => (
-        <ListItem>
+        <ListItem key={cert.id}>
           <Tooltip
             placement="top"
             title={`Valid until ${new Date(
