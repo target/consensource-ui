@@ -31,7 +31,12 @@ export function UnclaimedDialog({ open, handleClose }: DialogProps) {
         <Button onClick={handleClose} color="secondary">
           CLOSE
         </Button>
-        <Button onClick={handleClose} color="secondary" variant="contained">
+        <Button
+          onClick={handleClose}
+          color="secondary"
+          variant="contained"
+          disabled
+        >
           CLAIM
         </Button>
       </DialogActions>

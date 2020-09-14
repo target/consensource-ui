@@ -5,8 +5,9 @@ import {
   MUIDataTableColumnOptions,
   MUIDataTableChip,
 } from 'mui-datatables';
-import { CertResData, FactoryResData } from 'services/api';
-import { TextField, Button } from '@material-ui/core';
+import { FactoryResData } from 'services/api';
+import { TextField } from '@material-ui/core';
+import { FilterCertififcatesDropdown } from './FilterCertififcatesDropdown';
 import { CertificatesCell } from './CertificatesCell';
 
 export const textLabels: MUIDataTableOptions['textLabels'] = {
@@ -27,25 +28,52 @@ export const getRowFromFactory = ({
   name,
   address,
   certificates,
-}: FactoryResData) => ({ name, certificates, ...address });
+}: FactoryResData) => {
+  if (name === 'pattest') {
+    certificates = [
+      {
+        id: 'test1',
+        certifying_body_id: 'test1',
+        certifying_body: 'test1',
+        factory_id: 'test1',
+        factory_name: 'test1',
+        standard_id: 'test1',
+        standard_name: 'test1',
+        standard_version: 'test1',
+        valid_from: 0,
+        valid_to: 0,
+        assertion_id: 'test1',
+      },
+      {
+        id: 'test1',
+        certifying_body_id: 'test1',
+        certifying_body: 'test1',
+        factory_id: 'test1',
+        factory_name: 'test1',
+        standard_id: 'test1',
+        standard_name: 'test2',
+        standard_version: 'test1',
+        valid_from: 0,
+        valid_to: 0,
+        assertion_id: 'test1',
+      },
+    ];
+  }
 
-export const CustomFilterFooterButton = ({
-  applyFilters,
-}: {
-  applyFilters?: Function;
-}) => {
-  return (
-    <div style={{ marginTop: '40px' }}>
-      <Button
-        variant="contained"
-        color="primary"
-        fullWidth
-        onClick={() => applyFilters && applyFilters()}
-      >
-        Apply Filters
-      </Button>
-    </div>
-  );
+  // let certificatesStr;
+
+  // if (certificates && certificates.length > 0) {
+  //   certificatesStr = certificates
+  //     .reduce(
+  //       (prevVal, { standard_name }) => `${prevVal}, ${standard_name}`,
+  //       '',
+  //     )
+  //     .substring(1);
+  // } else {
+  //   certificatesStr = 'None';
+  // }
+
+  return { name, certificates: JSON.stringify(certificates), ...address };
 };
 
 /**
@@ -54,11 +82,19 @@ export const CustomFilterFooterButton = ({
  */
 export const getCellValOrDefault = (value: string) => value || '-';
 
-export const getCustomFilterChip = (colLabel: string, value: string) =>
-  `${colLabel}: ${value}`;
+export const getCustomFilterChip = (
+  colLabel: string,
+  values: string | string[],
+) => {
+  if (typeof values === 'string') {
+    return `${colLabel}: ${values}`;
+  }
+
+  return values.map((val) => `${colLabel}: ${val}`);
+};
 
 /**
- * Configuration for custom search filter fields.body
+ * Configuration for custom search filter fields.
  *
  * TODO: Use a debounced search value instead of the customFilterFooter.
  */
@@ -78,7 +114,7 @@ export const getCustomSearchOptions = (
     },
   },
   filterOptions: {
-    logic: (prop: string, filterValue: any[]) => {
+    logic: (prop, filterValue) => {
       if (filterValue.length === 0) return false;
 
       const idx = filterValue.findIndex((filter) =>
@@ -87,16 +123,10 @@ export const getCustomSearchOptions = (
 
       return idx === -1;
     },
-    display: (
-      filterList: string[],
-      onChange: any,
-      index: number,
-      column: any,
-    ) => {
+    display: (filterList, onChange, index, column) => {
       return (
         <TextField
           label={column.label}
-          value={filterList[index]}
           onChange={(e) => onChange([e.target.value], index, column)}
         />
       );
@@ -110,9 +140,44 @@ export const baseFactoryTableCols: MUIDataTableColumn[] = [
     name: 'certificates',
     label: 'Certifications',
     options: {
-      customBodyRender: (value: CertResData[]) => (
-        <CertificatesCell certificates={value} />
+      sort: false,
+      filterType: 'custom',
+      customBodyRender: (value) => (
+        <CertificatesCell certificates={JSON.parse(value)} />
       ),
+      customFilterListOptions: {
+        render: (value) => getCustomFilterChip('Certifications', value),
+      },
+      filterOptions: {
+        logic: (prop, filterValue) => {
+          if (filterValue.length === 0) return false;
+
+          const idx = filterValue.findIndex((filter) =>
+            prop.toLowerCase().includes(filter.toLowerCase()),
+          );
+
+          return idx === -1;
+        },
+        display: (filterList, onChange, index, column) => (
+          <FilterCertififcatesDropdown
+            activeCertFilters={filterList[index]}
+            onChange={onChange}
+            index={index}
+            column={column}
+          />
+        ),
+      },
+    },
+  },
+  {
+    name: 'country',
+    label: 'Country',
+    options: {
+      filterType: 'dropdown',
+      customBodyRender: getCellValOrDefault,
+      customFilterListOptions: {
+        render: (value) => getCustomFilterChip('Country', value),
+      },
     },
   },
   {
@@ -128,23 +193,12 @@ export const baseFactoryTableCols: MUIDataTableColumn[] = [
   {
     name: 'city',
     label: 'City',
-    options: getCustomSearchOptions('Street Line 2'),
+    options: getCustomSearchOptions('City'),
   },
   {
     name: 'state_province',
     label: 'State/Province',
     options: getCustomSearchOptions('State/Province'),
-  },
-  {
-    name: 'country',
-    label: 'Country',
-    options: {
-      filterType: 'dropdown',
-      customBodyRender: getCellValOrDefault,
-      customFilterListOptions: {
-        render: (value) => getCustomFilterChip('Country', value),
-      },
-    },
   },
   {
     name: 'postal_code',

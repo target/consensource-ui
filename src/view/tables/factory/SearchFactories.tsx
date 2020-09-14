@@ -9,12 +9,12 @@ import { LoadingWithMinDisplay, SpinnerWithLabel } from 'view/components';
 import { FactoryProfileLinkIcon } from './FactoryProfileLinkIcon';
 import { FailedToLoadError } from './FailedToLoadError';
 import { TableTitle } from './TableTitle';
+import { FilterFooterButton } from './FilterFooterButton';
 import {
   baseFactoryTableCols,
   textLabels,
   getRowFromFactory,
   filterChipProps,
-  CustomFilterFooterButton,
 } from './utils';
 
 export const SearchFactoriesTable = () => {
@@ -55,18 +55,15 @@ export const SearchFactoriesTable = () => {
           data={data.data.map(getRowWithLink)}
           columns={columns}
           options={{
-            /**
-             * Prevent rows from being selectable (default action is to delete rows, which we don't allow)
-             */
+            textLabels,
             selectableRows: 'none',
             searchPlaceholder: 'Search for factories',
             searchOpen: true,
             confirmFilters: true,
             customSearchRender: debounceSearchRender(500),
             setFilterChipProps: () => filterChipProps,
-            textLabels,
             customFilterDialogFooter: (currentFilterList, applyNewFilters) => (
-              <CustomFilterFooterButton applyFilters={applyNewFilters} />
+              <FilterFooterButton onClick={applyNewFilters} />
             ),
           }}
         />
