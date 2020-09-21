@@ -18,7 +18,7 @@ export function Certifications({ certifications }: CertificationsProps) {
       </Grid>
 
       {!hasCertifications && (
-        <Grid item>
+        <Grid item xs={2}>
           <Typography variant="body1">
             <i>No certifications</i>
           </Typography>

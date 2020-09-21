@@ -1,14 +1,9 @@
-import React from 'react';
-import {
-  MUIDataTableOptions,
-  MUIDataTableColumn,
-  MUIDataTableColumnOptions,
-  MUIDataTableChip,
-} from 'mui-datatables';
-import { FactoryResData, CertResData } from 'services/api';
-import { TextField } from '@material-ui/core';
-import { FilterStandardsDropdown } from './FilterStandardsDropdown';
-import { CertificatesCell } from './CertificatesCell';
+import { MUIDataTableOptions, MUIDataTableChip } from 'mui-datatables';
+import { useDecodedQueryString } from 'services/hooks';
+import { FactoryResData, FactoryReqParams } from 'services/api';
+import { baseFactoryTableCols } from './columns';
+
+export const DEFAULT_ROWS_PER_PAGE = 15;
 
 export const textLabels: MUIDataTableOptions['textLabels'] = {
   body: {
@@ -16,15 +11,33 @@ export const textLabels: MUIDataTableOptions['textLabels'] = {
   },
 };
 
+/**
+ * Default query parameters. The `expand` option includes
+ * certificates in the factory data.
+ */
+export const baseParams: FactoryReqParams = {
+  expand: true,
+  limit: DEFAULT_ROWS_PER_PAGE,
+};
+
+/**
+ * Default props for the filter chips displayed in the
+ * `<TableFilterList />`.
+ */
 export const filterChipProps: MUIDataTableChip = {
   color: 'secondary',
   variant: 'default',
 };
 
 /**
- * Expands all properties of `FactoryResData` and stringify the
- * certificates array. This is done because the filter components
- * only accept an array of strings as values.
+ * Flattens and expands all properties of `FactoryResData`. This
+ * is required because `mui-datatables` expects a flat object to
+ * populate the table.
+ *
+ * The `certififcates` array is stringified because the filter
+ * components require an array of strings as parameters. The
+ * certificates can be parsed back into objects and used in
+ * the filters however.
  */
 export const getRowFromFactory = ({
   name,
@@ -35,138 +48,37 @@ export const getRowFromFactory = ({
 };
 
 /**
- * If the cell has a value, returns that value. Else,
- * returns a placeholder value.
+ * Return a list of table filters based on the query string
+ * of the current location. This is needed to populate the
+ * `<TableFilterList />` component with the appropriate
+ * filter chips (filters such as `limit` which are not in the
+ * `baseFactoryTableCols` object are excluded).
  */
-export const getCellValOrDefault = (value: string) => value || '-';
+export const getFilterListFromQueryParams = () => {
+  const queryParams = useDecodedQueryString({
+    arrayFormat: 'comma',
+    parseNumbers: true,
+  });
 
-export const getCustomFilterChip = (
-  colLabel: string,
-  values: string | string[],
-) => {
-  if (typeof values === 'string') {
-    return `${colLabel}: ${values}`;
-  }
+  const filterList = baseFactoryTableCols.map(({ name: colName }) => {
+    const queryParamKey = Object.keys(queryParams).find(
+      (key) => colName === key,
+    );
 
-  return values.map((val) => `${colLabel}: ${val}`);
+    if (queryParamKey) {
+      const queryParamVal = queryParams[queryParamKey];
+
+      if (!queryParamVal) {
+        return [];
+      }
+
+      return typeof queryParamVal === 'string'
+        ? [queryParamVal]
+        : queryParamVal;
+    }
+
+    return [];
+  });
+
+  return filterList;
 };
-
-/**
- * Configuration for custom search filter fields.
- *
- * TODO: Use a debounced search value instead of the customFilterFooter.
- */
-export const getCustomSearchOptions = (
-  colLabel: string,
-): MUIDataTableColumnOptions => ({
-  filter: true,
-  filterType: 'textField',
-  customBodyRender: getCellValOrDefault,
-  customFilterListOptions: {
-    render: (value) => getCustomFilterChip(colLabel, value),
-    update: (filterList, filterPos, index) => {
-      const newFilterList = filterList;
-      newFilterList[index] = [];
-
-      return newFilterList;
-    },
-  },
-  filterOptions: {
-    logic: (prop, filterValue) => {
-      if (filterValue.length === 0) return false;
-
-      const idx = filterValue.findIndex((filter) =>
-        prop.toLowerCase().includes(filter.toLowerCase()),
-      );
-
-      return idx === -1;
-    },
-    display: (filterList, onChange, index, column) => {
-      return (
-        <TextField
-          label={column.label}
-          onChange={(e) => onChange([e.target.value], index, column)}
-        />
-      );
-    },
-  },
-});
-
-export const baseFactoryTableCols: MUIDataTableColumn[] = [
-  { name: 'name', label: 'Name', options: getCustomSearchOptions('Name') },
-  {
-    name: 'certificates',
-    label: 'Certifications',
-    options: {
-      sort: false,
-      filterType: 'custom',
-      customBodyRender: (value) => (
-        <CertificatesCell certificates={JSON.parse(value)} />
-      ),
-      customFilterListOptions: {
-        render: (value) => getCustomFilterChip('Standards', value),
-      },
-      filterOptions: {
-        logic: (prop, filterValue) => {
-          if (filterValue.length === 0) return false;
-
-          const certificates: CertResData[] = JSON.parse(prop);
-
-          if (certificates.length === 0) return true;
-
-          const idx = filterValue.findIndex((filter) =>
-            certificates
-              .map(({ standard_name }) => standard_name.toLowerCase())
-              .includes(filter.toLowerCase()),
-          );
-
-          return idx === -1;
-        },
-        display: (filterList, onChange, index, column) => (
-          <FilterStandardsDropdown
-            activeStandardFilters={filterList[index]}
-            onChange={onChange}
-            index={index}
-            column={column}
-          />
-        ),
-      },
-    },
-  },
-  {
-    name: 'country',
-    label: 'Country',
-    options: {
-      filterType: 'dropdown',
-      customBodyRender: getCellValOrDefault,
-      customFilterListOptions: {
-        render: (value) => getCustomFilterChip('Country', value),
-      },
-    },
-  },
-  {
-    name: 'street_line_1',
-    label: 'Street Line 1',
-    options: getCustomSearchOptions('Street Line 1'),
-  },
-  {
-    name: 'street_line_2',
-    label: 'Street Line 2',
-    options: getCustomSearchOptions('Street Line 2'),
-  },
-  {
-    name: 'city',
-    label: 'City',
-    options: getCustomSearchOptions('City'),
-  },
-  {
-    name: 'state_province',
-    label: 'State/Province',
-    options: getCustomSearchOptions('State/Province'),
-  },
-  {
-    name: 'postal_code',
-    label: 'Postal Code',
-    options: getCustomSearchOptions('Postal Code'),
-  },
-];

@@ -26,7 +26,11 @@ export const CertificatesCell = ({ certificates }: CertificatesCellProps) => {
   const classes = useStyles();
 
   if (!certificates || certificates.length === 0) {
-    return <i>None</i>;
+    return (
+      <ListItem>
+        <i>None</i>
+      </ListItem>
+    );
   }
 
   return (

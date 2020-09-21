@@ -8,7 +8,7 @@ export interface FilterFooterButtonProps {
    * function is not passed from the parent component if there
    * are no active table filters
    */
-  applyNewFilters?: Function;
+  applyNewFilters?: (...args: any[]) => any;
 }
 
 export const FilterFooterButton = ({

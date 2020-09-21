@@ -22,6 +22,8 @@ export type FactoryReqFilterParams = Partial<FactoryResAddressData> & {
   address?: string; // Used for full text searches on all address fields
 };
 
+export type FactoryReqSortParams = SortingReq<FactoryReqFilterParams>;
+
 /**
  * Allows for optional query filtering/sorting on all fields
  * of `FactoryResAddressData` and the `standard_name` of
@@ -29,7 +31,7 @@ export type FactoryReqFilterParams = Partial<FactoryResAddressData> & {
  */
 export interface FactoryReqParams
   extends FactoryReqFilterParams,
-    SortingReq<FactoryReqFilterParams> {
+    FactoryReqSortParams {
   limit?: number;
   offset?: number;
   head?: number;
