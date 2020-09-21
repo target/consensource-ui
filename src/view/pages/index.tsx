@@ -5,3 +5,4 @@ export * from './Landing';
 export * from './Login';
 export * from './SearchFactories';
 export * from './SignUp';
+export * from './Certification';

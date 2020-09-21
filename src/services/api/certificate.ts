@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PaginatedApiRes } from './utils';
+import { BaseApiRes, PaginatedApiRes } from './utils';
 
 export interface CertResData {
   id: string;
@@ -26,6 +26,18 @@ export interface CertReqParam {
 export async function loadCertificates(params?: CertReqParam) {
   const res = await axios.get<PaginatedApiRes<CertResData[]>>(
     '/api/certificates',
+    { params },
+  );
+
+  return res.data;
+}
+
+export async function fetchCertificateById(
+  certId: string,
+  params?: CertReqParam,
+) {
+  const res = await axios.get<BaseApiRes<CertResData>>(
+    `/api/certificates/${certId}`,
     { params },
   );
 
