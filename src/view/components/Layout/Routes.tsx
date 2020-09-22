@@ -20,6 +20,14 @@ export const SharedRoutes = () => {
           },
         }) => <Pages.FactoryProfile factoryId={factoryId} />}
       />
+      <Route
+        path="/certifications/:certificationId"
+        render={({
+          match: {
+            params: { certificationId },
+          },
+        }) => <Pages.Certification certificationId={certificationId} />}
+      />
     </>
   );
 };
