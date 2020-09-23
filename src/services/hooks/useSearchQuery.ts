@@ -7,8 +7,7 @@ import qs, { ParseOptions } from 'query-string';
  * TODO: Fix TS definition to take method overloads on `options`
  * into account.
  */
-export const useDecodedQueryString = (options?: ParseOptions) => {
+export const useSearchQuery = (options: ParseOptions = {}) => {
   const { search } = useLocation();
-
-  return qs.parse(decodeURIComponent(search), options);
+  return qs.parse(search, options);
 };

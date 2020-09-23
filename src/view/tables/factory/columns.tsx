@@ -1,8 +1,11 @@
 import React from 'react';
 import { MUIDataTableColumn, MUIDataTableColumnOptions } from 'mui-datatables';
-import { FilterCertificationsDropdown } from './FilterCertificationsDropdown';
-import { CertificatesCell } from './CertificatesCell';
-import { FilterTextField } from './FilterTextField';
+import {
+  FilterTextField,
+  FilterMultiselect,
+  CertificationsMultiselect,
+  CertificatesCell,
+} from './components';
 
 /**
  * Used in the `customBodyRender` config. If an empty string is passed,
@@ -31,8 +34,6 @@ export const getCustomFilterChipLabel = (
 
 /**
  * Configuration for a custom search filter.
- *
- * TODO: Use a debounced search value instead of the customFilterFooter.
  */
 export const getCustomSearchOptions = (
   colLabel: string,
@@ -44,35 +45,61 @@ export const getCustomSearchOptions = (
     render: (value) => getCustomFilterChipLabel(colLabel, value),
   },
   filterOptions: {
-    display: (filterList, onChange, index, column) => (
-      <FilterTextField
-        queryKey={column.name}
-        label={column.label}
-        onChange={(val) => onChange(val, index, column)}
-      />
-    ),
+    display: (filterList, onChange, index, column) => {
+      return (
+        <FilterTextField
+          filterVal={filterList[index]}
+          queryKey={column.name}
+          label={colLabel}
+          onChange={(val) => onChange(val, index, column)}
+        />
+      );
+    },
   },
 });
 
 /**
- * Configuration logic for our custom certificate filtering logic.
+ * Configuration for our custom certificate filtering logic.
  */
 export const certColumnOptions: MUIDataTableColumn['options'] = {
   sort: false,
   filterType: 'custom',
-  customBodyRender: (value) => (
-    <CertificatesCell certificates={JSON.parse(value)} />
-  ),
+  customBodyRender: (value?: string) => {
+    // TODO: Remove optional `value` when backend issues are resolved
+    const certs = value && JSON.parse(value);
+    return <CertificatesCell certificates={JSON.parse(certs)} />;
+  },
   customFilterListOptions: {
     render: (value) => getCustomFilterChipLabel('Certification', value),
   },
   filterOptions: {
     display: (filterList, onChange, index, column) => (
-      <FilterCertificationsDropdown
+      <CertificationsMultiselect
         activeCertFilters={filterList[index]}
-        onChange={onChange}
-        index={index}
-        column={column}
+        onChange={(val) => onChange(val, index, column)}
+      />
+    ),
+  },
+};
+
+/**
+ * Configuration for our custom country filtering logic.
+ */
+export const countryColumnOptions: MUIDataTableColumn['options'] = {
+  filterType: 'custom',
+  customBodyRender: getCellValOrDefault,
+  customFilterListOptions: {
+    render: (value) => getCustomFilterChipLabel('Country', value),
+  },
+  filterOptions: {
+    display: (filterList, onChange, index, column, filterData) => (
+      <FilterMultiselect
+        // TODO: Currently this will only get the countries on the current page.
+        options={filterData[index]}
+        queryKey="country"
+        label="Countries"
+        onChange={(val) => onChange(val, index, column)}
+        filterVals={filterList[index]}
       />
     ),
   },
@@ -99,13 +126,7 @@ export const baseFactoryTableCols: MUIDataTableColumn[] = [
   {
     name: 'country',
     label: 'Country',
-    options: {
-      filterType: 'multiselect',
-      customBodyRender: getCellValOrDefault,
-      customFilterListOptions: {
-        render: (value) => getCustomFilterChipLabel('Country', value),
-      },
-    },
+    options: countryColumnOptions,
   },
   {
     name: 'street_line_1',

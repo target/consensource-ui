@@ -33,11 +33,9 @@ const useStyles = makeStyles(({ palette }) =>
 );
 
 export function CertificationCard({ certification }: CertificationCardProps) {
-  const classes = useStyles();
-
-  const [isRaised, setIsRaised] = useState(false);
-
   const { standard_name, valid_to } = certification;
+  const classes = useStyles();
+  const [isRaised, setIsRaised] = useState(false);
 
   return (
     <Card
@@ -79,7 +77,9 @@ export function CertificationCard({ certification }: CertificationCardProps) {
       </CardContent>
 
       <CardActions>
-        <Button className={classes.info}>More Info</Button>
+        <Button className={classes.info} disabled>
+          More Info
+        </Button>
       </CardActions>
     </Card>
   );

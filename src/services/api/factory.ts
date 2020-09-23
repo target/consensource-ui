@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from 'query-string';
 import { BaseApiRes, PaginatedApiRes, SortingReq } from './utils';
 import { OrgResData } from './organization';
 import { CertResData } from './certificate';
@@ -18,8 +19,14 @@ export interface FactoryResData extends OrgResData {
 }
 
 export type FactoryReqFilterParams = Partial<FactoryResAddressData> & {
-  standard_name?: string; // Only value from `CertResData` we filter/sort on
-  address?: string; // Used for full text searches on all address fields
+  /**
+   * Comma separated list of certificates
+   */
+  certificates?: string; // TODO: Rename to standard_name
+  /**
+   * Used for full text searches on all address fields
+   */
+  address?: string;
 };
 
 export type FactoryReqSortParams = SortingReq<FactoryReqFilterParams>;
@@ -43,6 +50,7 @@ export async function fetchAllFactories(params?: FactoryReqParams) {
     '/api/factories',
     {
       params,
+      paramsSerializer: (val) => qs.stringify(val, { arrayFormat: 'comma' }),
     },
   );
 

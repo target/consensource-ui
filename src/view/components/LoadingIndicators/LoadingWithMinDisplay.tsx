@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, FC } from 'react';
-import { SpinnerWithLabel } from './SpinnerWithLabel';
+import { CircularProgress } from '@material-ui/core';
 
 export interface LoadingWithMinDisplayProps {
   /**
@@ -19,7 +19,7 @@ export interface LoadingWithMinDisplayProps {
    */
   waitTimeMs?: number;
   /**
-   * **Default value**: _<SpinnerWithLabel />_
+   * **Default value**: _<CircularProgress />_
    *
    * React node that will be displayed while either `isLoading` is true,
    * or the elapsed time between `waitTimeMs` and `minDisplayTimeMs` has
@@ -47,7 +47,7 @@ export interface LoadingWithMinDisplayProps {
 export const LoadingWithMinDisplay: FC<LoadingWithMinDisplayProps> = ({
   minDisplayTimeMs = 750,
   waitTimeMs = 250,
-  loadingIndicator = <SpinnerWithLabel />,
+  loadingIndicator = <CircularProgress />,
   isLoading,
   children,
 }) => {

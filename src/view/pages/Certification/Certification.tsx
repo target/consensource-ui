@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import {
   LoadingWithMinDisplay,
-  SpinnerWithLabel,
+  FullScreenSpinnerWithLabel,
   WarningIconError,
 } from 'view/components';
 import { fetchCertificateById, CertResData } from 'services/api';
@@ -42,7 +42,7 @@ export const Certification = ({ certificationId }: CertificationProps) => {
     <LoadingWithMinDisplay
       isLoading={isLoading}
       loadingIndicator={
-        <SpinnerWithLabel label="Loading certificate info..." />
+        <FullScreenSpinnerWithLabel label="Loading certificate info..." />
       }
     >
       {error && (
@@ -63,6 +63,7 @@ export const Certification = ({ certificationId }: CertificationProps) => {
           <Grid item xs={12}>
             <Divider variant="middle" />
           </Grid>
+
           <Grid item xs={12}>
             <CertificateInfo certificate={data.data} />
           </Grid>

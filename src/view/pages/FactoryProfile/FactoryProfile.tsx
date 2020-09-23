@@ -1,7 +1,10 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { Typography, Grid } from '@material-ui/core';
-import { LoadingWithMinDisplay, SpinnerWithLabel } from 'view/components';
+import {
+  LoadingWithMinDisplay,
+  FullScreenSpinnerWithLabel,
+} from 'view/components';
 import { fetchFactoryByOrgId, FactoryResData } from 'services/api';
 import { Contacts } from './Contacts';
 import { Address } from './Address';
@@ -22,7 +25,9 @@ export const FactoryProfile = ({ factoryId }: FactoryProfile) => {
   return (
     <LoadingWithMinDisplay
       isLoading={isLoading}
-      loadingIndicator={<SpinnerWithLabel label="Loading factory info..." />}
+      loadingIndicator={
+        <FullScreenSpinnerWithLabel label="Loading factory info..." />
+      }
     >
       {error && (
         <Grid item xs={12}>

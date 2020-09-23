@@ -4,10 +4,10 @@ import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 
 export interface GoBackButtonProps {
-  tooltipLabel: string;
+  tooltipLabel?: string;
 }
 
-export const GoBackButton = ({ tooltipLabel }: GoBackButtonProps) => {
+export const GoBackButton = ({ tooltipLabel = '' }: GoBackButtonProps) => {
   const history = useHistory();
 
   return (
