@@ -18,11 +18,18 @@ export interface FactoryResData extends OrgResData {
   certificates?: CertResData[];
 }
 
+/**
+ * Note that for any filter that accepts multiple values (e.g. country,
+ * certificates), the format of the string must be a comma separated list.
+ *
+ * For example: `{certificates: FSC,GOTS}`
+ */
 export type FactoryReqFilterParams = Partial<FactoryResAddressData> & {
   /**
-   * Comma separated list of certificates
+   * The value of the `certificates` param corresponds to the `standard_name`
+   * for a given certificate.
    */
-  certificates?: string; // TODO: Rename to standard_name
+  certificates?: string;
   /**
    * Used for full text searches on all address fields
    */

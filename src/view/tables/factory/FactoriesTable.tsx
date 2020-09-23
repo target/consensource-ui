@@ -9,6 +9,7 @@ import {
   FactoryReqFilterParams,
   SortingDir,
 } from 'services/api';
+import { useSearchQuery } from 'services/hooks';
 import MUIDataTable, {
   MUIDataTableColumn,
   debounceSearchRender,
@@ -20,7 +21,6 @@ import {
   FullScreenSpinnerWithLabel,
   WarningIconError,
 } from 'view/components';
-import { useSearchQuery } from 'services/hooks';
 import {
   FactoryProfileLinkIcon,
   TableTitle,
@@ -30,19 +30,23 @@ import { baseFactoryTableCols } from './columns';
 import {
   textLabels,
   filterChipProps,
-  parseOptions,
-  stringifyOptions,
   convertStrToArray,
   DEFAULT_ROWS_PER_PAGE,
 } from './utils';
 
 export const FactoriesTable = () => {
   const history = useHistory();
-  const queryParams = useSearchQuery(parseOptions);
+  const queryParams = useSearchQuery({ arrayFormat: 'comma' });
 
+  /**
+   * Note that when parsing query params, we do not have a
+   * guarantee that all params passed to `fetchAllFactories`
+   * will be a key/val of `FactoryReqParams`. The API is
+   * responsible for filtering out invalid params.
+   */
   const { data, isLoading, error } = useQuery(
-    ['fetchAllFactories', { ...queryParams, expand: true }],
-    (key, params) => fetchAllFactories(params as FactoryReqParams),
+    ['fetchAllFactories', queryParams],
+    (key, params) => fetchAllFactories(params as any),
   );
 
   const columns: MUIDataTableColumn[] = [
@@ -58,11 +62,6 @@ export const FactoriesTable = () => {
     },
   ];
 
-  const limit =
-    typeof queryParams.limit === 'number'
-      ? queryParams.limit
-      : DEFAULT_ROWS_PER_PAGE;
-
   /**
    * Update the query string in the URL to reflect the table
    * filter state.
@@ -71,7 +70,10 @@ export const FactoriesTable = () => {
     val: { [key in keyof FactoryReqParams]: FactoryReqParams[key] },
   ) => {
     history.push({
-      search: qs.stringify({ ...queryParams, ...val }, stringifyOptions),
+      search: qs.stringify(
+        { ...queryParams, ...val },
+        { arrayFormat: 'comma' },
+      ),
     });
   };
 
@@ -112,10 +114,12 @@ export const FactoriesTable = () => {
 
   /**
    * Return a list of table filters based on the query string
-   * of the current location. This is needed to populate the
-   * `<TableFilterList />` component with the appropriate
-   * filter chips (filters such as `limit` which are not in the
-   * `baseFactoryTableCols` object are excluded).
+   * of the current location.
+   *
+   * This is needed to populate the `<TableFilterList />` component
+   * with the appropriate filter chips (filters such as `head`
+   * which are not in the `baseFactoryTableCols` object are excluded).
+   *
    */
   const getFilterListFromQueryParams = () => {
     return baseFactoryTableCols.map(({ name: colName }) => {
@@ -182,7 +186,7 @@ export const FactoriesTable = () => {
               typeof queryParams.address === 'string'
                 ? queryParams.address
                 : '',
-            rowsPerPage: limit,
+            rowsPerPage: DEFAULT_ROWS_PER_PAGE,
             selectableRows: 'none',
             searchPlaceholder: 'Search by name, certifications...',
             confirmFilters: true,
@@ -198,10 +202,7 @@ export const FactoriesTable = () => {
               updateQueryParams({ address: searchText });
             },
             onChangePage: (page) => {
-              updateQueryParams({ offset: page * limit });
-            },
-            onChangeRowsPerPage: (rowsPerPage) => {
-              updateQueryParams({ limit: rowsPerPage });
+              updateQueryParams({ offset: page * DEFAULT_ROWS_PER_PAGE });
             },
             onColumnSortChange: (changedColumn, direction) => {
               updateQueryParams({

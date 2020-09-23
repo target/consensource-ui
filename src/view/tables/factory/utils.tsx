@@ -1,22 +1,11 @@
 import { MUIDataTableOptions, MUIDataTableChip } from 'mui-datatables';
-import { ParseOptions, StringifyOptions } from 'query-string';
 
-export const DEFAULT_ROWS_PER_PAGE = 15;
+export const DEFAULT_ROWS_PER_PAGE = 100;
 
 export const textLabels: MUIDataTableOptions['textLabels'] = {
   body: {
     noMatch: 'No factories found',
   },
-};
-
-export const parseOptions: ParseOptions = {
-  parseNumbers: true,
-  arrayFormat: 'comma',
-};
-
-export const stringifyOptions: StringifyOptions = {
-  arrayFormat: 'comma',
-  encode: false, // We are handling encoding/decoding ourselves
 };
 
 /**

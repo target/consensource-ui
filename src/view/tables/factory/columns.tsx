@@ -67,7 +67,7 @@ export const certColumnOptions: MUIDataTableColumn['options'] = {
   customBodyRender: (value?: string) => {
     // TODO: Remove optional `value` when backend issues are resolved
     const certs = value && JSON.parse(value);
-    return <CertificatesCell certificates={JSON.parse(certs)} />;
+    return <CertificatesCell certificates={certs} />;
   },
   customFilterListOptions: {
     render: (value) => getCustomFilterChipLabel('Certification', value),
