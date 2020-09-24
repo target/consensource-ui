@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSearchQuery } from 'services/hooks';
-import { convertStrToArray } from '../../utils';
+import { convertStrToArray, queryOpts } from '../../utils';
 
 /**
  * Custom hook that will parse query filter values from the URL
@@ -14,7 +14,7 @@ export const useInitialQueryVal = (
   queryKey: string,
   onChange: (filterVal: string[]) => void,
 ) => {
-  const queryParams = useSearchQuery({ arrayFormat: 'comma' });
+  const queryParams = useSearchQuery(queryOpts);
 
   useEffect(() => {
     const queryVal = queryParams[queryKey];

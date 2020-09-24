@@ -27,16 +27,11 @@ import {
   FilterFooterButton,
 } from './components';
 import { baseFactoryTableCols } from './columns';
-import {
-  textLabels,
-  filterChipProps,
-  convertStrToArray,
-  DEFAULT_ROWS_PER_PAGE,
-} from './utils';
+import { convertStrToArray, DEFAULT_ROWS_PER_PAGE, queryOpts } from './utils';
 
 export const FactoriesTable = () => {
   const history = useHistory();
-  const queryParams = useSearchQuery({ arrayFormat: 'comma' });
+  const queryParams = useSearchQuery(queryOpts);
 
   /**
    * Note that when parsing query params, we do not have a
@@ -70,10 +65,7 @@ export const FactoriesTable = () => {
     val: { [key in keyof FactoryReqParams]: FactoryReqParams[key] },
   ) => {
     history.push({
-      search: qs.stringify(
-        { ...queryParams, ...val },
-        { arrayFormat: 'comma' },
-      ),
+      search: qs.stringify({ ...queryParams, ...val }, queryOpts),
     });
   };
 
@@ -174,7 +166,6 @@ export const FactoriesTable = () => {
             ),
           }}
           options={{
-            textLabels,
             onFilterConfirm,
             onFilterChipClose,
             serverSide: true,
@@ -191,7 +182,17 @@ export const FactoriesTable = () => {
             searchPlaceholder: 'Search by name, certifications...',
             confirmFilters: true,
             customSearchRender: debounceSearchRender(500),
-            setFilterChipProps: () => filterChipProps,
+            textLabels: {
+              body: {
+                noMatch: 'No factories found',
+              },
+            },
+            setFilterChipProps: () => {
+              return {
+                color: 'secondary',
+                variant: 'default',
+              };
+            },
             onSearchClose: () => {
               updateQueryParams({ address: undefined });
             },

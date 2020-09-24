@@ -1,20 +1,9 @@
-import { MUIDataTableOptions, MUIDataTableChip } from 'mui-datatables';
+import { ParseOptions, StringifyOptions } from 'query-string';
 
 export const DEFAULT_ROWS_PER_PAGE = 100;
 
-export const textLabels: MUIDataTableOptions['textLabels'] = {
-  body: {
-    noMatch: 'No factories found',
-  },
-};
-
-/**
- * Default props for the filter chips displayed in the
- * `<TableFilterList />`.
- */
-export const filterChipProps: MUIDataTableChip = {
-  color: 'secondary',
-  variant: 'default',
+export const queryOpts: ParseOptions | StringifyOptions = {
+  arrayFormat: 'comma',
 };
 
 /**
