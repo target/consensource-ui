@@ -3,19 +3,18 @@ import { Typography, makeStyles, createStyles, Theme } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { useSelectedRoute } from 'services/hooks';
 
-const useStyles = makeStyles(({ spacing }: Theme) =>
+const useStyles = makeStyles(({ spacing, palette }: Theme) =>
   createStyles({
     link: {
       textDecoration: 'none',
-      color: 'white',
+      color: palette.primary.light,
       marginRight: spacing(4),
       '&:hover': {
-        textDecoration: 'underline',
+        color: palette.primary.contrastText,
       },
     },
     selected: {
-      fontWeight: 'bold',
-      textDecoration: 'underline',
+      color: palette.primary.contrastText,
     },
   }),
 );

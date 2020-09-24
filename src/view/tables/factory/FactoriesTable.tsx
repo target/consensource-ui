@@ -69,6 +69,8 @@ export const FactoriesTable = () => {
   const updateQueryParams = (
     val: { [key in keyof FactoryReqParams]: FactoryReqParams[key] },
   ) => {
+    console.log({ ...queryParams, ...val });
+    console.log(qs.stringify({ ...queryParams, ...val }, queryOpts));
     history.push({
       search: qs.stringify({ ...queryParams, ...val }, queryOpts),
     });
@@ -197,9 +199,6 @@ export const FactoriesTable = () => {
                 variant: 'default',
               };
             },
-            onSearchClose: () => {
-              updateQueryParams({ address: undefined });
-            },
             customFilterDialogFooter: (currentFilterList, applyNewFilters) => (
               <FilterFooterButton applyNewFilters={applyNewFilters} />
             ),
@@ -207,7 +206,7 @@ export const FactoriesTable = () => {
               updateQueryParams({ limit: val });
             },
             onSearchChange: (searchText) => {
-              updateQueryParams({ address: searchText });
+              updateQueryParams({ address: searchText || undefined });
             },
             onChangePage: (page) => {
               updateQueryParams({ offset: page * limit });

@@ -4,11 +4,10 @@ export const theme = createMuiTheme({
   palette: {
     primary: {
       main: '#CC0000', // Target Red
-      contrastText: '#ffffff',
+      light: '#ea9595',
     },
     secondary: {
       main: '#366CD9',
-      contrastText: '#ffffff',
     },
     error: {
       main: '#B85300',
