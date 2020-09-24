@@ -1,24 +1,21 @@
 import React from 'react';
-import { SearchFactoriesTable } from 'view/tables';
+import { FactoriesTable } from 'view/tables';
 import { Grid, makeStyles, createStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(
   createStyles({
     container: { width: '100%' },
-    icon: {
-      paddingTop: 10,
-    },
   }),
 );
 
-export function SearchFactories() {
+export const SearchFactories = () => {
   const classes = useStyles();
 
   return (
     <Grid container className={classes.container}>
       <Grid item xs>
-        <SearchFactoriesTable />
+        <FactoriesTable />
       </Grid>
     </Grid>
   );
-}
+};

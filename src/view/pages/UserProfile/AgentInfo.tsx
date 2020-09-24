@@ -1,5 +1,5 @@
 import React from 'react';
-import { InfoItem } from 'view/components/InfoItem';
+import { InfoItem } from 'view/components';
 import { Typography, Grid } from '@material-ui/core';
 import { AgentResData } from 'services/api';
 import { CreateAgentForm, CreateOrganizationForm } from 'view/forms';

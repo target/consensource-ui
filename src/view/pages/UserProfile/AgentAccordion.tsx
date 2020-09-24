@@ -10,7 +10,7 @@ import { ExpandMore } from '@material-ui/icons';
 import { useQuery } from 'react-query';
 import { User } from 'stores';
 import { fetchAgentByPubKey } from 'services/api';
-import { LoadingWithMinDisplay, SpinnerWithLabel } from 'view/components';
+import { LoadingWithMinDisplay } from 'view/components';
 import { AgentInfo } from './AgentInfo';
 
 export interface AgentAccordionProps {
@@ -39,10 +39,7 @@ export const AgentAccordion = ({ agentPubKey }: AgentAccordionProps) => {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <LoadingWithMinDisplay
-              isLoading={isLoading}
-              loadingIndicator={<SpinnerWithLabel spinnerSize={60} />}
-            >
+            <LoadingWithMinDisplay isLoading={isLoading}>
               {error && (
                 <Grid item xs={12}>
                   <Typography color="error">

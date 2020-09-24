@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Grid } from '@material-ui/core';
 import { FactoryResAddressData } from 'services/api';
-import { InfoItem } from 'view/components/InfoItem';
+import { InfoItem } from 'view/components';
 
 interface Address {
   address: FactoryResAddressData;

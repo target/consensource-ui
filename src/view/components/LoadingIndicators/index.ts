@@ -1,3 +1,2 @@
 export * from './LoadingWithMinDisplay';
-export * from './SpinnerWithLabel';
-export * from './utils';
+export * from './FullScreenSpinnerWithLabel';

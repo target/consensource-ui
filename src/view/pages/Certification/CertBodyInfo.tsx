@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { Typography, Grid, CircularProgress } from '@material-ui/core';
+import { Typography, Grid } from '@material-ui/core';
 import {
   LoadingWithMinDisplay,
   WarningIconError,
@@ -19,10 +19,7 @@ export function CertBodyInfo({ certificate }: CertBodyInfoProps) {
   );
 
   return (
-    <LoadingWithMinDisplay
-      isLoading={isLoading}
-      loadingIndicator={<CircularProgress />}
-    >
+    <LoadingWithMinDisplay isLoading={isLoading}>
       {error && (
         <WarningIconError>Failed to load certifying body info</WarningIconError>
       )}

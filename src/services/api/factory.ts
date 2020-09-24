@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from 'query-string';
 import { BaseApiRes, PaginatedApiRes, SortingReq } from './utils';
 import { OrgResData } from './organization';
 import { CertResData } from './certificate';
@@ -17,10 +18,27 @@ export interface FactoryResData extends OrgResData {
   certificates?: CertResData[];
 }
 
+/**
+ * Allows for filtering on all fields of a factory address, and by
+ * certifications.
+ */
 export type FactoryReqFilterParams = Partial<FactoryResAddressData> & {
-  standard_name?: string; // Only value from `CertResData` we filter/sort on
-  address?: string; // Used for full text searches on all address fields
+  /**
+   * Overridden from `FactoryResAddressData` to allow for multiple countries
+   */
+  country?: string[];
+  /**
+   * The value of the `certificates` param corresponds to the `standard_name`
+   * for a given certificate.
+   */
+  certificates?: string[];
+  /**
+   * Used for full text searches on all address fields
+   */
+  address?: string;
 };
+
+export type FactoryReqSortParams = SortingReq<FactoryReqFilterParams>;
 
 /**
  * Allows for optional query filtering/sorting on all fields
@@ -29,7 +47,7 @@ export type FactoryReqFilterParams = Partial<FactoryResAddressData> & {
  */
 export interface FactoryReqParams
   extends FactoryReqFilterParams,
-    SortingReq<FactoryReqFilterParams> {
+    FactoryReqSortParams {
   limit?: number;
   offset?: number;
   head?: number;
@@ -41,6 +59,7 @@ export async function fetchAllFactories(params?: FactoryReqParams) {
     '/api/factories',
     {
       params,
+      paramsSerializer: (val) => qs.stringify(val, { arrayFormat: 'comma' }),
     },
   );
 

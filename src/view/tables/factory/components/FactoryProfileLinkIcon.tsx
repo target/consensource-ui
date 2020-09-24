@@ -24,7 +24,7 @@ export function FactoryProfileLinkIcon({
           onFocus={() => setColor('primary')}
           onMouseOut={() => setColor('inherit')}
           onBlur={() => setColor('inherit')}
-          aria-label="view factory profile"
+          aria-label="View factory profile"
         >
           <OpenInNewIcon color={color} />
         </IconButton>

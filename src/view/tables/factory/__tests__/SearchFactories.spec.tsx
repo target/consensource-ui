@@ -11,14 +11,14 @@ import {
 } from '@testing-library/react';
 import * as FactoryApi from 'services/api/factory';
 import { DEFAULT_ROWS_PER_PAGE, textLabels } from '../utils';
-import { SearchFactoriesTable } from '..';
+import { FactoriesTable } from '..';
 
-describe('<SearchFactoriesTable />', () => {
+describe('<FactoriesTable />', () => {
   const loadingText = textLabels!.body!.noMatch!;
 
   const waitForTableRender = async () => {
     await act(async () => {
-      render(<SearchFactoriesTable />);
+      render(<FactoriesTable />);
       await waitForElementToBeRemoved(() => screen.getByText(loadingText));
     });
   };
@@ -27,7 +27,7 @@ describe('<SearchFactoriesTable />', () => {
     jest
       .spyOn(FactoryApi, 'fetchAllFactories')
       .mockReturnValueOnce({ data: [], paging: { total: 0 } } as any);
-    render(<SearchFactoriesTable />);
+    render(<FactoriesTable />);
     expect(screen.getByText(loadingText)).toBeInTheDocument();
   });
 

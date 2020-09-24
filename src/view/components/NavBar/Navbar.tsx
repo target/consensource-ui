@@ -23,7 +23,7 @@ const useStyles = makeStyles(({ palette, zIndex }: Theme) =>
     },
     navbarText: {
       textDecoration: 'none',
-      color: 'white',
+      color: palette.primary.contrastText,
       display: 'inline-block',
     },
   }),
