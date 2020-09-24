@@ -57,6 +57,11 @@ export const FactoriesTable = () => {
     },
   ];
 
+  const limit = queryParams.limit
+    ? parseInt(convertStrToArray(queryParams.limit)[0], 10) ||
+      DEFAULT_ROWS_PER_PAGE
+    : DEFAULT_ROWS_PER_PAGE;
+
   /**
    * Update the query string in the URL to reflect the table
    * filter state.
@@ -111,7 +116,6 @@ export const FactoriesTable = () => {
    * This is needed to populate the `<TableFilterList />` component
    * with the appropriate filter chips (filters such as `head`
    * which are not in the `baseFactoryTableCols` object are excluded).
-   *
    */
   const getFilterListFromQueryParams = () => {
     return baseFactoryTableCols.map(({ name: colName }) => {
@@ -177,7 +181,7 @@ export const FactoriesTable = () => {
               typeof queryParams.address === 'string'
                 ? queryParams.address
                 : '',
-            rowsPerPage: DEFAULT_ROWS_PER_PAGE,
+            rowsPerPage: limit,
             selectableRows: 'none',
             searchPlaceholder: 'Search by name, certifications...',
             confirmFilters: true,
@@ -199,11 +203,14 @@ export const FactoriesTable = () => {
             customFilterDialogFooter: (currentFilterList, applyNewFilters) => (
               <FilterFooterButton applyNewFilters={applyNewFilters} />
             ),
+            onChangeRowsPerPage: (val) => {
+              updateQueryParams({ limit: val });
+            },
             onSearchChange: (searchText) => {
               updateQueryParams({ address: searchText });
             },
             onChangePage: (page) => {
-              updateQueryParams({ offset: page * DEFAULT_ROWS_PER_PAGE });
+              updateQueryParams({ offset: page * limit });
             },
             onColumnSortChange: (changedColumn, direction) => {
               updateQueryParams({
