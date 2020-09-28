@@ -52,6 +52,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
             onChange={(e) => setLogin({ ...login, password: e.target.value })}
             label="Password"
             id="password"
+            type="password"
             required
           />
         </Grid>

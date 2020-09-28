@@ -55,6 +55,7 @@ export function CreateUserForm() {
             onChange={(e) => setUser({ ...user, password: e.target.value })}
             label="Password"
             id="password"
+            type="password"
             required
           />
         </Grid>

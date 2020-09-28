@@ -25,7 +25,7 @@
     "@testing-library/react": "^10.4.4",
     "@types/eventsource": "^1.1.2",
     "@types/jest": "^24.0.0",
-    "@types/mui-datatables": "^3.4.0",
+    "@types/mui-datatables": "3.4.1",
     "@types/node": "^13.13.0",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.6",
@@ -49,7 +49,7 @@
     "lint-staged": "^10.1.7",
     "prettier": "^2.0.5",
     "protobufjs": "^6.8.8",
-    "react-scripts": "3.4.1",
+    "react-scripts": "3.4.3",
     "ts-jest": "^24.0.0",
     "typescript": "~3.7.2"
   },
