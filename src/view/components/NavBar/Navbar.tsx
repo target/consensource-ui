@@ -11,6 +11,9 @@ import { Link } from 'react-router-dom';
 import { ProfileMenu } from './ProfileMenu';
 import { NavbarLink } from './NavbarLink';
 
+// Height of a "dense" toolbar
+export const NAVBAR_HEIGHT = 48;
+
 const useStyles = makeStyles(({ palette, zIndex }: Theme) =>
   createStyles({
     navbar: {

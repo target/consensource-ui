@@ -1,5 +1,12 @@
 import React from 'react';
-import { CircularProgress, Grid, Typography } from '@material-ui/core';
+import {
+  CircularProgress,
+  Grid,
+  Typography,
+  makeStyles,
+  createStyles,
+} from '@material-ui/core';
+import { NAVBAR_HEIGHT } from '../NavBar';
 
 export interface FullScreenSpinnerWithLabelProps {
   /**
@@ -7,6 +14,16 @@ export interface FullScreenSpinnerWithLabelProps {
    */
   label: string;
 }
+
+const SPINNER_SIZE = window.screen.width / 8;
+
+const useStyles = makeStyles(
+  createStyles({
+    center: {
+      minHeight: `calc(100vh - ${NAVBAR_HEIGHT}px - ${SPINNER_SIZE}px)`,
+    },
+  }),
+);
 
 /**
  * `<CircularProgress />` component that displays with a label
@@ -22,12 +39,21 @@ export interface FullScreenSpinnerWithLabelProps {
 export const FullScreenSpinnerWithLabel = ({
   label,
 }: FullScreenSpinnerWithLabelProps) => {
+  const classes = useStyles();
+
   return (
-    <Grid container direction="column" alignItems="center" spacing={2}>
-      <Grid item xs={12}>
-        <CircularProgress size={window.screen.width / 8} />
+    <Grid
+      container
+      direction="column"
+      alignItems="center"
+      justify="center"
+      spacing={2}
+      className={classes.center}
+    >
+      <Grid item>
+        <CircularProgress size={SPINNER_SIZE} />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item>
         <Typography variant="h5">{label}</Typography>
       </Grid>
     </Grid>

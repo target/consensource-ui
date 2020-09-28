@@ -119,12 +119,12 @@ export const FactoriesTable = () => {
    * with the appropriate filter chips (filters such as `head`
    * which are not in the `baseFactoryTableCols` object are excluded).
    */
-  const getFilterListFromQueryParams = () => {
-    return baseFactoryTableCols.map(({ name: colName }) => {
+  const columnFiltersFromQueryParams = baseFactoryTableCols.map(
+    ({ name: colName }) => {
       const queryVal = queryParams[colName];
       return queryVal ? convertStrToArray(queryVal) : [];
-    });
-  };
+    },
+  );
 
   /**
    * Flattens and expands all properties of `FactoryResData`. This
@@ -167,7 +167,7 @@ export const FactoriesTable = () => {
             TableFilterList: (props) => (
               <TableFilterList
                 {...props}
-                filterList={getFilterListFromQueryParams()}
+                filterList={columnFiltersFromQueryParams}
               />
             ),
           }}

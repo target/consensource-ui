@@ -16,8 +16,11 @@ export interface CertificatesCellProps {
 const useStyles = makeStyles(({ palette }) =>
   createStyles({
     certName: {
-      borderBottom: `2px solid ${palette.primary.main}`,
+      borderBottom: `2px solid ${palette.primary.light}`,
       cursor: 'pointer',
+      '&:hover': {
+        borderBottom: `2px solid ${palette.primary.main}`,
+      },
     },
   }),
 );

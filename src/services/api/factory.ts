@@ -22,7 +22,9 @@ export interface FactoryResData extends OrgResData {
  * Allows for filtering on all fields of a factory address, and by
  * certifications.
  */
-export type FactoryReqFilterParams = Partial<FactoryResAddressData> & {
+export type FactoryReqFilterParams = Partial<
+  Omit<FactoryResAddressData, 'country'>
+> & {
   /**
    * Overridden from `FactoryResAddressData` to allow for multiple countries
    */
