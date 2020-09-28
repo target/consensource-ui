@@ -31,7 +31,7 @@ export const CertificationsMultiselect = ({
     <LoadingWithMinDisplay isLoading={isLoading}>
       {error && (
         <div className={classes.errorText}>
-          <WarningIconError typeVariant="body2" iconFontSize="small">
+          <WarningIconError size="small">
             Failed to load certifications
           </WarningIconError>
         </div>

@@ -27,7 +27,12 @@ import {
   FilterFooterButton,
 } from './components';
 import { baseFactoryTableCols } from './columns';
-import { convertStrToArray, DEFAULT_ROWS_PER_PAGE, queryOpts } from './utils';
+import {
+  convertStrToArray,
+  getIntValFromQueryParam,
+  DEFAULT_ROWS_PER_PAGE,
+  queryOpts,
+} from './utils';
 
 export const FactoriesTable = () => {
   const history = useHistory();
@@ -36,7 +41,7 @@ export const FactoriesTable = () => {
   /**
    * Note that when parsing query params, we do not have a
    * guarantee that all params passed to `fetchAllFactories`
-   * will be a key/val of `FactoryReqParams`. The API is
+   * will be a valid `FactoryReqParams` object. The API is
    * responsible for filtering out invalid params.
    */
   const { data, isLoading, error } = useQuery(
@@ -44,6 +49,15 @@ export const FactoriesTable = () => {
     (key, params) => fetchAllFactories(params as any),
   );
 
+  const limit =
+    getIntValFromQueryParam(queryParams.limit) || DEFAULT_ROWS_PER_PAGE;
+
+  const offset = getIntValFromQueryParam(queryParams.offset) || 0;
+
+  /**
+   * Expand the `baseFactoryTableCols` with an additional column
+   * that has a link button to the profile page for the factory
+   */
   const columns: MUIDataTableColumn[] = [
     ...baseFactoryTableCols,
     {
@@ -57,11 +71,6 @@ export const FactoriesTable = () => {
     },
   ];
 
-  const limit = queryParams.limit
-    ? parseInt(convertStrToArray(queryParams.limit)[0], 10) ||
-      DEFAULT_ROWS_PER_PAGE
-    : DEFAULT_ROWS_PER_PAGE;
-
   /**
    * Update the query string in the URL to reflect the table
    * filter state.
@@ -69,8 +78,6 @@ export const FactoriesTable = () => {
   const updateQueryParams = (
     val: { [key in keyof FactoryReqParams]: FactoryReqParams[key] },
   ) => {
-    console.log({ ...queryParams, ...val });
-    console.log(qs.stringify({ ...queryParams, ...val }, queryOpts));
     history.push({
       search: qs.stringify({ ...queryParams, ...val }, queryOpts),
     });
@@ -81,7 +88,7 @@ export const FactoriesTable = () => {
    * in the URL.
    */
   const onFilterChipClose = (index: number, removedFilter: string) => {
-    const filterKey = baseFactoryTableCols[index].name;
+    const { name: filterKey } = baseFactoryTableCols[index];
     const filterVal = queryParams[filterKey];
 
     if (filterVal) {
@@ -154,7 +161,7 @@ export const FactoriesTable = () => {
       }
     >
       {error && (
-        <WarningIconError typeVariant="h5" iconFontSize="large">
+        <WarningIconError size="large">
           Failed to load factories
         </WarningIconError>
       )}
@@ -178,6 +185,7 @@ export const FactoriesTable = () => {
             download: false,
             print: false,
             viewColumns: false,
+            page: offset / limit,
             count: data.paging.total,
             searchText:
               typeof queryParams.address === 'string'
@@ -208,8 +216,8 @@ export const FactoriesTable = () => {
             onSearchChange: (searchText) => {
               updateQueryParams({ address: searchText || undefined });
             },
-            onChangePage: (page) => {
-              updateQueryParams({ offset: page * limit });
+            onChangePage: () => {
+              updateQueryParams({ offset: offset + 1 * limit });
             },
             onColumnSortChange: (changedColumn, direction) => {
               updateQueryParams({

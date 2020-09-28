@@ -1,35 +1,22 @@
 import React, { FC } from 'react';
-import {
-  Grid,
-  Typography,
-  SvgIconProps,
-  TypographyProps,
-} from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { Warning as WarningIcon } from '@material-ui/icons';
 
 export interface WarningIconErrorProps {
-  /**
-   * **Default:** _"large"_
-   */
-  iconFontSize?: SvgIconProps['fontSize'];
-  /**
-   * **Default:** _"h5"_
-   */
-  typeVariant?: TypographyProps['variant'];
+  size?: 'small' | 'large';
 }
 
 export const WarningIconError: FC<WarningIconErrorProps> = ({
   children,
-  iconFontSize = 'inherit',
-  typeVariant = 'body1',
+  size = 'small',
 }) => {
   return (
-    <Grid container direction="column" alignItems="center" spacing={2}>
+    <Grid container direction="column" alignItems="center" spacing={1}>
       <Grid item xs={12}>
-        <WarningIcon fontSize={iconFontSize} color="error" />
+        <WarningIcon fontSize={size} color="error" />
       </Grid>
       <Grid item xs={12}>
-        <Typography variant={typeVariant} color="error">
+        <Typography variant={size === 'small' ? 'body1' : 'h6'} color="error">
           {children}
         </Typography>
       </Grid>

@@ -1,9 +1,10 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { Typography, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import {
   LoadingWithMinDisplay,
   FullScreenSpinnerWithLabel,
+  WarningIconError,
 } from 'view/components';
 import { fetchFactoryByOrgId, FactoryResData } from 'services/api';
 import { Contacts } from './Contacts';
@@ -30,9 +31,9 @@ export const FactoryProfile = ({ factoryId }: FactoryProfile) => {
       }
     >
       {error && (
-        <Grid item xs={12}>
-          <Typography color="error">Failed to load factory details</Typography>
-        </Grid>
+        <WarningIconError size="large">
+          Failed to load factory details
+        </WarningIconError>
       )}
 
       {data && (
