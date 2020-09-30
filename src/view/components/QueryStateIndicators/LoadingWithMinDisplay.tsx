@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef, FC } from 'react';
 import { CircularProgress } from '@material-ui/core';
+import { QueryResult } from 'react-query';
+import { WarningIconError } from './WarningIconError';
 
 export interface LoadingWithMinDisplayProps {
   /**
@@ -27,9 +29,16 @@ export interface LoadingWithMinDisplayProps {
    */
   loadingIndicator?: React.ReactNode;
   /**
-   * Boolean value indicating whether or not loading has completed.
+   * **Default value**: _<WarningIconError />_
+   *
+   * React node that will be displayed if an error object
+   * is present on `queryRes`.
    */
-  isLoading: boolean;
+  errorIndicator?: React.ReactNode;
+  /**
+   * Query response from a call to `useQuery`
+   */
+  queryRes: QueryResult<any>;
 }
 
 /**
@@ -47,11 +56,12 @@ export interface LoadingWithMinDisplayProps {
 export const LoadingWithMinDisplay: FC<LoadingWithMinDisplayProps> = ({
   minDisplayTimeMs = 750,
   waitTimeMs = 250,
-  loadingIndicator = <CircularProgress />,
-  isLoading,
+  loadingIndicator = CircularProgress,
+  errorIndicator = WarningIconError,
+  queryRes,
   children,
 }) => {
-  const loadingRef = useRef(isLoading);
+  const loadingRef = useRef(queryRes.isLoading);
   const [displayTimerActive, setDisplayTimerActive] = useState(false);
   const [waitTimerActive, setWaitTimerActive] = useState(true);
 
@@ -73,13 +83,17 @@ export const LoadingWithMinDisplay: FC<LoadingWithMinDisplayProps> = ({
   };
 
   useEffect(() => {
-    loadingRef.current = isLoading;
+    loadingRef.current = queryRes.isLoading;
     setWaitTimeout();
     setDisplayTimeout();
-  }, [isLoading]);
+  }, [queryRes.isLoading]);
 
   if (waitTimerActive) {
     return null;
+  }
+
+  if (queryRes.error) {
+    return <>{errorIndicator}</>;
   }
 
   return <>{displayTimerActive ? loadingIndicator : children}</>;

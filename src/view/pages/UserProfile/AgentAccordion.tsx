@@ -18,9 +18,11 @@ export interface AgentAccordionProps {
 }
 
 export const AgentAccordion = ({ agentPubKey }: AgentAccordionProps) => {
-  const { data, isLoading, error } = useQuery('fetchAgentByPubKey', () =>
+  const queryRes = useQuery('fetchAgentByPubKey', () =>
     fetchAgentByPubKey(agentPubKey),
   );
+
+  const { data } = queryRes;
 
   return (
     <Accordion>
@@ -39,14 +41,7 @@ export const AgentAccordion = ({ agentPubKey }: AgentAccordionProps) => {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <LoadingWithMinDisplay isLoading={isLoading}>
-              {error && (
-                <Grid item xs={12}>
-                  <Typography color="error">
-                    Failed to load agent info
-                  </Typography>
-                </Grid>
-              )}
+            <LoadingWithMinDisplay queryRes={queryRes}>
               {data && <AgentInfo agent={data.data} />}
             </LoadingWithMinDisplay>
           </Grid>

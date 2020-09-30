@@ -1,4 +1,3 @@
-export * from './LoadingIndicators';
 export * from './NavBar';
 export * from './Sidebar';
 export * from './ClaimedIconButton';
@@ -7,4 +6,4 @@ export * from './SequentialGrow';
 export * from './UnverifiedFactoryAlert';
 export * from './GoBackButton';
 export * from './LoadingButton';
-export * from './WarningIconError';
+export * from './QueryStateIndicators';

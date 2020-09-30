@@ -16,11 +16,7 @@ import MUIDataTable, {
   TableFilterList,
   MUIDataTableFilterList,
 } from 'mui-datatables';
-import {
-  LoadingWithMinDisplay,
-  FullScreenSpinnerWithLabel,
-  WarningIconError,
-} from 'view/components';
+import { LoadingWithMinDisplay } from 'view/components';
 import {
   FactoryProfileLinkIcon,
   TableTitle,
@@ -36,7 +32,7 @@ import {
 
 export const FactoriesTable = () => {
   const history = useHistory();
-  const queryParams = useSearchQuery(queryOpts);
+  const searchParams = useSearchQuery(queryOpts);
 
   /**
    * Note that when parsing query params, we do not have a
@@ -44,15 +40,17 @@ export const FactoriesTable = () => {
    * will be a valid `FactoryReqParams` object. The API is
    * responsible for filtering out invalid params.
    */
-  const { data, isLoading, error } = useQuery(
-    ['fetchAllFactories', queryParams],
+  const queryRes = useQuery(
+    ['fetchAllFactories', searchParams],
     (key, params) => fetchAllFactories(params as any),
   );
 
-  const limit =
-    getIntValFromQueryParam(queryParams.limit) || DEFAULT_ROWS_PER_PAGE;
+  const { data } = queryRes;
 
-  const offset = getIntValFromQueryParam(queryParams.offset) || 0;
+  const limit =
+    getIntValFromQueryParam(searchParams.limit) || DEFAULT_ROWS_PER_PAGE;
+
+  const offset = getIntValFromQueryParam(searchParams.offset) || 0;
 
   /**
    * Expand the `baseFactoryTableCols` with an additional column
@@ -75,11 +73,11 @@ export const FactoriesTable = () => {
    * Update the query string in the URL to reflect the table
    * filter state.
    */
-  const updateQueryParams = (
+  const updatesearchParams = (
     val: { [key in keyof FactoryReqParams]: FactoryReqParams[key] },
   ) => {
     history.push({
-      search: qs.stringify({ ...queryParams, ...val }, queryOpts),
+      search: qs.stringify({ ...searchParams, ...val }, queryOpts),
     });
   };
 
@@ -89,13 +87,13 @@ export const FactoriesTable = () => {
    */
   const onFilterChipClose = (index: number, removedFilter: string) => {
     const { name: filterKey } = baseFactoryTableCols[index];
-    const filterVal = queryParams[filterKey];
+    const filterVal = searchParams[filterKey];
 
     if (filterVal) {
       const updatedFilter = convertStrToArray(filterVal).filter(
         (val) => val !== removedFilter,
       );
-      updateQueryParams({ [filterKey]: updatedFilter });
+      updatesearchParams({ [filterKey]: updatedFilter });
     }
   };
 
@@ -115,7 +113,7 @@ export const FactoriesTable = () => {
       });
     });
 
-    updateQueryParams(updatedFilters);
+    updatesearchParams(updatedFilters);
   };
 
   /**
@@ -126,9 +124,9 @@ export const FactoriesTable = () => {
    * with the appropriate filter chips (filters such as `head`
    * which are not in the `baseFactoryTableCols` object are excluded).
    */
-  const columnFiltersFromQueryParams = baseFactoryTableCols.map(
+  const columnFiltersFromsearchParams = baseFactoryTableCols.map(
     ({ name: colName }) => {
-      const queryVal = queryParams[colName];
+      const queryVal = searchParams[colName];
       return queryVal ? convertStrToArray(queryVal) : [];
     },
   );
@@ -153,18 +151,7 @@ export const FactoriesTable = () => {
   };
 
   return (
-    <LoadingWithMinDisplay
-      isLoading={isLoading}
-      waitTimeMs={1000}
-      loadingIndicator={
-        <FullScreenSpinnerWithLabel label="Loading factories..." />
-      }
-    >
-      {error && (
-        <WarningIconError size="large">
-          Failed to load factories
-        </WarningIconError>
-      )}
+    <LoadingWithMinDisplay queryRes={queryRes}>
       {data && (
         <MUIDataTable
           title={<TableTitle />}
@@ -174,7 +161,7 @@ export const FactoriesTable = () => {
             TableFilterList: (props) => (
               <TableFilterList
                 {...props}
-                filterList={columnFiltersFromQueryParams}
+                filterList={columnFiltersFromsearchParams}
               />
             ),
           }}
@@ -188,8 +175,8 @@ export const FactoriesTable = () => {
             page: offset / limit,
             count: data.paging.total,
             searchText:
-              typeof queryParams.address === 'string'
-                ? queryParams.address
+              typeof searchParams.address === 'string'
+                ? searchParams.address
                 : '',
             rowsPerPage: limit,
             selectableRows: 'none',
@@ -211,16 +198,16 @@ export const FactoriesTable = () => {
               <FilterFooterButton applyNewFilters={applyNewFilters} />
             ),
             onChangeRowsPerPage: (val) => {
-              updateQueryParams({ limit: val });
+              updatesearchParams({ limit: val });
             },
             onSearchChange: (searchText) => {
-              updateQueryParams({ address: searchText || undefined });
+              updatesearchParams({ address: searchText || undefined });
             },
             onChangePage: () => {
-              updateQueryParams({ offset: offset + 1 * limit });
+              updatesearchParams({ offset: offset + 1 * limit });
             },
             onColumnSortChange: (changedColumn, direction) => {
-              updateQueryParams({
+              updatesearchParams({
                 sort_key: changedColumn as keyof FactoryReqFilterParams,
                 sort_dir: direction as SortingDir,
               });

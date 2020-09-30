@@ -1,29 +1,19 @@
-import React from 'react';
+import React, { FC } from 'react';
 import {
   CircularProgress,
   Grid,
   Typography,
-  makeStyles,
-  createStyles,
+  TypographyProps,
+  CircularProgressProps,
 } from '@material-ui/core';
-import { NAVBAR_HEIGHT } from '../NavBar';
-
-export interface FullScreenSpinnerWithLabelProps {
-  /**
-   * Label that will be displayed beneath the spinner.
-   */
-  label: string;
-}
 
 const SPINNER_SIZE = window.screen.width / 8;
 
-const useStyles = makeStyles(
-  createStyles({
-    center: {
-      minHeight: `calc(100vh - ${NAVBAR_HEIGHT}px - ${SPINNER_SIZE}px)`,
-    },
-  }),
-);
+export interface SpinnerWithLabelProps {
+  label?: string;
+  spinnerSize?: CircularProgressProps['size'];
+  typeVariant?: TypographyProps['variant'];
+}
 
 /**
  * `<CircularProgress />` component that displays with a label
@@ -36,11 +26,11 @@ const useStyles = makeStyles(
  * be used to avoid unnecessary information from the label.
  *
  */
-export const FullScreenSpinnerWithLabel = ({
-  label,
-}: FullScreenSpinnerWithLabelProps) => {
-  const classes = useStyles();
-
+export const SpinnerWithLabel: FC<SpinnerWithLabelProps> = ({
+  children,
+  spinnerSize = SPINNER_SIZE,
+  typeVariant = 'h5',
+}) => {
   return (
     <Grid
       container
@@ -48,13 +38,12 @@ export const FullScreenSpinnerWithLabel = ({
       alignItems="center"
       justify="center"
       spacing={2}
-      className={classes.center}
     >
       <Grid item>
-        <CircularProgress size={SPINNER_SIZE} />
+        <CircularProgress size={spinnerSize} />
       </Grid>
       <Grid item>
-        <Typography variant="h5">{label}</Typography>
+        <Typography variant={typeVariant}>{children}</Typography>
       </Grid>
     </Grid>
   );

@@ -1,8 +1,7 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { fetchAllStandards } from 'services/api';
-import { makeStyles, createStyles } from '@material-ui/core';
-import { LoadingWithMinDisplay, WarningIconError } from 'view/components';
+import { LoadingWithMinDisplay } from 'view/components';
 import { FilterMultiselect } from './Multiselect';
 
 export interface CertificationsMultiselectProps {
@@ -10,32 +9,16 @@ export interface CertificationsMultiselectProps {
   onChange: (value: string[]) => void;
 }
 
-const useStyles = makeStyles(
-  createStyles({
-    errorText: {
-      paddingTop: 10,
-    },
-  }),
-);
-
 export const CertificationsMultiselect = ({
   activeCertFilters,
   onChange,
 }: CertificationsMultiselectProps) => {
-  const classes = useStyles();
-  const { data, isLoading, error } = useQuery('fetchAllStandards', () =>
-    fetchAllStandards(),
-  );
+  const queryRes = useQuery('fetchAllStandards', () => fetchAllStandards());
+
+  const { data } = queryRes;
 
   return (
-    <LoadingWithMinDisplay isLoading={isLoading}>
-      {error && (
-        <div className={classes.errorText}>
-          <WarningIconError size="small">
-            Failed to load certifications
-          </WarningIconError>
-        </div>
-      )}
+    <LoadingWithMinDisplay queryRes={queryRes}>
       {data && (
         <FilterMultiselect
           options={data.data.map(({ standard_name }) => standard_name)}

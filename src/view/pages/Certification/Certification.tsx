@@ -7,11 +7,7 @@ import {
   makeStyles,
   createStyles,
 } from '@material-ui/core';
-import {
-  LoadingWithMinDisplay,
-  FullScreenSpinnerWithLabel,
-  WarningIconError,
-} from 'view/components';
+import { FullPageLoading } from 'view/components';
 import { fetchCertificateById, CertResData } from 'services/api';
 import { CertificateInfo } from './CertificateInfo';
 import { CertBodyInfo } from './CertBodyInfo';
@@ -32,23 +28,19 @@ export interface CertificationProps {
 }
 
 export const Certification = ({ certificationId }: CertificationProps) => {
-  const { isLoading, error, data } = useQuery('fetchCertificateById', () =>
+  const classes = useStyles();
+  const queryRes = useQuery('fetchCertificateById', () =>
     fetchCertificateById(certificationId),
   );
 
-  const classes = useStyles();
+  const { data } = queryRes;
 
   return (
-    <LoadingWithMinDisplay
-      isLoading={isLoading}
-      loadingIndicator={
-        <FullScreenSpinnerWithLabel label="Loading certificate info..." />
-      }
+    <FullPageLoading
+      queryRes={queryRes}
+      loadingLabel="Loading certificate info..."
+      errorLabel="Failed to load certification"
     >
-      {error && (
-        <WarningIconError>Failed to load certification</WarningIconError>
-      )}
-
       {data && (
         <Grid container spacing={6}>
           <Grid item xs={12}>
@@ -73,6 +65,6 @@ export const Certification = ({ certificationId }: CertificationProps) => {
           </Grid>
         </Grid>
       )}
-    </LoadingWithMinDisplay>
+    </FullPageLoading>
   );
 };

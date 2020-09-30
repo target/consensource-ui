@@ -1,11 +1,7 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { Typography, Grid } from '@material-ui/core';
-import {
-  LoadingWithMinDisplay,
-  WarningIconError,
-  InfoItem,
-} from 'view/components';
+import { LoadingWithMinDisplay, InfoItem } from 'view/components';
 import { fetchOrganizationById, CertResData } from 'services/api';
 
 interface CertBodyInfoProps {
@@ -14,16 +10,13 @@ interface CertBodyInfoProps {
 
 export function CertBodyInfo({ certificate }: CertBodyInfoProps) {
   const { certifying_body_id, certifying_body } = certificate;
-  const { isLoading, error, data } = useQuery('fetchOrganizationById', () =>
+  const queryRes = useQuery('fetchOrganizationById', () =>
     fetchOrganizationById(certifying_body_id),
   );
 
   return (
-    <LoadingWithMinDisplay isLoading={isLoading}>
-      {error && (
-        <WarningIconError>Failed to load certifying body info</WarningIconError>
-      )}
-      {data && (
+    <LoadingWithMinDisplay queryRes={queryRes}>
+      {queryRes.data && (
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography variant="h4">Certifying Body Info</Typography>

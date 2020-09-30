@@ -1,11 +1,7 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { Grid } from '@material-ui/core';
-import {
-  LoadingWithMinDisplay,
-  FullScreenSpinnerWithLabel,
-  WarningIconError,
-} from 'view/components';
+import { FullPageLoading } from 'view/components';
 import { fetchFactoryByOrgId, FactoryResData } from 'services/api';
 import { Contacts } from './Contacts';
 import { Address } from './Address';
@@ -19,23 +15,18 @@ export interface FactoryProfile {
 export const FactoryProfile = ({ factoryId }: FactoryProfile) => {
   // Including the `expand` param includes certificates with factories
   const baseParms = { expand: false };
-  const { isLoading, error, data } = useQuery('fetchFactoryByOrgId', () =>
+  const queryRes = useQuery('fetchFactoryByOrgId', () =>
     fetchFactoryByOrgId(factoryId, baseParms),
   );
 
-  return (
-    <LoadingWithMinDisplay
-      isLoading={isLoading}
-      loadingIndicator={
-        <FullScreenSpinnerWithLabel label="Loading factory info..." />
-      }
-    >
-      {error && (
-        <WarningIconError size="large">
-          Failed to load factory details
-        </WarningIconError>
-      )}
+  const { data } = queryRes;
 
+  return (
+    <FullPageLoading
+      queryRes={queryRes}
+      loadingLabel="Loading factory info..."
+      errorLabel="Failed to load factory details"
+    >
       {data && (
         <Grid container spacing={6}>
           <Grid item xs={12}>
@@ -56,6 +47,6 @@ export const FactoryProfile = ({ factoryId }: FactoryProfile) => {
           </Grid>
         </Grid>
       )}
-    </LoadingWithMinDisplay>
+    </FullPageLoading>
   );
 };
