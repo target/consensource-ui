@@ -4,7 +4,6 @@ import { useSelectedRoute } from 'services/hooks';
 import {
   ListItem,
   ListItemText,
-  Typography,
   ListItemIcon,
   makeStyles,
   createStyles,
@@ -61,9 +60,7 @@ export const SidebarItem = ({
         className={classes.listItem}
       >
         <ListItemIcon>{icon}</ListItemIcon>
-        <ListItemText>
-          <Typography variant="button">{label}</Typography>
-        </ListItemText>
+        <ListItemText>{label}</ListItemText>
       </ListItem>
     </Link>
   );

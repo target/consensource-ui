@@ -45,8 +45,6 @@ export const FactoriesTable = () => {
     (key, params) => fetchAllFactories(params as any),
   );
 
-  const { data } = queryRes;
-
   const limit =
     getIntValFromQueryParam(searchParams.limit) || DEFAULT_ROWS_PER_PAGE;
 
@@ -152,10 +150,10 @@ export const FactoriesTable = () => {
 
   return (
     <LoadingWithMinDisplay queryRes={queryRes}>
-      {data && (
+      {({ data, paging }) => (
         <MUIDataTable
           title={<TableTitle />}
-          data={data.data.map(getRow)}
+          data={data.map(getRow)}
           columns={columns}
           components={{
             TableFilterList: (props) => (
@@ -173,7 +171,7 @@ export const FactoriesTable = () => {
             print: false,
             viewColumns: false,
             page: offset / limit,
-            count: data.paging.total,
+            count: paging.total,
             searchText:
               typeof searchParams.address === 'string'
                 ? searchParams.address
@@ -203,8 +201,8 @@ export const FactoriesTable = () => {
             onSearchChange: (searchText) => {
               updatesearchParams({ address: searchText || undefined });
             },
-            onChangePage: () => {
-              updatesearchParams({ offset: offset + 1 * limit });
+            onChangePage: (page) => {
+              updatesearchParams({ offset: page * limit });
             },
             onColumnSortChange: (changedColumn, direction) => {
               updatesearchParams({

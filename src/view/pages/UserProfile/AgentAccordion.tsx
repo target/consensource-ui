@@ -22,8 +22,6 @@ export const AgentAccordion = ({ agentPubKey }: AgentAccordionProps) => {
     fetchAgentByPubKey(agentPubKey),
   );
 
-  const { data } = queryRes;
-
   return (
     <Accordion>
       <AccordionSummary
@@ -34,18 +32,20 @@ export const AgentAccordion = ({ agentPubKey }: AgentAccordionProps) => {
         <Typography variant="h6">Advanced</Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h6">
-              {data?.data ? 'Agent Info' : 'Create an Agent'}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <LoadingWithMinDisplay queryRes={queryRes}>
-              {data && <AgentInfo agent={data.data} />}
-            </LoadingWithMinDisplay>
-          </Grid>
-        </Grid>
+        <LoadingWithMinDisplay queryRes={queryRes}>
+          {({ data }) => (
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h6">
+                  {data ? 'Agent Info' : 'Create an Agent'}
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <AgentInfo agent={data} />
+              </Grid>
+            </Grid>
+          )}
+        </LoadingWithMinDisplay>
       </AccordionDetails>
     </Accordion>
   );

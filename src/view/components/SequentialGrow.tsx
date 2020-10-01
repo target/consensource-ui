@@ -26,10 +26,10 @@ export const SequentialGrow = <T extends {}>({
   renderItem,
   timeoutMs = 1000,
   timeoutIntervalMs = 250,
-  ...props
+  ...otherProps
 }: SequentialGrowProps<T>): any => {
   return items.map((item, i) => (
-    <Grow in timeout={timeoutMs + timeoutIntervalMs * i} {...props}>
+    <Grow in timeout={timeoutMs + timeoutIntervalMs * i} {...otherProps}>
       {renderItem(item)}
     </Grow>
   ));

@@ -9,22 +9,21 @@ import {
 } from '@material-ui/core';
 import { DialogProps } from './utils';
 
-export function UnclaimedDialog({ open, handleClose }: DialogProps) {
+export const UnclaimedDialog = ({ open, handleClose }: DialogProps) => {
   return (
     <Dialog
       onClose={handleClose}
       aria-labelledby="claimed-dialog-title"
       open={open}
     >
-      <DialogTitle>Claimed Data</DialogTitle>
+      <DialogTitle>Unclaimed Data</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          The data you are viewing is from a third party data source. If this
-          data is about your organization, you can claim it.
+          The data you are viewing is from a third party data source. This means
+          that it has not been verified by the organization.
         </DialogContentText>
         <DialogContentText>
-          Click here for more information on 3rd party data sources and the
-          claims process in ConsenSource.
+          If this data is about your organization, you can claim it.
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -42,4 +41,4 @@ export function UnclaimedDialog({ open, handleClose }: DialogProps) {
       </DialogActions>
     </Dialog>
   );
-}
+};

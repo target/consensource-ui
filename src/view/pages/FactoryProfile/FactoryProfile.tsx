@@ -19,31 +19,29 @@ export const FactoryProfile = ({ factoryId }: FactoryProfile) => {
     fetchFactoryByOrgId(factoryId, baseParms),
   );
 
-  const { data } = queryRes;
-
   return (
     <FullPageLoading
       queryRes={queryRes}
       loadingLabel="Loading factory info..."
       errorLabel="Failed to load factory details"
     >
-      {data && (
+      {({ data: { name, assertion_id, certificates, contacts, address } }) => (
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <Header name={data.data.name} isClaimed={!data.data.assertion_id} />
+            <Header name={name} isClaimed={!assertion_id} />
           </Grid>
 
           <Grid item xs={12}>
             {/* TODO: `certificates` shouldn't be possibly undefined when expand param is included */}
-            <Certifications certifications={data.data.certificates || []} />
+            <Certifications certifications={certificates || []} />
           </Grid>
 
           <Grid item xs={12}>
-            <Contacts contacts={data.data.contacts} />
+            <Contacts contacts={contacts} />
           </Grid>
 
           <Grid item xs={12}>
-            <Address address={data.data.address} />
+            <Address address={address} />
           </Grid>
         </Grid>
       )}

@@ -8,7 +8,7 @@ const useStyles = makeStyles(({ spacing, palette }: Theme) =>
     link: {
       textDecoration: 'none',
       color: palette.primary.light,
-      marginRight: spacing(4),
+      marginRight: spacing(2),
       '&:hover': {
         color: palette.primary.contrastText,
       },

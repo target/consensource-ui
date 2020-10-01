@@ -4,8 +4,8 @@ import {
   Toolbar,
   Typography,
   makeStyles,
+  Divider,
   createStyles,
-  Theme,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { ProfileMenu } from './ProfileMenu';
@@ -14,7 +14,7 @@ import { NavbarLink } from './NavbarLink';
 // Height of a "dense" toolbar
 export const NAVBAR_HEIGHT = 48;
 
-const useStyles = makeStyles(({ palette, zIndex }: Theme) =>
+const useStyles = makeStyles(({ palette, zIndex }) =>
   createStyles({
     navbar: {
       backgroundColor: palette.primary.main,
@@ -28,6 +28,10 @@ const useStyles = makeStyles(({ palette, zIndex }: Theme) =>
       textDecoration: 'none',
       color: palette.primary.contrastText,
       display: 'inline-block',
+    },
+    divider: {
+      backgroundColor: palette.primary.contrastText,
+      margin: '5px 10px 5px 0px',
     },
   }),
 );
@@ -68,8 +72,11 @@ export const UnauthedNavBar = () => {
 };
 
 export const AuthedNavBar = () => {
+  const classes = useStyles();
+
   return (
     <BaseNavBar>
+      <Divider orientation="vertical" className={classes.divider} flexItem />
       <ProfileMenu />
     </BaseNavBar>
   );

@@ -4,13 +4,16 @@ import { theme } from 'config/theme';
 import { stores } from 'stores';
 import { StoresContext } from 'view/context';
 import { Layout } from 'view/components/Layout';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 export const App = () => {
   return (
-    <StoresContext.Provider value={stores}>
-      <ThemeProvider theme={theme}>
-        <Layout />
-      </ThemeProvider>
-    </StoresContext.Provider>
+    <CssBaseline>
+      <StoresContext.Provider value={stores}>
+        <ThemeProvider theme={theme}>
+          <Layout />
+        </ThemeProvider>
+      </StoresContext.Provider>
+    </CssBaseline>
   );
 };

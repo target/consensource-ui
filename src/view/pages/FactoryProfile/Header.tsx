@@ -1,10 +1,9 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import { Typography, Grid, makeStyles, createStyles } from '@material-ui/core';
 import {
   ClaimedIconButton,
   UnverifiedFactoryAlert,
-  GoBackButton,
+  HistoryGoBackButton,
 } from 'view/components';
 import { FactoryResData } from 'services/api';
 
@@ -33,23 +32,13 @@ export interface UnclaimedHeaderProps {
   name: HeaderProps['name'];
 }
 
-const BackToSearchButton = () => {
-  const { state } = useLocation();
-
-  if (state?.from === '/search') {
-    return <GoBackButton tooltipLabel="Return to factory search" />;
-  }
-
-  return null;
-};
-
 const ClaimedHeader = ({ name }: ClaimedHeaderProps) => {
   const classes = useStyles();
 
   return (
     <Grid container>
       <Grid item xs={2}>
-        <BackToSearchButton />
+        <HistoryGoBackButton />
       </Grid>
 
       <Grid container item justify="center" spacing={2} xs={8}>
@@ -71,7 +60,7 @@ const UnclaimedHeader = ({ name }: UnclaimedHeaderProps) => {
   return (
     <Grid container>
       <Grid item xs={2}>
-        <BackToSearchButton />
+        <HistoryGoBackButton />
       </Grid>
 
       <Grid container item justify="center" spacing={2} xs={8}>

@@ -1,14 +1,21 @@
 import React from 'react';
 import { IconButton, Tooltip } from '@material-ui/core';
 import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
-export interface GoBackButtonProps {
+export interface HistoryGoBackButtonProps {
   tooltipLabel?: string;
 }
 
-export const GoBackButton = ({ tooltipLabel = '' }: GoBackButtonProps) => {
+export const HistoryGoBackButton = ({
+  tooltipLabel = '',
+}: HistoryGoBackButtonProps) => {
+  const { state } = useLocation();
   const history = useHistory();
+
+  if (!state || !state.from) {
+    return null;
+  }
 
   return (
     <Tooltip title={tooltipLabel}>

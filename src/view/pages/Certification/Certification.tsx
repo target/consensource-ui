@@ -33,22 +33,20 @@ export const Certification = ({ certificationId }: CertificationProps) => {
     fetchCertificateById(certificationId),
   );
 
-  const { data } = queryRes;
-
   return (
     <FullPageLoading
       queryRes={queryRes}
       loadingLabel="Loading certificate info..."
       errorLabel="Failed to load certification"
     >
-      {data && (
+      {({ data }) => (
         <Grid container spacing={6}>
           <Grid item xs={12}>
             <Typography className={classes.centeredText} variant="h3">
-              {data.data.standard_name}
+              {data.standard_name}
             </Typography>
             <Typography className={classes.centeredText} color="textSecondary">
-              {`Granted to: ${data.data.factory_name}`}
+              {`Granted to: ${data.factory_name}`}
             </Typography>
           </Grid>
 
@@ -57,11 +55,11 @@ export const Certification = ({ certificationId }: CertificationProps) => {
           </Grid>
 
           <Grid item xs={12}>
-            <CertificateInfo certificate={data.data} />
+            <CertificateInfo certificate={data} />
           </Grid>
 
           <Grid item xs={12}>
-            <CertBodyInfo certificate={data.data} />
+            <CertBodyInfo certificate={data} />
           </Grid>
         </Grid>
       )}

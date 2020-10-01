@@ -15,13 +15,11 @@ export const CertificationsMultiselect = ({
 }: CertificationsMultiselectProps) => {
   const queryRes = useQuery('fetchAllStandards', () => fetchAllStandards());
 
-  const { data } = queryRes;
-
   return (
     <LoadingWithMinDisplay queryRes={queryRes}>
-      {data && (
+      {({ data }) => (
         <FilterMultiselect
-          options={data.data.map(({ standard_name }) => standard_name)}
+          options={data.map(({ standard_name }) => standard_name)}
           queryKey="certificates"
           label="Certifications"
           onChange={(val) => onChange(val)}

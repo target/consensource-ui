@@ -5,7 +5,7 @@ import { SidebarItem } from './SidebarItem';
 export const RetailerSidebarItems = () => {
   return (
     <>
-      <SidebarItem route="/" icon={<HomeIcon />} label="DASHBOARD" />
+      <SidebarItem route="/" icon={<HomeIcon />} label="Dashboard" />
     </>
   );
 };
