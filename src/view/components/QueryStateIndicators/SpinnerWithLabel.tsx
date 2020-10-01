@@ -7,10 +7,9 @@ import {
   CircularProgressProps,
 } from '@material-ui/core';
 
-const SPINNER_SIZE = window.screen.width / 8;
+const SPINNER_SIZE = window.screen.width / 10;
 
 export interface SpinnerWithLabelProps {
-  label?: string;
   spinnerSize?: CircularProgressProps['size'];
   typeVariant?: TypographyProps['variant'];
 }
@@ -27,7 +26,7 @@ export interface SpinnerWithLabelProps {
  *
  */
 export const SpinnerWithLabel: FC<SpinnerWithLabelProps> = ({
-  children,
+  children = '',
   spinnerSize = SPINNER_SIZE,
   typeVariant = 'h5',
 }) => {

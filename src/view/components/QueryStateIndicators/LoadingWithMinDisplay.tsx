@@ -3,9 +3,7 @@ import { CircularProgress } from '@material-ui/core';
 import { QueryResult } from 'react-query';
 import { WarningIconError } from './WarningIconError';
 
-export interface LoadingWithMinDisplayProps<
-  T extends QueryResult<any['data']>
-> {
+export interface LoadingWithMinDisplayProps<T extends QueryResult<any>> {
   /**
    * **Default value**: _750_
    *
@@ -41,6 +39,13 @@ export interface LoadingWithMinDisplayProps<
    * Query response from a call to `useQuery`
    */
   queryRes: T;
+  /**
+   * Accepts two child types:
+   *   - A callback function that is passed the `data` property from the
+   *    `queryRes` once the promise has resolved. If `data` is falsey,
+   *    returns the `errorIndicator`
+   *   - A regular `React.ReactNode` element
+   */
   children:
     | ((resData: Exclude<T['data'], undefined>) => React.ReactNode)
     | React.ReactNode;
@@ -51,14 +56,16 @@ export interface LoadingWithMinDisplayProps<
  * to prevent the loading indicator from flashing on/off screen
  * too quickly.
  *
- * Elements passed as children will not be rendered until both
+ * Children will not be rendered until both
  * loading is complete, and the timer is no longer active.
  *
  * If loading is completed before the `waitTimeMs` timeout is complete,
  * then no loading indicator will be displayed.
  *
+ * If an error occurs, or no data is returned, the `errorIndicator`
+ * is displayed.
  */
-export const LoadingWithMinDisplay = <T extends QueryResult<any['data']>>({
+export const LoadingWithMinDisplay = <T extends QueryResult<any>>({
   minDisplayTimeMs = 750,
   waitTimeMs = 250,
   loadingIndicator = CircularProgress,
@@ -97,16 +104,16 @@ export const LoadingWithMinDisplay = <T extends QueryResult<any['data']>>({
     return null;
   }
 
-  if (queryRes.error) {
-    return <>{errorIndicator}</>;
-  }
-
   if (displayTimerActive) {
     return <>{loadingIndicator}</>;
   }
 
-  return typeof children === 'function' && queryRes.data !== undefined ? (
-    children(queryRes.data)
+  if (queryRes.error || !queryRes.data) {
+    return <>{errorIndicator}</>;
+  }
+
+  return typeof children === 'function' ? (
+    <>{children(queryRes.data)}</>
   ) : (
     <>{children}</>
   );

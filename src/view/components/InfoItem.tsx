@@ -8,9 +8,6 @@ export interface InfoItemProps {
 
 const useStyles = makeStyles(
   createStyles({
-    title: {
-      fontWeight: 'bold',
-    },
     val: {
       wordWrap: 'break-word',
     },
@@ -22,10 +19,8 @@ export function InfoItem({ title, val }: InfoItemProps) {
 
   return (
     <Grid item xs={12} sm={6} md={4} lg={3}>
-      <Typography variant="body1" className={classes.title}>
-        {title}
-      </Typography>
-      <Typography variant="body2" className={classes.val}>
+      <Typography variant="h6">{title}</Typography>
+      <Typography variant="body1" className={classes.val}>
         {val || '-'}
       </Typography>
     </Grid>

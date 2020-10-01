@@ -25,6 +25,16 @@ export function AuthenticatedLayout() {
     userStore: { isAuthenticating },
   } = useStores();
 
+  /**
+   * If a user fails authentication, they are logged out and redirected.
+   * This mock response is constructed to use our `<FullPageLoading />`
+   * component without actually providing return data.
+   */
+  const mockQueryRes = {
+    isLoading: isAuthenticating,
+    data: {},
+  } as QueryResult<any>;
+
   return (
     <div className={classes.container}>
       <nav>
@@ -32,12 +42,12 @@ export function AuthenticatedLayout() {
         <Sidebar />
       </nav>
 
-      <main className={classes.content}>
-        <FullPageLoading
-          queryRes={{ isLoading: isAuthenticating } as QueryResult<any>}
-          loadingLabel="Authenticating..."
-          errorLabel="Failed to authenticate"
-        >
+      <FullPageLoading
+        queryRes={mockQueryRes}
+        loadingLabel="Authenticating..."
+        errorLabel="Failed to authenticate"
+      >
+        <main className={classes.content}>
           <AuthenticatedRoutes />
           <Snackbar
             message={snackbarStore.message}
@@ -45,8 +55,8 @@ export function AuthenticatedLayout() {
             onClose={snackbarStore.handleClose}
             autoHideDuration={3000}
           />
-        </FullPageLoading>
-      </main>
+        </main>
+      </FullPageLoading>
     </div>
   );
 }

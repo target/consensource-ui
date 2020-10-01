@@ -8,15 +8,13 @@ import { Address } from './Address';
 import { Certifications } from './Certifications';
 import { Header } from './Header';
 
-export interface FactoryProfile {
+export interface FactoryProfileProps {
   factoryId: FactoryResData['id'];
 }
 
-export const FactoryProfile = ({ factoryId }: FactoryProfile) => {
-  // Including the `expand` param includes certificates with factories
-  const baseParms = { expand: false };
+export const FactoryProfile = ({ factoryId }: FactoryProfileProps) => {
   const queryRes = useQuery('fetchFactoryByOrgId', () =>
-    fetchFactoryByOrgId(factoryId, baseParms),
+    fetchFactoryByOrgId(factoryId, { expand: false }),
   );
 
   return (

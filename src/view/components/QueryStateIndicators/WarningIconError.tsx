@@ -7,7 +7,7 @@ export interface WarningIconErrorProps {
 }
 
 export const WarningIconError: FC<WarningIconErrorProps> = ({
-  children,
+  children = '',
   size = 'small',
 }) => {
   return (

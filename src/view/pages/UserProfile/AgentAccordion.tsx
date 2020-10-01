@@ -29,14 +29,14 @@ export const AgentAccordion = ({ agentPubKey }: AgentAccordionProps) => {
         aria-controls="advanced-content"
         id="advanced-header"
       >
-        <Typography variant="h6">Advanced</Typography>
+        <Typography variant="h5">Advanced</Typography>
       </AccordionSummary>
       <AccordionDetails>
         <LoadingWithMinDisplay queryRes={queryRes}>
           {({ data }) => (
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h6">
+                <Typography variant="h5">
                   {data ? 'Agent Info' : 'Create an Agent'}
                 </Typography>
               </Grid>

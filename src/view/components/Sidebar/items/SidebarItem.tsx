@@ -11,10 +11,6 @@ import {
 
 export interface SidebarItemProps {
   /**
-   * If passed, the item will not have a divider on the bottom
-   */
-  lastItem?: boolean;
-  /**
    * Route that the user will be redirected to when clicking
    * on the item
    */
@@ -30,10 +26,13 @@ export interface SidebarItemProps {
   label: string;
 }
 
-const useStyles = makeStyles(
+const useStyles = makeStyles(({ palette }) =>
   createStyles({
     listItem: {
-      height: 65,
+      height: 50,
+    },
+    selectedListItem: {
+      borderLeft: `5px solid ${palette.primary.main}`,
     },
     link: {
       textDecoration: 'none',
@@ -42,12 +41,7 @@ const useStyles = makeStyles(
   }),
 );
 
-export const SidebarItem = ({
-  lastItem,
-  route,
-  icon,
-  label,
-}: SidebarItemProps) => {
+export const SidebarItem = ({ route, icon, label }: SidebarItemProps) => {
   const classes = useStyles();
   const isSelected = useSelectedRoute(route);
 
@@ -55,9 +49,10 @@ export const SidebarItem = ({
     <Link to={route} className={classes.link}>
       <ListItem
         button
-        divider={!lastItem}
         selected={isSelected}
-        className={classes.listItem}
+        className={`${classes.listItem} ${
+          isSelected && classes.selectedListItem
+        }`}
       >
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText>{label}</ListItemText>

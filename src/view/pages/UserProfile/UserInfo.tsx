@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Grid } from '@material-ui/core';
+import { Typography, Grid, TextField } from '@material-ui/core';
 import { User } from 'stores';
 import { InfoItem } from 'view/components';
 
@@ -17,7 +17,11 @@ export function UserInfo({ user }: UserInfoProps) {
       </Grid>
 
       <InfoItem title="Username" val={username} />
-      <InfoItem title="Password" val={password} />
+
+      <Grid item xs={12} sm={6} md={4} lg={3}>
+        <Typography variant="h6">Password</Typography>
+        <TextField value={password} type="password" disabled />
+      </Grid>
     </Grid>
   );
 }
