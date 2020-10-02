@@ -6,3 +6,4 @@ export * from './SequentialGrow';
 export * from './UnverifiedFactoryAlert';
 export * from './HistoryGoBackButton';
 export * from './QueryStateIndicators';
+export * from './LinkWithHistory';

@@ -1,22 +1,19 @@
 import React from 'react';
-import qs from 'query-string';
-import { useQuery } from 'react-query';
+import qs, { ParsedQuery } from 'query-string';
 import { useHistory } from 'react-router-dom';
 import {
-  fetchAllFactories,
   FactoryResData,
   FactoryReqParams,
   FactoryReqFilterParams,
   SortingDir,
+  PaginatedApiRes,
 } from 'services/api';
-import { useSearchQuery } from 'services/hooks';
 import MUIDataTable, {
   MUIDataTableColumn,
   debounceSearchRender,
   TableFilterList,
   MUIDataTableFilterList,
 } from 'mui-datatables';
-import { LoadingWithMinDisplay } from 'view/components';
 import {
   FactoryProfileLinkButton,
   TableTitle,
@@ -31,20 +28,16 @@ import {
   queryOpts,
 } from './utils';
 
-export const FactoriesTable = () => {
-  const history = useHistory();
-  const searchParams = useSearchQuery(queryOpts);
+export interface FactoriesTableProps {
+  factories: PaginatedApiRes<FactoryResData[]>;
+  searchParams: ParsedQuery<string>;
+}
 
-  /**
-   * Note that when parsing query params, we do not have a
-   * guarantee that all params passed to `fetchAllFactories`
-   * will be a valid `FactoryReqParams` object. The API is
-   * responsible for filtering out invalid params.
-   */
-  const queryRes = useQuery(
-    ['fetchAllFactories', searchParams],
-    (key, params) => fetchAllFactories(params as any),
-  );
+export const FactoriesTable = ({
+  factories,
+  searchParams,
+}: FactoriesTableProps) => {
+  const history = useHistory();
 
   const limit =
     getIntValFromQueryParam(searchParams.limit) || DEFAULT_ROWS_PER_PAGE;
@@ -150,71 +143,65 @@ export const FactoriesTable = () => {
   };
 
   return (
-    <LoadingWithMinDisplay queryRes={queryRes}>
-      {({ data, paging }) => (
-        <MUIDataTable
-          title={<TableTitle />}
-          data={data.map(getRow)}
-          columns={columns}
-          components={{
-            TableFilterList: (props) => (
-              <TableFilterList
-                {...props}
-                filterList={columnFiltersFromsearchParams}
-              />
-            ),
-          }}
-          options={{
-            onFilterConfirm,
-            onFilterChipClose,
-            serverSide: true,
-            download: false,
-            print: false,
-            viewColumns: false,
-            page: offset / limit,
-            count: paging.total,
-            searchText:
-              typeof searchParams.address === 'string'
-                ? searchParams.address
-                : '',
-            rowsPerPage: limit,
-            selectableRows: 'none',
-            searchPlaceholder: 'Search by name, certifications...',
-            confirmFilters: true,
-            customSearchRender: debounceSearchRender(500),
-            customToolbar: () => <CopyTableLinkButton />,
-            textLabels: {
-              body: {
-                noMatch: 'No factories found',
-              },
-            },
-            setFilterChipProps: () => {
-              return {
-                color: 'secondary',
-                variant: 'default',
-              };
-            },
-            customFilterDialogFooter: (currentFilterList, applyNewFilters) => (
-              <FilterFooterButton applyNewFilters={applyNewFilters} />
-            ),
-            onChangeRowsPerPage: (val) => {
-              updatesearchParams({ limit: val });
-            },
-            onSearchChange: (searchText) => {
-              updatesearchParams({ address: searchText || undefined });
-            },
-            onChangePage: (page) => {
-              updatesearchParams({ offset: page * limit });
-            },
-            onColumnSortChange: (changedColumn, direction) => {
-              updatesearchParams({
-                sort_key: changedColumn as keyof FactoryReqFilterParams,
-                sort_dir: direction as SortingDir,
-              });
-            },
-          }}
-        />
-      )}
-    </LoadingWithMinDisplay>
+    <MUIDataTable
+      title={<TableTitle />}
+      data={factories.data.map(getRow)}
+      columns={columns}
+      components={{
+        TableFilterList: (props) => (
+          <TableFilterList
+            {...props}
+            filterList={columnFiltersFromsearchParams}
+          />
+        ),
+      }}
+      options={{
+        onFilterConfirm,
+        onFilterChipClose,
+        serverSide: true,
+        download: false,
+        print: false,
+        viewColumns: false,
+        page: offset / limit,
+        count: factories.paging.total,
+        searchText:
+          typeof searchParams.address === 'string' ? searchParams.address : '',
+        rowsPerPage: limit,
+        selectableRows: 'none',
+        searchPlaceholder: 'Search by name, certifications...',
+        confirmFilters: true,
+        customSearchRender: debounceSearchRender(500),
+        customToolbar: () => <CopyTableLinkButton />,
+        textLabels: {
+          body: {
+            noMatch: 'No factories found',
+          },
+        },
+        setFilterChipProps: () => {
+          return {
+            color: 'secondary',
+            variant: 'default',
+          };
+        },
+        customFilterDialogFooter: (currentFilterList, applyNewFilters) => (
+          <FilterFooterButton applyNewFilters={applyNewFilters} />
+        ),
+        onChangeRowsPerPage: (val) => {
+          updatesearchParams({ limit: val });
+        },
+        onSearchChange: (searchText) => {
+          updatesearchParams({ address: searchText || undefined });
+        },
+        onChangePage: (page) => {
+          updatesearchParams({ offset: page * limit });
+        },
+        onColumnSortChange: (changedColumn, direction) => {
+          updatesearchParams({
+            sort_key: changedColumn as keyof FactoryReqFilterParams,
+            sort_dir: direction as SortingDir,
+          });
+        },
+      }}
+    />
   );
 };

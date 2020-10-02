@@ -7,6 +7,7 @@ import {
   makeStyles,
   createStyles,
 } from '@material-ui/core';
+import { LinkWithHistory } from 'view/components';
 
 export interface CertificatesCellProps {
   // TODO: Remove optional `certificates` once we fix backend issues
@@ -15,6 +16,10 @@ export interface CertificatesCellProps {
 
 const useStyles = makeStyles(({ palette }) =>
   createStyles({
+    link: {
+      textDecoration: 'none',
+      color: 'inherit',
+    },
     certName: {
       borderBottom: `2px solid ${palette.primary.light}`,
       cursor: 'pointer',
@@ -38,17 +43,17 @@ export const CertificatesCell = ({ certificates }: CertificatesCellProps) => {
 
   return (
     <List>
-      {certificates.map((cert) => (
-        <ListItem key={cert.id}>
-          <Tooltip
-            placement="top"
-            title={`Valid until ${new Date(
-              cert.valid_to,
-            ).toLocaleDateString()}`}
-          >
-            <i className={classes.certName}>{cert.standard_name}</i>
-          </Tooltip>
-        </ListItem>
+      {certificates.map(({ standard_name, id, valid_to }) => (
+        <LinkWithHistory to={`certifications/${id}`}>
+          <ListItem key={id}>
+            <Tooltip
+              placement="top"
+              title={`Valid until ${new Date(valid_to).toLocaleDateString()}`}
+            >
+              <i className={classes.certName}>{standard_name}</i>
+            </Tooltip>
+          </ListItem>
+        </LinkWithHistory>
       ))}
     </List>
   );

@@ -68,8 +68,8 @@ export interface LoadingWithMinDisplayProps<T extends QueryResult<any>> {
 export const LoadingWithMinDisplay = <T extends QueryResult<any>>({
   minDisplayTimeMs = 750,
   waitTimeMs = 250,
-  loadingIndicator = CircularProgress,
-  errorIndicator = WarningIconError,
+  loadingIndicator = <CircularProgress />,
+  errorIndicator = <WarningIconError />,
   queryRes,
   children,
 }: LoadingWithMinDisplayProps<T>) => {
@@ -77,34 +77,37 @@ export const LoadingWithMinDisplay = <T extends QueryResult<any>>({
   const [displayTimerActive, setDisplayTimerActive] = useState(false);
   const [waitTimerActive, setWaitTimerActive] = useState(true);
 
+  const setDisplayTimeout = () => {
+    setDisplayTimerActive(true);
+
+    setTimeout(() => {
+      setDisplayTimerActive(false);
+    }, minDisplayTimeMs);
+  };
+
   const setWaitTimeout = () => {
     setTimeout(() => {
       setWaitTimerActive(false);
+
       if (loadingRef.current) {
-        setDisplayTimerActive(true);
+        setDisplayTimeout();
       }
     }, waitTimeMs);
   };
 
-  const setDisplayTimeout = () => {
-    setTimeout(() => {
-      if (displayTimerActive) {
-        setDisplayTimerActive(false);
-      }
-    }, minDisplayTimeMs + waitTimeMs);
-  };
-
   useEffect(() => {
     loadingRef.current = queryRes.isLoading;
-    setWaitTimeout();
-    setDisplayTimeout();
+
+    if (loadingRef.current) {
+      setWaitTimeout();
+    }
   }, [queryRes.isLoading]);
 
   if (waitTimerActive) {
     return null;
   }
 
-  if (displayTimerActive) {
+  if (displayTimerActive || queryRes.isLoading) {
     return <>{loadingIndicator}</>;
   }
 

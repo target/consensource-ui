@@ -8,7 +8,7 @@ export interface CertificationsProps {
   certifications: CertResData[];
 }
 
-export function Certifications({ certifications }: CertificationsProps) {
+export const Certifications = ({ certifications }: CertificationsProps) => {
   const hasCertifications = certifications.length > 0;
 
   return (
@@ -37,4 +37,4 @@ export function Certifications({ certifications }: CertificationsProps) {
       )}
     </Grid>
   );
-}
+};

@@ -7,9 +7,9 @@ import {
   Divider,
   createStyles,
 } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import { ProfileMenu } from './ProfileMenu';
 import { NavbarLink } from './NavbarLink';
+import { LinkWithHistory } from '../LinkWithHistory';
 
 // Height of a "dense" toolbar
 export const NAVBAR_HEIGHT = 48;
@@ -24,11 +24,6 @@ const useStyles = makeStyles(({ palette, zIndex }) =>
     logoContainer: {
       flexGrow: 1,
     },
-    navbarText: {
-      textDecoration: 'none',
-      color: palette.primary.contrastText,
-      display: 'inline-block',
-    },
     divider: {
       backgroundColor: palette.primary.contrastText,
       margin: '5px 10px 5px 0px',
@@ -42,11 +37,11 @@ export const BaseNavBar: FC = ({ children: AuthItems }) => {
   // TODO: Replace with SVG
   const Logo = () => (
     <div className={classes.logoContainer}>
-      <Link to="/" className={classes.navbarText}>
+      <LinkWithHistory to="/">
         <Typography variant="h5" noWrap>
           ConsenSource
         </Typography>
-      </Link>
+      </LinkWithHistory>
     </div>
   );
 

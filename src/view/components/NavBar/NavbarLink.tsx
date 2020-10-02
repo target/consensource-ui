@@ -1,12 +1,11 @@
 import React from 'react';
 import { Typography, makeStyles, createStyles, Theme } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import { useSelectedRoute } from 'services/hooks';
+import { LinkWithHistory } from '../LinkWithHistory';
 
 const useStyles = makeStyles(({ spacing, palette }: Theme) =>
   createStyles({
     link: {
-      textDecoration: 'none',
       color: palette.primary.light,
       marginRight: spacing(2),
       '&:hover': {
@@ -29,13 +28,13 @@ export const NavbarLink = ({ label, route }: NavbarLink) => {
   const isSelected = useSelectedRoute(route);
 
   return (
-    <Link to={route} className={classes.link}>
+    <LinkWithHistory to={route}>
       <Typography
         variant="body1"
-        className={`${isSelected && classes.selected}`}
+        className={`${classes.link} ${isSelected && classes.selected}`}
       >
         {label}
       </Typography>
-    </Link>
+    </LinkWithHistory>
   );
 };

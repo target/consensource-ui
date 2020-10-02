@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useSelectedRoute } from 'services/hooks';
 import {
   ListItem,
@@ -8,6 +7,7 @@ import {
   makeStyles,
   createStyles,
 } from '@material-ui/core';
+import { LinkWithHistory } from '../../LinkWithHistory';
 
 export interface SidebarItemProps {
   /**
@@ -34,10 +34,6 @@ const useStyles = makeStyles(({ palette }) =>
     selectedListItem: {
       borderLeft: `5px solid ${palette.primary.main}`,
     },
-    link: {
-      textDecoration: 'none',
-      color: 'inherit',
-    },
   }),
 );
 
@@ -46,7 +42,7 @@ export const SidebarItem = ({ route, icon, label }: SidebarItemProps) => {
   const isSelected = useSelectedRoute(route);
 
   return (
-    <Link to={route} className={classes.link}>
+    <LinkWithHistory to={route}>
       <ListItem
         button
         selected={isSelected}
@@ -57,6 +53,6 @@ export const SidebarItem = ({ route, icon, label }: SidebarItemProps) => {
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText>{label}</ListItemText>
       </ListItem>
-    </Link>
+    </LinkWithHistory>
   );
 };

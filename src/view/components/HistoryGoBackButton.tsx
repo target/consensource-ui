@@ -4,11 +4,11 @@ import { ArrowBack as ArrowBackIcon } from '@material-ui/icons';
 import { useHistory, useLocation } from 'react-router-dom';
 
 export interface HistoryGoBackButtonProps {
-  tooltipLabel?: string;
+  tooltipTitle?: string;
 }
 
 export const HistoryGoBackButton = ({
-  tooltipLabel = '',
+  tooltipTitle = '',
 }: HistoryGoBackButtonProps) => {
   const { state } = useLocation();
   const history = useHistory();
@@ -18,7 +18,7 @@ export const HistoryGoBackButton = ({
   }
 
   return (
-    <Tooltip title={tooltipLabel}>
+    <Tooltip title={tooltipTitle}>
       <IconButton aria-label="back-arrow-icon" onClick={() => history.goBack()}>
         <ArrowBackIcon />
       </IconButton>
