@@ -18,9 +18,10 @@ import MUIDataTable, {
 } from 'mui-datatables';
 import { LoadingWithMinDisplay } from 'view/components';
 import {
-  FactoryProfileLinkIcon,
+  FactoryProfileLinkButton,
   TableTitle,
   FilterFooterButton,
+  CopyTableLinkButton,
 } from './components';
 import { baseFactoryTableCols } from './columns';
 import {
@@ -143,7 +144,7 @@ export const FactoriesTable = () => {
     return {
       name,
       certificates: JSON.stringify(certificates),
-      factory_page_link: <FactoryProfileLinkIcon factoryId={id} />,
+      factory_page_link: <FactoryProfileLinkButton factoryId={id} />,
       ...address,
     };
   };
@@ -181,6 +182,7 @@ export const FactoriesTable = () => {
             searchPlaceholder: 'Search by name, certifications...',
             confirmFilters: true,
             customSearchRender: debounceSearchRender(500),
+            customToolbar: () => <CopyTableLinkButton />,
             textLabels: {
               body: {
                 noMatch: 'No factories found',

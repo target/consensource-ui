@@ -3,6 +3,7 @@ import { useStores } from 'services/hooks';
 import { Snackbar, makeStyles, createStyles } from '@material-ui/core';
 import { AuthedNavBar, Sidebar, FullPageLoading } from 'view/components';
 import { QueryResult } from 'react-query';
+import { observer } from 'mobx-react-lite';
 import { AuthenticatedRoutes } from './Routes';
 
 const useStyles = makeStyles((theme) =>
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-export function AuthenticatedLayout() {
+export const AuthenticatedLayout = observer(() => {
   const classes = useStyles();
   const {
     snackbarStore,
@@ -59,4 +60,4 @@ export function AuthenticatedLayout() {
       </FullPageLoading>
     </div>
   );
-}
+});

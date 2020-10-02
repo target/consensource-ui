@@ -5,5 +5,4 @@ export * from './InfoItem';
 export * from './SequentialGrow';
 export * from './UnverifiedFactoryAlert';
 export * from './HistoryGoBackButton';
-export * from './LoadingButton';
 export * from './QueryStateIndicators';

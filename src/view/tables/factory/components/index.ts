@@ -1,4 +1,5 @@
 export * from './CertificatesCell';
-export * from './FactoryProfileLinkIcon';
+export * from './FactoryProfileLinkButton';
 export * from './TableTitle';
 export * from './filtering';
+export * from './CopyTableLinkButton';
