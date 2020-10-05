@@ -15,7 +15,9 @@ import { createBatch } from 'services/protobuf/batch';
 import { useAuth } from 'services/hooks';
 import { postBatches } from 'services/api';
 
-export function CreateAgentForm({ setBatchStatusLink }: TransactionFormProps) {
+export const CreateAgentForm = ({
+  setBatchStatusLink,
+}: TransactionFormProps) => {
   const { signer } = useAuth();
   const [errMsg, setErrMsg] = useState('');
   const [agent, setAgent] = useState<ICreateAgentActionStrict>({ name: '' });
@@ -38,9 +40,12 @@ export function CreateAgentForm({ setBatchStatusLink }: TransactionFormProps) {
 
   return (
     <form>
-      <Grid container spacing={2}>
-        <FormErrMsg msg={errMsg} />
-        <Grid item xs={12}>
+      <Grid container direction="column" spacing={2}>
+        <Grid item>
+          <FormErrMsg msg={errMsg} />
+        </Grid>
+
+        <Grid item>
           <TextField
             color="secondary"
             value={agent.name}
@@ -58,7 +63,7 @@ export function CreateAgentForm({ setBatchStatusLink }: TransactionFormProps) {
           />
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item>
           <Button
             type="submit"
             variant="contained"
@@ -73,4 +78,4 @@ export function CreateAgentForm({ setBatchStatusLink }: TransactionFormProps) {
       </Grid>
     </form>
   );
-}
+};

@@ -1,12 +1,14 @@
 import React from 'react';
 import { Typography, Grid } from '@material-ui/core';
 
-export function Dashboard() {
+export const Dashboard = () => {
   return (
-    <Grid container spacing={6}>
-      <Grid container item justify="center" xs={12}>
-        <Typography variant="h3">Dashboard</Typography>
+    <Grid container direction="column">
+      <Grid item>
+        <Typography variant="h3" align="center">
+          Dashboard
+        </Typography>
       </Grid>
     </Grid>
   );
-}
+};

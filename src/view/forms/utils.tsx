@@ -24,7 +24,7 @@ export function FormErrMsg({ msg }: FormErrMsgProps) {
   }
 
   return (
-    <Grid item xs={12}>
+    <Grid item>
       <Typography variant="caption" color="error">
         {msg}
       </Typography>

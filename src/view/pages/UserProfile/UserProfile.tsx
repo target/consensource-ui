@@ -8,16 +8,18 @@ export const Profile = () => {
   const user = useAuth();
 
   return (
-    <Grid container spacing={6}>
-      <Grid container item justify="center" xs={12}>
-        <Typography variant="h3">Profile</Typography>
+    <Grid container direction="column" spacing={6}>
+      <Grid item>
+        <Typography variant="h3" align="center">
+          Profile
+        </Typography>
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid item>
         <UserInfo user={user} />
       </Grid>
 
-      <Grid item xs={6}>
+      <Grid item>
         <AgentAccordion agentPubKey={user.publicKeyString} />
       </Grid>
     </Grid>

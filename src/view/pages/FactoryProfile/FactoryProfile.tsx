@@ -24,21 +24,23 @@ export const FactoryProfile = ({ factoryId }: FactoryProfileProps) => {
       errorLabel="Failed to load factory details"
     >
       {({ data: { name, assertion_id, certificates, contacts, address } }) => (
-        <Grid container spacing={6}>
-          <Grid item xs={12}>
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
             <Header name={name} isClaimed={!assertion_id} />
           </Grid>
 
-          <Grid item xs={12}>
+          <br />
+
+          <Grid item>
             {/* TODO: `certificates` shouldn't be possibly undefined when expand param is included */}
             <Certifications certifications={certificates || []} />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item>
             <Contacts contacts={contacts} />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item>
             <Address address={address} />
           </Grid>
         </Grid>

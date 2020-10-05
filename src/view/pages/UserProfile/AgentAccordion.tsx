@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Typography,
-  Grid,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -31,20 +30,10 @@ export const AgentAccordion = ({ agentPubKey }: AgentAccordionProps) => {
       >
         <Typography variant="h5">Advanced</Typography>
       </AccordionSummary>
+
       <AccordionDetails>
         <LoadingWithMinDisplay queryRes={queryRes}>
-          {({ data }) => (
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Typography variant="h5">
-                  {data ? 'Agent Info' : 'Create an Agent'}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <AgentInfo agent={data} />
-              </Grid>
-            </Grid>
-          )}
+          {({ data }) => <AgentInfo agent={data} />}
         </LoadingWithMinDisplay>
       </AccordionDetails>
     </Accordion>

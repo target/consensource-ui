@@ -8,14 +8,14 @@ export interface HeaderProps {
 
 export const Header = ({ standardName }: HeaderProps) => {
   return (
-    <Grid container spacing={1}>
-      <Grid item xs={12}>
+    <Grid container direction="column" spacing={1}>
+      <Grid item>
         <Typography variant="h6" align="center">
           {standardName}
         </Typography>
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid item>
         <Divider variant="middle" />
       </Grid>
     </Grid>

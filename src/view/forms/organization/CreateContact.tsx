@@ -5,7 +5,7 @@ import {
   IContactStrict,
 } from 'services/protobuf/organization';
 import { Organization } from 'services/protobuf/compiled';
-import { Grid, TextField, Button } from '@material-ui/core';
+import { Grid, TextField, Button, Typography } from '@material-ui/core';
 
 interface CreateContactFormProps {
   onSubmit: (contact: Organization.Contact) => any;
@@ -17,7 +17,7 @@ interface CreateContactFormProps {
  */
 export const CreateContactForm = ({
   onSubmit,
-  submitLabel = 'Create Contact',
+  submitLabel = 'Submit',
 }: CreateContactFormProps) => {
   const [contact, setContact] = useState<IContactStrict>({
     name: '',
@@ -32,42 +32,48 @@ export const CreateContactForm = ({
 
   return (
     <form>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <TextField
-            color="secondary"
-            value={contact.name}
-            onChange={(e) => setContact({ ...contact, name: e.target.value })}
-            label="Name"
-            id="contact-name"
-            required
-          />
+      <Grid container direction="column" spacing={2}>
+        <Grid item>
+          <Typography variant="h6">Contact Info</Typography>
         </Grid>
-        <Grid item xs={12}>
-          <TextField
-            color="secondary"
-            value={contact.phone_number}
-            onChange={(e) =>
-              setContact({ ...contact, phone_number: e.target.value })
-            }
-            label="Phone Number"
-            id="contact-phone-number"
-            required
-          />
+        <Grid item>
+          <Grid item>
+            <TextField
+              color="secondary"
+              value={contact.name}
+              onChange={(e) => setContact({ ...contact, name: e.target.value })}
+              label="Name"
+              id="contact-name"
+              required
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              color="secondary"
+              value={contact.phone_number}
+              onChange={(e) =>
+                setContact({ ...contact, phone_number: e.target.value })
+              }
+              label="Phone Number"
+              id="contact-phone-number"
+              required
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              color="secondary"
+              value={contact.language_code}
+              onChange={(e) =>
+                setContact({ ...contact, language_code: e.target.value })
+              }
+              label="Language Code"
+              id="contact-language-code"
+              required
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <TextField
-            color="secondary"
-            value={contact.language_code}
-            onChange={(e) =>
-              setContact({ ...contact, language_code: e.target.value })
-            }
-            label="Language Code"
-            id="contact-language-code"
-            required
-          />
-        </Grid>
-        <Grid item xs={12}>
+
+        <Grid item>
           <Button
             type="submit"
             color="secondary"

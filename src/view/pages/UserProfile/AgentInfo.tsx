@@ -16,32 +16,35 @@ export interface AgentOrgInfoProps {
 const AgentOrgInfo = ({ org }: AgentOrgInfoProps) => {
   const { batchStatus, setBatchStatusLink } = useBatchStatus();
 
-  return (
+  return org ? (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h6">Organization</Typography>
+      <Grid item>
+        <Typography variant="h5">Organization Info</Typography>
+      </Grid>
+      <Grid container item>
+        <InfoItem title="Name" val={org.name} />
+        <InfoItem
+          title="Organization Type"
+          val={org.organization_type.toString()}
+        />
+        <InfoItem title="Id" val={org.id} />
+      </Grid>
+    </Grid>
+  ) : (
+    <Grid container direction="column" spacing={2}>
+      <Grid item>
+        <Typography variant="h5">Create An Organization</Typography>
+      </Grid>
+      <Grid item>
+        <CreateOrganizationForm setBatchStatusLink={setBatchStatusLink} />
       </Grid>
 
-      {!org && (
-        <Grid item xs>
-          <CreateOrganizationForm setBatchStatusLink={setBatchStatusLink} />
-        </Grid>
-      )}
-
-      {batchStatus && (
-        <InfoItem title="Batch Status" val={batchStatus.toString()} />
-      )}
-
-      {org && (
-        <>
-          <InfoItem title="Name" val={org.name} />
-          <InfoItem
-            title="Organization Type"
-            val={org.organization_type.toString()}
-          />
-          <InfoItem title="Id" val={org.id} />
-        </>
-      )}
+      <Grid item>
+        <InfoItem
+          title="Batch Status"
+          val={batchStatus ? batchStatus.toString() : ''}
+        />
+      </Grid>
     </Grid>
   );
 };
@@ -49,32 +52,40 @@ const AgentOrgInfo = ({ org }: AgentOrgInfoProps) => {
 export const AgentInfo = ({ agent }: AgentInfoProps) => {
   const { batchStatus, setBatchStatusLink } = useBatchStatus();
 
-  return (
-    <Grid container spacing={2}>
-      {!agent && (
-        <Grid item xs>
-          <CreateAgentForm setBatchStatusLink={setBatchStatusLink} />
-        </Grid>
-      )}
+  return agent ? (
+    <Grid container direction="column" spacing={2}>
+      <Grid item>
+        <Typography variant="h5">Agent Info</Typography>
+      </Grid>
+      <Grid container item>
+        <InfoItem title="Name" val={agent.name} />
+        <InfoItem
+          title="Created On"
+          val={new Date(agent.created_on).toLocaleDateString()}
+        />
+        <InfoItem title="Public Key" val={agent.public_key} />
+      </Grid>
 
-      {batchStatus && (
-        <InfoItem title="Batch Status" val={batchStatus.toString()} />
-      )}
+      <Grid item>
+        <AgentOrgInfo org={agent.organization} />
+      </Grid>
+    </Grid>
+  ) : (
+    <Grid container direction="column" spacing={2}>
+      <Grid item>
+        <Typography variant="h5">Create An Agent</Typography>
+      </Grid>
 
-      {agent && (
-        <>
-          <InfoItem title="Name" val={agent.name} />
-          <InfoItem
-            title="Created On"
-            val={new Date(agent.created_on).toLocaleDateString()}
-          />
-          <InfoItem title="Public Key" val={agent.public_key} />
+      <Grid item>
+        <CreateAgentForm setBatchStatusLink={setBatchStatusLink} />
+      </Grid>
 
-          <Grid item xs={12}>
-            <AgentOrgInfo org={agent.organization} />
-          </Grid>
-        </>
-      )}
+      <Grid item>
+        <InfoItem
+          title="Batch Status"
+          val={batchStatus ? batchStatus.toString() : ''}
+        />
+      </Grid>
     </Grid>
   );
 };

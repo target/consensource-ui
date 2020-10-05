@@ -20,10 +20,10 @@ export const Body = ({ validTo }: BodyProps) => {
   const validToStr = new Date(validTo).toLocaleDateString();
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
+    <Grid container direction="column" spacing={2}>
+      <Grid item>
         <Typography align="center" color="textSecondary">
-          TODO: Descriptions
+          <i>Description</i>
         </Typography>
       </Grid>
 

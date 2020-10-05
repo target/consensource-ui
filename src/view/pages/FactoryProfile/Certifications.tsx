@@ -26,14 +26,16 @@ export const Certifications = ({ certifications }: CertificationsProps) => {
       )}
 
       {hasCertifications && (
-        <SequentialGrow
-          items={certifications}
-          renderItem={(certification) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
-              <CertificationCard certification={certification} />
-            </Grid>
-          )}
-        />
+        <Grid container item spacing={2}>
+          <SequentialGrow
+            items={certifications}
+            renderItem={(certification) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+                <CertificationCard certification={certification} />
+              </Grid>
+            )}
+          />
+        </Grid>
       )}
     </Grid>
   );

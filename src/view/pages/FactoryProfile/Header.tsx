@@ -63,14 +63,14 @@ const UnclaimedHeader = ({ name }: UnclaimedHeaderProps) => {
         <HistoryGoBackButton />
       </Grid>
 
-      <Grid container item justify="center" spacing={2} xs={8}>
-        <Grid item xs={12}>
+      <Grid container item direction="column" spacing={2} xs={8}>
+        <Grid item>
           <Typography variant="h2" className={classes.title}>
             {name}
           </Typography>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item>
           <UnverifiedFactoryAlert />
         </Grid>
       </Grid>

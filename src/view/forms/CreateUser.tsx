@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { hasEmptyFields, FormErrMsg } from 'view/forms/utils';
-import { Button, Grid, TextField } from '@material-ui/core';
+import { Button, Grid, TextField, Typography } from '@material-ui/core';
 import { useStores } from 'services/hooks';
 import { useHistory } from 'react-router-dom';
 
@@ -37,8 +37,13 @@ export function CreateUserForm() {
   return (
     <form>
       <Grid container direction="column" alignItems="center" spacing={2}>
-        <FormErrMsg msg={errMsg} />
-        <Grid item xs={12}>
+        <Grid item>
+          <Typography variant="h4">Create User</Typography>
+        </Grid>
+        <Grid item>
+          <FormErrMsg msg={errMsg} />
+        </Grid>
+        <Grid item>
           <TextField
             color="secondary"
             value={user.username}
@@ -48,7 +53,7 @@ export function CreateUserForm() {
             required
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item>
           <TextField
             color="secondary"
             value={user.password}
@@ -59,7 +64,7 @@ export function CreateUserForm() {
             required
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item>
           <Button
             type="submit"
             variant="contained"

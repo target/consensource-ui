@@ -18,17 +18,19 @@ export function Address({ address }: Address) {
   } = address;
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
+    <Grid container direction="column" spacing={2}>
+      <Grid item>
         <Typography variant="h4">Address</Typography>
       </Grid>
 
-      <InfoItem title="Country" val={country} />
-      <InfoItem title="City" val={city} />
-      <InfoItem title="State/Province" val={state_province} />
-      <InfoItem title="Street Line 1" val={street_line_1} />
-      <InfoItem title="Street Line 2" val={street_line_2} />
-      <InfoItem title="Postal Code" val={postal_code} />
+      <Grid container item>
+        <InfoItem title="Country" val={country} />
+        <InfoItem title="City" val={city} />
+        <InfoItem title="State/Province" val={state_province} />
+        <InfoItem title="Street Line 1" val={street_line_1} />
+        <InfoItem title="Street Line 2" val={street_line_2} />
+        <InfoItem title="Postal Code" val={postal_code} />
+      </Grid>
     </Grid>
   );
 }

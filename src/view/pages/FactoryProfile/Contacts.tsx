@@ -15,26 +15,25 @@ function Contact({ contact }: ContactProps) {
   const { name, language_code, phone_number } = contact;
 
   return (
-    <Grid container spacing={2}>
+    <Grid container item>
       <InfoItem title="Name" val={name} />
       <InfoItem title="Language Code" val={language_code} />
       <InfoItem title="Phone Number" val={phone_number} />
     </Grid>
   );
 }
-
-export function Contacts({ contacts }: ContactsProps) {
+export const Contacts = ({ contacts }: ContactsProps) => {
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
+    <Grid container direction="column" spacing={2}>
+      <Grid item>
         <Typography variant="h4">Contacts</Typography>
       </Grid>
 
-      {contacts.map((contact) => (
-        <Grid item xs={12} key={contact.name}>
-          <Contact contact={contact} />
-        </Grid>
-      ))}
+      <Grid container item direction="column" spacing={2}>
+        {contacts.map((contact) => (
+          <Contact contact={contact} key={contact.name} />
+        ))}
+      </Grid>
     </Grid>
   );
-}
+};

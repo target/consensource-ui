@@ -12,10 +12,10 @@ export const WarningIconError: FC<WarningIconErrorProps> = ({
 }) => {
   return (
     <Grid container direction="column" alignItems="center" spacing={1}>
-      <Grid item xs={12}>
+      <Grid item>
         <WarningIcon fontSize={size} color="error" />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item>
         <Typography variant={size === 'small' ? 'body1' : 'h6'} color="error">
           {children}
         </Typography>

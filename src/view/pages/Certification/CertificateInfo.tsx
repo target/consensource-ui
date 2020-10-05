@@ -7,24 +7,26 @@ interface CertificateInfoProps {
   certificate: CertResData;
 }
 
-export function CertificateInfo({ certificate }: CertificateInfoProps) {
-  const { standard_version, valid_from, valid_to } = certificate;
-
+export const CertificateInfo = ({
+  certificate: { standard_version, valid_from, valid_to },
+}: CertificateInfoProps) => {
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
+    <Grid direction="column" spacing={2}>
+      <Grid item>
         <Typography variant="h4">Certificate Info</Typography>
       </Grid>
 
-      <InfoItem title="Standard Version" val={standard_version} />
-      <InfoItem
-        title="Valid From"
-        val={new Date(valid_from).toLocaleDateString()}
-      />
-      <InfoItem
-        title="Valid To"
-        val={new Date(valid_to).toLocaleDateString()}
-      />
+      <Grid container item>
+        <InfoItem title="Standard Version" val={standard_version} />
+        <InfoItem
+          title="Valid From"
+          val={new Date(valid_from).toLocaleDateString()}
+        />
+        <InfoItem
+          title="Valid To"
+          val={new Date(valid_to).toLocaleDateString()}
+        />
+      </Grid>
     </Grid>
   );
-}
+};

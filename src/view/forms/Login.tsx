@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { hasEmptyFields, FormErrMsg } from 'view/forms/utils';
-import { Button, Grid, TextField } from '@material-ui/core';
+import { Button, Grid, TextField, Typography } from '@material-ui/core';
 import { useStores } from 'services/hooks';
 
 export interface LoginFormProps {
@@ -34,8 +34,13 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
   return (
     <form>
       <Grid container direction="column" alignItems="center" spacing={2}>
-        <FormErrMsg msg={errMsg} />
-        <Grid item xs={12}>
+        <Grid item>
+          <Typography variant="h4">Login</Typography>
+        </Grid>
+        <Grid item>
+          <FormErrMsg msg={errMsg} />
+        </Grid>
+        <Grid>
           <TextField
             color="secondary"
             value={login.username}
@@ -45,7 +50,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
             required
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item>
           <TextField
             color="secondary"
             value={login.password}
@@ -56,7 +61,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
             required
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item>
           <Button
             type="submit"
             variant="contained"

@@ -6,6 +6,7 @@ import {
   Checkbox,
   Button,
   Grid,
+  Typography,
 } from '@material-ui/core';
 import { Organization } from 'services/protobuf/compiled';
 
@@ -14,10 +15,10 @@ interface SelectOrganizationTypeProps {
   submitLabel?: string;
 }
 
-export function SelectOrganizationType({
+export const SelectOrganizationType = ({
   onSubmit,
-  submitLabel = 'Select Org Type',
-}: SelectOrganizationTypeProps) {
+  submitLabel = 'Submit',
+}: SelectOrganizationTypeProps) => {
   const [selectedOrgType, setSelectedOrgType] = useState<OrgTypeStrings>(
     'UNSET_TYPE',
   );
@@ -25,7 +26,7 @@ export function SelectOrganizationType({
   // Remove the UNSET_TYPE from list of orgs
   const orgTypes = Object.keys(Organization.Type).slice(1) as OrgTypeStrings[];
 
-  const onClick = (event: React.FormEvent) => {
+  const submit = (event: React.FormEvent) => {
     event.preventDefault();
     onSubmit(Organization.Type[selectedOrgType]);
   };
@@ -40,37 +41,42 @@ export function SelectOrganizationType({
 
   return (
     <form>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
+      <Grid container direction="column">
+        <Grid item>
+          <Typography variant="h6">Select Org Type</Typography>
+        </Grid>
+        <Grid item>
           <FormGroup>
             {orgTypes.map((orgType) => (
-              <FormControlLabel
-                key={orgType}
-                control={
-                  <Checkbox
-                    checked={selectedOrgType === orgType}
-                    onChange={() => {
-                      onChange(orgType);
-                    }}
-                    name={orgType}
-                  />
-                }
-                label={orgType.split('_').join(' ').toLowerCase()}
-              />
+              <Grid item>
+                <FormControlLabel
+                  key={orgType}
+                  control={
+                    <Checkbox
+                      checked={selectedOrgType === orgType}
+                      onChange={() => {
+                        onChange(orgType);
+                      }}
+                      name={orgType}
+                    />
+                  }
+                  label={orgType.split('_').join(' ').toLowerCase()}
+                />
+              </Grid>
             ))}
           </FormGroup>
+        </Grid>
 
-          <Grid item xs={12}>
-            <Button
-              color="secondary"
-              onClick={onClick}
-              disabled={selectedOrgType === 'UNSET_TYPE'}
-            >
-              {submitLabel}
-            </Button>
-          </Grid>
+        <Grid item>
+          <Button
+            color="secondary"
+            onClick={submit}
+            disabled={selectedOrgType === 'UNSET_TYPE'}
+          >
+            {submitLabel}
+          </Button>
         </Grid>
       </Grid>
     </form>
   );
-}
+};

@@ -40,8 +40,8 @@ export const Certification = ({ certificationId }: CertificationProps) => {
       errorLabel="Failed to load certification"
     >
       {({ data }) => (
-        <Grid container spacing={6}>
-          <Grid item xs={12}>
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
             <Typography className={classes.centeredText} variant="h3">
               {data.standard_name}
             </Typography>
@@ -50,15 +50,15 @@ export const Certification = ({ certificationId }: CertificationProps) => {
             </Typography>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item>
             <Divider variant="middle" />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item>
             <CertificateInfo certificate={data} />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item>
             <CertBodyInfo certificate={data} />
           </Grid>
         </Grid>
