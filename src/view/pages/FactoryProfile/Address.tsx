@@ -23,7 +23,7 @@ export function Address({ address }: Address) {
         <Typography variant="h4">Address</Typography>
       </Grid>
 
-      <Grid container item>
+      <Grid container item spacing={2}>
         <InfoItem title="Country" val={country} />
         <InfoItem title="City" val={city} />
         <InfoItem title="State/Province" val={state_province} />

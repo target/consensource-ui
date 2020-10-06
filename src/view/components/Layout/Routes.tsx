@@ -6,30 +6,35 @@ import * as Pages from 'view/pages';
  * Routes that are shared between both the authenticated and unauthenticated views
  */
 export const SharedRoutes = () => {
-  return (
-    <>
-      <Route path="/search">
-        <Pages.SearchFactories />
-      </Route>
-
-      <Route
-        path="/factories/:factoryId"
-        render={({
-          match: {
-            params: { factoryId },
-          },
-        }) => <Pages.FactoryProfile factoryId={factoryId} />}
-      />
-      <Route
-        path="/certifications/:certificationId"
-        render={({
-          match: {
-            params: { certificationId },
-          },
-        }) => <Pages.Certification certificationId={certificationId} />}
-      />
-    </>
+  const search = (
+    <Route path="/search">
+      <Pages.SearchFactories />
+    </Route>
   );
+
+  const factories = (
+    <Route
+      path="/factories/:factoryId"
+      render={({
+        match: {
+          params: { factoryId },
+        },
+      }) => <Pages.FactoryProfile factoryId={factoryId} />}
+    />
+  );
+
+  const certs = (
+    <Route
+      path="/certifications/:certificationId"
+      render={({
+        match: {
+          params: { certificationId },
+        },
+      }) => <Pages.Certification certificationId={certificationId} />}
+    />
+  );
+
+  return [search, factories, certs];
 };
 
 export const UnauthenticatedRoutes = () => {
@@ -49,18 +54,20 @@ export const UnauthenticatedRoutes = () => {
         <Pages.SignUp />
       </Route>
 
-      <SharedRoutes />
+      {[...SharedRoutes()]}
 
       <Route
         path="*"
-        render={() => (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: pathname },
-            }}
-          />
-        )}
+        render={() => {
+          return (
+            <Redirect
+              to={{
+                pathname: '/login',
+                state: { from: pathname },
+              }}
+            />
+          );
+        }}
       />
     </Switch>
   );
@@ -79,18 +86,19 @@ export const AuthenticatedRoutes = () => {
         <Pages.Profile />
       </Route>
 
-      <SharedRoutes />
+      {[...SharedRoutes()]}
 
       <Route
-        path="*"
-        render={() => (
-          <Redirect
-            to={{
-              pathname: '/',
-              state: { from: pathname },
-            }}
-          />
-        )}
+        render={() => {
+          return (
+            <Redirect
+              to={{
+                pathname: '/',
+                state: { from: pathname },
+              }}
+            />
+          );
+        }}
       />
     </Switch>
   );

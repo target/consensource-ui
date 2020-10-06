@@ -16,7 +16,7 @@ export const CertBodyInfo = ({
         <Typography variant="h4">Certifying Body Info</Typography>
       </Grid>
 
-      <Grid item>
+      <Grid container item>
         <InfoItem title="Certifying Body" val={certifying_body} />
       </Grid>
     </Grid>

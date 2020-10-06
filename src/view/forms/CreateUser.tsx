@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { hasEmptyFields, FormErrMsg } from 'view/forms/utils';
 import { Button, Grid, TextField, Typography } from '@material-ui/core';
 import { useStores } from 'services/hooks';
-import { useHistory } from 'react-router-dom';
+
+export interface CreateUserFormProps {
+  onSubmit: () => void;
+}
 
 export interface CreateUserFormState {
   username: string;
   password: string;
 }
 
-export function CreateUserForm() {
-  const history = useHistory();
+export const CreateUserForm = ({ onSubmit }: CreateUserFormProps) => {
   const { userStore } = useStores();
   const [errMsg, setErrMsg] = useState('');
   const [user, setUser] = useState<CreateUserFormState>({
@@ -28,7 +30,7 @@ export function CreateUserForm() {
 
     try {
       await userStore.createUser(username, password);
-      history.push('/');
+      onSubmit();
     } catch ({ message }) {
       setErrMsg(message);
     }
@@ -78,4 +80,4 @@ export function CreateUserForm() {
       </Grid>
     </form>
   );
-}
+};

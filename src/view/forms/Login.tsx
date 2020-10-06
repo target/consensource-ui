@@ -4,7 +4,7 @@ import { Button, Grid, TextField, Typography } from '@material-ui/core';
 import { useStores } from 'services/hooks';
 
 export interface LoginFormProps {
-  onSubmit: Function;
+  onSubmit: () => void;
 }
 
 export interface LoginFormState {

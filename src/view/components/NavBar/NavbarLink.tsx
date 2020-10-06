@@ -21,14 +21,19 @@ const useStyles = makeStyles(({ spacing, palette }: Theme) =>
 export interface NavbarLink {
   label: string;
   route: string;
+  openInNewTab?: boolean;
 }
 
-export const NavbarLink = ({ label, route }: NavbarLink) => {
+export const NavbarLink = ({
+  label,
+  route,
+  openInNewTab = false,
+}: NavbarLink) => {
   const classes = useStyles();
   const isSelected = useSelectedRoute(route);
 
   return (
-    <LinkWithHistory to={route}>
+    <LinkWithHistory to={route} target={openInNewTab ? '_blank' : ''}>
       <Typography
         variant="body1"
         className={`${classes.link} ${isSelected && classes.selected}`}

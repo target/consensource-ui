@@ -48,9 +48,8 @@ export const SelectOrganizationType = ({
         <Grid item>
           <FormGroup>
             {orgTypes.map((orgType) => (
-              <Grid item>
+              <Grid item key={orgType}>
                 <FormControlLabel
-                  key={orgType}
                   control={
                     <Checkbox
                       checked={selectedOrgType === orgType}

@@ -15,7 +15,7 @@ export const SearchFactories = () => {
    * responsible for filtering out invalid params.
    */
   const queryRes = useQuery(
-    ['fetchAllFactories', searchParams],
+    ['fetchAllFactories', { expand: true, ...searchParams }],
     (key, params) => fetchAllFactories(params as any),
   );
 

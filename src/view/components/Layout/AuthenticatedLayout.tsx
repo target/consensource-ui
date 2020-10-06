@@ -37,17 +37,17 @@ export const AuthenticatedLayout = observer(() => {
   } as QueryResult<any>;
 
   return (
-    <div className={classes.container}>
-      <nav>
-        <AuthedNavBar />
-        <Sidebar />
-      </nav>
+    <FullPageLoading
+      queryRes={mockQueryRes}
+      loadingLabel="Authenticating..."
+      errorLabel="Failed to authenticate"
+    >
+      <div className={classes.container}>
+        <nav>
+          <AuthedNavBar />
+          <Sidebar />
+        </nav>
 
-      <FullPageLoading
-        queryRes={mockQueryRes}
-        loadingLabel="Authenticating..."
-        errorLabel="Failed to authenticate"
-      >
         <main className={classes.content}>
           <AuthenticatedRoutes />
           <Snackbar
@@ -57,7 +57,7 @@ export const AuthenticatedLayout = observer(() => {
             autoHideDuration={3000}
           />
         </main>
-      </FullPageLoading>
-    </div>
+      </div>
+    </FullPageLoading>
   );
 });

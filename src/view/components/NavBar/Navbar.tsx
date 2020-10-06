@@ -5,6 +5,7 @@ import {
   Typography,
   makeStyles,
   Divider,
+  Grid,
   createStyles,
 } from '@material-ui/core';
 import { ProfileMenu } from './ProfileMenu';
@@ -24,9 +25,12 @@ const useStyles = makeStyles(({ palette, zIndex }) =>
     logoContainer: {
       flexGrow: 1,
     },
+    persona: {
+      fontWeight: 'lighter',
+    },
     divider: {
       backgroundColor: palette.primary.contrastText,
-      margin: '5px 10px 5px 0px',
+      margin: '0px 5px 0px 5px',
     },
   }),
 );
@@ -38,9 +42,19 @@ export const BaseNavBar: FC = ({ children: AuthItems }) => {
   const Logo = () => (
     <div className={classes.logoContainer}>
       <LinkWithHistory to="/">
-        <Typography variant="h5" noWrap>
-          ConsenSource
-        </Typography>
+        <Grid container>
+          <Grid item>
+            <Typography variant="h5">ConsenSource</Typography>
+          </Grid>
+          <Grid item>
+            <Divider orientation="vertical" className={classes.divider} />
+          </Grid>
+          <Grid item>
+            <Typography variant="h6" className={classes.persona}>
+              Retailer
+            </Typography>
+          </Grid>
+        </Grid>
       </LinkWithHistory>
     </div>
   );
@@ -51,6 +65,7 @@ export const BaseNavBar: FC = ({ children: AuthItems }) => {
         {/* Note that all items after <Logo /> will be on the right side
         of the NavBar due to the `flexGrow: 1` styling */}
         <Logo />
+        <NavbarLink label="About" route="http://consensource.io" openInNewTab />
         <NavbarLink label="Search Factories" route="/search" />
         {AuthItems}
       </Toolbar>
@@ -67,11 +82,8 @@ export const UnauthedNavBar = () => {
 };
 
 export const AuthedNavBar = () => {
-  const classes = useStyles();
-
   return (
     <BaseNavBar>
-      <Divider orientation="vertical" className={classes.divider} flexItem />
       <ProfileMenu />
     </BaseNavBar>
   );

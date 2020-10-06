@@ -100,6 +100,8 @@ export const LoadingWithMinDisplay = <T extends QueryResult<any>>({
 
     if (loadingRef.current) {
       setWaitTimeout();
+    } else {
+      setWaitTimerActive(false);
     }
   }, [queryRes.isLoading]);
 

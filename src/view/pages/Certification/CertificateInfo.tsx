@@ -11,7 +11,7 @@ export const CertificateInfo = ({
   certificate: { standard_version, valid_from, valid_to },
 }: CertificateInfoProps) => {
   return (
-    <Grid direction="column" spacing={2}>
+    <Grid container direction="column" spacing={2}>
       <Grid item>
         <Typography variant="h4">Certificate Info</Typography>
       </Grid>
