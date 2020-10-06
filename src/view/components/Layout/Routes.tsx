@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import * as Pages from 'view/pages';
 
 /**
@@ -38,8 +38,6 @@ export const SharedRoutes = () => {
 };
 
 export const UnauthenticatedRoutes = () => {
-  const { pathname } = useLocation();
-
   return (
     <Switch>
       <Route exact path="/">
@@ -56,26 +54,12 @@ export const UnauthenticatedRoutes = () => {
 
       {[...SharedRoutes()]}
 
-      <Route
-        path="*"
-        render={() => {
-          return (
-            <Redirect
-              to={{
-                pathname: '/login',
-                state: { from: pathname },
-              }}
-            />
-          );
-        }}
-      />
+      <Route path="*" render={() => <Redirect to={{ pathname: '/login' }} />} />
     </Switch>
   );
 };
 
 export const AuthenticatedRoutes = () => {
-  const { pathname } = useLocation();
-
   return (
     <Switch>
       <Route exact path="/">
@@ -88,18 +72,7 @@ export const AuthenticatedRoutes = () => {
 
       {[...SharedRoutes()]}
 
-      <Route
-        render={() => {
-          return (
-            <Redirect
-              to={{
-                pathname: '/',
-                state: { from: pathname },
-              }}
-            />
-          );
-        }}
-      />
+      <Route render={() => <Redirect to={{ pathname: '/' }} />} />
     </Switch>
   );
 };

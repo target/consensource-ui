@@ -7,7 +7,7 @@ import {
   makeStyles,
   createStyles,
 } from '@material-ui/core';
-import { LinkWithHistory } from 'view/components';
+import { UnstyledLink } from 'view/components';
 
 export interface CertificatesCellProps {
   // TODO: Remove optional `certificates` once we fix backend issues
@@ -44,7 +44,7 @@ export const CertificatesCell = ({ certificates }: CertificatesCellProps) => {
   return (
     <List>
       {certificates.map(({ standard_name, id, valid_to }) => (
-        <LinkWithHistory to={`certifications/${id}`}>
+        <UnstyledLink to={`certifications/${id}`}>
           <ListItem key={id}>
             <Tooltip
               placement="top"
@@ -53,7 +53,7 @@ export const CertificatesCell = ({ certificates }: CertificatesCellProps) => {
               <i className={classes.certName}>{standard_name}</i>
             </Tooltip>
           </ListItem>
-        </LinkWithHistory>
+        </UnstyledLink>
       ))}
     </List>
   );

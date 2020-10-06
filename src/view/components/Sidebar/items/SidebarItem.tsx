@@ -7,7 +7,7 @@ import {
   makeStyles,
   createStyles,
 } from '@material-ui/core';
-import { LinkWithHistory } from '../../LinkWithHistory';
+import { UnstyledLink } from '../../UnstyledLink';
 
 export interface SidebarItemProps {
   /**
@@ -42,7 +42,7 @@ export const SidebarItem = ({ route, icon, label }: SidebarItemProps) => {
   const isSelected = useSelectedRoute(route);
 
   return (
-    <LinkWithHistory to={route}>
+    <UnstyledLink to={route}>
       <ListItem
         button
         selected={isSelected}
@@ -53,6 +53,6 @@ export const SidebarItem = ({ route, icon, label }: SidebarItemProps) => {
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText>{label}</ListItemText>
       </ListItem>
-    </LinkWithHistory>
+    </UnstyledLink>
   );
 };

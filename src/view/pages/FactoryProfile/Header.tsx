@@ -1,17 +1,10 @@
 import React from 'react';
 import { Typography, Grid, makeStyles, createStyles } from '@material-ui/core';
-import {
-  ClaimedIconButton,
-  UnverifiedFactoryAlert,
-  HistoryGoBackButton,
-} from 'view/components';
+import { ClaimedIconButton, UnverifiedFactoryAlert } from 'view/components';
 import { FactoryResData } from 'services/api';
 
 const useStyles = makeStyles(
   createStyles({
-    title: {
-      textAlign: 'center',
-    },
     claimedIconBtn: {
       marginTop: 12.5,
       marginLeft: 7.5,
@@ -36,16 +29,14 @@ const ClaimedHeader = ({ name }: ClaimedHeaderProps) => {
   const classes = useStyles();
 
   return (
-    <Grid container>
-      <Grid item xs={2}>
-        <HistoryGoBackButton />
-      </Grid>
-
-      <Grid container item justify="center" spacing={2} xs={8}>
-        <Typography variant="h2" className={classes.title}>
+    <Grid container justify="center" spacing={2}>
+      <Grid item>
+        <Typography variant="h2" align="center">
           {name}
         </Typography>
+      </Grid>
 
+      <Grid item>
         <div className={classes.claimedIconBtn}>
           <ClaimedIconButton fontSize="large" />
         </div>
@@ -55,24 +46,16 @@ const ClaimedHeader = ({ name }: ClaimedHeaderProps) => {
 };
 
 const UnclaimedHeader = ({ name }: UnclaimedHeaderProps) => {
-  const classes = useStyles();
-
   return (
-    <Grid container>
-      <Grid item xs={2}>
-        <HistoryGoBackButton />
+    <Grid container direction="column" alignItems="center" spacing={2}>
+      <Grid item>
+        <Typography variant="h2" align="center">
+          {name}
+        </Typography>
       </Grid>
 
-      <Grid container item direction="column" spacing={2} xs={8}>
-        <Grid item>
-          <Typography variant="h2" className={classes.title}>
-            {name}
-          </Typography>
-        </Grid>
-
-        <Grid item>
-          <UnverifiedFactoryAlert />
-        </Grid>
+      <Grid item xs={6}>
+        <UnverifiedFactoryAlert />
       </Grid>
     </Grid>
   );

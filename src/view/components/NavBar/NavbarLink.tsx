@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, makeStyles, createStyles, Theme } from '@material-ui/core';
 import { useSelectedRoute } from 'services/hooks';
-import { LinkWithHistory } from '../LinkWithHistory';
+import { UnstyledLink } from '../UnstyledLink';
 
 const useStyles = makeStyles(({ spacing, palette }: Theme) =>
   createStyles({
@@ -33,13 +33,13 @@ export const NavbarLink = ({
   const isSelected = useSelectedRoute(route);
 
   return (
-    <LinkWithHistory to={route} target={openInNewTab ? '_blank' : ''}>
+    <UnstyledLink to={route} target={openInNewTab ? '_blank' : ''}>
       <Typography
         variant="body1"
         className={`${classes.link} ${isSelected && classes.selected}`}
       >
         {label}
       </Typography>
-    </LinkWithHistory>
+    </UnstyledLink>
   );
 };
