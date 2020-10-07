@@ -74,6 +74,10 @@
     "sjcl": "^1.0.7",
     "uuid": "^3.3.2"
   },
+  "resolutions": {
+    "node-forge": "^0.10.0",
+    "bl": "^1.2.3"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
