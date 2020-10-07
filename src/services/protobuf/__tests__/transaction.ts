@@ -12,8 +12,10 @@ import {
   createSigner,
   createNewPrivateKey,
   cryptoContext,
+  hash,
+  HashingAlgorithms,
 } from 'services/crypto';
-import { hash, HashingAlgorithms } from 'services/crypto';
+
 import { getAgentStateAddress } from '../agent';
 
 describe('Transaction Protobuf', () => {

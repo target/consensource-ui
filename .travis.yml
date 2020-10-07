@@ -1,17 +1,17 @@
 language: node_js
 node_js:
-    - 8
+  - 12.4.0
 
 before_script:
-    - echo $TRAVIS_COMMIT
-    - echo $TRAVIS_TAG
-    - echo $TRAVIS_BRANCH
-    - echo $TRAVIS_BUILD_NUMBER
-    - echo $TRAVIS_REPO_SLUG
+  - echo $TRAVIS_COMMIT
+  - echo $TRAVIS_TAG
+  - echo $TRAVIS_BRANCH
+  - echo $TRAVIS_BUILD_NUMBER
+  - echo $TRAVIS_REPO_SLUG
 
 script:
-    # Lint, build UI
-    - npm install
-    - npm run lint
-    - npm run test
-    - npm run build
+  # Lint, build UI
+  - yarn
+  #   - yarn lint
+  #   - yarn test
+  - yarn build
