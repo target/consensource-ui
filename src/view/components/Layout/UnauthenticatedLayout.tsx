@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid, Snackbar, makeStyles, createStyles } from '@material-ui/core';
+import { observer } from 'mobx-react-lite';
 import { useStores } from 'services/hooks';
 import { UnauthedNavBar } from 'view/components';
 import { UnauthenticatedRoutes } from './Routes';
@@ -13,7 +14,7 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-export function UnauthenticatedLayout() {
+export const UnauthenticatedLayout = observer(() => {
   const classes = useStyles();
   const { snackbarStore } = useStores();
 
@@ -34,4 +35,4 @@ export function UnauthenticatedLayout() {
       </main>
     </Grid>
   );
-}
+});

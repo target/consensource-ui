@@ -30,7 +30,7 @@ export const FactoryProfileLinkButton = ({
 
   return (
     <Link to={{ pathname: `factories/${factoryId}` }}>
-      <Tooltip title="View factory profile">
+      <Tooltip title="View Factory Profile">
         <IconButton className={classes.icon}>
           <OpenInNewIcon />
         </IconButton>

@@ -30,7 +30,6 @@ const useStyles = makeStyles(({ palette, zIndex }) =>
     },
     divider: {
       backgroundColor: palette.primary.contrastText,
-      margin: '0px 5px 0px 5px',
     },
   }),
 );
@@ -42,7 +41,7 @@ export const BaseNavBar: FC = ({ children: AuthItems }) => {
   const Logo = () => (
     <div className={classes.logoContainer}>
       <UnstyledLink to="/">
-        <Grid container>
+        <Grid container spacing={1}>
           <Grid item>
             <Typography variant="h5">ConsenSource</Typography>
           </Grid>
