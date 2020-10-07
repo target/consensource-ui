@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { ProfileMenu } from './ProfileMenu';
 import { NavbarLink } from './NavbarLink';
-import { LinkWithHistory } from '../LinkWithHistory';
+import { UnstyledLink } from '../UnstyledLink';
 
 // Height of a "dense" toolbar
 export const NAVBAR_HEIGHT = 48;
@@ -41,7 +41,7 @@ export const BaseNavBar: FC = ({ children: AuthItems }) => {
   // TODO: Replace with SVG
   const Logo = () => (
     <div className={classes.logoContainer}>
-      <LinkWithHistory to="/">
+      <UnstyledLink to="/">
         <Grid container>
           <Grid item>
             <Typography variant="h5">ConsenSource</Typography>
@@ -55,7 +55,7 @@ export const BaseNavBar: FC = ({ children: AuthItems }) => {
             </Typography>
           </Grid>
         </Grid>
-      </LinkWithHistory>
+      </UnstyledLink>
     </div>
   );
 
