@@ -33,7 +33,7 @@ export const CopyTableLinkButton = () => {
 
   return (
     <CopyToClipboard text={window.location.href} onCopy={handleClick}>
-      <Tooltip title="Copy link to table">
+      <Tooltip title="Copy Link To Table">
         <IconButton className={classes.icon}>
           <PaperClipIcon />
         </IconButton>

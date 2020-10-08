@@ -9,26 +9,31 @@ import {
 } from '@material-ui/core';
 import { DialogProps } from './utils';
 
-export function ClaimedDialog({ open, handleClose }: DialogProps) {
+export const ClaimedDialog = ({ open, handleClose }: DialogProps) => {
   return (
     <Dialog
       aria-labelledby="claimed-dialog-title"
       open={open}
       onClose={handleClose}
     >
-      <DialogTitle>Claimed data</DialogTitle>
+      <DialogTitle>Claimed Data</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          <span role="img" aria-label="claimed dialog">
-            This means that... 🤔
-          </span>
+          The data you are viewing has been claimed by the organization that it
+          relates to.
+        </DialogContentText>
+        <DialogContentText>
+          This means that is up-to-date and verifiably accurate.
         </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="secondary">
-          OKAY
+          CLOSE
+        </Button>
+        <Button disabled variant="contained" color="secondary">
+          VIEW HISTORY
         </Button>
       </DialogActions>
     </Dialog>
   );
-}
+};
