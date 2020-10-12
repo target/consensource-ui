@@ -18,8 +18,6 @@ export const NAVBAR_HEIGHT = 48;
 const useStyles = makeStyles(({ palette, zIndex }) =>
   createStyles({
     navbar: {
-      backgroundColor: palette.primary.main,
-      color: palette.primary.contrastText,
       zIndex: zIndex.drawer + 1,
     },
     logoContainer: {
@@ -30,6 +28,9 @@ const useStyles = makeStyles(({ palette, zIndex }) =>
     },
     divider: {
       backgroundColor: palette.primary.contrastText,
+    },
+    authItemsPadding: {
+      paddingRight: 10,
     },
   }),
 );
@@ -59,7 +60,7 @@ export const BaseNavBar: FC = ({ children: AuthItems }) => {
   );
 
   return (
-    <AppBar position="fixed" className={classes.navbar}>
+    <AppBar position="fixed" color="primary" className={classes.navbar}>
       <Toolbar variant="dense">
         {/* Note that all items after <Logo /> will be on the right side
         of the NavBar due to the `flexGrow: 1` styling */}
@@ -72,7 +73,7 @@ export const BaseNavBar: FC = ({ children: AuthItems }) => {
   );
 };
 
-export const UnauthedNavBar = () => {
+export const UnauthedNavbar = () => {
   return (
     <BaseNavBar>
       <NavbarLink label="Login" route="/login" />
@@ -80,7 +81,7 @@ export const UnauthedNavBar = () => {
   );
 };
 
-export const AuthedNavBar = () => {
+export const AuthedNavbar = () => {
   return (
     <BaseNavBar>
       <ProfileMenu />

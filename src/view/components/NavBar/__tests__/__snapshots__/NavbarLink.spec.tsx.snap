@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<NavbarLink /> renders a selected link 1`] = `
+<div>
+  <a
+    class="makeStyles-link-6"
+    href="/test"
+    target=""
+  >
+    <p
+      class="MuiTypography-root makeStyles-link-4 makeStyles-selected-5 MuiTypography-body1"
+    >
+      label
+    </p>
+  </a>
+</div>
+`;
+
+exports[`<NavbarLink /> renders an unselected link 1`] = `
+<div>
+  <a
+    class="makeStyles-link-3"
+    href="/"
+    target=""
+  >
+    <p
+      class="MuiTypography-root makeStyles-link-1 false MuiTypography-body1"
+    >
+      label
+    </p>
+  </a>
+</div>
+`;

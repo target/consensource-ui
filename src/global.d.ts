@@ -1,8 +1,6 @@
-import * as H from 'history';
-
 declare global {
   /*
-   * Temporary type aliases to allow for easier incremental transition to TS
+   * Temporary type aliases that should be narrowed if/when possible
    */
   type $TSFixMe = any;
 

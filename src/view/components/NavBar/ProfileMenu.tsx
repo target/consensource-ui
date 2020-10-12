@@ -4,36 +4,49 @@ import {
   Menu,
   MenuItem,
   IconButton,
+  IconButtonProps,
   Typography,
-  makeStyles,
+  Grid,
 } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { useStores } from 'services/hooks';
 import { observer } from 'mobx-react-lite';
 
-const useStyles = makeStyles({
-  profile: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-});
+export interface NavbarProfileIconProps {
+  onClick: IconButtonProps['onClick'];
+  username?: string;
+}
+
+export const NavbarProfileIcon = ({
+  onClick,
+  username,
+}: NavbarProfileIconProps) => {
+  return (
+    <IconButton
+      color="inherit"
+      aria-label="profile"
+      onClick={onClick}
+      edge="start"
+      data-testid="profile-icon-button"
+    >
+      <Grid container alignItems="center" spacing={1}>
+        <ProfileIcon />
+
+        {username && (
+          <Grid item>
+            <Typography data-testid="username">{username}</Typography>
+          </Grid>
+        )}
+      </Grid>
+    </IconButton>
+  );
+};
 
 export const ProfileMenu = observer(() => {
-  const history = useHistory();
   const { userStore } = useStores();
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const classes = useStyles();
-
   const username = userStore?.user?.username;
-
-  const handleIconClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const handleLogout = () => {
     userStore.logout();
@@ -47,22 +60,15 @@ export const ProfileMenu = observer(() => {
 
   return (
     <div>
-      <div className={classes.profile}>
-        <IconButton
-          color="inherit"
-          aria-label="profile"
-          onClick={handleIconClick}
-          edge="start"
-        >
-          <ProfileIcon />
-        </IconButton>
-        <Typography>{username}</Typography>
-      </div>
+      <NavbarProfileIcon
+        onClick={(e) => setAnchorEl(e.currentTarget)}
+        username={username}
+      />
       <Menu
         keepMounted
         anchorEl={anchorEl}
         open={!!anchorEl}
-        onClose={handleClose}
+        onClose={() => setAnchorEl(null)}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'center',
