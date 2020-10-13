@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Snackbar, makeStyles, createStyles } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { useStores } from 'services/hooks';
-import { UnauthedNavBar } from 'view/components';
+import { UnauthedNavbar } from 'view/components';
 import { UnauthenticatedRoutes } from './Routes';
 
 const useStyles = makeStyles((theme) =>
@@ -21,7 +21,7 @@ export const UnauthenticatedLayout = observer(() => {
   return (
     <Grid alignItems="center" justify="center" container>
       <nav>
-        <UnauthedNavBar />
+        <UnauthedNavbar />
       </nav>
 
       <main className={classes.content}>

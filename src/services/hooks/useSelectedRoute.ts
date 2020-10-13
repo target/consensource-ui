@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+
 /**
  * Custom hook that tracks changes to the `pathname` location
  * object and returns a boolean value indicating whether or
