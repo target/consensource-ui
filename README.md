@@ -63,6 +63,9 @@ nvm use
 # Install dependencies
 yarn
 
+# Generate protobufs
+yarn generate-protobufs
+
 # Start the dev server
 yarn start
 ```
