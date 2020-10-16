@@ -32,7 +32,10 @@ export const AgentAccordion = ({ agentPubKey }: AgentAccordionProps) => {
       </AccordionSummary>
 
       <AccordionDetails>
-        <LoadingWithMinDisplay queryRes={queryRes}>
+        <LoadingWithMinDisplay
+          queryRes={queryRes}
+          errorIndicator={<AgentInfo agent={null} />}
+        >
           {({ data }) => <AgentInfo agent={data} />}
         </LoadingWithMinDisplay>
       </AccordionDetails>
