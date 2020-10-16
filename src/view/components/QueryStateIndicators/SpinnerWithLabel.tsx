@@ -26,7 +26,7 @@ export interface SpinnerWithLabelProps {
  *
  */
 export const SpinnerWithLabel: FC<SpinnerWithLabelProps> = ({
-  children = '',
+  children,
   spinnerSize = SPINNER_SIZE,
   typeVariant = 'h5',
 }) => {

@@ -10,13 +10,17 @@ import { WarningIconError } from './WarningIconError';
 
 export interface FullPageLoadingProps<T extends QueryResult<any>> {
   /**
+   * **Default**: _"Failed to load"_
+   *
    * Error text that is passed to the `<WarningIconError />`
    */
-  errorLabel: string;
+  errorLabel?: string;
   /**
+   * **Default**: _"Loading..."_
+   *
    * Loading text that is passed to the `<SpinnerWithLabel />`
    */
-  loadingLabel: string;
+  loadingLabel?: string;
   queryRes: LoadingWithMinDisplayProps<T>['queryRes'];
   children: LoadingWithMinDisplayProps<T>['children'];
 }
@@ -46,8 +50,8 @@ const useStyles = makeStyles(({ zIndex }) =>
  */
 export const FullPageLoading = <T extends QueryResult<any>>({
   children,
-  loadingLabel,
-  errorLabel,
+  loadingLabel = 'Loading...',
+  errorLabel = 'Failed to load',
   queryRes,
 }: FullPageLoadingProps<T>) => {
   const classes = useStyles();

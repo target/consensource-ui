@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SpinnerWithLabel /> renders 1`] = `
+<div>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column MuiGrid-align-items-xs-center MuiGrid-justify-xs-center"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item"
+    >
+      <div
+        class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+        role="progressbar"
+        style="width: 0px; height: 0px;"
+      >
+        <svg
+          class="MuiCircularProgress-svg"
+          viewBox="22 22 44 44"
+        >
+          <circle
+            class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+            cx="44"
+            cy="44"
+            fill="none"
+            r="20.2"
+            stroke-width="3.6"
+          />
+        </svg>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item"
+    >
+      <h5
+        class="MuiTypography-root MuiTypography-h5"
+      >
+        test
+      </h5>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<SpinnerWithLabel /> renders with a spinner size 1`] = `
+<div>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column MuiGrid-align-items-xs-center MuiGrid-justify-xs-center"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item"
+    >
+      <div
+        class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+        role="progressbar"
+        style="width: 100px; height: 100px;"
+      >
+        <svg
+          class="MuiCircularProgress-svg"
+          viewBox="22 22 44 44"
+        >
+          <circle
+            class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+            cx="44"
+            cy="44"
+            fill="none"
+            r="20.2"
+            stroke-width="3.6"
+          />
+        </svg>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item"
+    >
+      <h5
+        class="MuiTypography-root MuiTypography-h5"
+      >
+        test
+      </h5>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<SpinnerWithLabel /> renders with a type variant 1`] = `
+<div>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column MuiGrid-align-items-xs-center MuiGrid-justify-xs-center"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item"
+    >
+      <div
+        class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+        role="progressbar"
+        style="width: 0px; height: 0px;"
+      >
+        <svg
+          class="MuiCircularProgress-svg"
+          viewBox="22 22 44 44"
+        >
+          <circle
+            class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+            cx="44"
+            cy="44"
+            fill="none"
+            r="20.2"
+            stroke-width="3.6"
+          />
+        </svg>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item"
+    >
+      <h1
+        class="MuiTypography-root MuiTypography-h1"
+      >
+        test
+      </h1>
+    </div>
+  </div>
+</div>
+`;

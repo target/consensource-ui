@@ -51,13 +51,17 @@ export interface LoadingWithMinDisplayProps<T extends QueryResult<any>> {
     | React.ReactNode;
 }
 
+export const MIN_DISPLAY_TIME_MS = 750;
+
+export const WAIT_TIME_MS = 250;
+
 /**
  * Wraps children with a `minDisplayTimeMs` and `waitTimeMs` props
  * to prevent the loading indicator from flashing on/off screen
  * too quickly.
  *
- * Children will not be rendered until both
- * loading is complete, and the timer is no longer active.
+ * Children will not be rendered until both loading is
+ * complete, and the wait timer is no longer active.
  *
  * If loading is completed before the `waitTimeMs` timeout is complete,
  * then no loading indicator will be displayed.
@@ -66,22 +70,29 @@ export interface LoadingWithMinDisplayProps<T extends QueryResult<any>> {
  * is displayed.
  */
 export const LoadingWithMinDisplay = <T extends QueryResult<any>>({
-  minDisplayTimeMs = 750,
-  waitTimeMs = 250,
+  minDisplayTimeMs = MIN_DISPLAY_TIME_MS,
+  waitTimeMs = WAIT_TIME_MS,
   loadingIndicator = <CircularProgress />,
   errorIndicator = <WarningIconError />,
   queryRes,
   children,
 }: LoadingWithMinDisplayProps<T>) => {
+  // Used to track updates to the loading state in `useEffect` - this allows us
+  // to prevent the loading indicator from being dispalyed if loading completes
+  // before `waitTimeMs`.
   const loadingRef = useRef(queryRes.isLoading);
-  const [displayTimerActive, setDisplayTimerActive] = useState(false);
+
+  // Ensures that the loading indicator is displayed for at least `minDisplayTimeMs`
+  const [minDisplayTimerActive, setMinDisplayTimerActive] = useState(false);
+
+  // Prevents the loading indicator from displaying for `waitTimeMs`
   const [waitTimerActive, setWaitTimerActive] = useState(true);
 
   const setDisplayTimeout = () => {
-    setDisplayTimerActive(true);
+    setMinDisplayTimerActive(true);
 
     setTimeout(() => {
-      setDisplayTimerActive(false);
+      setMinDisplayTimerActive(false);
     }, minDisplayTimeMs);
   };
 
@@ -97,19 +108,14 @@ export const LoadingWithMinDisplay = <T extends QueryResult<any>>({
 
   useEffect(() => {
     loadingRef.current = queryRes.isLoading;
-
-    if (loadingRef.current) {
-      setWaitTimeout();
-    } else {
-      setWaitTimerActive(false);
-    }
+    setWaitTimeout();
   }, [queryRes.isLoading]);
 
   if (waitTimerActive) {
     return null;
   }
 
-  if (displayTimerActive || queryRes.isLoading) {
+  if (minDisplayTimerActive || queryRes.isLoading) {
     return <>{loadingIndicator}</>;
   }
 
