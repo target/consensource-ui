@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<WarningIconError /> renders 1`] = `
+<div>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-direction-xs-column MuiGrid-align-items-xs-center"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item"
+    >
+      <svg
+        class="MuiSvgIcon-root MuiSvgIcon-colorError MuiSvgIcon-fontSizeSmall"
+        focusable="false"
+        role="img"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"
+        />
+        <title>
+          error
+        </title>
+      </svg>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-colorError"
+      >
+        test
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<WarningIconError /> renders with a size 1`] = `
+<div>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-direction-xs-column MuiGrid-align-items-xs-center"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-item"
+    >
+      <svg
+        class="MuiSvgIcon-root MuiSvgIcon-colorError MuiSvgIcon-fontSizeSmall"
+        focusable="false"
+        role="img"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"
+        />
+        <title>
+          error
+        </title>
+      </svg>
+    </div>
+    <div
+      class="MuiGrid-root MuiGrid-item"
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-colorError"
+      >
+        test
+      </p>
+    </div>
+  </div>
+</div>
+`;
