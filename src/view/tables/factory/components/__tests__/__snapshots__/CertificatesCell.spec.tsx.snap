@@ -27,7 +27,7 @@ exports[`<CertificatesCell /> with certs renders 1`] = `
         <i
           class="makeStyles-certName-4"
           data-testid="cert-cell-tooltip"
-          title="Valid until 1/19/1970"
+          title="Valid until 8/18/2020"
         >
           Test Standard
         </i>
