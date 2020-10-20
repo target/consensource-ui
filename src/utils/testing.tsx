@@ -3,18 +3,17 @@ import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { StoresContext } from 'view/context';
 import { stores } from 'stores';
-import { theme } from 'config/theme';
-import { ThemeProvider } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { TestThemeProvider } from './testThemeProvider';
 
 const wrapper = ({ children }: any) => {
   return (
     <CssBaseline>
-      <ThemeProvider theme={theme}>
-        <StoresContext.Provider value={stores}>
+      <StoresContext.Provider value={stores}>
+        <TestThemeProvider>
           <MemoryRouter initialEntries={['/']}>{children}</MemoryRouter>
-        </StoresContext.Provider>
-      </ThemeProvider>
+        </TestThemeProvider>
+      </StoresContext.Provider>
     </CssBaseline>
   );
 };

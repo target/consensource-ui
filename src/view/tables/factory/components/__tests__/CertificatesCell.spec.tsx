@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from 'utils/test-utils';
+import { render, screen } from 'utils/testing';
 import { mockCerts } from 'services/api/__mocks__';
 import userEvent from '@testing-library/user-event';
 import { getLocaleFromUnix } from 'utils';

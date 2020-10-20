@@ -1,3 +1,4 @@
-export function getLocaleFromUnix(timestamp: number) {
-  return new Date(timestamp).toLocaleDateString();
+export function getLocaleFromUnix(timestampSeconds: number) {
+  const timestampMs = timestampSeconds * 1000;
+  return new Date(timestampMs).toLocaleDateString();
 }
