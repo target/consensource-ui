@@ -3,6 +3,11 @@ import { Grid, Typography, makeStyles, createStyles } from '@material-ui/core';
 import { CertResData } from 'services/api';
 import { AssignmentTurnedInOutlined as CheckIcon } from '@material-ui/icons';
 import { getLocaleFromUnix } from 'utils';
+import {
+  WarningIconError,
+  ClaimedIconButton,
+  UnclaimedIconButton,
+} from 'view/components';
 
 export interface BodyProps {
   validTo: CertResData['valid_to'];
@@ -40,7 +45,8 @@ const useStyles = makeStyles(({ palette }) =>
 const ValidToText = ({ validTo }: ValidToTextProps) => {
   const classes = useStyles();
 
-  const isValid = validTo >= Date.now();
+  const validToMs = validTo * 1000;
+  const isValid = validToMs >= Date.now();
   const text = isValid ? 'Valid until' : 'Expired on';
 
   return (
@@ -54,7 +60,7 @@ const ValidToText = ({ validTo }: ValidToTextProps) => {
       </Grid>
       <Grid item xs>
         <Typography variant="body1">{`${text} ${getLocaleFromUnix(
-          validTo,
+          validToMs,
         )}`}</Typography>
       </Grid>
     </Grid>
@@ -87,15 +93,12 @@ export const Body = ({ validTo, isClaimed }: BodyProps) => {
         </Typography>
       </Grid>
 
-      <Grid container item spacing={4}>
-        <Grid item xs={1}>
-          <CheckIcon className={classes.icon} />
-        </Grid>
-        <Grid item xs>
-          <Typography variant="body1">{`Valid until ${getLocaleFromUnix(
-            validTo,
-          )}`}</Typography>
-        </Grid>
+      <Grid container item>
+        <IsClaimedText isClaimed={isClaimed} />
+      </Grid>
+
+      <Grid container item>
+        <ValidToText validTo={validTo} />
       </Grid>
     </Grid>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from 'utils/test-utils';
+import { render, screen } from 'utils/testing';
 import { ClaimableDataPageHeader } from '../ClaimableDataPageHeader';
 
 describe('<ClaimableDataPageHeader />', () => {
