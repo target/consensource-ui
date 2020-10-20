@@ -3,16 +3,16 @@
 exports[`<AuthedNavbar /> renders 1`] = `
 <div>
   <header
-    class="MuiPaper-root MuiAppBar-root MuiAppBar-positionFixed MuiAppBar-colorPrimary makeStyles-navbar-1 mui-fixed MuiPaper-elevation4"
+    class="MuiPaper-root MuiAppBar-root MuiAppBar-positionFixed MuiAppBar-colorPrimary makeStyles-navbar mui-fixed MuiPaper-elevation4"
   >
     <div
       class="MuiToolbar-root MuiToolbar-dense MuiToolbar-gutters"
     >
       <div
-        class="makeStyles-logoContainer-2"
+        class="makeStyles-logoContainer"
       >
         <a
-          class="makeStyles-link-6"
+          class="makeStyles-link"
           href="/"
         >
           <div
@@ -31,14 +31,14 @@ exports[`<AuthedNavbar /> renders 1`] = `
               class="MuiGrid-root MuiGrid-item"
             >
               <hr
-                class="MuiDivider-root makeStyles-divider-4 MuiDivider-vertical"
+                class="MuiDivider-root makeStyles-divider MuiDivider-vertical"
               />
             </div>
             <div
               class="MuiGrid-root MuiGrid-item"
             >
               <h6
-                class="MuiTypography-root makeStyles-persona-3 MuiTypography-h6"
+                class="MuiTypography-root makeStyles-persona MuiTypography-h6"
               >
                 Retailer
               </h6>
@@ -47,23 +47,23 @@ exports[`<AuthedNavbar /> renders 1`] = `
         </a>
       </div>
       <a
-        class="makeStyles-link-6"
+        class="makeStyles-link"
         href="http://consensource.io"
         target="_blank"
       >
         <p
-          class="MuiTypography-root makeStyles-link-7 false MuiTypography-body1"
+          class="MuiTypography-root makeStyles-link false MuiTypography-body1"
         >
           About
         </p>
       </a>
       <a
-        class="makeStyles-link-6"
+        class="makeStyles-link"
         href="/search"
         target=""
       >
         <p
-          class="MuiTypography-root makeStyles-link-7 false MuiTypography-body1"
+          class="MuiTypography-root makeStyles-link false MuiTypography-body1"
         >
           Search Factories
         </p>
@@ -72,7 +72,6 @@ exports[`<AuthedNavbar /> renders 1`] = `
         <button
           aria-label="profile"
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeStart"
-          data-testid="profile-icon-button"
           tabindex="0"
           type="button"
         >
@@ -107,16 +106,16 @@ exports[`<AuthedNavbar /> renders 1`] = `
 exports[`<UnauthedNavbar /> renders 1`] = `
 <div>
   <header
-    class="MuiPaper-root MuiAppBar-root MuiAppBar-positionFixed MuiAppBar-colorPrimary makeStyles-navbar-9 mui-fixed MuiPaper-elevation4"
+    class="MuiPaper-root MuiAppBar-root MuiAppBar-positionFixed MuiAppBar-colorPrimary makeStyles-navbar mui-fixed MuiPaper-elevation4"
   >
     <div
       class="MuiToolbar-root MuiToolbar-dense MuiToolbar-gutters"
     >
       <div
-        class="makeStyles-logoContainer-10"
+        class="makeStyles-logoContainer"
       >
         <a
-          class="makeStyles-link-14"
+          class="makeStyles-link"
           href="/"
         >
           <div
@@ -135,14 +134,14 @@ exports[`<UnauthedNavbar /> renders 1`] = `
               class="MuiGrid-root MuiGrid-item"
             >
               <hr
-                class="MuiDivider-root makeStyles-divider-12 MuiDivider-vertical"
+                class="MuiDivider-root makeStyles-divider MuiDivider-vertical"
               />
             </div>
             <div
               class="MuiGrid-root MuiGrid-item"
             >
               <h6
-                class="MuiTypography-root makeStyles-persona-11 MuiTypography-h6"
+                class="MuiTypography-root makeStyles-persona MuiTypography-h6"
               >
                 Retailer
               </h6>
@@ -151,34 +150,34 @@ exports[`<UnauthedNavbar /> renders 1`] = `
         </a>
       </div>
       <a
-        class="makeStyles-link-14"
+        class="makeStyles-link"
         href="http://consensource.io"
         target="_blank"
       >
         <p
-          class="MuiTypography-root makeStyles-link-15 false MuiTypography-body1"
+          class="MuiTypography-root makeStyles-link false MuiTypography-body1"
         >
           About
         </p>
       </a>
       <a
-        class="makeStyles-link-14"
+        class="makeStyles-link"
         href="/search"
         target=""
       >
         <p
-          class="MuiTypography-root makeStyles-link-15 false MuiTypography-body1"
+          class="MuiTypography-root makeStyles-link false MuiTypography-body1"
         >
           Search Factories
         </p>
       </a>
       <a
-        class="makeStyles-link-14"
+        class="makeStyles-link"
         href="/login"
         target=""
       >
         <p
-          class="MuiTypography-root makeStyles-link-15 false MuiTypography-body1"
+          class="MuiTypography-root makeStyles-link false MuiTypography-body1"
         >
           Login
         </p>

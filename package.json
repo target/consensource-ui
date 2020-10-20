@@ -5,7 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom-fourteen",
+    "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "clean": "rm -rf node_modules/ src/services/protobuf/compiled/index.js src/services/protobuf/compiled/index.d.ts",
     "generate-protobufs": "./scripts/compile_protobufs.sh",
     "lint": "eslint './**/*.{js,ts,tsx}' --fix",
@@ -49,6 +49,7 @@
     "eslint-plugin-testing-library": "^3.9.1",
     "http-proxy-middleware": "^1.0.4",
     "husky": "^4.2.5",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
     "jest-localstorage-mock": "^2.4.0",
     "lint-staged": "^10.1.7",
     "prettier": "^2.0.5",
@@ -58,7 +59,7 @@
     "typescript": "^4.0.3"
   },
   "dependencies": {
-    "@material-ui/core": "^4.10.2",
+    "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/styles": "^4.9.14",

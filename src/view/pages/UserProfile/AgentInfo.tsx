@@ -4,6 +4,7 @@ import { Typography, Grid } from '@material-ui/core';
 import { AgentResData } from 'services/api';
 import { CreateAgentForm, CreateOrganizationForm } from 'view/forms';
 import { useBatchStatus } from 'services/hooks';
+import { getLocaleFromUnix } from 'utils';
 
 export interface AgentInfoProps {
   agent: AgentResData | null;
@@ -61,7 +62,7 @@ export const AgentInfo = ({ agent }: AgentInfoProps) => {
         <InfoItem title="Name" val={agent.name} />
         <InfoItem
           title="Created On"
-          val={new Date(agent.created_on).toLocaleDateString()}
+          val={getLocaleFromUnix(agent.created_on)}
         />
         <InfoItem title="Public Key" val={agent.public_key} />
       </Grid>
