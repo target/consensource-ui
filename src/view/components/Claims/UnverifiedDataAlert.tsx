@@ -3,7 +3,7 @@ import { Button } from '@material-ui/core';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import { UnclaimedDialog } from 'view/modals';
 
-export const UnverifiedFactoryAlert = () => {
+export const UnverifiedDataAlert = () => {
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
   return (
@@ -14,8 +14,8 @@ export const UnverifiedFactoryAlert = () => {
           <Button onClick={() => setDialogIsOpen(true)}>LEARN MORE</Button>
         }
       >
-        <AlertTitle>Unverified Factory</AlertTitle>
-        Information about this factory is from third party sources
+        <AlertTitle>Unverified Data</AlertTitle>
+        The source of this data is from third party sources
       </Alert>
       <UnclaimedDialog
         open={dialogIsOpen}

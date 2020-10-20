@@ -1,12 +1,12 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { Grid } from '@material-ui/core';
-import { FullPageLoading } from 'view/components';
+import { ClaimableDataPageHeader, FullPageLoading } from 'view/components';
 import { fetchFactoryByOrgId, FactoryResData } from 'services/api';
+import { hasOwnPropertySafe } from 'utils';
 import { Contacts } from './Contacts';
 import { Address } from './Address';
 import { Certifications } from './Certifications';
-import { Header } from './Header';
 
 export interface FactoryProfileProps {
   factoryId: FactoryResData['id'];
@@ -23,23 +23,26 @@ export const FactoryProfile = ({ factoryId }: FactoryProfileProps) => {
       loadingLabel="Loading factory info..."
       errorLabel="Failed to load factory details"
     >
-      {({ data: { name, assertion_id, certificates, contacts, address } }) => (
+      {({ data: factory }) => (
         <Grid container direction="column" spacing={6}>
           <Grid container item>
-            <Header name={name} isClaimed={!assertion_id} />
+            <ClaimableDataPageHeader
+              title={factory.name}
+              isClaimed={!hasOwnPropertySafe(factory, 'assertion_id')}
+            />
           </Grid>
 
           <Grid container item>
             {/* TODO: `certificates` shouldn't be possibly undefined when expand param is included */}
-            <Certifications certifications={certificates || []} />
+            <Certifications certifications={factory.certificates || []} />
           </Grid>
 
           <Grid container item>
-            <Contacts contacts={contacts} />
+            <Contacts contacts={factory.contacts} />
           </Grid>
 
           <Grid container item>
-            <Address address={address} />
+            <Address address={factory.address} />
           </Grid>
         </Grid>
       )}

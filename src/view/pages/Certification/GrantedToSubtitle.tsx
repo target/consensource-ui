@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Typography, makeStyles, createStyles } from '@material-ui/core';
-import { CertResData } from 'services/api';
 import { UnstyledLink } from 'view/components';
+import { CertResData } from 'services/api';
 
 export interface HeaderProps {
   certificate: CertResData;
@@ -24,35 +24,28 @@ const useStyles = makeStyles(({ palette }) =>
   }),
 );
 
-export const Header = ({
-  certificate: { standard_name, factory_name, factory_id },
+export const GrantedToSubtitle = ({
+  certificate: { factory_name, factory_id },
 }: HeaderProps) => {
   const classes = useStyles();
 
   return (
-    <Grid container direction="column" justify="center" spacing={2}>
+    <Grid container item justify="center" spacing={1}>
       <Grid item>
-        <Typography align="center" variant="h3">
-          {standard_name}
+        <Typography align="center" color="textSecondary">
+          Granted to:
         </Typography>
       </Grid>
-      <Grid container item justify="center" spacing={1}>
-        <Grid item>
-          <Typography align="center" color="textSecondary">
-            Granted to:
+      <Grid item>
+        <UnstyledLink to={`/factories/${factory_id}`}>
+          <Typography
+            color="textSecondary"
+            align="center"
+            className={classes.certName}
+          >
+            {factory_name}
           </Typography>
-        </Grid>
-        <Grid item>
-          <UnstyledLink to={`/factories/${factory_id}`}>
-            <Typography
-              color="textSecondary"
-              align="center"
-              className={classes.certName}
-            >
-              {factory_name}
-            </Typography>
-          </UnstyledLink>
-        </Grid>
+        </UnstyledLink>
       </Grid>
     </Grid>
   );

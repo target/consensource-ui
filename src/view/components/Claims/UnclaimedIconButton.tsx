@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { VerifiedUserOutlined } from '@material-ui/icons';
+import { InfoOutlined as InfoIcon } from '@material-ui/icons';
 import {
   Tooltip,
   IconButton,
@@ -8,32 +8,32 @@ import {
   createStyles,
   Theme,
 } from '@material-ui/core';
-import { ClaimedDialog } from 'view/modals';
+import { UnclaimedDialog } from 'view/modals';
 
 const useStyles = makeStyles(({ palette }: Theme) =>
   createStyles({
     icon: {
-      color: palette.success.main,
+      color: palette.info.main,
     },
   }),
 );
 
-export function ClaimedIconButton(props: SvgIconProps) {
+export function UnclaimedIconButton(props?: SvgIconProps) {
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
 
   const classes = useStyles();
 
   return (
     <div>
-      <Tooltip title="Claimed Data">
+      <Tooltip title="Unclaimed Data">
         <IconButton
-          aria-label="claimed-icon"
+          aria-label="unclaimed-icon"
           onClick={() => setDialogIsOpen(true)}
         >
-          <VerifiedUserOutlined className={classes.icon} {...props} />
+          <InfoIcon className={classes.icon} {...props} />
         </IconButton>
       </Tooltip>
-      <ClaimedDialog
+      <UnclaimedDialog
         open={dialogIsOpen}
         handleClose={() => setDialogIsOpen(false)}
       />
