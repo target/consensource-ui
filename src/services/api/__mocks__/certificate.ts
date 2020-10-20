@@ -14,8 +14,6 @@ export const mockCerts = {
       standard_version: '0.1',
       valid_from: 1597779522,
       valid_to: 1597789522,
-      assertion_id:
-        'a978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee4815',
     },
   ],
   head: 2,

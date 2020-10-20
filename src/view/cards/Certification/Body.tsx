@@ -3,11 +3,6 @@ import { Grid, Typography, makeStyles, createStyles } from '@material-ui/core';
 import { CertResData } from 'services/api';
 import { AssignmentTurnedInOutlined as CheckIcon } from '@material-ui/icons';
 import { getLocaleFromUnix } from 'utils';
-import {
-  ClaimedIconButton,
-  WarningIconError,
-  UnclaimedIconButton,
-} from 'view/components';
 
 export interface BodyProps {
   validTo: CertResData['valid_to'];
@@ -92,12 +87,15 @@ export const Body = ({ validTo, isClaimed }: BodyProps) => {
         </Typography>
       </Grid>
 
-      <Grid container item>
-        <IsClaimedText isClaimed={isClaimed} />
-      </Grid>
-
-      <Grid container item>
-        <ValidToText validTo={validTo} />
+      <Grid container item spacing={4}>
+        <Grid item xs={1}>
+          <CheckIcon className={classes.icon} />
+        </Grid>
+        <Grid item xs>
+          <Typography variant="body1">{`Valid until ${getLocaleFromUnix(
+            validTo,
+          )}`}</Typography>
+        </Grid>
       </Grid>
     </Grid>
   );

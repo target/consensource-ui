@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act, screen } from 'utils/test-utils';
+import { render, act, screen } from 'utils/testing';
 import { QueryResult } from 'react-query';
 import { FullPageLoading } from '../FullPageLoading';
 import { WAIT_TIME_MS } from '../LoadingWithMinDisplay';

@@ -19,7 +19,7 @@ exports[`<TableTitle /> renders 1`] = `
     >
       <svg
         aria-hidden="true"
-        class="MuiSvgIcon-root makeStyles-icon-1 MuiSvgIcon-fontSizeLarge"
+        class="MuiSvgIcon-root makeStyles-icon MuiSvgIcon-fontSizeLarge"
         focusable="false"
         viewBox="0 0 24 24"
       >

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, screen } from 'utils/test-utils';
+import { render, fireEvent, screen } from 'utils/testing';
 import { stores } from 'stores';
 import { ProfileMenu } from '../ProfileMenu';
 
