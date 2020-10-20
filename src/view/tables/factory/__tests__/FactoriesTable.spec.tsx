@@ -1,6 +1,6 @@
 import React from 'react';
 import { mockFactoryResWithCerts } from 'services/api/__mocks__';
-import { render, screen, act } from 'utils/test-utils';
+import { render, screen, act } from 'utils/testing';
 import userEvent from '@testing-library/user-event';
 import { FactoryResData, PaginatedApiRes } from 'services/api';
 import { FactoriesTable, textLabels } from '..';
@@ -30,7 +30,7 @@ describe('<FactoriesTable />', () => {
 
   describe('general', () => {
     it('renders an empty table', () => {
-      const { container } = render(
+      render(
         <FactoriesTable
           factories={{ ...mockFactories, data: [] }}
           searchParams={{}}
@@ -40,16 +40,11 @@ describe('<FactoriesTable />', () => {
       expect(
         screen.getByText(textLabels!.body!.noMatch! as any),
       ).toBeInTheDocument();
-      expect(container).toMatchSnapshot();
     });
 
     it('renders a table with data', async () => {
       render(<FactoriesTable factories={mockFactories} searchParams={{}} />);
-
-      const firstRow = screen.getByTestId('MUIDataTableBodyRow-0');
-
-      expect(firstRow).toBeInTheDocument();
-      expect(firstRow).toMatchSnapshot();
+      expect(screen.getByTestId('MUIDataTableBodyRow-0')).toBeInTheDocument();
     });
 
     it('renders a default text value for empty fields', async () => {
@@ -142,7 +137,9 @@ describe('<FactoriesTable />', () => {
       render(<FactoriesTable factories={mockFactories} searchParams={{}} />);
 
       userEvent.click(screen.getByTitle('Filter Table'));
-      expect(screen.getByRole('presentation')).toMatchSnapshot();
+      const container = screen.getByRole('presentation');
+
+      expect(container).toMatchSnapshot();
     });
 
     // The only filters that we display as a filter chip are those

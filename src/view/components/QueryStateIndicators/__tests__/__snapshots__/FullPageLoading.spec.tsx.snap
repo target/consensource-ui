@@ -4,7 +4,7 @@ exports[`<FullPageLoading /> renders a loading indicator with a label 1`] = `
 <div>
   <div
     aria-hidden="true"
-    class="MuiBackdrop-root makeStyles-backdrop-3"
+    class="MuiBackdrop-root makeStyles-backdrop"
     style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
   >
     <div
@@ -50,7 +50,7 @@ exports[`<FullPageLoading /> renders a loading indicator with a label 1`] = `
 exports[`<FullPageLoading /> renders an error indicator with a label 1`] = `
 <div>
   <div
-    class="makeStyles-centered-2"
+    class="makeStyles-centered"
   >
     <div
       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-direction-xs-column MuiGrid-align-items-xs-center"
