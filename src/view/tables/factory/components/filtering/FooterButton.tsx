@@ -11,22 +11,24 @@ export interface FilterFooterButtonProps {
   applyNewFilters?: (...args: any[]) => any;
 }
 
+/**
+ * On large data sets, `mui-datatables` freezes the UI and prevents
+ * any sort of useful loading indicator. Using this timeout hack allows
+ * us to at least set a loading text.
+ */
+export const FILTER_TIMEOUT_MS = 100;
+
 export const FilterFooterButton = ({
   applyNewFilters,
 }: FilterFooterButtonProps) => {
   const [label, setLabel] = useState('Apply Filters');
 
-  /**
-   * On large data sets, `mui-datatables` freezes the UI and prevents
-   * any sort of useful loading indicator. Using this timeout hack allows
-   * us to at least set a loading text.
-   */
   const onClick = () => {
     if (applyNewFilters) {
       setLabel('Loading...');
       setTimeout(() => {
         applyNewFilters();
-      }, 100);
+      }, FILTER_TIMEOUT_MS);
     }
   };
 
@@ -38,6 +40,7 @@ export const FilterFooterButton = ({
         color="primary"
         onClick={onClick}
         endIcon={<FilterIcon />}
+        title="apply filters"
       >
         {label}
       </Button>

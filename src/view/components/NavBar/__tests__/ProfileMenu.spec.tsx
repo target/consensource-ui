@@ -1,12 +1,12 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import { StoresContext } from 'view/context';
+import { render, fireEvent, screen } from 'utils/test-utils';
+import { stores } from 'stores';
 import { ProfileMenu } from '../ProfileMenu';
 
 const mockHistoryPush = jest.fn();
-const mockLogout = jest.fn();
 
 jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
   useHistory: () => ({
     push: mockHistoryPush,
   }),
@@ -14,56 +14,50 @@ jest.mock('react-router-dom', () => ({
 
 describe('<ProfileMenu />', () => {
   it('opens the profile menu on click', () => {
-    const { container, getByTestId, getByRole } = render(<ProfileMenu />);
+    const { container } = render(<ProfileMenu />);
 
-    fireEvent.click(getByTestId('profile-icon-button'));
+    fireEvent.click(screen.getByRole('button'));
 
-    expect(getByRole('menu')).toBeTruthy();
+    expect(screen.getByRole('menu')).toBeTruthy();
     expect(container).toMatchSnapshot();
   });
 
   it('renders without a username', () => {
-    const { container, queryByTestId } = render(<ProfileMenu />);
-    expect(queryByTestId('username')).toBeNull();
+    const { container } = render(<ProfileMenu />);
+    expect(screen.queryByTestId('username')).toBeNull();
     expect(container).toMatchSnapshot();
   });
 
   it('renders the username', () => {
     const username = 'Bob';
 
-    const { container, getByTestId } = render(
-      <StoresContext.Provider
-        value={{ userStore: { user: { username } } } as any}
-      >
-        <ProfileMenu />
-      </StoresContext.Provider>,
-    );
+    jest
+      .spyOn(stores.userStore, 'user', 'get')
+      .mockReturnValueOnce({ username } as any);
 
-    expect(getByTestId('username').textContent).toBe(username);
+    const { container } = render(<ProfileMenu />);
+
+    expect(screen.getByText(username)).toBeTruthy();
     expect(container).toMatchSnapshot();
   });
 
   it('logs a user out and redirects to "/"', () => {
-    const { getByTestId, getByText } = render(
-      <StoresContext.Provider
-        value={{ userStore: { logout: mockLogout } } as any}
-      >
-        <ProfileMenu />
-      </StoresContext.Provider>,
-    );
+    render(<ProfileMenu />);
 
-    fireEvent.click(getByTestId('profile-icon-button'));
-    fireEvent.click(getByText('Logout'));
+    const spy = jest.spyOn(stores.userStore, 'logout');
 
-    expect(mockLogout).toHaveBeenCalled();
+    fireEvent.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByText('Logout'));
+
+    expect(spy).toHaveBeenCalled();
     expect(mockHistoryPush).toHaveBeenCalledWith('/');
   });
 
   it('redirects a user to "/profile"', () => {
-    const { getByText, getByTestId } = render(<ProfileMenu />);
+    render(<ProfileMenu />);
 
-    fireEvent.click(getByTestId('profile-icon-button'));
-    fireEvent.click(getByText('Profile'));
+    fireEvent.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByText('Profile'));
 
     expect(mockHistoryPush).toHaveBeenCalledWith('/profile');
   });

@@ -1,130 +1,258 @@
 import React from 'react';
-import { mockFactoryResWithCerts } from 'services/api/__tests__/__mocks__';
-import {
-  render,
-  screen,
-  fireEvent,
-  getByDisplayValue,
-  waitForElementToBeRemoved,
-  act,
-  getByText,
-} from '@testing-library/react';
-import * as FactoryApi from 'services/api/factory';
-import { DEFAULT_ROWS_PER_PAGE, textLabels } from '../utils';
-import { FactoriesTable } from '..';
+import { mockFactoryResWithCerts } from 'services/api/__mocks__';
+import { render, screen, act } from 'utils/test-utils';
+import userEvent from '@testing-library/user-event';
+import { FactoryResData, PaginatedApiRes } from 'services/api';
+import { FactoriesTable, textLabels } from '..';
+import { baseFactoryTableCols, DEFAULT_CELL_VALUE } from '../columns';
+import { FILTER_TIMEOUT_MS } from '../components';
+
+// Mocked since it makes an api call to populate the multiselect
+jest.mock('../components/filtering/CertificationsMultiselect', () => {
+  return {
+    CertificationsMultiselect: () => <div />,
+  };
+});
+
+const mockHistoryPush = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: () => ({
+    push: mockHistoryPush,
+  }),
+}));
 
 describe('<FactoriesTable />', () => {
-  const loadingText = textLabels!.body!.noMatch!;
+  const mockFactories: PaginatedApiRes<
+    FactoryResData[]
+  > = mockFactoryResWithCerts as any;
 
-  const waitForTableRender = async () => {
-    await act(async () => {
-      render(<FactoriesTable />);
-      await waitForElementToBeRemoved(() => screen.getByText(loadingText));
+  describe('general', () => {
+    it('renders an empty table', () => {
+      const { container } = render(
+        <FactoriesTable
+          factories={{ ...mockFactories, data: [] }}
+          searchParams={{}}
+        />,
+      );
+
+      expect(
+        screen.getByText(textLabels!.body!.noMatch! as any),
+      ).toBeInTheDocument();
+      expect(container).toMatchSnapshot();
     });
-  };
 
-  it.only('renders an empty table', () => {
-    jest
-      .spyOn(FactoryApi, 'fetchAllFactories')
-      .mockReturnValueOnce({ data: [], paging: { total: 0 } } as any);
-    render(<FactoriesTable />);
-    expect(screen.getByText(loadingText)).toBeInTheDocument();
+    it('renders a table with data', async () => {
+      render(<FactoriesTable factories={mockFactories} searchParams={{}} />);
+
+      const firstRow = screen.getByTestId('MUIDataTableBodyRow-0');
+
+      expect(firstRow).toBeInTheDocument();
+      expect(firstRow).toMatchSnapshot();
+    });
+
+    it('renders a default text value for empty fields', async () => {
+      render(
+        <FactoriesTable
+          factories={{ ...mockFactories, data: [{}] } as any}
+          searchParams={{}}
+        />,
+      );
+
+      const firstRow = screen.getByTestId('MuiDataTableBodyCell-0-0');
+      const dataCell = firstRow.childNodes[1];
+
+      expect(dataCell.textContent).toBe(DEFAULT_CELL_VALUE);
+    });
+
+    it('sets pagination controls and total factory count', () => {
+      const limit = 10;
+      const offset = 20;
+      const total = 40;
+
+      // Search params are parsed as strings in the component
+      const searchParams = {
+        offset: offset.toString(),
+        limit: limit.toString(),
+      };
+
+      render(
+        <FactoriesTable
+          factories={{ ...mockFactories, paging: { total } } as any}
+          searchParams={searchParams}
+        />,
+      );
+
+      const paginationControl = screen.getByTestId('pagination-rows');
+
+      expect(paginationControl.firstChild?.nodeValue).toEqual(limit.toString());
+      expect(
+        screen.getByText(`${offset + 1}-${offset + limit} of ${total}`),
+      ).toBeInTheDocument();
+    });
   });
 
-  it('renders a table with data', async () => {
-    jest
-      .spyOn(FactoryApi, 'fetchAllFactories')
-      .mockReturnValue(mockFactoryResWithCerts as any);
+  describe('search bar', () => {
+    it('renders as closed by default', () => {
+      expect(screen.queryByTitle('Search')).toBe(null);
+    });
 
-    await waitForTableRender();
+    it('renders placeholder text', () => {
+      render(<FactoriesTable factories={mockFactories} searchParams={{}} />);
+
+      userEvent.click(screen.getByTitle('Search'));
+      expect(
+        screen.getByPlaceholderText('Search by name, certifications...'),
+      ).toBeInTheDocument();
+    });
+
+    it('sets the search text to the search params address string', () => {
+      const address = 'address';
+
+      render(
+        <FactoriesTable factories={mockFactories} searchParams={{ address }} />,
+      );
+
+      userEvent.click(screen.getByTitle('Search'));
+      expect(screen.getByDisplayValue(address)).toBeInTheDocument();
+    });
+
+    it('sets the search text to an empty string if search params address is not a string', async () => {
+      const address = ['foo', 'bar'];
+
+      render(
+        <FactoriesTable factories={mockFactories} searchParams={{ address }} />,
+      );
+
+      userEvent.click(screen.getByTitle('Search'));
+      expect(screen.getByDisplayValue('')).toBeInTheDocument();
+    });
   });
 
-  it('sets the count for the number of records', async () => {
-    const total = 2;
+  describe('filtering', () => {
+    const {
+      name: validFilterName,
+      label: validFilterLabel,
+    } = baseFactoryTableCols[0];
 
-    jest.spyOn(FactoryApi, 'fetchAllFactories').mockReturnValue({
-      ...mockFactoryResWithCerts,
-      paging: { total },
-    } as any);
+    const filterVal = 'foo';
 
-    await waitForTableRender();
+    it('renders', () => {
+      render(<FactoriesTable factories={mockFactories} searchParams={{}} />);
 
-    expect(screen.getByText(`1-${total} of ${total}`)).toBeInTheDocument();
-  });
+      userEvent.click(screen.getByTitle('Filter Table'));
+      expect(screen.getByRole('presentation')).toMatchSnapshot();
+    });
 
-  describe('updates query params based on...', () => {
-    it('sorting', async () => {
-      const fetchSpy = jest
-        .spyOn(FactoryApi, 'fetchAllFactories')
-        .mockReturnValue(mockFactoryResWithCerts as any);
+    // The only filters that we display as a filter chip are those
+    // that have a display column. For example, `limit` is a valid
+    // query param, but we don't display a filter chip since it is
+    // displayed in the table footer.
+    it('renders a filter chip from valid search params', () => {
+      render(
+        <FactoriesTable
+          factories={mockFactories}
+          searchParams={{ [validFilterName]: filterVal }}
+        />,
+      );
 
-      await waitForTableRender();
+      expect(
+        screen.getByText(`${validFilterLabel}: ${filterVal}`),
+      ).toBeInTheDocument();
+    });
 
-      // First column is `name`
-      fireEvent.click(screen.getByTestId('headcol-0'));
+    it('does not render a filter chip from invalid search params', () => {
+      const invalidFilterName = 'invalid_fitestlter';
 
-      expect(fetchSpy).toHaveBeenCalledWith({
-        sort_key: 'name',
-        sort_dir: 'asc',
+      render(
+        <FactoriesTable
+          factories={mockFactories}
+          searchParams={{ [invalidFilterName]: filterVal }}
+        />,
+      );
+
+      expect(screen.queryByText(`${invalidFilterName}: ${filterVal}`)).toBe(
+        null,
+      );
+    });
+
+    it('renders multiple filter chips for multiple filter values', () => {
+      const filterVal1 = 'foo';
+      const filterVal2 = 'bar';
+
+      render(
+        <FactoriesTable
+          factories={mockFactories}
+          searchParams={{
+            [validFilterName]: [filterVal1, filterVal2],
+          }}
+        />,
+      );
+
+      expect(
+        screen.getByText(`${validFilterLabel}: ${filterVal1}`),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(`${validFilterLabel}: ${filterVal2}`),
+      ).toBeInTheDocument();
+    });
+
+    it('updates the query string when a filter chip is removed', () => {
+      render(
+        <FactoriesTable
+          factories={mockFactories}
+          searchParams={{ [validFilterName]: filterVal }}
+        />,
+      );
+
+      const filterChip = screen.getByText(`${validFilterLabel}: ${filterVal}`);
+      userEvent.click(filterChip.nextSibling as any);
+
+      expect(mockHistoryPush).toHaveBeenCalledWith({
+        search: '',
       });
     });
 
-    it('filters', async () => {
-      const fetchSpy = jest
-        .spyOn(FactoryApi, 'fetchAllFactories')
-        .mockReturnValue(mockFactoryResWithCerts as any);
+    it('updates the query string when a new filter is applied', () => {
+      jest.useFakeTimers();
 
-      await waitForTableRender();
+      render(<FactoriesTable factories={mockFactories} searchParams={{}} />);
 
-      // Open filter list
-      fireEvent.click(screen.getByTestId('Filter Table-iconButton'));
+      userEvent.click(screen.getByTitle('Filter Table'));
+      userEvent.type(screen.getByLabelText(validFilterLabel as any), filterVal);
+      userEvent.click(screen.getByTitle('apply filters'));
 
-      // Filter on the `name` field
-      const nameDiv = screen.getByTestId('filtertextfield-name');
-      const nameInput = getByDisplayValue(nameDiv, '');
-      fireEvent.change(nameInput, { target: { value: 'test' } });
+      act(() => {
+        jest.advanceTimersByTime(FILTER_TIMEOUT_MS);
+      });
 
-      expect(fetchSpy).toHaveBeenCalledWith({ name: 'test' });
+      expect(mockHistoryPush).toHaveBeenCalledWith({
+        search: `${validFilterName}=${filterVal}`,
+      });
     });
+  });
 
-    it('current page', async () => {
-      // Create more records than can be held on a single page
-      const mockFactoryResExpanded = { data: [] } as any;
-      for (let i = 0; i < DEFAULT_ROWS_PER_PAGE + 1; i++) {
-        mockFactoryResExpanded.data.push(mockFactoryResWithCerts.data[0]);
-      }
+  describe('sorting', () => {
+    const { name: sortColName } = baseFactoryTableCols[0];
 
-      const fetchSpy = jest
-        .spyOn(FactoryApi, 'fetchAllFactories')
-        .mockReturnValue(mockFactoryResExpanded as any);
+    it('when single clicking a column header, sets the query string to ascending for the column', () => {
+      render(<FactoriesTable factories={mockFactories} searchParams={{}} />);
+      userEvent.click(screen.getByTestId('headcol-0'));
 
-      await waitForTableRender();
-
-      fireEvent.click(screen.getByTitle('Next page'));
-
-      // Zero-indexed paging
-      const page = 1;
-
-      expect(fetchSpy).toHaveBeenCalledWith({
-        offset: page * DEFAULT_ROWS_PER_PAGE,
+      expect(mockHistoryPush).toHaveBeenCalledWith({
+        search: `sort_dir=asc&sort_key=${sortColName}`,
       });
     });
 
-    it('rows per page', async () => {
-      const fetchSpy = jest
-        .spyOn(FactoryApi, 'fetchAllFactories')
-        .mockReturnValue(mockFactoryResWithCerts as any);
+    it('when single double clicking a column header, sets the query string to descending for the column', () => {
+      render(<FactoriesTable factories={mockFactories} searchParams={{}} />);
+      userEvent.click(screen.getByTestId('headcol-0'));
+      userEvent.click(screen.getByTestId('headcol-0'));
 
-      await waitForTableRender();
-
-      const limit = 100;
-
-      fireEvent.mouseDown(screen.getByTestId('pagination-rows'));
-
-      const rowOpts = await screen.findByTestId('pagination-menu-list');
-      fireEvent.click(getByText(rowOpts, limit.toString()));
-
-      expect(fetchSpy).toHaveBeenCalledWith({ limit });
+      expect(mockHistoryPush).toHaveBeenCalledWith({
+        search: `sort_dir=desc&sort_key=${sortColName}`,
+      });
     });
   });
 });

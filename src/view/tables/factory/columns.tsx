@@ -7,11 +7,13 @@ import {
   CertificatesCell,
 } from './components';
 
+export const DEFAULT_CELL_VALUE = '-';
 /**
  * Used in the `customBodyRender` config. If an empty string is passed,
  * replace it with a placeholder text (`'-'`).
  */
-export const getCellValOrDefault = (value: string) => value || '-';
+export const getCellValOrDefault = (value: string) =>
+  value || DEFAULT_CELL_VALUE;
 
 /**
  * Return the string value for the filter chips displayed
@@ -64,11 +66,8 @@ export const getCustomSearchOptions = (
 export const certColumnOptions: MUIDataTableColumn['options'] = {
   sort: false,
   filterType: 'custom',
-  customBodyRender: (value?: string) => {
-    // TODO: Remove optional `value` when backend issues are resolved
-    const certs = value && JSON.parse(value);
-    return <CertificatesCell certificates={certs} />;
-  },
+  // TODO: Verify with real cert data below
+  customBodyRender: (value) => <CertificatesCell certificates={value as any} />,
   customFilterListOptions: {
     render: (value) => getCustomFilterChipLabel('Certification', value),
   },

@@ -19,8 +19,9 @@ export const FilterTextField = ({
 
   return (
     <TextField
+      id={label.replace(/\s+/g, '-').toLowerCase()}
       label={label}
-      value={filterVal[0]}
+      value={filterVal[0] || ''}
       onChange={(e) => onChange([e.target.value])}
     />
   );

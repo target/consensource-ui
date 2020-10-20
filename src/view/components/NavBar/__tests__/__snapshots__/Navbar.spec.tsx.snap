@@ -72,7 +72,6 @@ exports[`<AuthedNavbar /> renders 1`] = `
         <button
           aria-label="profile"
           class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeStart"
-          data-testid="profile-icon-button"
           tabindex="0"
           type="button"
         >

@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography, Grid } from '@material-ui/core';
 import { CertResData } from 'services/api';
 import { InfoItem } from 'view/components';
+import { getLocaleFromUnix } from 'utils';
 
 interface CertificateInfoProps {
   certificate: CertResData;
@@ -18,14 +19,8 @@ export const CertificateInfo = ({
 
       <Grid container item>
         <InfoItem title="Standard Version" val={standard_version} />
-        <InfoItem
-          title="Valid From"
-          val={new Date(valid_from).toLocaleDateString()}
-        />
-        <InfoItem
-          title="Valid To"
-          val={new Date(valid_to).toLocaleDateString()}
-        />
+        <InfoItem title="Valid From" val={getLocaleFromUnix(valid_from)} />
+        <InfoItem title="Valid To" val={getLocaleFromUnix(valid_to)} />
       </Grid>
     </Grid>
   );
