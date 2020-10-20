@@ -8,7 +8,6 @@ exports[`<ProfileMenu /> opens the profile menu on click 1`] = `
     <button
       aria-label="profile"
       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeStart"
-      data-testid="profile-icon-button"
       tabindex="0"
       type="button"
     >
@@ -44,7 +43,6 @@ exports[`<ProfileMenu /> renders the username 1`] = `
     <button
       aria-label="profile"
       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeStart"
-      data-testid="profile-icon-button"
       tabindex="0"
       type="button"
     >
@@ -69,7 +67,6 @@ exports[`<ProfileMenu /> renders the username 1`] = `
           >
             <p
               class="MuiTypography-root MuiTypography-body1"
-              data-testid="username"
             >
               Bob
             </p>
@@ -90,7 +87,6 @@ exports[`<ProfileMenu /> renders without a username 1`] = `
     <button
       aria-label="profile"
       class="MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeStart"
-      data-testid="profile-icon-button"
       tabindex="0"
       type="button"
     >

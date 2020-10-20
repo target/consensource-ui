@@ -12,29 +12,28 @@ import { useHistory } from 'react-router-dom';
 import { useStores } from 'services/hooks';
 import { observer } from 'mobx-react-lite';
 
-export interface NavbarProfileIconProps {
+export interface ProfileIconWithUsernameButtonProps {
   onClick: IconButtonProps['onClick'];
   username?: string;
 }
 
-export const NavbarProfileIcon = ({
+export const ProfileIconWithUsernameButton = ({
   onClick,
   username,
-}: NavbarProfileIconProps) => {
+}: ProfileIconWithUsernameButtonProps) => {
   return (
     <IconButton
       color="inherit"
       aria-label="profile"
       onClick={onClick}
       edge="start"
-      data-testid="profile-icon-button"
     >
       <Grid container alignItems="center" spacing={1}>
         <ProfileIcon />
 
         {username && (
           <Grid item>
-            <Typography data-testid="username">{username}</Typography>
+            <Typography>{username}</Typography>
           </Grid>
         )}
       </Grid>
@@ -60,7 +59,7 @@ export const ProfileMenu = observer(() => {
 
   return (
     <div>
-      <NavbarProfileIcon
+      <ProfileIconWithUsernameButton
         onClick={(e) => setAnchorEl(e.currentTarget)}
         username={username}
       />

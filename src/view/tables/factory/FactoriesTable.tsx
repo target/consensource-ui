@@ -12,6 +12,7 @@ import MUIDataTable, {
   MUIDataTableColumn,
   debounceSearchRender,
   TableFilterList,
+  MUIDataTableOptions,
   MUIDataTableFilterList,
 } from 'mui-datatables';
 import {
@@ -32,6 +33,12 @@ export interface FactoriesTableProps {
   factories: PaginatedApiRes<FactoryResData[]>;
   searchParams: ParsedQuery<string>;
 }
+
+export const textLabels: MUIDataTableOptions['textLabels'] = {
+  body: {
+    noMatch: 'No factories found',
+  },
+};
 
 export const FactoriesTable = ({
   factories,
@@ -65,7 +72,7 @@ export const FactoriesTable = ({
    * Update the query string in the URL to reflect the table
    * filter state.
    */
-  const updatesearchParams = (
+  const updateSearchParams = (
     val: { [key in keyof FactoryReqParams]: FactoryReqParams[key] },
   ) => {
     history.push({
@@ -80,12 +87,11 @@ export const FactoriesTable = ({
   const onFilterChipClose = (index: number, removedFilter: string) => {
     const { name: filterKey } = baseFactoryTableCols[index];
     const filterVal = searchParams[filterKey];
-
     if (filterVal) {
       const updatedFilter = convertStrToArray(filterVal).filter(
         (val) => val !== removedFilter,
       );
-      updatesearchParams({ [filterKey]: updatedFilter });
+      updateSearchParams({ [filterKey]: updatedFilter });
     }
   };
 
@@ -105,7 +111,7 @@ export const FactoriesTable = ({
       });
     });
 
-    updatesearchParams(updatedFilters);
+    updateSearchParams(updatedFilters);
   };
 
   /**
@@ -116,7 +122,7 @@ export const FactoriesTable = ({
    * with the appropriate filter chips (filters such as `head`
    * which are not in the `baseFactoryTableCols` object are excluded).
    */
-  const columnFiltersFromsearchParams = baseFactoryTableCols.map(
+  const columnFiltersFromSearchParams = baseFactoryTableCols.map(
     ({ name: colName }) => {
       const queryVal = searchParams[colName];
       return queryVal ? convertStrToArray(queryVal) : [];
@@ -136,7 +142,7 @@ export const FactoriesTable = ({
   const getRow = ({ name, id, address, certificates }: FactoryResData) => {
     return {
       name,
-      certificates: JSON.stringify(certificates),
+      certificates,
       factory_page_link: <FactoryProfileLinkButton factoryId={id} />,
       ...address,
     };
@@ -151,13 +157,14 @@ export const FactoriesTable = ({
         TableFilterList: (props) => (
           <TableFilterList
             {...props}
-            filterList={columnFiltersFromsearchParams}
+            filterList={columnFiltersFromSearchParams}
           />
         ),
       }}
       options={{
         onFilterConfirm,
         onFilterChipClose,
+        textLabels,
         serverSide: true,
         download: false,
         print: false,
@@ -172,11 +179,6 @@ export const FactoriesTable = ({
         confirmFilters: true,
         customSearchRender: debounceSearchRender(500),
         customToolbar: () => <CopyTableLinkButton />,
-        textLabels: {
-          body: {
-            noMatch: 'No factories found',
-          },
-        },
         setFilterChipProps: () => {
           return {
             color: 'secondary',
@@ -187,16 +189,16 @@ export const FactoriesTable = ({
           <FilterFooterButton applyNewFilters={applyNewFilters} />
         ),
         onChangeRowsPerPage: (val) => {
-          updatesearchParams({ limit: val });
+          updateSearchParams({ limit: val });
         },
         onSearchChange: (searchText) => {
-          updatesearchParams({ address: searchText || undefined });
+          updateSearchParams({ address: searchText || undefined });
         },
         onChangePage: (page) => {
-          updatesearchParams({ offset: page * limit });
+          updateSearchParams({ offset: page * limit });
         },
         onColumnSortChange: (changedColumn, direction) => {
-          updatesearchParams({
+          updateSearchParams({
             sort_key: changedColumn as keyof FactoryReqFilterParams,
             sort_dir: direction as SortingDir,
           });

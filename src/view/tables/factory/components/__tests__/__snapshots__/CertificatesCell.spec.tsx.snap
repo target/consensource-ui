@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CertificatesCell /> renders without any certs 1`] = `
+<div>
+  <li
+    class="MuiListItem-root MuiListItem-gutters"
+  >
+    <i>
+      None
+    </i>
+  </li>
+</div>
+`;
+
+exports[`<CertificatesCell /> with certs renders 1`] = `
+<div>
+  <ul
+    class="MuiList-root MuiList-padding"
+  >
+    <a
+      class="makeStyles-link-5"
+      href="certifications/a978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee4811"
+    >
+      <li
+        class="MuiListItem-root MuiListItem-gutters"
+      >
+        <i
+          class="makeStyles-certName-4"
+          data-testid="cert-cell-tooltip"
+          title="Valid until 1/19/1970"
+        >
+          Test Standard
+        </i>
+      </li>
+    </a>
+  </ul>
+</div>
+`;

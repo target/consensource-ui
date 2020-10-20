@@ -8,6 +8,7 @@ import {
   createStyles,
 } from '@material-ui/core';
 import { UnstyledLink } from 'view/components';
+import { getLocaleFromUnix } from 'utils';
 
 export interface CertificatesCellProps {
   // TODO: Remove optional `certificates` once we fix backend issues
@@ -33,7 +34,7 @@ const useStyles = makeStyles(({ palette }) =>
 export const CertificatesCell = ({ certificates }: CertificatesCellProps) => {
   const classes = useStyles();
 
-  if (!certificates || certificates.length === 0) {
+  if (!certificates || !certificates.length) {
     return (
       <ListItem>
         <i>None</i>
@@ -44,11 +45,12 @@ export const CertificatesCell = ({ certificates }: CertificatesCellProps) => {
   return (
     <List>
       {certificates.map(({ standard_name, id, valid_to }) => (
-        <UnstyledLink to={`certifications/${id}`}>
-          <ListItem key={id}>
+        <UnstyledLink to={`certifications/${id}`} key={id}>
+          <ListItem>
             <Tooltip
               placement="top"
-              title={`Valid until ${new Date(valid_to).toLocaleDateString()}`}
+              data-testid="cert-cell-tooltip"
+              title={`Valid until ${getLocaleFromUnix(valid_to)}`}
             >
               <i className={classes.certName}>{standard_name}</i>
             </Tooltip>
