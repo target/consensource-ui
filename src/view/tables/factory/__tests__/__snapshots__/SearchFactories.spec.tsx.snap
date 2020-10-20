@@ -1097,7 +1097,7 @@ exports[`<FactoriesTable /> general renders an empty table 1`] = `
                   />
                   <p
                     class="MuiTypography-root MuiTablePagination-caption MuiTypography-body2 MuiTypography-colorInherit"
-                    id="mui-1674"
+                    id="mui-23843"
                   >
                     Rows per page:
                   </p>
@@ -1106,7 +1106,7 @@ exports[`<FactoriesTable /> general renders an empty table 1`] = `
                   >
                     <div
                       aria-haspopup="listbox"
-                      aria-labelledby="mui-1674 pagination-rows"
+                      aria-labelledby="mui-23843 pagination-rows"
                       class="MuiSelect-root MuiSelect-select MuiTablePagination-select MuiSelect-selectMenu MuiInputBase-input"
                       data-testid="pagination-rows"
                       id="pagination-rows"
