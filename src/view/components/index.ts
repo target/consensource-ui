@@ -5,3 +5,4 @@ export * from './InfoItem';
 export * from './SequentialGrow';
 export * from './QueryStateIndicators';
 export * from './UnstyledLink';
+export * from './icons';

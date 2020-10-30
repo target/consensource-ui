@@ -3,7 +3,6 @@ import { useQuery } from 'react-query';
 import { Grid } from '@material-ui/core';
 import { ClaimableDataPageHeader, FullPageLoading } from 'view/components';
 import { fetchCertificateById, CertResData } from 'services/api';
-import { hasOwnPropertySafe } from 'utils';
 import { CertificateInfo } from './CertificateInfo';
 import { CertBodyInfo } from './CertBodyInfo';
 import { GrantedToSubtitle } from './GrantedToSubtitle';
@@ -29,7 +28,7 @@ export const Certification = ({ certificationId }: CertificationProps) => {
             <ClaimableDataPageHeader
               title={certificate.standard_name}
               subtitle={<GrantedToSubtitle certificate={certificate} />}
-              isClaimed={!hasOwnPropertySafe(certificate, 'assertion_id')}
+              data={certificate}
             />
           </Grid>
 

@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SubtitleText /> renders 1`] = `
+<div>
+  <p
+    class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+  >
+    Test
+  </p>
+</div>
+`;

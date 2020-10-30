@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Typography, makeStyles, createStyles } from '@material-ui/core';
 import { UnstyledLink } from 'view/components';
+import { SubtitleText } from 'view/components/Claims/ClaimableDataPageHeader/SubtitleText';
 import { CertResData } from 'services/api';
 
 export interface HeaderProps {
@@ -32,9 +33,7 @@ export const GrantedToSubtitle = ({
   return (
     <Grid container item justify="center" spacing={1}>
       <Grid item>
-        <Typography align="center" color="textSecondary">
-          Granted to:
-        </Typography>
+        <SubtitleText>Granted to:</SubtitleText>
       </Grid>
       <Grid item>
         <UnstyledLink to={`/factories/${factory_id}`}>

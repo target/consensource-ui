@@ -8,7 +8,7 @@ import {
   createStyles,
 } from '@material-ui/core';
 import { CertResData } from 'services/api';
-import { hasOwnPropertySafe } from 'utils';
+import { isDataClaimed } from 'utils';
 import { MoreInfoLinkButton } from './MoreInfoLinkButton';
 import { Header } from './Header';
 import { Body } from './Body';
@@ -44,7 +44,7 @@ export const CertificationCard = ({
           <Grid item>
             <Body
               validTo={certification.valid_to}
-              isClaimed={!hasOwnPropertySafe(certification, 'assertion_id')}
+              isClaimed={isDataClaimed(certification)}
             />
           </Grid>
         </Grid>

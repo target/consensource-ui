@@ -1,10 +1,10 @@
 import React from 'react';
 import { Grid, Typography, makeStyles, createStyles } from '@material-ui/core';
 import { CertResData } from 'services/api';
-import { AssignmentTurnedInOutlined as CheckIcon } from '@material-ui/icons';
 import { getLocaleFromUnix } from 'utils';
 import {
-  WarningIconError,
+  CheckIcon,
+  WarningIcon,
   ClaimedIconButton,
   UnclaimedIconButton,
 } from 'view/components';
@@ -55,7 +55,7 @@ const ValidToText = ({ validTo }: ValidToTextProps) => {
         {isValid ? (
           <CheckIcon className={classes.success} />
         ) : (
-          <WarningIconError />
+          <WarningIcon color="error" />
         )}
       </Grid>
       <Grid item xs>
@@ -71,7 +71,7 @@ const IsClaimedText = ({ isClaimed }: IsClaimedTextProps) => {
   const classes = useStyles();
 
   return (
-    <Grid container item spacing={4}>
+    <Grid container item>
       <Grid item xs={2}>
         {isClaimed ? <ClaimedIconButton /> : <UnclaimedIconButton />}
       </Grid>

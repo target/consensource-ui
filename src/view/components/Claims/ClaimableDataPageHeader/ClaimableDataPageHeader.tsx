@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
 import { Typography, Grid, makeStyles, createStyles } from '@material-ui/core';
-import { ClaimedIconButton } from './ClaimedIconButton';
-import { UnverifiedDataAlert } from './UnverifiedDataAlert';
+import { isDataClaimed } from 'utils';
+import { SubtitleText } from './SubtitleText';
+import { ClaimedIconButton } from '../ClaimedIconButton';
+import { UnverifiedDataAlert } from '../UnverifiedDataAlert';
 
 const useStyles = makeStyles(
   createStyles({
@@ -14,16 +16,20 @@ const useStyles = makeStyles(
 
 export interface ClaimableDataPageHeaderProps {
   title: string;
-  subtitle?: React.ReactNode;
-  isClaimed: boolean;
+  subtitle?: string | React.ReactNode;
+  /**
+   * Used to determine if the data is claimed or unclaimed
+   */
+  data: Record<string, any>;
 }
 
 export const ClaimableDataPageHeader: FC<ClaimableDataPageHeaderProps> = ({
   title,
   subtitle,
-  isClaimed,
+  data,
 }) => {
   const classes = useStyles();
+  const isClaimed = isDataClaimed(data);
 
   return (
     <Grid container alignItems="center" direction="column" spacing={2}>
@@ -43,7 +49,15 @@ export const ClaimableDataPageHeader: FC<ClaimableDataPageHeaderProps> = ({
         )}
       </Grid>
 
-      <Grid item>{subtitle}</Grid>
+      {subtitle && (
+        <Grid item>
+          {typeof subtitle === 'string' ? (
+            <SubtitleText>{subtitle}</SubtitleText>
+          ) : (
+            subtitle
+          )}
+        </Grid>
+      )}
 
       {!isClaimed && (
         <Grid item xs={6}>

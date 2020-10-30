@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ClaimableDataPageHeader /> renders with a subtitle 1`] = `
+exports[`<ClaimableDataPageHeader /> renders with a subtitle component 1`] = `
 <div>
   <div
     class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column MuiGrid-align-items-xs-center"
@@ -64,7 +64,7 @@ exports[`<ClaimableDataPageHeader /> renders with a subtitle 1`] = `
 </div>
 `;
 
-exports[`<ClaimableDataPageHeader /> renders with claimed data 1`] = `
+exports[`<ClaimableDataPageHeader /> renders with a subtitle text 1`] = `
 <div>
   <div
     class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column MuiGrid-align-items-xs-center"
@@ -119,7 +119,70 @@ exports[`<ClaimableDataPageHeader /> renders with claimed data 1`] = `
     </div>
     <div
       class="MuiGrid-root MuiGrid-item"
-    />
+    >
+      <p
+        class="MuiTypography-root MuiTypography-body1 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+      >
+        Test
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<ClaimableDataPageHeader /> renders with claimed data 1`] = `
+<div>
+  <div
+    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-direction-xs-column MuiGrid-align-items-xs-center"
+  >
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-item MuiGrid-justify-xs-center"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-item"
+      >
+        <h2
+          class="MuiTypography-root MuiTypography-h2 MuiTypography-alignCenter"
+        >
+          cert
+        </h2>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item"
+      >
+        <div
+          class="makeStyles-claimedIconBtn"
+        >
+          <div>
+            <button
+              aria-label="claimed-icon"
+              class="MuiButtonBase-root MuiIconButton-root"
+              tabindex="0"
+              title="Claimed Data"
+              type="button"
+            >
+              <span
+                class="MuiIconButton-label"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root makeStyles-icon MuiSvgIcon-fontSizeLarge"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm7 10c0 4.52-2.98 8.69-7 9.93-4.02-1.24-7-5.41-7-9.93V6.3l7-3.11 7 3.11V11zm-11.59.59L6 13l4 4 8-8-1.41-1.42L10 14.17z"
+                  />
+                </svg>
+              </span>
+              <span
+                class="MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;
@@ -142,9 +205,6 @@ exports[`<ClaimableDataPageHeader /> renders with unclaimed data 1`] = `
         </h2>
       </div>
     </div>
-    <div
-      class="MuiGrid-root MuiGrid-item"
-    />
     <div
       class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6"
     >

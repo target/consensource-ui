@@ -3,7 +3,6 @@ import { useQuery } from 'react-query';
 import { Grid } from '@material-ui/core';
 import { ClaimableDataPageHeader, FullPageLoading } from 'view/components';
 import { fetchFactoryByOrgId, FactoryResData } from 'services/api';
-import { hasOwnPropertySafe } from 'utils';
 import { Contacts } from './Contacts';
 import { Address } from './Address';
 import { Certifications } from './Certifications';
@@ -14,7 +13,7 @@ export interface FactoryProfileProps {
 
 export const FactoryProfile = ({ factoryId }: FactoryProfileProps) => {
   const queryRes = useQuery('fetchFactoryByOrgId', () =>
-    fetchFactoryByOrgId(factoryId, { expand: false }),
+    fetchFactoryByOrgId(factoryId, { expand: true }),
   );
 
   return (
@@ -26,10 +25,7 @@ export const FactoryProfile = ({ factoryId }: FactoryProfileProps) => {
       {({ data: factory }) => (
         <Grid container direction="column" spacing={6}>
           <Grid container item>
-            <ClaimableDataPageHeader
-              title={factory.name}
-              isClaimed={!hasOwnPropertySafe(factory, 'assertion_id')}
-            />
+            <ClaimableDataPageHeader title={factory.name} data={factory} />
           </Grid>
 
           <Grid container item>
