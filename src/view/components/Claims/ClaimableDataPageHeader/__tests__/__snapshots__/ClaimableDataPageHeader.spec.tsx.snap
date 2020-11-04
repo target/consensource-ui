@@ -10,6 +10,12 @@ exports[`<ClaimableDataPageHeader /> renders with a subtitle component 1`] = `
     >
       <div
         class="MuiGrid-root MuiGrid-item"
+        style="width: 82.5px;"
+      >
+        <div />
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item"
       >
         <h2
           class="MuiTypography-root MuiTypography-h2 MuiTypography-alignCenter"
@@ -72,6 +78,12 @@ exports[`<ClaimableDataPageHeader /> renders with a subtitle text 1`] = `
     <div
       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-item MuiGrid-justify-xs-center"
     >
+      <div
+        class="MuiGrid-root MuiGrid-item"
+        style="width: 82.5px;"
+      >
+        <div />
+      </div>
       <div
         class="MuiGrid-root MuiGrid-item"
       >
@@ -138,6 +150,12 @@ exports[`<ClaimableDataPageHeader /> renders with claimed data 1`] = `
     <div
       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2 MuiGrid-item MuiGrid-justify-xs-center"
     >
+      <div
+        class="MuiGrid-root MuiGrid-item"
+        style="width: 82.5px;"
+      >
+        <div />
+      </div>
       <div
         class="MuiGrid-root MuiGrid-item"
       >

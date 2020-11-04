@@ -2,7 +2,10 @@ import React, { FC } from 'react';
 import { Typography, Grid, makeStyles, createStyles } from '@material-ui/core';
 import { isDataClaimed } from 'utils';
 import { SubtitleText } from './SubtitleText';
-import { ClaimedIconButton } from '../ClaimedIconButton';
+import {
+  ClaimedIconButton,
+  CLAIMED_ICON_BTN_WIDTH,
+} from '../ClaimedIconButton';
 import { UnverifiedDataAlert } from '../UnverifiedDataAlert';
 
 const useStyles = makeStyles(
@@ -31,9 +34,21 @@ export const ClaimableDataPageHeader: FC<ClaimableDataPageHeaderProps> = ({
   const classes = useStyles();
   const isClaimed = isDataClaimed(data);
 
+  /**
+   * Empty element used to balance out the `<ClaimedIconButton />`
+   * for centering
+   */
+  const Balancer = () => (
+    <Grid item style={{ width: CLAIMED_ICON_BTN_WIDTH }}>
+      <div />
+    </Grid>
+  );
+
   return (
     <Grid container alignItems="center" direction="column" spacing={2}>
       <Grid item container justify="center" spacing={2}>
+        {isClaimed && <Balancer />}
+
         <Grid item>
           <Typography variant="h2" align="center">
             {title}

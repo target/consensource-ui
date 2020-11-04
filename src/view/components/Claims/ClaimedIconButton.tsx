@@ -18,6 +18,8 @@ const useStyles = makeStyles(({ palette }: Theme) =>
   }),
 );
 
+export const CLAIMED_ICON_BTN_WIDTH = 82.5;
+
 export function ClaimedIconButton(props?: SvgIconProps) {
   const [dialogIsOpen, setDialogIsOpen] = useState(false);
 

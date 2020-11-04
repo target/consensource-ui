@@ -30,14 +30,20 @@ const useStyles = makeStyles(({ palette }) =>
     warning: {
       color: palette.warning.main,
     },
-    validToRow: {
-      paddingLeft: 15,
-    },
     claimedText: {
       paddingTop: 12.5,
     },
+    claimedBtn: {
+      marginLeft: 2.5,
+    },
     validToIcon: {
       padding: '18px 16px 16px 16px !important',
+    },
+    validToText: {
+      marginLeft: 5,
+    },
+    validToRow: {
+      paddingLeft: 15,
     },
   }),
 );
@@ -59,9 +65,10 @@ const ValidToText = ({ validTo }: ValidToTextProps) => {
         )}
       </Grid>
       <Grid item xs>
-        <Typography variant="body1">{`${text} ${getLocaleFromUnix(
-          validToMs,
-        )}`}</Typography>
+        <Typography
+          variant="body1"
+          className={classes.validToText}
+        >{`${text} ${getLocaleFromUnix(validToMs)}`}</Typography>
       </Grid>
     </Grid>
   );
@@ -69,15 +76,16 @@ const ValidToText = ({ validTo }: ValidToTextProps) => {
 
 const IsClaimedText = ({ isClaimed }: IsClaimedTextProps) => {
   const classes = useStyles();
+  const isClaimedText = isClaimed ? 'Claimed' : 'Unclaimed';
 
   return (
-    <Grid container item>
-      <Grid item xs={2}>
+    <Grid container item spacing={6}>
+      <Grid item xs={2} className={classes.claimedBtn}>
         {isClaimed ? <ClaimedIconButton /> : <UnclaimedIconButton />}
       </Grid>
       <Grid item xs>
         <Typography variant="body1" className={classes.claimedText}>
-          {isClaimed ? 'Claimed' : 'Unclaimed'}
+          {isClaimedText}
         </Typography>
       </Grid>
     </Grid>
@@ -93,11 +101,11 @@ export const Body = ({ validTo, isClaimed }: BodyProps) => {
         </Typography>
       </Grid>
 
-      <Grid container item>
+      <Grid item>
         <IsClaimedText isClaimed={isClaimed} />
       </Grid>
 
-      <Grid container item>
+      <Grid item>
         <ValidToText validTo={validTo} />
       </Grid>
     </Grid>
