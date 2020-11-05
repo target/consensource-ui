@@ -11,19 +11,22 @@ import {
 } from 'services/protobuf/compiled';
 import { TransactionHeader } from 'sawtooth-sdk/protobuf';
 import { ACTIONS } from 'services/protobuf/transaction';
-import { createOrgTransaction } from 'services/protobuf/organization';
+import {
+  createOrgAction,
+  createOrgTransaction,
+} from 'services/protobuf/organization';
 
 describe('Organization Protobuf', () => {
   describe('createOrgTransaction()', () => {
     const id = 'test';
 
-    const org = {
+    const org = createOrgAction({
       id,
       organization_type: Organization.Type.FACTORY,
       contacts: [new Organization.Contact()],
       address: new Factory.Address(),
       name: 'test',
-    };
+    });
 
     const signer = createSigner(createNewPrivateKey());
 
