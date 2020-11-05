@@ -36,6 +36,9 @@ export interface ICertificateRegistryPayload {
 
   /** CertificateRegistryPayload assert_action */
   assert_action?: IAssertAction | null;
+
+  /** CertificateRegistryPayload transfer_assertion_action */
+  transfer_assertion_action?: ITransferAssertionAction | null;
 }
 
 /** Represents a CertificateRegistryPayload. */
@@ -81,6 +84,9 @@ export class CertificateRegistryPayload implements ICertificateRegistryPayload {
 
   /** CertificateRegistryPayload assert_action. */
   public assert_action?: IAssertAction | null;
+
+  /** CertificateRegistryPayload transfer_assertion_action. */
+  public transfer_assertion_action?: ITransferAssertionAction | null;
 
   /**
    * Creates a new CertificateRegistryPayload instance using the specified properties.
@@ -186,6 +192,7 @@ export namespace CertificateRegistryPayload {
     CHANGE_REQUEST_STATUS_ACTION = 9,
     ACCREDIT_CERTIFYING_BODY_ACTION = 10,
     ASSERT_ACTION = 11,
+    TRANSFER_ASSERTION = 12,
   }
 }
 
@@ -1654,6 +1661,118 @@ export namespace AssertAction {
      */
     public toJSON(): { [k: string]: any };
   }
+}
+
+/** Properties of a TransferAssertionAction. */
+export interface ITransferAssertionAction {
+  /** TransferAssertionAction assertion_id */
+  assertion_id?: string | null;
+
+  /** TransferAssertionAction new_owner_public_key */
+  new_owner_public_key?: string | null;
+}
+
+/** Represents a TransferAssertionAction. */
+export class TransferAssertionAction implements ITransferAssertionAction {
+  /**
+   * Constructs a new TransferAssertionAction.
+   * @param [properties] Properties to set
+   */
+  constructor(properties?: ITransferAssertionAction);
+
+  /** TransferAssertionAction assertion_id. */
+  public assertion_id: string;
+
+  /** TransferAssertionAction new_owner_public_key. */
+  public new_owner_public_key: string;
+
+  /**
+   * Creates a new TransferAssertionAction instance using the specified properties.
+   * @param [properties] Properties to set
+   * @returns TransferAssertionAction instance
+   */
+  public static create(
+    properties?: ITransferAssertionAction,
+  ): TransferAssertionAction;
+
+  /**
+   * Encodes the specified TransferAssertionAction message. Does not implicitly {@link TransferAssertionAction.verify|verify} messages.
+   * @param message TransferAssertionAction message or plain object to encode
+   * @param [writer] Writer to encode to
+   * @returns Writer
+   */
+  public static encode(
+    message: ITransferAssertionAction,
+    writer?: $protobuf.Writer,
+  ): $protobuf.Writer;
+
+  /**
+   * Encodes the specified TransferAssertionAction message, length delimited. Does not implicitly {@link TransferAssertionAction.verify|verify} messages.
+   * @param message TransferAssertionAction message or plain object to encode
+   * @param [writer] Writer to encode to
+   * @returns Writer
+   */
+  public static encodeDelimited(
+    message: ITransferAssertionAction,
+    writer?: $protobuf.Writer,
+  ): $protobuf.Writer;
+
+  /**
+   * Decodes a TransferAssertionAction message from the specified reader or buffer.
+   * @param reader Reader or buffer to decode from
+   * @param [length] Message length if known beforehand
+   * @returns TransferAssertionAction
+   * @throws {Error} If the payload is not a reader or valid buffer
+   * @throws {$protobuf.util.ProtocolError} If required fields are missing
+   */
+  public static decode(
+    reader: $protobuf.Reader | Uint8Array,
+    length?: number,
+  ): TransferAssertionAction;
+
+  /**
+   * Decodes a TransferAssertionAction message from the specified reader or buffer, length delimited.
+   * @param reader Reader or buffer to decode from
+   * @returns TransferAssertionAction
+   * @throws {Error} If the payload is not a reader or valid buffer
+   * @throws {$protobuf.util.ProtocolError} If required fields are missing
+   */
+  public static decodeDelimited(
+    reader: $protobuf.Reader | Uint8Array,
+  ): TransferAssertionAction;
+
+  /**
+   * Verifies a TransferAssertionAction message.
+   * @param message Plain object to verify
+   * @returns `null` if valid, otherwise the reason why it is not
+   */
+  public static verify(message: { [k: string]: any }): string | null;
+
+  /**
+   * Creates a TransferAssertionAction message from a plain object. Also converts values to their respective internal types.
+   * @param object Plain object
+   * @returns TransferAssertionAction
+   */
+  public static fromObject(object: {
+    [k: string]: any;
+  }): TransferAssertionAction;
+
+  /**
+   * Creates a plain object from a TransferAssertionAction message. Also converts values to other types if specified.
+   * @param message TransferAssertionAction
+   * @param [options] Conversion options
+   * @returns Plain object
+   */
+  public static toObject(
+    message: TransferAssertionAction,
+    options?: $protobuf.IConversionOptions,
+  ): { [k: string]: any };
+
+  /**
+   * Converts this TransferAssertionAction to JSON.
+   * @returns JSON object
+   */
+  public toJSON(): { [k: string]: any };
 }
 
 /** Properties of an Organization. */
@@ -3418,6 +3537,9 @@ export interface IAssertion {
   /** Assertion id */
   id?: string | null;
 
+  /** Assertion address */
+  address?: string | null;
+
   /** Assertion assertor_pub_key */
   assertor_pub_key?: string | null;
 
@@ -3441,6 +3563,9 @@ export class Assertion implements IAssertion {
 
   /** Assertion id. */
   public id: string;
+
+  /** Assertion address. */
+  public address: string;
 
   /** Assertion assertor_pub_key. */
   public assertor_pub_key: string;

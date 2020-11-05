@@ -13,17 +13,20 @@ message Assertion {
     // UUID of this claim.
     string id = 1;
 
+    // Address
+    string address = 2;
+
     //public key of the agent who made the assertion
-    string assertor_pub_key = 2;
+    string assertor_pub_key = 3;
 
     //The type of the assertion object
-    Type assertion_type = 3;
+    Type assertion_type = 4;
 
     //The id of the record that is an assertion
-    string object_id = 4;
+    string object_id = 5;
 
     //The id of the record the assertion is about, the subject
-    string data_id = 5; //optional
+    string data_id = 6; //optional
 }
 
 message AssertionContainer {

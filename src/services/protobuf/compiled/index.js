@@ -28,6 +28,7 @@ $root.CertificateRegistryPayload = (function () {
    * @property {IChangeRequestStatusAction|null} [change_request_status_action] CertificateRegistryPayload change_request_status_action
    * @property {IAccreditCertifyingBodyAction|null} [accredit_certifying_body_action] CertificateRegistryPayload accredit_certifying_body_action
    * @property {IAssertAction|null} [assert_action] CertificateRegistryPayload assert_action
+   * @property {ITransferAssertionAction|null} [transfer_assertion_action] CertificateRegistryPayload transfer_assertion_action
    */
 
   /**
@@ -139,6 +140,14 @@ $root.CertificateRegistryPayload = (function () {
    * @instance
    */
   CertificateRegistryPayload.prototype.assert_action = null;
+
+  /**
+   * CertificateRegistryPayload transfer_assertion_action.
+   * @member {ITransferAssertionAction|null|undefined} transfer_assertion_action
+   * @memberof CertificateRegistryPayload
+   * @instance
+   */
+  CertificateRegistryPayload.prototype.transfer_assertion_action = null;
 
   /**
    * Creates a new CertificateRegistryPayload instance using the specified properties.
@@ -253,6 +262,14 @@ $root.CertificateRegistryPayload = (function () {
         message.assert_action,
         writer.uint32(/* id 12, wireType 2 =*/ 98).fork(),
       ).ldelim();
+    if (
+      message.transfer_assertion_action != null &&
+      Object.hasOwnProperty.call(message, 'transfer_assertion_action')
+    )
+      $root.TransferAssertionAction.encode(
+        message.transfer_assertion_action,
+        writer.uint32(/* id 13, wireType 2 =*/ 106).fork(),
+      ).ldelim();
     return writer;
   };
 
@@ -359,6 +376,12 @@ $root.CertificateRegistryPayload = (function () {
             reader.uint32(),
           );
           break;
+        case 13:
+          message.transfer_assertion_action = $root.TransferAssertionAction.decode(
+            reader,
+            reader.uint32(),
+          );
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -411,6 +434,7 @@ $root.CertificateRegistryPayload = (function () {
         case 9:
         case 10:
         case 11:
+        case 12:
           break;
       }
     if (
@@ -500,6 +524,15 @@ $root.CertificateRegistryPayload = (function () {
       var error = $root.AssertAction.verify(message.assert_action);
       if (error) return 'assert_action.' + error;
     }
+    if (
+      message.transfer_assertion_action != null &&
+      message.hasOwnProperty('transfer_assertion_action')
+    ) {
+      var error = $root.TransferAssertionAction.verify(
+        message.transfer_assertion_action,
+      );
+      if (error) return 'transfer_assertion_action.' + error;
+    }
     return null;
   };
 
@@ -562,6 +595,10 @@ $root.CertificateRegistryPayload = (function () {
       case 'ASSERT_ACTION':
       case 11:
         message.action = 11;
+        break;
+      case 'TRANSFER_ASSERTION':
+      case 12:
+        message.action = 12;
         break;
     }
     if (object.create_agent != null) {
@@ -663,6 +700,15 @@ $root.CertificateRegistryPayload = (function () {
         object.assert_action,
       );
     }
+    if (object.transfer_assertion_action != null) {
+      if (typeof object.transfer_assertion_action !== 'object')
+        throw TypeError(
+          '.CertificateRegistryPayload.transfer_assertion_action: object expected',
+        );
+      message.transfer_assertion_action = $root.TransferAssertionAction.fromObject(
+        object.transfer_assertion_action,
+      );
+    }
     return message;
   };
 
@@ -691,6 +737,7 @@ $root.CertificateRegistryPayload = (function () {
       object.change_request_status_action = null;
       object.accredit_certifying_body_action = null;
       object.assert_action = null;
+      object.transfer_assertion_action = null;
     }
     if (message.action != null && message.hasOwnProperty('action'))
       object.action =
@@ -782,6 +829,14 @@ $root.CertificateRegistryPayload = (function () {
         message.assert_action,
         options,
       );
+    if (
+      message.transfer_assertion_action != null &&
+      message.hasOwnProperty('transfer_assertion_action')
+    )
+      object.transfer_assertion_action = $root.TransferAssertionAction.toObject(
+        message.transfer_assertion_action,
+        options,
+      );
     return object;
   };
 
@@ -812,6 +867,7 @@ $root.CertificateRegistryPayload = (function () {
    * @property {number} CHANGE_REQUEST_STATUS_ACTION=9 CHANGE_REQUEST_STATUS_ACTION value
    * @property {number} ACCREDIT_CERTIFYING_BODY_ACTION=10 ACCREDIT_CERTIFYING_BODY_ACTION value
    * @property {number} ASSERT_ACTION=11 ASSERT_ACTION value
+   * @property {number} TRANSFER_ASSERTION=12 TRANSFER_ASSERTION value
    */
   CertificateRegistryPayload.Action = (function () {
     var valuesById = {},
@@ -828,6 +884,7 @@ $root.CertificateRegistryPayload = (function () {
     values[(valuesById[9] = 'CHANGE_REQUEST_STATUS_ACTION')] = 9;
     values[(valuesById[10] = 'ACCREDIT_CERTIFYING_BODY_ACTION')] = 10;
     values[(valuesById[11] = 'ASSERT_ACTION')] = 11;
+    values[(valuesById[12] = 'TRANSFER_ASSERTION')] = 12;
     return values;
   })();
 
@@ -4579,6 +4636,227 @@ $root.AssertAction = (function () {
   })();
 
   return AssertAction;
+})();
+
+$root.TransferAssertionAction = (function () {
+  /**
+   * Properties of a TransferAssertionAction.
+   * @exports ITransferAssertionAction
+   * @interface ITransferAssertionAction
+   * @property {string|null} [assertion_id] TransferAssertionAction assertion_id
+   * @property {string|null} [new_owner_public_key] TransferAssertionAction new_owner_public_key
+   */
+
+  /**
+   * Constructs a new TransferAssertionAction.
+   * @exports TransferAssertionAction
+   * @classdesc Represents a TransferAssertionAction.
+   * @implements ITransferAssertionAction
+   * @constructor
+   * @param {ITransferAssertionAction=} [properties] Properties to set
+   */
+  function TransferAssertionAction(properties) {
+    if (properties)
+      for (var keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+        if (properties[keys[i]] != null) this[keys[i]] = properties[keys[i]];
+  }
+
+  /**
+   * TransferAssertionAction assertion_id.
+   * @member {string} assertion_id
+   * @memberof TransferAssertionAction
+   * @instance
+   */
+  TransferAssertionAction.prototype.assertion_id = '';
+
+  /**
+   * TransferAssertionAction new_owner_public_key.
+   * @member {string} new_owner_public_key
+   * @memberof TransferAssertionAction
+   * @instance
+   */
+  TransferAssertionAction.prototype.new_owner_public_key = '';
+
+  /**
+   * Creates a new TransferAssertionAction instance using the specified properties.
+   * @function create
+   * @memberof TransferAssertionAction
+   * @static
+   * @param {ITransferAssertionAction=} [properties] Properties to set
+   * @returns {TransferAssertionAction} TransferAssertionAction instance
+   */
+  TransferAssertionAction.create = function create(properties) {
+    return new TransferAssertionAction(properties);
+  };
+
+  /**
+   * Encodes the specified TransferAssertionAction message. Does not implicitly {@link TransferAssertionAction.verify|verify} messages.
+   * @function encode
+   * @memberof TransferAssertionAction
+   * @static
+   * @param {ITransferAssertionAction} message TransferAssertionAction message or plain object to encode
+   * @param {$protobuf.Writer} [writer] Writer to encode to
+   * @returns {$protobuf.Writer} Writer
+   */
+  TransferAssertionAction.encode = function encode(message, writer) {
+    if (!writer) writer = $Writer.create();
+    if (
+      message.assertion_id != null &&
+      Object.hasOwnProperty.call(message, 'assertion_id')
+    )
+      writer.uint32(/* id 1, wireType 2 =*/ 10).string(message.assertion_id);
+    if (
+      message.new_owner_public_key != null &&
+      Object.hasOwnProperty.call(message, 'new_owner_public_key')
+    )
+      writer
+        .uint32(/* id 2, wireType 2 =*/ 18)
+        .string(message.new_owner_public_key);
+    return writer;
+  };
+
+  /**
+   * Encodes the specified TransferAssertionAction message, length delimited. Does not implicitly {@link TransferAssertionAction.verify|verify} messages.
+   * @function encodeDelimited
+   * @memberof TransferAssertionAction
+   * @static
+   * @param {ITransferAssertionAction} message TransferAssertionAction message or plain object to encode
+   * @param {$protobuf.Writer} [writer] Writer to encode to
+   * @returns {$protobuf.Writer} Writer
+   */
+  TransferAssertionAction.encodeDelimited = function encodeDelimited(
+    message,
+    writer,
+  ) {
+    return this.encode(message, writer).ldelim();
+  };
+
+  /**
+   * Decodes a TransferAssertionAction message from the specified reader or buffer.
+   * @function decode
+   * @memberof TransferAssertionAction
+   * @static
+   * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+   * @param {number} [length] Message length if known beforehand
+   * @returns {TransferAssertionAction} TransferAssertionAction
+   * @throws {Error} If the payload is not a reader or valid buffer
+   * @throws {$protobuf.util.ProtocolError} If required fields are missing
+   */
+  TransferAssertionAction.decode = function decode(reader, length) {
+    if (!(reader instanceof $Reader)) reader = $Reader.create(reader);
+    var end = length === undefined ? reader.len : reader.pos + length,
+      message = new $root.TransferAssertionAction();
+    while (reader.pos < end) {
+      var tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.assertion_id = reader.string();
+          break;
+        case 2:
+          message.new_owner_public_key = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  };
+
+  /**
+   * Decodes a TransferAssertionAction message from the specified reader or buffer, length delimited.
+   * @function decodeDelimited
+   * @memberof TransferAssertionAction
+   * @static
+   * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+   * @returns {TransferAssertionAction} TransferAssertionAction
+   * @throws {Error} If the payload is not a reader or valid buffer
+   * @throws {$protobuf.util.ProtocolError} If required fields are missing
+   */
+  TransferAssertionAction.decodeDelimited = function decodeDelimited(reader) {
+    if (!(reader instanceof $Reader)) reader = new $Reader(reader);
+    return this.decode(reader, reader.uint32());
+  };
+
+  /**
+   * Verifies a TransferAssertionAction message.
+   * @function verify
+   * @memberof TransferAssertionAction
+   * @static
+   * @param {Object.<string,*>} message Plain object to verify
+   * @returns {string|null} `null` if valid, otherwise the reason why it is not
+   */
+  TransferAssertionAction.verify = function verify(message) {
+    if (typeof message !== 'object' || message === null)
+      return 'object expected';
+    if (message.assertion_id != null && message.hasOwnProperty('assertion_id'))
+      if (!$util.isString(message.assertion_id))
+        return 'assertion_id: string expected';
+    if (
+      message.new_owner_public_key != null &&
+      message.hasOwnProperty('new_owner_public_key')
+    )
+      if (!$util.isString(message.new_owner_public_key))
+        return 'new_owner_public_key: string expected';
+    return null;
+  };
+
+  /**
+   * Creates a TransferAssertionAction message from a plain object. Also converts values to their respective internal types.
+   * @function fromObject
+   * @memberof TransferAssertionAction
+   * @static
+   * @param {Object.<string,*>} object Plain object
+   * @returns {TransferAssertionAction} TransferAssertionAction
+   */
+  TransferAssertionAction.fromObject = function fromObject(object) {
+    if (object instanceof $root.TransferAssertionAction) return object;
+    var message = new $root.TransferAssertionAction();
+    if (object.assertion_id != null)
+      message.assertion_id = String(object.assertion_id);
+    if (object.new_owner_public_key != null)
+      message.new_owner_public_key = String(object.new_owner_public_key);
+    return message;
+  };
+
+  /**
+   * Creates a plain object from a TransferAssertionAction message. Also converts values to other types if specified.
+   * @function toObject
+   * @memberof TransferAssertionAction
+   * @static
+   * @param {TransferAssertionAction} message TransferAssertionAction
+   * @param {$protobuf.IConversionOptions} [options] Conversion options
+   * @returns {Object.<string,*>} Plain object
+   */
+  TransferAssertionAction.toObject = function toObject(message, options) {
+    if (!options) options = {};
+    var object = {};
+    if (options.defaults) {
+      object.assertion_id = '';
+      object.new_owner_public_key = '';
+    }
+    if (message.assertion_id != null && message.hasOwnProperty('assertion_id'))
+      object.assertion_id = message.assertion_id;
+    if (
+      message.new_owner_public_key != null &&
+      message.hasOwnProperty('new_owner_public_key')
+    )
+      object.new_owner_public_key = message.new_owner_public_key;
+    return object;
+  };
+
+  /**
+   * Converts this TransferAssertionAction to JSON.
+   * @function toJSON
+   * @memberof TransferAssertionAction
+   * @instance
+   * @returns {Object.<string,*>} JSON object
+   */
+  TransferAssertionAction.prototype.toJSON = function toJSON() {
+    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+  };
+
+  return TransferAssertionAction;
 })();
 
 $root.Organization = (function () {
@@ -8727,6 +9005,7 @@ $root.Assertion = (function () {
    * @exports IAssertion
    * @interface IAssertion
    * @property {string|null} [id] Assertion id
+   * @property {string|null} [address] Assertion address
    * @property {string|null} [assertor_pub_key] Assertion assertor_pub_key
    * @property {Assertion.Type|null} [assertion_type] Assertion assertion_type
    * @property {string|null} [object_id] Assertion object_id
@@ -8754,6 +9033,14 @@ $root.Assertion = (function () {
    * @instance
    */
   Assertion.prototype.id = '';
+
+  /**
+   * Assertion address.
+   * @member {string} address
+   * @memberof Assertion
+   * @instance
+   */
+  Assertion.prototype.address = '';
 
   /**
    * Assertion assertor_pub_key.
@@ -8813,27 +9100,32 @@ $root.Assertion = (function () {
     if (message.id != null && Object.hasOwnProperty.call(message, 'id'))
       writer.uint32(/* id 1, wireType 2 =*/ 10).string(message.id);
     if (
+      message.address != null &&
+      Object.hasOwnProperty.call(message, 'address')
+    )
+      writer.uint32(/* id 2, wireType 2 =*/ 18).string(message.address);
+    if (
       message.assertor_pub_key != null &&
       Object.hasOwnProperty.call(message, 'assertor_pub_key')
     )
       writer
-        .uint32(/* id 2, wireType 2 =*/ 18)
+        .uint32(/* id 3, wireType 2 =*/ 26)
         .string(message.assertor_pub_key);
     if (
       message.assertion_type != null &&
       Object.hasOwnProperty.call(message, 'assertion_type')
     )
-      writer.uint32(/* id 3, wireType 0 =*/ 24).int32(message.assertion_type);
+      writer.uint32(/* id 4, wireType 0 =*/ 32).int32(message.assertion_type);
     if (
       message.object_id != null &&
       Object.hasOwnProperty.call(message, 'object_id')
     )
-      writer.uint32(/* id 4, wireType 2 =*/ 34).string(message.object_id);
+      writer.uint32(/* id 5, wireType 2 =*/ 42).string(message.object_id);
     if (
       message.data_id != null &&
       Object.hasOwnProperty.call(message, 'data_id')
     )
-      writer.uint32(/* id 5, wireType 2 =*/ 42).string(message.data_id);
+      writer.uint32(/* id 6, wireType 2 =*/ 50).string(message.data_id);
     return writer;
   };
 
@@ -8872,15 +9164,18 @@ $root.Assertion = (function () {
           message.id = reader.string();
           break;
         case 2:
-          message.assertor_pub_key = reader.string();
+          message.address = reader.string();
           break;
         case 3:
-          message.assertion_type = reader.int32();
+          message.assertor_pub_key = reader.string();
           break;
         case 4:
-          message.object_id = reader.string();
+          message.assertion_type = reader.int32();
           break;
         case 5:
+          message.object_id = reader.string();
+          break;
+        case 6:
           message.data_id = reader.string();
           break;
         default:
@@ -8919,6 +9214,8 @@ $root.Assertion = (function () {
       return 'object expected';
     if (message.id != null && message.hasOwnProperty('id'))
       if (!$util.isString(message.id)) return 'id: string expected';
+    if (message.address != null && message.hasOwnProperty('address'))
+      if (!$util.isString(message.address)) return 'address: string expected';
     if (
       message.assertor_pub_key != null &&
       message.hasOwnProperty('assertor_pub_key')
@@ -8958,6 +9255,7 @@ $root.Assertion = (function () {
     if (object instanceof $root.Assertion) return object;
     var message = new $root.Assertion();
     if (object.id != null) message.id = String(object.id);
+    if (object.address != null) message.address = String(object.address);
     if (object.assertor_pub_key != null)
       message.assertor_pub_key = String(object.assertor_pub_key);
     switch (object.assertion_type) {
@@ -8997,6 +9295,7 @@ $root.Assertion = (function () {
     var object = {};
     if (options.defaults) {
       object.id = '';
+      object.address = '';
       object.assertor_pub_key = '';
       object.assertion_type = options.enums === String ? 'UNSET_TYPE' : 0;
       object.object_id = '';
@@ -9004,6 +9303,8 @@ $root.Assertion = (function () {
     }
     if (message.id != null && message.hasOwnProperty('id'))
       object.id = message.id;
+    if (message.address != null && message.hasOwnProperty('address'))
+      object.address = message.address;
     if (
       message.assertor_pub_key != null &&
       message.hasOwnProperty('assertor_pub_key')
