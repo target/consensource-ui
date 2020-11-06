@@ -16,10 +16,10 @@ import MUIDataTable, {
   MUIDataTableFilterList,
 } from 'mui-datatables';
 import {
-  FactoryProfileLinkButton,
   TableTitle,
   FilterFooterButton,
   CopyTableLinkButton,
+  FactoryNameCellProps,
 } from './components';
 import { baseFactoryTableCols } from './columns';
 import {
@@ -140,10 +140,10 @@ export const FactoriesTable = ({
    * the filters however.
    */
   const getRow = ({ name, id, address, certificates }: FactoryResData) => {
+    const factoryNameProps: FactoryNameCellProps = { name, id };
     return {
-      name,
+      name: { name, id },
       certificates,
-      factory_page_link: <FactoryProfileLinkButton factoryId={id} />,
       ...address,
     };
   };

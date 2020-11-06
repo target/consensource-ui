@@ -5,6 +5,7 @@ import {
   FilterMultiselect,
   CertificationsMultiselect,
   CertificatesCell,
+  FactoryNameCell,
 } from './components';
 
 export const DEFAULT_CELL_VALUE = '-';
@@ -63,6 +64,31 @@ export const getCustomSearchOptions = (
 /**
  * Configuration for our custom certificate filtering logic.
  */
+export const nameColumnOptions: MUIDataTableColumn['options'] = {
+  sort: false,
+  filterType: 'custom',
+  // TODO: Verify with real cert data below
+  customBodyRender: ({ name, id }: any) => (
+    <FactoryNameCell name={name} id={id} />
+  ),
+  customFilterListOptions: {
+    render: ({ name }: any) => getCustomFilterChipLabel('Name', name),
+  },
+  filterOptions: {
+    display: (filterList, onChange, index, column) => (
+      <FilterTextField
+        filterVal={filterList[index]}
+        queryKey="name"
+        label="Name"
+        onChange={(val) => onChange(val, index, column)}
+      />
+    ),
+  },
+};
+
+/**
+ * Configuration for our custom certificate filtering logic.
+ */
 export const certColumnOptions: MUIDataTableColumn['options'] = {
   sort: false,
   filterType: 'custom',
@@ -116,7 +142,7 @@ export const countryColumnOptions: MUIDataTableColumn['options'] = {
  * [Details on the various `options` configs can be found here](https://github.com/gregnb/mui-datatables#customize-columns).
  */
 export const baseFactoryTableCols: MUIDataTableColumn[] = [
-  { name: 'name', label: 'Name', options: getCustomSearchOptions('Name') },
+  { name: 'name', label: 'Name', options: nameColumnOptions },
   {
     name: 'certificates',
     label: 'Certifications',
