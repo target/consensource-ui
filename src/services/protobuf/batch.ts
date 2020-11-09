@@ -1,6 +1,6 @@
 import { Batch, BatchHeader, BatchList } from 'sawtooth-sdk/protobuf';
-import { getTransactionIds } from 'services/protobuf/transaction';
 import { getSignerPubKeyHex } from 'services/crypto';
+import { getTransactionIds } from './transaction';
 
 /**
  * Creates a serialized `BatchHeader`, signs the message,

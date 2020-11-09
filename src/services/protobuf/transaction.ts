@@ -1,21 +1,10 @@
 import { hash, HashingAlgorithms, getSignerPubKeyHex } from 'services/crypto';
 import { Transaction, TransactionHeader } from 'sawtooth-sdk/protobuf';
 import {
-  CertificateRegistryPayload,
-  ICertificateRegistryPayload,
-} from 'services/protobuf/compiled';
-import {
   FAMILY_NAME as familyName,
   FAMILY_VERSION as familyVersion,
 } from 'services/addressing';
-
-export interface PayloadInfo {
-  payloadBytes: string | Buffer | NodeJS.TypedArray | DataView;
-  inputs: string[];
-  outputs: string[];
-}
-
-export const ACTIONS = CertificateRegistryPayload.Action;
+import { PayloadInfo } from './utils';
 
 /**
  * Create an array of transaction IDs, where each ID is the `headerSignature`
@@ -25,23 +14,6 @@ export function getTransactionIds(
   transactions: sawtooth.protobuf.Transaction[],
 ): string[] {
   return transactions.map((transaction) => transaction.headerSignature);
-}
-
-/**
- * Encodes a CertificateRegistryPayload message
- * @param message CertificateRegistryPayload message or plain object to encode
- */
-export function encodePayload(
-  payload: ICertificateRegistryPayload,
-): Uint8Array {
-  return CertificateRegistryPayload.encode(payload).finish();
-}
-
-/**
- * Default timestamp logic for transactions.
- */
-export function getTxnTimestamp() {
-  return Math.round(Date.now() / 1000);
 }
 
 /**

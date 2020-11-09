@@ -5,21 +5,15 @@ import {
   createStateAddress,
   getAgentStateAddress,
 } from 'services/addressing';
+import { CreateOrgActionStrict } from './organization';
 import {
   AssertAction,
   TransferAssertionAction,
-  ICertificateRegistryPayload,
   IAssertAction,
   ITransferAssertionAction,
-} from 'services/protobuf/compiled';
-import {
-  createTransaction,
-  PayloadInfo,
-  encodePayload,
-  ACTIONS,
-} from 'services/protobuf/transaction';
-
-import { CreateOrgActionStrict } from 'services/protobuf/organization';
+} from './compiled';
+import { createTransaction } from './transaction';
+import { PayloadInfo, ACTIONS, encodePayload } from './utils';
 
 export interface IAssertActionStrict extends IAssertAction {
   assertion_id: NonNullable<IAssertAction['assertion_id']>;
@@ -55,11 +49,6 @@ export function createAssertionActionTransaction(
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
   const addresses = [];
-  const payload: ICertificateRegistryPayload = {
-    action: ACTIONS.ASSERT_ACTION,
-    assert_action,
-  };
-  const payloadBytes = encodePayload(payload);
 
   addresses.push(getAgentStateAddress(signer));
   addresses.push(getAssertionStateAddress(assert_action.assertion_id));
@@ -76,9 +65,12 @@ export function createAssertionActionTransaction(
   }
 
   const payloadInfo: PayloadInfo = {
-    payloadBytes,
     inputs: addresses,
     outputs: addresses,
+    payloadBytes: encodePayload({
+      action: ACTIONS.ASSERT_ACTION,
+      assert_action,
+    }),
   };
 
   return createTransaction(payloadInfo, signer);
@@ -107,7 +99,7 @@ export function createTransferAssertionAction(
  *   - The certifying body that is granting the certificate
  *   - The assertion that is being transferred
  */
-function getAddresses(
+function getTransferAssertionAddresses(
   { assertion_id }: TransferAssertionActionStrict,
   signer: sawtooth.signing.Signer,
 ) {
@@ -131,18 +123,18 @@ export function createTransferAssertionActionTransaction(
   transfer_assertion_action: TransferAssertionActionStrict,
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
-  const payload: ICertificateRegistryPayload = {
-    action: ACTIONS.TRANSFER_ASSERTION,
+  const addresses = getTransferAssertionAddresses(
     transfer_assertion_action,
-  };
-  const payloadBytes = encodePayload(payload);
-
-  const addresses = getAddresses(transfer_assertion_action, signer);
+    signer,
+  );
 
   const payloadInfo: PayloadInfo = {
-    payloadBytes,
     inputs: addresses,
     outputs: addresses,
+    payloadBytes: encodePayload({
+      action: ACTIONS.TRANSFER_ASSERTION,
+      transfer_assertion_action,
+    }),
   };
 
   return createTransaction(payloadInfo, signer);

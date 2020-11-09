@@ -7,7 +7,7 @@ import {
 import { Factory } from 'services/protobuf/compiled';
 import { Button, Grid, TextField, Typography } from '@material-ui/core';
 
-interface CreateContactFormProps {
+interface CreateFactoryAddressFormProps {
   onSubmit: (address: Factory.Address) => any;
   submitLabel?: string;
 }
@@ -18,7 +18,7 @@ interface CreateContactFormProps {
 export const CreateFactoryAddressForm = ({
   onSubmit,
   submitLabel = 'Submit',
-}: CreateContactFormProps) => {
+}: CreateFactoryAddressFormProps) => {
   const [address, setAddress] = useState<IFactoryAddressStrict>({
     street_line_1: '',
     city: '',
