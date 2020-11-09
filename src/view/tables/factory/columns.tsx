@@ -5,6 +5,8 @@ import {
   FilterMultiselect,
   CertificationsMultiselect,
   CertificatesCell,
+  FactoryNameCell,
+  FactoryNameCellProps,
 } from './components';
 
 export const DEFAULT_CELL_VALUE = '-';
@@ -60,9 +62,28 @@ export const getCustomSearchOptions = (
   },
 });
 
-/**
- * Configuration for our custom certificate filtering logic.
- */
+export const nameColumnOptions: MUIDataTableColumn['options'] = {
+  sort: false,
+  filterType: 'custom',
+  customBodyRender: (props: FactoryNameCellProps) => (
+    <FactoryNameCell {...props} />
+  ),
+  customFilterListOptions: {
+    render: ({ name }: FactoryNameCellProps) =>
+      getCustomFilterChipLabel('Name', name),
+  },
+  filterOptions: {
+    display: (filterList, onChange, index, column) => (
+      <FilterTextField
+        filterVal={filterList[index]}
+        queryKey="name"
+        label="Name"
+        onChange={(val) => onChange(val, index, column)}
+      />
+    ),
+  },
+};
+
 export const certColumnOptions: MUIDataTableColumn['options'] = {
   sort: false,
   filterType: 'custom',
@@ -81,9 +102,6 @@ export const certColumnOptions: MUIDataTableColumn['options'] = {
   },
 };
 
-/**
- * Configuration for our custom country filtering logic.
- */
 export const countryColumnOptions: MUIDataTableColumn['options'] = {
   filterType: 'custom',
   customBodyRender: getCellValOrDefault,
@@ -106,8 +124,6 @@ export const countryColumnOptions: MUIDataTableColumn['options'] = {
 
 /**
  * Configuration logic for the keys of our flattened `FactoryResData` object.
- * Other tables can expand upon this with additional columns, such as a link
- * to the factory profile page.
  *
  * The `name` key for each config object corresponds to the key of the object
  * array that is passed to the `data` prop on the table. The `label` key is
@@ -115,8 +131,8 @@ export const countryColumnOptions: MUIDataTableColumn['options'] = {
  *
  * [Details on the various `options` configs can be found here](https://github.com/gregnb/mui-datatables#customize-columns).
  */
-export const baseFactoryTableCols: MUIDataTableColumn[] = [
-  { name: 'name', label: 'Name', options: getCustomSearchOptions('Name') },
+export const columns: MUIDataTableColumn[] = [
+  { name: 'name', label: 'Name', options: nameColumnOptions },
   {
     name: 'certificates',
     label: 'Certifications',

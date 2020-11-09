@@ -26,7 +26,7 @@
     "@testing-library/user-event": "^12.1.8",
     "@types/eventsource": "^1.1.2",
     "@types/jest": "^24.0.0",
-    "@types/mui-datatables": "3.4.1",
+    "@types/mui-datatables": "^3.7.0",
     "@types/node": "^13.13.0",
     "@types/react": "^16.9.34",
     "@types/react-copy-to-clipboard": "^4.3.0",
