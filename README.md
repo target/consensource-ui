@@ -26,12 +26,32 @@
 
 #### Details on the technical architecture can be found on our [docs site](https://target.github.io/consensource-docs/docs/developer/application-developers-guide/client/).
 
-The ConsenSource UI is comprised of a number of Mithril applications under the same router. The following views are defined:
+The ConsenSource UI is comprised of multiple web applications for each entity. Each web app provides  each entity unique interactions with the ConsenSource blockchain
 
--   [Retailer](https://localhost:8080/index_retailer.html)
--   [Auditor](https://localhost:8080/index_auditor.html)
--   [Factory](https://localhost:8080/index_factory.html)
--   [Standards Body](https://localhost:8080/index_standards_body.html)
+The following section provides the default URL for each web app and a basic description of the app's functionality:
+
+- Retailer: `https://localhost:8080/`
+
+  - Serves as an example to information available to Target sourcing members
+  - View factories and their associated contact, location, and certification information
+  - View agents and, if applicable, associated organization and contact information
+
+- Factory: `https://localhost:8080/index_factory.html`
+
+  - Open certification requests
+  - View history of granted certifications
+  - Update any address or contact information
+
+- Standards Body: `https://localhost:8080/index_standards_body.html`
+
+  - View, create, and update standards
+  - Accredit certifying bodies to issue certificates
+
+- Certifying Body: `http://localhost:8080/index_auditor.html`
+
+  - View factories' certification requests
+  - Issue certifications based on these requests
+  - View all factories
 
 ## Development
 
