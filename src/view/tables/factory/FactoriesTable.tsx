@@ -9,7 +9,6 @@ import {
   PaginatedApiRes,
 } from 'services/api';
 import MUIDataTable, {
-  MUIDataTableColumn,
   debounceSearchRender,
   TableFilterList,
   MUIDataTableOptions,
@@ -21,7 +20,7 @@ import {
   CopyTableLinkButton,
   FactoryNameCellProps,
 } from './components';
-import { baseFactoryTableCols } from './columns';
+import { columns } from './columns';
 import {
   convertStrToArray,
   getIntValFromQueryParam,
@@ -52,23 +51,6 @@ export const FactoriesTable = ({
   const offset = getIntValFromQueryParam(searchParams.offset) || 0;
 
   /**
-   * Expand the `baseFactoryTableCols` with an additional column
-   * that has a link button to the profile page for the factory
-   */
-  const columns: MUIDataTableColumn[] = [
-    ...baseFactoryTableCols,
-    {
-      name: 'factory_page_link',
-      label: ' ', // TODO: https://github.com/gregnb/mui-datatables/issues/953#issuecomment-534289311
-      options: {
-        empty: true,
-        download: false,
-        filter: false,
-      },
-    },
-  ];
-
-  /**
    * Update the query string in the URL to reflect the table
    * filter state.
    */
@@ -85,7 +67,7 @@ export const FactoriesTable = ({
    * in the URL.
    */
   const onFilterChipClose = (index: number, removedFilter: string) => {
-    const { name: filterKey } = baseFactoryTableCols[index];
+    const { name: filterKey } = columns[index];
     const filterVal = searchParams[filterKey];
     if (filterVal) {
       const updatedFilter = convertStrToArray(filterVal).filter(
@@ -105,7 +87,7 @@ export const FactoriesTable = ({
     const updatedFilters = {};
 
     // Convert the 2d array of filters into a dictionary object
-    baseFactoryTableCols.forEach(({ name }, i) => {
+    columns.forEach(({ name }, i) => {
       Object.assign(updatedFilters, {
         [name]: filterList[i],
       });
@@ -122,12 +104,10 @@ export const FactoriesTable = ({
    * with the appropriate filter chips (filters such as `head`
    * which are not in the `baseFactoryTableCols` object are excluded).
    */
-  const columnFiltersFromSearchParams = baseFactoryTableCols.map(
-    ({ name: colName }) => {
-      const queryVal = searchParams[colName];
-      return queryVal ? convertStrToArray(queryVal) : [];
-    },
-  );
+  const columnFiltersFromSearchParams = columns.map(({ name: colName }) => {
+    const queryVal = searchParams[colName];
+    return queryVal ? convertStrToArray(queryVal) : [];
+  });
 
   /**
    * Flattens and expands all properties of `FactoryResData`. This
