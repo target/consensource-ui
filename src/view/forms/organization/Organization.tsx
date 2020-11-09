@@ -3,6 +3,9 @@ import {
   createOrgAction,
   ICreateOrgActionStrict,
   createOrgTransaction,
+  updateOrgAction,
+  IUpdateOrganizationActionStrict,
+  updateOrgTransaction,
 } from 'services/protobuf/organization';
 import { Organization } from 'services/protobuf/compiled';
 import { VpnKey as Key } from '@material-ui/icons';
@@ -11,7 +14,7 @@ import { SelectOrganizationType } from 'view/forms/organization/SelectOrganizati
 import { createBatch } from 'services/protobuf/batch';
 import { useAuth } from 'services/hooks';
 import { FormErrMsg, TransactionFormProps } from 'view/forms/utils';
-import { postBatches } from 'services/api';
+import { postBatches, FactoryResData } from 'services/api';
 import { CreateContactForm } from './CreateContact';
 import { CreateFactoryAddressForm } from './CreateFactoryAddress';
 
@@ -120,4 +123,82 @@ export const CreateOrganizationForm = ({
   };
 
   return getCurrentForm();
+};
+
+/**
+ * One-part form used to build an `UpdateOrganizationAction` payload object
+ */
+export const UpdateOrganizationForm = (
+  { setBatchStatusLink }: TransactionFormProps,
+  existing_org: FactoryResData,
+) => {
+  const { signer } = useAuth();
+  const [errMsg, setErrMsg] = useState('');
+  const [org, setOrg] = useState<IUpdateOrganizationActionStrict>({
+    contacts: existing_org.contacts as Organization.IContact[],
+    address: existing_org.address as Factory.IAddress,
+  });
+
+  const submit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const action = updateOrgAction({ ...existing_org, ...org });
+    const txns = new Array(updateOrgTransaction(action, signer));
+    const batchListBytes = createBatch(txns, signer);
+
+    try {
+      const { link } = await postBatches(batchListBytes);
+      setBatchStatusLink(link);
+    } catch ({ message }) {
+      setErrMsg(message);
+    }
+  };
+
+  return (
+    <form>
+      <Grid container direction="column" spacing={2}>
+        <Grid item>
+          <FormErrMsg msg={errMsg} />
+        </Grid>
+
+        <Grid item>
+          <Typography variant="h6">Organization Info</Typography>
+        </Grid>
+
+        <Grid item>
+          <TextField
+            color="secondary"
+            value={org.name}
+            onChange={(e) => setOrg({ ...org, name: e.target.value })}
+            label="Organization Name"
+            id="org-name"
+            required
+          />
+        </Grid>
+
+        <CreateContactForm
+          onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
+          submitLabel="Continue"
+        />
+
+        <CreateFactoryAddressForm
+          onSubmit={(address) => setOrg({ ...org, address })}
+          submitLabel="Continue"
+        />
+
+        <Grid item>
+          <Button
+            variant="contained"
+            type="submit"
+            color="secondary"
+            onClick={submit}
+            disabled={!org.name}
+            endIcon={<Key />}
+          >
+            Create Organization
+          </Button>
+        </Grid>
+      </Grid>
+    </form>
+  );
 };
