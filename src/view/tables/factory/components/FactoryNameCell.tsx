@@ -32,7 +32,7 @@ export const FactoryNameCell = ({ name, id }: FactoryNameCellProps) => {
     <UnstyledLink to={`factories/${id}`}>
       <Tooltip
         placement="top"
-        data-testid="cert-cell-tooltip"
+        data-testid="factory-cell-tooltip"
         title="View Factory Profile"
       >
         <i className={classes.name}>{name}</i>
