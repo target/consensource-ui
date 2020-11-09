@@ -20,12 +20,14 @@
 
 ## Table Of Contents
 
-- [Getting Started](#Getting-Started)
-  - [Overview](#Overview)
-  - [Development Environment Setup](#Development-Environment-Setup)
-    - [Docker setup](#Docker-setup)
-    - [Running the UI](#Running-the-UI)
-- [Available Commands](#Available-Commands)
+- [Table Of Contents](#table-of-contents)
+- [About](#about)
+- [Getting Started](#getting-started)
+  - [Overview](#overview)
+  - [Development Environment Setup](#development-environment-setup)
+    - [Docker setup](#docker-setup)
+    - [Running the UI](#running-the-ui)
+- [Available Commands](#available-commands)
   - [`yarn start`](#yarn-start)
   - [`yarn test`](#yarn-test)
   - [`yarn build`](#yarn-build)
@@ -33,6 +35,20 @@
   - [`yarn lint`](#yarn-lint)
   - [`yarn generate-protobufs`](#yarn-generate-protobufs)
   - [`yarn clean`](#yarn-clean)
+
+## About
+
+The ConsenSource UI is comprised of multiple user interfaces. Each view provides its corresponding persona a unique set of interactions with the ConsenSource blockchain platform.
+
+- Retailer - view suppliers and their certifications
+
+- Supplier - view and request certifications
+
+- Standards Body - manage the standards that certifications are accredited
+
+- Certifying Body - manage and track certificates issued to suppliers
+
+For more details on specific persona actions, see [Transaction Processor docs](https://target.github.io/consensource-docs/docs/developer/txn-processor/)
 
 ## Getting Started
 
