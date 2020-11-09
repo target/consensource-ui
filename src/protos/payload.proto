@@ -19,6 +19,7 @@ message CertificateRegistryPayload{
         CHANGE_REQUEST_STATUS_ACTION = 9;
         ACCREDIT_CERTIFYING_BODY_ACTION = 10;
         ASSERT_ACTION = 11;
+        TRANSFER_ASSERTION = 12;
     }
 
     // Whether the payload contains a create agent, create organization,
@@ -38,6 +39,7 @@ message CertificateRegistryPayload{
     ChangeRequestStatusAction change_request_status_action = 10;
     AccreditCertifyingBodyAction accredit_certifying_body_action = 11;
     AssertAction assert_action = 12;
+    TransferAssertionAction transfer_assertion_action = 13;
 }
 
 message CreateAgentAction {
@@ -217,4 +219,11 @@ message AssertAction {
       // Asserts a new standard exists.
       CreateStandardAction new_standard = 4;
     }
+}
+
+message TransferAssertionAction {
+    // Assertion ID of the object to have ownership changed
+    string assertion_id = 1;
+    // public key of the new owner
+    string new_owner_public_key = 2;
 }
