@@ -8,6 +8,7 @@ import {
   createStyles,
 } from '@material-ui/core';
 import { CertResData } from 'services/api';
+import { isDataClaimed } from 'utils';
 import { MoreInfoLinkButton } from './MoreInfoLinkButton';
 import { Header } from './Header';
 import { Body } from './Body';
@@ -21,7 +22,7 @@ const useStyles = makeStyles(
 );
 
 export const CertificationCard = ({
-  certification: { standard_name, id, valid_to },
+  certification,
 }: CertificationCardProps) => {
   const classes = useStyles();
   const [isRaised, setIsRaised] = useState(false);
@@ -37,17 +38,20 @@ export const CertificationCard = ({
       <CardContent className={classes.cardContent}>
         <Grid container direction="column" spacing={2}>
           <Grid item>
-            <Header standardName={standard_name} />
+            <Header standardName={certification.standard_name} />
           </Grid>
 
           <Grid item>
-            <Body validTo={valid_to} />
+            <Body
+              validTo={certification.valid_to}
+              isClaimed={isDataClaimed(certification)}
+            />
           </Grid>
         </Grid>
       </CardContent>
 
       <CardActions>
-        <MoreInfoLinkButton certificationId={id} />
+        <MoreInfoLinkButton certificationId={certification.id} />
       </CardActions>
     </Card>
   );

@@ -16,7 +16,6 @@ export const Certifications = ({ certifications }: CertificationsProps) => {
       <Grid item>
         <Typography variant="h4">Certifications</Typography>
       </Grid>
-
       {!hasCertifications && (
         <Grid item xs={2}>
           <Typography variant="body1">

@@ -1,11 +1,11 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { Divider, Grid } from '@material-ui/core';
-import { FullPageLoading } from 'view/components';
+import { Grid } from '@material-ui/core';
+import { ClaimableDataPageHeader, FullPageLoading } from 'view/components';
 import { fetchCertificateById, CertResData } from 'services/api';
-import { Header } from './Header';
 import { CertificateInfo } from './CertificateInfo';
 import { CertBodyInfo } from './CertBodyInfo';
+import { GrantedToSubtitle } from './GrantedToSubtitle';
 
 export interface CertificationProps {
   certificationId: CertResData['id'];
@@ -25,11 +25,11 @@ export const Certification = ({ certificationId }: CertificationProps) => {
       {({ data: certificate }) => (
         <Grid container direction="column" spacing={6}>
           <Grid container item>
-            <Header certificate={certificate} />
-          </Grid>
-
-          <Grid item>
-            <Divider variant="middle" />
+            <ClaimableDataPageHeader
+              title={certificate.standard_name}
+              subtitle={<GrantedToSubtitle certificate={certificate} />}
+              data={certificate}
+            />
           </Grid>
 
           <Grid container item>
