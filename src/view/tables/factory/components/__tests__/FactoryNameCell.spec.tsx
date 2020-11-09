@@ -33,10 +33,10 @@ describe('<FactoryNameCell />', () => {
         <FactoryNameCell name={FactoryData[0].name} id={FactoryData[0].id} />,
       );
 
-      userEvent.hover(screen.getByTestId('factory-cell-tooltip'));
+      userEvent.hover(screen.getByTitle('View factory profile'));
 
       expect(
-        await screen.findByText('View Factory Profile'),
+        await screen.findByText('View factory profile'),
       ).toBeInTheDocument();
     });
   });

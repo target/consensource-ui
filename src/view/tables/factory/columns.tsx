@@ -6,6 +6,7 @@ import {
   CertificationsMultiselect,
   CertificatesCell,
   FactoryNameCell,
+  FactoryNameCellProps,
 } from './components';
 
 export const DEFAULT_CELL_VALUE = '-';
@@ -61,18 +62,15 @@ export const getCustomSearchOptions = (
   },
 });
 
-/**
- * Configuration for our custom certificate filtering logic.
- */
 export const nameColumnOptions: MUIDataTableColumn['options'] = {
   sort: false,
   filterType: 'custom',
-  // TODO: Verify with real cert data below
-  customBodyRender: ({ name, id }: any) => (
-    <FactoryNameCell name={name} id={id} />
+  customBodyRender: (props: FactoryNameCellProps) => (
+    <FactoryNameCell {...props} />
   ),
   customFilterListOptions: {
-    render: ({ name }: any) => getCustomFilterChipLabel('Name', name),
+    render: ({ name }: FactoryNameCellProps) =>
+      getCustomFilterChipLabel('Name', name),
   },
   filterOptions: {
     display: (filterList, onChange, index, column) => (
@@ -86,9 +84,6 @@ export const nameColumnOptions: MUIDataTableColumn['options'] = {
   },
 };
 
-/**
- * Configuration for our custom certificate filtering logic.
- */
 export const certColumnOptions: MUIDataTableColumn['options'] = {
   sort: false,
   filterType: 'custom',
@@ -107,9 +102,6 @@ export const certColumnOptions: MUIDataTableColumn['options'] = {
   },
 };
 
-/**
- * Configuration for our custom country filtering logic.
- */
 export const countryColumnOptions: MUIDataTableColumn['options'] = {
   filterType: 'custom',
   customBodyRender: getCellValOrDefault,

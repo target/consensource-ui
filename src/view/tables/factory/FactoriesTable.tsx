@@ -142,7 +142,7 @@ export const FactoriesTable = ({
   const getRow = ({ name, id, address, certificates }: FactoryResData) => {
     const factoryNameProps: FactoryNameCellProps = { name, id };
     return {
-      name: { name, id },
+      name: factoryNameProps,
       certificates,
       ...address,
     };

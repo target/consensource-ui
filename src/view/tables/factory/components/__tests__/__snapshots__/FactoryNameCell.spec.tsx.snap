@@ -1,6 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-
 exports[`<FactoryNameCell /> with factories renders 1`] = `
 <div>
   <a
@@ -9,8 +8,7 @@ exports[`<FactoryNameCell /> with factories renders 1`] = `
   >
     <i
       class="makeStyles-name"
-      data-testid="factory-cell-tooltip"
-      title="View Factory Profile"
+      title="View factory profile"
     >
       Test Org 1
     </i>

@@ -4,7 +4,6 @@ import { Tooltip, makeStyles, createStyles } from '@material-ui/core';
 import { UnstyledLink } from 'view/components';
 
 export interface FactoryNameCellProps {
-  // TODO: Remove optional `certificates` once we fix backend issues
   name: FactoryResData['name'];
   id: FactoryResData['id'];
 }
@@ -30,11 +29,7 @@ export const FactoryNameCell = ({ name, id }: FactoryNameCellProps) => {
 
   return (
     <UnstyledLink to={`factories/${id}`}>
-      <Tooltip
-        placement="top"
-        data-testid="factory-cell-tooltip"
-        title="View Factory Profile"
-      >
+      <Tooltip placement="top" title="View factory profile">
         <i className={classes.name}>{name}</i>
       </Tooltip>
     </UnstyledLink>
