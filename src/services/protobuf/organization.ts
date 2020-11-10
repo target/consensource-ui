@@ -9,6 +9,8 @@ import {
   ICertificateRegistryPayload,
   Factory,
   Organization,
+  IUpdateOrganizationAction,
+  UpdateOrganizationAction,
 } from 'services/protobuf/compiled';
 import {
   createTransaction,
@@ -63,6 +65,32 @@ export function createOrgAction(org: ICreateOrgActionStrict) {
 }
 
 /**
+ * Interface to define the minimum required properties for
+ * an `IUpdateOrganizationAction` since protobuf defaults to
+ * all fields as optional.
+ *
+ * Note that an address is not required - we only enforce this on factories.
+ */
+export interface IUpdateOrgActionStrict extends IUpdateOrganizationAction {
+  contacts: NonNullable<ICreateOrganizationAction['contacts']>;
+}
+
+/**
+ * Enforce that an `UpdateOrganizationAction` has the minimum
+ * required fields defined in `IUpdateOrgActionStrict`
+ */
+export type UpdateOrgActionStrict = IUpdateOrgActionStrict &
+  UpdateOrganizationAction;
+
+/**
+ * Create an `UpdateOrganizationAction` that can be included
+ * in a `CertificateRegistryPayload` transaction.
+ */
+export function updateOrgAction(org: IUpdateOrgActionStrict) {
+  return UpdateOrganizationAction.create(org);
+}
+
+/**
  * Create a `Organization.Contact` that can be included
  * in a `CreateOrganizationAction` instance.
  */
@@ -103,6 +131,31 @@ export function createOrgTransaction(
     payloadBytes,
     inputs: [orgStateAddress, agentStateAddress],
     outputs: [orgStateAddress, agentStateAddress],
+  };
+
+  return createTransaction(payloadInfo, signer);
+}
+
+/**
+ * Creates a `CertificateRegistryPayload` transaction
+ * containing a single `UpdateOrganizationAction` payload.
+ */
+export function updateOrgTransaction(
+  update_organization: UpdateOrgActionStrict,
+  signer: sawtooth.signing.Signer,
+): sawtooth.protobuf.Transaction {
+  const payload: ICertificateRegistryPayload = {
+    action: ACTIONS.UPDATE_ORGANIZATION,
+    update_organization,
+  };
+  const payloadBytes = encodePayload(payload);
+
+  const agentStateAddress = getAgentStateAddress(signer);
+
+  const payloadInfo: PayloadInfo = {
+    payloadBytes,
+    inputs: [agentStateAddress],
+    outputs: [agentStateAddress],
   };
 
   return createTransaction(payloadInfo, signer);
