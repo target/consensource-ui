@@ -1,7 +1,7 @@
 import { createSigner, createNewPrivateKey } from 'services/crypto';
 import {
   createStateAddress,
-  getAgentStateAddress,
+  createAgentStateAddress,
   ConsenSourceNamespaces,
   FAMILY_NAMESPACE,
   RESERVED_NAMESPACE,
@@ -30,7 +30,7 @@ describe('Assertion Protobuf', () => {
 
     const signer = createSigner(createNewPrivateKey());
 
-    const agentAddress = getAgentStateAddress(signer);
+    const agentAddress = createAgentStateAddress(signer);
 
     const assertionAddress = AssertionService.getAssertionStateAddress(
       assert_action.assertion_id,
@@ -64,7 +64,7 @@ describe('Assertion Protobuf', () => {
 
     const signer = createSigner(createNewPrivateKey());
 
-    const agentAddress = getAgentStateAddress(signer);
+    const agentAddress = createAgentStateAddress(signer);
 
     const org_prefix =
       FAMILY_NAMESPACE +

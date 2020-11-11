@@ -1,4 +1,4 @@
-import { getAgentStateAddress } from 'services/addressing';
+import { createAgentStateAddress } from 'services/addressing';
 import { getUnixTimeSec } from 'utils';
 import { createTransaction } from './transaction';
 import { CreateAgentAction, ICreateAgentAction } from './compiled';
@@ -36,7 +36,7 @@ export function createAgentTransaction(
   create_agent: CreateAgentActionStrict,
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
-  const addresses = [getAgentStateAddress(signer)];
+  const addresses = [createAgentStateAddress(signer)];
 
   const payloadInfo: PayloadInfo = {
     inputs: addresses,

@@ -55,7 +55,7 @@ export function createOrgAddress(orgId: OrgResData['id']) {
 /**
  * Helper function to get the agent address from the public key of a signer.
  */
-export function getAgentStateAddress(signer: sawtooth.signing.Signer) {
+export function createAgentStateAddress(signer: sawtooth.signing.Signer) {
   return createStateAddress(
     ConsenSourceNamespaces.AGENT,
     getSignerPubKeyHex(signer),

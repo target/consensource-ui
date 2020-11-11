@@ -1,4 +1,4 @@
-import { createOrgAddress, getAgentStateAddress } from 'services/addressing';
+import { createOrgAddress, createAgentStateAddress } from 'services/addressing';
 import { OrgResData } from 'services/api';
 import {
   CreateOrganizationAction,
@@ -90,7 +90,7 @@ export function createOrgTransaction(
 ) {
   const addresses = [
     createOrgAddress(create_organization.id),
-    getAgentStateAddress(signer),
+    createAgentStateAddress(signer),
   ];
 
   const payloadInfo: PayloadInfo = {
@@ -108,13 +108,15 @@ export function createOrgTransaction(
 /**
  * Creates a `CertificateRegistryPayload` transaction
  * containing a single `UpdateOrganizationAction` payload.
+ * Name param is only required because we currently don't allow
+ * updating the org name through update_organization
  */
 export function updateOrgTransaction(
   update_organization: UpdateOrganizationAction,
   signer: sawtooth.signing.Signer,
   name: OrgResData['name'],
 ) {
-  const addresses = [createOrgAddress(name), getAgentStateAddress(signer)];
+  const addresses = [createOrgAddress(name), createAgentStateAddress(signer)];
 
   const payloadInfo: PayloadInfo = {
     inputs: addresses,

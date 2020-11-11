@@ -1,4 +1,4 @@
-import { getAgentStateAddress, createOrgAddress } from 'services/addressing';
+import { createAgentStateAddress, createOrgAddress } from 'services/addressing';
 import { createSigner, createNewPrivateKey } from 'services/crypto';
 import { TransactionHeader } from 'sawtooth-sdk/protobuf';
 import { CertificateRegistryPayload, Organization, Factory } from '../compiled';
@@ -24,7 +24,7 @@ describe('Organization Protobuf', () => {
 
     const signer = createSigner(createNewPrivateKey());
 
-    const addresses = [createOrgAddress(id), getAgentStateAddress(signer)];
+    const addresses = [createOrgAddress(id), createAgentStateAddress(signer)];
 
     it('creates a new CreateOrganizationAction and wraps it in a transaction', () => {
       const txn = createOrgTransaction(org, signer);
@@ -47,7 +47,7 @@ describe('Organization Protobuf', () => {
 
     const signer = createSigner(createNewPrivateKey());
 
-    const addresses = [createOrgAddress(name), getAgentStateAddress(signer)];
+    const addresses = [createOrgAddress(name), createAgentStateAddress(signer)];
 
     it('creates a new UpdateOrganizationAction and wraps it in a transaction', () => {
       const txn = updateOrgTransaction(org, signer, name);

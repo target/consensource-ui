@@ -2,7 +2,7 @@ import { Transaction, TransactionHeader } from 'sawtooth-sdk/protobuf';
 import {
   FAMILY_NAME,
   FAMILY_VERSION,
-  getAgentStateAddress,
+  createAgentStateAddress,
 } from 'services/addressing';
 import {
   createSigner,
@@ -33,8 +33,8 @@ describe('Transaction Protobuf', () => {
 
     const mockTransactionPayload = {
       payloadBytes: Buffer.from(payload),
-      inputs: [getAgentStateAddress(signer)],
-      outputs: [getAgentStateAddress(signer)],
+      inputs: [createAgentStateAddress(signer)],
+      outputs: [createAgentStateAddress(signer)],
     };
 
     const transactionHeaderBytes = {
