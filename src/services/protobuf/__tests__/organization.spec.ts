@@ -1,13 +1,14 @@
-import {
-  getAgentStateAddress,
-  createStateAddress,
-  ConsenSourceNamespaces,
-} from 'services/addressing';
+import { createAgentStateAddress, createOrgAddress } from 'services/addressing';
 import { createSigner, createNewPrivateKey } from 'services/crypto';
 import { TransactionHeader } from 'sawtooth-sdk/protobuf';
 import { CertificateRegistryPayload, Organization, Factory } from '../compiled';
 import { ACTIONS } from '../utils';
-import { createOrgAction, createOrgTransaction } from '../organization';
+import {
+  createOrgAction,
+  createOrgTransaction,
+  updateOrgAction,
+  updateOrgTransaction,
+} from '../organization';
 
 describe('Organization Protobuf', () => {
   describe('createOrgTransaction()', () => {
@@ -23,12 +24,7 @@ describe('Organization Protobuf', () => {
 
     const signer = createSigner(createNewPrivateKey());
 
-    const orgAddress = createStateAddress(
-      ConsenSourceNamespaces.ORGANIZATION,
-      id,
-    );
-
-    const agentAddress = getAgentStateAddress(signer);
+    const addresses = [createOrgAddress(id), createAgentStateAddress(signer)];
 
     it('creates a new CreateOrganizationAction and wraps it in a transaction', () => {
       const txn = createOrgTransaction(org, signer);
@@ -37,8 +33,32 @@ describe('Organization Protobuf', () => {
       const { inputs, outputs } = TransactionHeader.decode(txn.header);
 
       expect(payload.action).toBe(ACTIONS.CREATE_ORGANIZATION);
-      expect(inputs).toEqual([orgAddress, agentAddress]);
-      expect(outputs).toEqual([orgAddress, agentAddress]);
+      expect(inputs).toEqual(addresses);
+      expect(outputs).toEqual(addresses);
+    });
+  });
+  
+  describe('updateOrgTransaction()', () => {
+    const org = updateOrgAction({
+      contacts: [new Organization.Contact()],
+      address: new Factory.Address(),
+    });
+
+    const name = 'test';
+
+    const signer = createSigner(createNewPrivateKey());
+
+    const addresses = [createOrgAddress(name), createAgentStateAddress(signer)];
+
+    it('creates a new UpdateOrganizationAction and wraps it in a transaction', () => {
+      const txn = updateOrgTransaction(org, signer, name);
+
+      const payload = CertificateRegistryPayload.decode(txn.payload);
+      const { inputs, outputs } = TransactionHeader.decode(txn.header);
+
+      expect(payload.action).toBe(ACTIONS.UPDATE_ORGANIZATION);
+      expect(inputs).toEqual(addresses);
+      expect(outputs).toEqual(addresses);
     });
   });
 });

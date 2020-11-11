@@ -1,7 +1,7 @@
 import {
   ConsenSourceNamespaces,
   createStateAddress,
-  getAgentStateAddress,
+  createAgentStateAddress,
 } from 'services/addressing';
 import { IssueCertificateAction, IIssueCertificateAction } from './compiled';
 import { createTransaction } from './transaction';
@@ -58,7 +58,7 @@ function getInputAddresses(
     factory_id,
   );
 
-  const agent = getAgentStateAddress(signer);
+  const agent = createAgentStateAddress(signer);
 
   const certRequest = createStateAddress(
     ConsenSourceNamespaces.CERTIFICATE_REQUEST,

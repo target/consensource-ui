@@ -3,7 +3,7 @@ import {
   FAMILY_NAMESPACE,
   RESERVED_NAMESPACE,
   createStateAddress,
-  getAgentStateAddress,
+  createAgentStateAddress,
 } from 'services/addressing';
 import { CreateOrgActionStrict } from './organization';
 import {
@@ -50,7 +50,7 @@ export function createAssertionActionTransaction(
 ): sawtooth.protobuf.Transaction {
   const addresses = [];
 
-  addresses.push(getAgentStateAddress(signer));
+  addresses.push(createAgentStateAddress(signer));
   addresses.push(getAssertionStateAddress(assert_action.assertion_id));
 
   const { new_factory } = assert_action;
@@ -103,7 +103,7 @@ function getTransferAssertionAddresses(
   { assertion_id }: TransferAssertionActionStrict,
   signer: sawtooth.signing.Signer,
 ) {
-  const agent = getAgentStateAddress(signer);
+  const agent = createAgentStateAddress(signer);
 
   const org_prefix =
     FAMILY_NAMESPACE + RESERVED_NAMESPACE + ConsenSourceNamespaces.ORGANIZATION;

@@ -1,16 +1,15 @@
-import {
-  ConsenSourceNamespaces,
-  createStateAddress,
-  getAgentStateAddress,
-} from 'services/addressing';
+import { createOrgAddress, createAgentStateAddress } from 'services/addressing';
+import { OrgResData } from 'services/api';
 import {
   CreateOrganizationAction,
   ICreateOrganizationAction,
   Factory,
   Organization,
+  IUpdateOrganizationAction,
+  UpdateOrganizationAction,
 } from './compiled';
 import { createTransaction } from './transaction';
-import { ACTIONS, PayloadInfo, encodePayload } from './utils';
+import { PayloadInfo, encodePayload, ACTIONS } from './utils';
 
 export type OrgTypeStrings = keyof typeof Organization.Type;
 
@@ -58,6 +57,14 @@ export function createOrgAction(org: ICreateOrgActionStrict) {
 }
 
 /**
+ * Create an `UpdateOrganizationAction` that can be included
+ * in a `CertificateRegistryPayload` transaction.
+ */
+export function updateOrgAction(org: IUpdateOrganizationAction) {
+  return UpdateOrganizationAction.create(org);
+}
+
+/**
  * Create a `Organization.Contact` that can be included
  * in a `CreateOrganizationAction` instance.
  */
@@ -81,14 +88,10 @@ export function createOrgTransaction(
   create_organization: CreateOrgActionStrict,
   signer: sawtooth.signing.Signer,
 ) {
-  const orgStateAddress = createStateAddress(
-    ConsenSourceNamespaces.ORGANIZATION,
-    create_organization.id,
-  );
-
-  const agentStateAddress = getAgentStateAddress(signer);
-
-  const addresses = [orgStateAddress, agentStateAddress];
+  const addresses = [
+    createOrgAddress(create_organization.id),
+    createAgentStateAddress(signer),
+  ];
 
   const payloadInfo: PayloadInfo = {
     inputs: addresses,
@@ -96,6 +99,34 @@ export function createOrgTransaction(
     payloadBytes: encodePayload({
       action: ACTIONS.CREATE_ORGANIZATION,
       create_organization,
+    }),
+  };
+
+  return createTransaction(payloadInfo, signer);
+}
+
+/**
+ * Creates a `CertificateRegistryPayload` transaction
+ * containing a single `UpdateOrganizationAction` payload.
+ *
+ * @param update_organization action to submit
+ * @param signer agent who is signing the txn
+ * @param name name of the org, only required because we currently
+ * don't allow updating the org name through `update_organization`
+ */
+export function updateOrgTransaction(
+  update_organization: UpdateOrganizationAction,
+  signer: sawtooth.signing.Signer,
+  name: OrgResData['name'],
+) {
+  const addresses = [createOrgAddress(name), createAgentStateAddress(signer)];
+
+  const payloadInfo: PayloadInfo = {
+    inputs: addresses,
+    outputs: addresses,
+    payloadBytes: encodePayload({
+      action: ACTIONS.UPDATE_ORGANIZATION,
+      update_organization,
     }),
   };
 

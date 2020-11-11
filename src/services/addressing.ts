@@ -1,4 +1,5 @@
 import { hash, HashingAlgorithms, getSignerPubKeyHex } from 'services/crypto';
+import { OrgResData } from './api';
 
 export const FAMILY_NAMESPACE_LEN = 6;
 export const ADDRESS_PREFIX_LEN = 10;
@@ -45,9 +46,16 @@ export function createStateAddress(
 }
 
 /**
+ * Helper function to get the organization address from the organization id.
+ */
+export function createOrgAddress(orgId: OrgResData['id']) {
+  return createStateAddress(ConsenSourceNamespaces.ORGANIZATION, orgId);
+}
+
+/**
  * Helper function to get the agent address from the public key of a signer.
  */
-export function getAgentStateAddress(signer: sawtooth.signing.Signer) {
+export function createAgentStateAddress(signer: sawtooth.signing.Signer) {
   return createStateAddress(
     ConsenSourceNamespaces.AGENT,
     getSignerPubKeyHex(signer),

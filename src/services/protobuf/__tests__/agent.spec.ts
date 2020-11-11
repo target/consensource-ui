@@ -1,6 +1,6 @@
 import { createSigner, createNewPrivateKey } from 'services/crypto';
 import { TransactionHeader } from 'sawtooth-sdk/protobuf';
-import { getAgentStateAddress } from 'services/addressing';
+import { createAgentStateAddress } from 'services/addressing';
 import { createAgentTransaction, createAgentAction } from '../agent';
 import { CertificateRegistryPayload } from '../compiled';
 import { ACTIONS } from '../utils';
@@ -17,8 +17,8 @@ describe('Agent Protobuf', () => {
       const { inputs, outputs } = TransactionHeader.decode(txn.header);
 
       expect(payload.action).toBe(ACTIONS.CREATE_AGENT);
-      expect(inputs).toEqual([getAgentStateAddress(signer)]);
-      expect(outputs).toEqual([getAgentStateAddress(signer)]);
+      expect(inputs).toEqual([createAgentStateAddress(signer)]);
+      expect(outputs).toEqual([createAgentStateAddress(signer)]);
     });
   });
 });
