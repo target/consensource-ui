@@ -2,6 +2,7 @@ import {
   getAgentStateAddress,
   createStateAddress,
   ConsenSourceNamespaces,
+  createOrgAddress,
 } from 'services/addressing';
 import { createSigner, createNewPrivateKey } from 'services/crypto';
 import { TransactionHeader } from 'sawtooth-sdk/protobuf';
@@ -52,19 +53,21 @@ describe('Organization Protobuf', () => {
       address: new Factory.Address(),
     });
 
+    const name = 'test';
+
     const signer = createSigner(createNewPrivateKey());
 
-    const agentAddress = getAgentStateAddress(signer);
+    const addresses = [createOrgAddress(name), getAgentStateAddress(signer)];
 
     it('creates a new UpdateOrganizationAction and wraps it in a transaction', () => {
-      const txn = updateOrgTransaction(org, signer);
+      const txn = updateOrgTransaction(org, signer, name);
 
       const payload = CertificateRegistryPayload.decode(txn.payload);
       const { inputs, outputs } = TransactionHeader.decode(txn.header);
 
-      expect(payload.action).toBe(ACTIONS.CREATE_ORGANIZATION);
-      expect(inputs).toEqual([agentAddress]);
-      expect(outputs).toEqual([agentAddress]);
+      expect(payload.action).toBe(ACTIONS.UPDATE_ORGANIZATION);
+      expect(inputs).toEqual(addresses);
+      expect(outputs).toEqual(addresses);
     });
   });
 });
