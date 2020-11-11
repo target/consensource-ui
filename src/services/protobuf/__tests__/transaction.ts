@@ -1,13 +1,9 @@
-import {
-  getTxnTimestamp,
-  ACTIONS,
-  encodePayload,
-  getTransactionIds,
-  createTransaction,
-} from 'services/protobuf/transaction';
-import { CertificateRegistryPayload } from 'services/protobuf/compiled';
 import { Transaction, TransactionHeader } from 'sawtooth-sdk/protobuf';
-import { FAMILY_NAME, FAMILY_VERSION } from 'services/addressing';
+import {
+  FAMILY_NAME,
+  FAMILY_VERSION,
+  getAgentStateAddress,
+} from 'services/addressing';
 import {
   createSigner,
   createNewPrivateKey,
@@ -15,38 +11,9 @@ import {
   hash,
   HashingAlgorithms,
 } from 'services/crypto';
-
-import { getAgentStateAddress } from '../agent';
+import { getTransactionIds, createTransaction } from '../transaction';
 
 describe('Transaction Protobuf', () => {
-  describe('getTxnTimestamp', () => {
-    let dateSpy: jest.SpyInstance;
-    const now = 10000;
-
-    beforeAll(() => {
-      dateSpy = jest.spyOn(Date, 'now').mockImplementation(() => now);
-    });
-
-    afterAll(() => dateSpy.mockRestore());
-
-    it('returns the date divided by 1000', () => {
-      expect(getTxnTimestamp()).toBe(now / 1000);
-    });
-  });
-
-  describe('encodePayload()', () => {
-    it('encodes and returns a CertificateRegistryPayload', () => {
-      const payload: ICertificateRegistryPayload = {
-        action: ACTIONS.FACTORY,
-      };
-
-      const encoded = encodePayload(payload);
-      const decoded = CertificateRegistryPayload.decode(encoded);
-
-      expect(decoded).toEqual(payload);
-    });
-  });
-
   describe('getTransactionIds()', () => {
     it('returns an array of transaction ids, where each ID is the `headerSignature` of the transaction', () => {
       const headerSignatures = ['1', '2'];

@@ -1,10 +1,4 @@
-import * as AssertionService from 'services/protobuf/assertion';
 import { createSigner, createNewPrivateKey } from 'services/crypto';
-import {
-  CertificateRegistryPayload,
-  Organization,
-  Factory,
-} from 'services/protobuf/compiled';
 import {
   createStateAddress,
   getAgentStateAddress,
@@ -12,9 +6,11 @@ import {
   FAMILY_NAMESPACE,
   RESERVED_NAMESPACE,
 } from 'services/addressing';
-import { createOrgAction } from 'services/protobuf/organization';
 import { TransactionHeader } from 'sawtooth-sdk/protobuf';
-import { ACTIONS } from 'services/protobuf/transaction';
+import * as AssertionService from '../assertion';
+import { CertificateRegistryPayload, Organization, Factory } from '../compiled';
+import { createOrgAction } from '../organization';
+import { ACTIONS } from '../utils';
 
 describe('Assertion Protobuf', () => {
   describe('createAssertionActionTransaction()', () => {

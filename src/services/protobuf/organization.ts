@@ -6,18 +6,13 @@ import {
 import {
   CreateOrganizationAction,
   ICreateOrganizationAction,
-  ICertificateRegistryPayload,
   Factory,
   Organization,
   IUpdateOrganizationAction,
   UpdateOrganizationAction,
-} from 'services/protobuf/compiled';
-import {
-  createTransaction,
-  PayloadInfo,
-  encodePayload,
-  ACTIONS,
-} from 'services/protobuf/transaction';
+} from './compiled';
+import { createTransaction } from './transaction';
+import { PayloadInfo, encodePayload, ACTIONS } from './utils';
 
 export type OrgTypeStrings = keyof typeof Organization.Type;
 
@@ -113,13 +108,7 @@ export function createFactoryAddress(address: Factory.IAddress) {
 export function createOrgTransaction(
   create_organization: CreateOrgActionStrict,
   signer: sawtooth.signing.Signer,
-): sawtooth.protobuf.Transaction {
-  const payload: ICertificateRegistryPayload = {
-    action: ACTIONS.CREATE_ORGANIZATION,
-    create_organization,
-  };
-  const payloadBytes = encodePayload(payload);
-
+) {
   const orgStateAddress = createStateAddress(
     ConsenSourceNamespaces.ORGANIZATION,
     create_organization.id,
@@ -127,10 +116,15 @@ export function createOrgTransaction(
 
   const agentStateAddress = getAgentStateAddress(signer);
 
+  const addresses = [orgStateAddress, agentStateAddress];
+
   const payloadInfo: PayloadInfo = {
-    payloadBytes,
-    inputs: [orgStateAddress, agentStateAddress],
-    outputs: [orgStateAddress, agentStateAddress],
+    inputs: addresses,
+    outputs: addresses,
+    payloadBytes: encodePayload({
+      action: ACTIONS.CREATE_ORGANIZATION,
+      create_organization,
+    }),
   };
 
   return createTransaction(payloadInfo, signer);

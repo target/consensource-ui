@@ -3,17 +3,9 @@ import {
   createStateAddress,
   getAgentStateAddress,
 } from 'services/addressing';
-import {
-  IssueCertificateAction,
-  ICertificateRegistryPayload,
-  IIssueCertificateAction,
-} from 'services/protobuf/compiled';
-import {
-  createTransaction,
-  PayloadInfo,
-  encodePayload,
-  ACTIONS,
-} from 'services/protobuf/transaction';
+import { IssueCertificateAction, IIssueCertificateAction } from './compiled';
+import { createTransaction } from './transaction';
+import { encodePayload, PayloadInfo, ACTIONS } from './utils';
 
 /**
  * Interface to define the minimum required properties for an `IIssueCertificateAction`,
@@ -109,17 +101,14 @@ export function createIssueCertTransaction(
   cert_body_id: string,
   signer: sawtooth.signing.Signer,
 ) {
-  const payload: ICertificateRegistryPayload = {
-    action: ACTIONS.ISSUE_CERTIFICATE,
-    issue_certificate,
+  const payloadInfo: PayloadInfo = {
+    inputs: getInputAddresses(issue_certificate, cert_body_id, signer),
+    outputs: getOutputAddresses(issue_certificate),
+    payloadBytes: encodePayload({
+      action: ACTIONS.ISSUE_CERTIFICATE,
+      issue_certificate,
+    }),
   };
-
-  const payloadBytes = encodePayload(payload);
-
-  const inputs = getInputAddresses(issue_certificate, cert_body_id, signer);
-  const outputs = getOutputAddresses(issue_certificate);
-
-  const payloadInfo: PayloadInfo = { payloadBytes, inputs, outputs };
 
   return createTransaction(payloadInfo, signer);
 }

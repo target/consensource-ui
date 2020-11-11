@@ -1,16 +1,8 @@
-import {
-  CreateAgentAction,
-  ICreateAgentAction,
-  ICertificateRegistryPayload,
-} from 'services/protobuf/compiled';
-import {
-  createTransaction,
-  PayloadInfo,
-  encodePayload,
-  ACTIONS,
-  getTxnTimestamp,
-} from 'services/protobuf/transaction';
 import { getAgentStateAddress } from 'services/addressing';
+import { getUnixTimeSec } from 'utils';
+import { createTransaction } from './transaction';
+import { CreateAgentAction, ICreateAgentAction } from './compiled';
+import { PayloadInfo, ACTIONS, encodePayload } from './utils';
 
 /**
  * Interface to define the minimum required properties for an `ICreateAgentAction`,
@@ -32,7 +24,7 @@ export type CreateAgentActionStrict = ICreateAgentActionStrict &
  * in a `CertificateRegistryPayload` transaction.
  */
 export function createAgentAction(agent: ICreateAgentActionStrict) {
-  const action = { ...agent, timestamp: getTxnTimestamp() };
+  const action = { ...agent, timestamp: getUnixTimeSec() };
   return CreateAgentAction.create(action);
 }
 
@@ -44,18 +36,15 @@ export function createAgentTransaction(
   create_agent: CreateAgentActionStrict,
   signer: sawtooth.signing.Signer,
 ): sawtooth.protobuf.Transaction {
-  const payload: ICertificateRegistryPayload = {
-    action: ACTIONS.CREATE_AGENT,
-    create_agent,
-  };
-
-  const payloadBytes = encodePayload(payload);
-  const agentStateAddress = getAgentStateAddress(signer);
+  const addresses = [getAgentStateAddress(signer)];
 
   const payloadInfo: PayloadInfo = {
-    payloadBytes,
-    inputs: [agentStateAddress],
-    outputs: [agentStateAddress],
+    inputs: addresses,
+    outputs: addresses,
+    payloadBytes: encodePayload({
+      action: ACTIONS.CREATE_AGENT,
+      create_agent,
+    }),
   };
 
   return createTransaction(payloadInfo, signer);
