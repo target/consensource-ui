@@ -1,9 +1,4 @@
-import {
-  getAgentStateAddress,
-  createStateAddress,
-  ConsenSourceNamespaces,
-  createOrgAddress,
-} from 'services/addressing';
+import { getAgentStateAddress, createOrgAddress } from 'services/addressing';
 import { createSigner, createNewPrivateKey } from 'services/crypto';
 import { TransactionHeader } from 'sawtooth-sdk/protobuf';
 import { CertificateRegistryPayload, Organization, Factory } from '../compiled';

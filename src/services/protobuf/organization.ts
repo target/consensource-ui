@@ -1,9 +1,4 @@
-import {
-  ConsenSourceNamespaces,
-  createOrgAddress,
-  createStateAddress,
-  getAgentStateAddress,
-} from 'services/addressing';
+import { createOrgAddress, getAgentStateAddress } from 'services/addressing';
 import { OrgResData } from 'services/api';
 import {
   CreateOrganizationAction,
@@ -12,7 +7,6 @@ import {
   Organization,
   IUpdateOrganizationAction,
   UpdateOrganizationAction,
-  ICertificateRegistryPayload,
 } from './compiled';
 import { createTransaction } from './transaction';
 import { PayloadInfo, encodePayload, ACTIONS } from './utils';
