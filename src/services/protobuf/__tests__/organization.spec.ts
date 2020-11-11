@@ -29,12 +29,7 @@ describe('Organization Protobuf', () => {
 
     const signer = createSigner(createNewPrivateKey());
 
-    const orgAddress = createStateAddress(
-      ConsenSourceNamespaces.ORGANIZATION,
-      id,
-    );
-
-    const agentAddress = getAgentStateAddress(signer);
+    const addresses = [createOrgAddress(id), getAgentStateAddress(signer)];
 
     it('creates a new CreateOrganizationAction and wraps it in a transaction', () => {
       const txn = createOrgTransaction(org, signer);
@@ -43,8 +38,8 @@ describe('Organization Protobuf', () => {
       const { inputs, outputs } = TransactionHeader.decode(txn.header);
 
       expect(payload.action).toBe(ACTIONS.CREATE_ORGANIZATION);
-      expect(inputs).toEqual([orgAddress, agentAddress]);
-      expect(outputs).toEqual([orgAddress, agentAddress]);
+      expect(inputs).toEqual(addresses);
+      expect(outputs).toEqual(addresses);
     });
   });
   describe('updateOrgTransaction()', () => {
