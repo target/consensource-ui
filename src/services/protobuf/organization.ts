@@ -4,6 +4,7 @@ import {
   createStateAddress,
   getAgentStateAddress,
 } from 'services/addressing';
+import { OrgResData } from 'services/api';
 import {
   CreateOrganizationAction,
   ICreateOrganizationAction,
@@ -11,6 +12,7 @@ import {
   Organization,
   IUpdateOrganizationAction,
   UpdateOrganizationAction,
+  ICertificateRegistryPayload,
 } from './compiled';
 import { createTransaction } from './transaction';
 import { PayloadInfo, encodePayload, ACTIONS } from './utils';
@@ -61,28 +63,10 @@ export function createOrgAction(org: ICreateOrgActionStrict) {
 }
 
 /**
- * Interface to define the minimum required properties for
- * an `IUpdateOrganizationAction` since protobuf defaults to
- * all fields as optional.
- *
- * Note that an address is not required - we only enforce this on factories.
- */
-export interface IUpdateOrgActionStrict extends IUpdateOrganizationAction {
-  contacts: NonNullable<ICreateOrganizationAction['contacts']>;
-}
-
-/**
- * Enforce that an `UpdateOrganizationAction` has the minimum
- * required fields defined in `IUpdateOrgActionStrict`
- */
-export type UpdateOrgActionStrict = IUpdateOrgActionStrict &
-  UpdateOrganizationAction;
-
-/**
  * Create an `UpdateOrganizationAction` that can be included
  * in a `CertificateRegistryPayload` transaction.
  */
-export function updateOrgAction(org: IUpdateOrgActionStrict) {
+export function updateOrgAction(org: IUpdateOrganizationAction) {
   return UpdateOrganizationAction.create(org);
 }
 
@@ -110,11 +94,10 @@ export function createOrgTransaction(
   create_organization: CreateOrgActionStrict,
   signer: sawtooth.signing.Signer,
 ) {
-  const orgStateAddress = createOrgAddress(create_organization.id);
-
-  const agentStateAddress = getAgentStateAddress(signer);
-
-  const addresses = [orgStateAddress, agentStateAddress];
+  const addresses = [
+    createOrgAddress(create_organization.id),
+    getAgentStateAddress(signer),
+  ];
 
   const payloadInfo: PayloadInfo = {
     inputs: addresses,
@@ -133,26 +116,19 @@ export function createOrgTransaction(
  * containing a single `UpdateOrganizationAction` payload.
  */
 export function updateOrgTransaction(
-  update_organization: UpdateOrgActionStrict,
+  update_organization: UpdateOrganizationAction,
   signer: sawtooth.signing.Signer,
-): sawtooth.protobuf.Transaction {
-  const payload: ICertificateRegistryPayload = {
-    action: ACTIONS.UPDATE_ORGANIZATION,
-    update_organization,
-  };
-  const payloadBytes = encodePayload(payload);
-
-  const agentStateAddress = getAgentStateAddress(signer);
-
-  const orgStateAddress = createStateAddress(
-    ConsenSourceNamespaces.ORGANIZATION,
-    update_organization,
-  );
+  name: OrgResData['name'],
+) {
+  const addresses = [createOrgAddress(name), getAgentStateAddress(signer)];
 
   const payloadInfo: PayloadInfo = {
-    payloadBytes,
-    inputs: [agentStateAddress],
-    outputs: [agentStateAddress],
+    inputs: addresses,
+    outputs: addresses,
+    payloadBytes: encodePayload({
+      action: ACTIONS.UPDATE_ORGANIZATION,
+      update_organization,
+    }),
   };
 
   return createTransaction(payloadInfo, signer);
