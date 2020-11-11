@@ -1,10 +1,10 @@
-import createBatch from 'services/protobuf/batch';
 import {
   createSigner,
   createNewPrivateKey,
   cryptoContext,
 } from 'services/crypto';
 import { Transaction, BatchHeader, BatchList } from 'sawtooth-sdk/protobuf';
+import { createBatch } from '../batch';
 
 describe('Batch Protobuf', () => {
   const signer = createSigner(createNewPrivateKey());

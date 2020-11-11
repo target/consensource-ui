@@ -4,17 +4,10 @@ import {
   ConsenSourceNamespaces,
 } from 'services/addressing';
 import { createSigner, createNewPrivateKey } from 'services/crypto';
-import {
-  CertificateRegistryPayload,
-  Organization,
-  Factory,
-} from 'services/protobuf/compiled';
 import { TransactionHeader } from 'sawtooth-sdk/protobuf';
-import { ACTIONS } from 'services/protobuf/transaction';
-import {
-  createOrgAction,
-  createOrgTransaction,
-} from 'services/protobuf/organization';
+import { CertificateRegistryPayload, Organization, Factory } from '../compiled';
+import { ACTIONS } from '../utils';
+import { createOrgAction, createOrgTransaction } from '../organization';
 
 describe('Organization Protobuf', () => {
   describe('createOrgTransaction()', () => {
