@@ -108,8 +108,11 @@ export function createOrgTransaction(
 /**
  * Creates a `CertificateRegistryPayload` transaction
  * containing a single `UpdateOrganizationAction` payload.
- * Name param is only required because we currently don't allow
- * updating the org name through update_organization
+ *
+ * @param update_organization action to submit
+ * @param signer agent who is signing the txn
+ * @param name name of the org, only required because we currently
+ * don't allow updating the org name through `update_organization`
  */
 export function updateOrgTransaction(
   update_organization: UpdateOrganizationAction,
