@@ -1,16 +1,9 @@
-import {
-  createStateAddress,
-  ConsenSourceNamespaces,
-  ADDRESS_LEN,
-  FAMILY_NAMESPACE,
-  RESERVED_NAMESPACE,
-  FAMILY_NAMESPACE_LEN,
-} from 'services/addressing';
+import * as addressing from 'services/addressing';
 
 it('creates an address of 70 chars with the correct namespace prefixes', () => {
   const [reservedNamespaceStart, reservedNamespaceEnd] = [
-    FAMILY_NAMESPACE_LEN,
-    FAMILY_NAMESPACE_LEN + 2,
+    addressing.FAMILY_NAMESPACE_LEN,
+    addressing.FAMILY_NAMESPACE_LEN + 2,
   ];
 
   const [txnNamespaceStart, txnNamespaceEnd] = [
@@ -18,19 +11,34 @@ it('creates an address of 70 chars with the correct namespace prefixes', () => {
     reservedNamespaceEnd + 2,
   ];
 
-  const address = createStateAddress(
-    ConsenSourceNamespaces.ORGANIZATION,
+  const address = addressing.createStateAddress(
+    addressing.ConsenSourceNamespaces.ORGANIZATION,
     'test',
   );
 
-  expect(address.length).toEqual(ADDRESS_LEN);
-  expect(address.substring(0, FAMILY_NAMESPACE_LEN)).toEqual(FAMILY_NAMESPACE);
+  expect(address.length).toEqual(addressing.ADDRESS_LEN);
+  expect(address.substring(0, addressing.FAMILY_NAMESPACE_LEN)).toEqual(
+    addressing.FAMILY_NAMESPACE,
+  );
 
   expect(
     address.substring(reservedNamespaceStart, reservedNamespaceEnd),
-  ).toEqual(RESERVED_NAMESPACE);
+  ).toEqual(addressing.RESERVED_NAMESPACE);
 
   expect(address.substring(txnNamespaceStart, txnNamespaceEnd)).toEqual(
-    ConsenSourceNamespaces.ORGANIZATION,
+    addressing.ConsenSourceNamespaces.ORGANIZATION,
   );
+});
+
+it('creates a namespace prefix that concatenates the family namespace, reserved namespace, and txn namespace', () => {
+  const prefix =
+    addressing.FAMILY_NAMESPACE +
+    addressing.RESERVED_NAMESPACE +
+    addressing.ConsenSourceNamespaces.AGENT;
+
+  expect(
+    addressing.getNamespaceWithPrefix(addressing.ConsenSourceNamespaces.AGENT),
+  ).toEqual(prefix);
+
+  expect(prefix.length).toEqual(addressing.ADDRESS_PREFIX_LEN);
 });

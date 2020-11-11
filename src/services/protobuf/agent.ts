@@ -1,5 +1,9 @@
-import { createAgentStateAddress } from 'services/addressing';
+import {
+  ConsenSourceNamespaces,
+  createStateAddress,
+} from 'services/addressing';
 import { getUnixTimeSec } from 'utils';
+import { getSignerPubKeyHex } from 'services/crypto';
 import { createTransaction } from './transaction';
 import { CreateAgentAction, ICreateAgentAction } from './compiled';
 import { PayloadInfo, ACTIONS, encodePayload } from './utils';
@@ -18,6 +22,16 @@ export interface ICreateAgentActionStrict extends ICreateAgentAction {
  */
 export type CreateAgentActionStrict = ICreateAgentActionStrict &
   CreateAgentAction;
+
+/**
+ * Helper function to get the agent address from the public key of a signer.
+ */
+export function createAgentStateAddress(signer: sawtooth.signing.Signer) {
+  return createStateAddress(
+    ConsenSourceNamespaces.AGENT,
+    getSignerPubKeyHex(signer),
+  );
+}
 
 /**
  * Create a `CreateAgentAction` that can be included

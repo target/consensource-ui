@@ -1,9 +1,9 @@
-import { hash, HashingAlgorithms, getSignerPubKeyHex } from 'services/crypto';
-import { OrgResData } from './api';
+import { hash, HashingAlgorithms } from 'services/crypto';
 
 export const FAMILY_NAMESPACE_LEN = 6;
 export const ADDRESS_PREFIX_LEN = 10;
 export const ADDRESS_LEN = 70;
+export const HASHED_DATA_LEN = ADDRESS_LEN - ADDRESS_PREFIX_LEN;
 
 export const FAMILY_NAME = 'consensource';
 export const FAMILY_VERSION = '0.1';
@@ -29,35 +29,29 @@ export enum ConsenSourceNamespaces {
 }
 
 /**
- * Construct a 70 char address generated from the transaction data
+ * Constructs a 10 char namespace prefix consisting of
+ * `FAMILY_NAMESPACE + RESERVED_NAMESPACE + txnNamespace`.
+ */
+export function getNamespaceWithPrefix(txnNamespace: ConsenSourceNamespaces) {
+  return FAMILY_NAMESPACE + RESERVED_NAMESPACE + txnNamespace;
+}
+
+/**
+ * Constructs a 70 char address generated from the transaction data
  * https://target.github.io/consensource-docs/docs/developer/txn-processor/#addressing
+ *
+ * @param txnNamespace namespace address prefix
+ * @param data arbitrary string data that is hashed to fill the address
  */
 export function createStateAddress(
-  TXN_NAMESPACE: ConsenSourceNamespaces,
+  txnNamespace: ConsenSourceNamespaces,
   data: string,
 ) {
-  const prefix = FAMILY_NAMESPACE + RESERVED_NAMESPACE + TXN_NAMESPACE;
+  const namespace = getNamespaceWithPrefix(txnNamespace);
   const hashedData = hash(data, HashingAlgorithms.sha256).substring(
     0,
-    ADDRESS_LEN - ADDRESS_PREFIX_LEN,
+    HASHED_DATA_LEN,
   );
 
-  return prefix + hashedData;
-}
-
-/**
- * Helper function to get the organization address from the organization id.
- */
-export function createOrgAddress(orgId: OrgResData['id']) {
-  return createStateAddress(ConsenSourceNamespaces.ORGANIZATION, orgId);
-}
-
-/**
- * Helper function to get the agent address from the public key of a signer.
- */
-export function createAgentStateAddress(signer: sawtooth.signing.Signer) {
-  return createStateAddress(
-    ConsenSourceNamespaces.AGENT,
-    getSignerPubKeyHex(signer),
-  );
+  return namespace + hashedData;
 }

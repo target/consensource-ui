@@ -1,9 +1,7 @@
 import {
+  getNamespaceWithPrefix,
   ConsenSourceNamespaces,
-  FAMILY_NAMESPACE,
-  RESERVED_NAMESPACE,
   createStateAddress,
-  createAgentStateAddress,
 } from 'services/addressing';
 import { CreateOrgActionStrict } from './organization';
 import {
@@ -14,6 +12,7 @@ import {
 } from './compiled';
 import { createTransaction } from './transaction';
 import { PayloadInfo, ACTIONS, encodePayload } from './utils';
+import { createAgentStateAddress } from './agent';
 
 export interface IAssertActionStrict extends IAssertAction {
   assertion_id: NonNullable<IAssertAction['assertion_id']>;
@@ -34,7 +33,7 @@ export interface ITransferAssertionActionStrict
  */
 export type AssertActionStrict = IAssertActionStrict & AssertAction;
 
-export function getAssertionStateAddress(
+export function createAssertionStateAddress(
   assertion_id: AssertActionStrict['assertion_id'],
 ) {
   return createStateAddress(ConsenSourceNamespaces.ASSERTION, assertion_id);
@@ -51,7 +50,7 @@ export function createAssertionActionTransaction(
   const addresses = [];
 
   addresses.push(createAgentStateAddress(signer));
-  addresses.push(getAssertionStateAddress(assert_action.assertion_id));
+  addresses.push(createAssertionStateAddress(assert_action.assertion_id));
 
   const { new_factory } = assert_action;
 
@@ -103,20 +102,13 @@ function getTransferAssertionAddresses(
   { assertion_id }: TransferAssertionActionStrict,
   signer: sawtooth.signing.Signer,
 ) {
-  const agent = createAgentStateAddress(signer);
-
-  const org_prefix =
-    FAMILY_NAMESPACE + RESERVED_NAMESPACE + ConsenSourceNamespaces.ORGANIZATION;
-
-  const cert_prefix =
-    FAMILY_NAMESPACE + RESERVED_NAMESPACE + ConsenSourceNamespaces.CERTIFICATE;
-
-  const standard_prefix =
-    FAMILY_NAMESPACE + RESERVED_NAMESPACE + ConsenSourceNamespaces.STANDARD;
-
-  const assertion = getAssertionStateAddress(assertion_id);
-
-  return [agent, org_prefix, cert_prefix, standard_prefix, assertion];
+  return [
+    createAgentStateAddress(signer),
+    createAssertionStateAddress(assertion_id),
+    getNamespaceWithPrefix(ConsenSourceNamespaces.ORGANIZATION),
+    getNamespaceWithPrefix(ConsenSourceNamespaces.CERTIFICATE),
+    getNamespaceWithPrefix(ConsenSourceNamespaces.STANDARD),
+  ];
 }
 
 export function createTransferAssertionActionTransaction(

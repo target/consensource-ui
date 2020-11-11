@@ -1,8 +1,8 @@
 import {
   ConsenSourceNamespaces,
   createStateAddress,
-  createAgentStateAddress,
 } from 'services/addressing';
+import { createAgentStateAddress } from './agent';
 import { IssueCertificateAction, IIssueCertificateAction } from './compiled';
 import { createTransaction } from './transaction';
 import { encodePayload, PayloadInfo, ACTIONS } from './utils';
