@@ -37,6 +37,7 @@ describe('Organization Protobuf', () => {
       expect(outputs).toEqual(addresses);
     });
   });
+  
   describe('updateOrgTransaction()', () => {
     const org = updateOrgAction({
       contacts: [new Organization.Contact()],
