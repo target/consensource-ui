@@ -1,5 +1,6 @@
 import {
   ConsenSourceNamespaces,
+  createOrgAddress,
   createStateAddress,
   getAgentStateAddress,
 } from 'services/addressing';
@@ -109,10 +110,7 @@ export function createOrgTransaction(
   create_organization: CreateOrgActionStrict,
   signer: sawtooth.signing.Signer,
 ) {
-  const orgStateAddress = createStateAddress(
-    ConsenSourceNamespaces.ORGANIZATION,
-    create_organization.id,
-  );
+  const orgStateAddress = createOrgAddress(create_organization.id);
 
   const agentStateAddress = getAgentStateAddress(signer);
 
@@ -145,6 +143,11 @@ export function updateOrgTransaction(
   const payloadBytes = encodePayload(payload);
 
   const agentStateAddress = getAgentStateAddress(signer);
+
+  const orgStateAddress = createStateAddress(
+    ConsenSourceNamespaces.ORGANIZATION,
+    update_organization,
+  );
 
   const payloadInfo: PayloadInfo = {
     payloadBytes,

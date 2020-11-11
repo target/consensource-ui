@@ -1,4 +1,5 @@
 import { hash, HashingAlgorithms, getSignerPubKeyHex } from 'services/crypto';
+import { OrgResData } from './api';
 
 export const FAMILY_NAMESPACE_LEN = 6;
 export const ADDRESS_PREFIX_LEN = 10;
@@ -42,6 +43,13 @@ export function createStateAddress(
   );
 
   return prefix + hashedData;
+}
+
+/**
+ * Helper function to get the organization address from the organization id.
+ */
+export function createOrgAddress(orgId: OrgResData['id']) {
+  return createStateAddress(ConsenSourceNamespaces.ORGANIZATION, orgId);
 }
 
 /**
