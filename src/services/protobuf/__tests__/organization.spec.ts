@@ -1,21 +1,19 @@
-import { createAgentStateAddress, createOrgAddress } from 'services/addressing';
 import { createSigner, createNewPrivateKey } from 'services/crypto';
 import { TransactionHeader } from 'sawtooth-sdk/protobuf';
 import { CertificateRegistryPayload, Organization, Factory } from '../compiled';
 import { ACTIONS } from '../utils';
 import {
   createOrgAction,
+  createOrgStateAddress,
   createOrgTransaction,
   updateOrgAction,
   updateOrgTransaction,
 } from '../organization';
+import { createAgentStateAddress } from '../agent';
 
 describe('Organization Protobuf', () => {
   describe('createOrgTransaction()', () => {
-    const id = 'test';
-
     const org = createOrgAction({
-      id,
       organization_type: Organization.Type.FACTORY,
       contacts: [new Organization.Contact()],
       address: new Factory.Address(),
@@ -24,7 +22,10 @@ describe('Organization Protobuf', () => {
 
     const signer = createSigner(createNewPrivateKey());
 
-    const addresses = [createOrgAddress(id), createAgentStateAddress(signer)];
+    const addresses = [
+      createOrgStateAddress(org.id),
+      createAgentStateAddress(signer),
+    ];
 
     it('creates a new CreateOrganizationAction and wraps it in a transaction', () => {
       const txn = createOrgTransaction(org, signer);
@@ -37,7 +38,7 @@ describe('Organization Protobuf', () => {
       expect(outputs).toEqual(addresses);
     });
   });
-  
+
   describe('updateOrgTransaction()', () => {
     const org = updateOrgAction({
       contacts: [new Organization.Contact()],
@@ -48,7 +49,10 @@ describe('Organization Protobuf', () => {
 
     const signer = createSigner(createNewPrivateKey());
 
-    const addresses = [createOrgAddress(name), createAgentStateAddress(signer)];
+    const addresses = [
+      createOrgStateAddress(name),
+      createAgentStateAddress(signer),
+    ];
 
     it('creates a new UpdateOrganizationAction and wraps it in a transaction', () => {
       const txn = updateOrgTransaction(org, signer, name);

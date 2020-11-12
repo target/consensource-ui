@@ -5,7 +5,6 @@ import {
   createOrgTransaction,
 } from 'services/protobuf/organization';
 import { Organization } from 'services/protobuf/compiled';
-import { hash, HashingAlgorithms } from 'services/crypto';
 import { VpnKey as Key } from '@material-ui/icons';
 import { Button, Typography, Grid, TextField } from '@material-ui/core';
 import { SelectOrganizationType } from 'view/forms/organization/SelectOrganizationType';
@@ -15,8 +14,6 @@ import { FormErrMsg, TransactionFormProps } from 'view/forms/utils';
 import { postBatches } from 'services/api';
 import { CreateContactForm } from './CreateContact';
 import { CreateFactoryAddressForm } from './CreateFactoryAddress';
-
-const makeOrgId = (name: string) => hash(name, HashingAlgorithms.sha256);
 
 /**
  * Four-part form used to build a `CreateOrganizationAction` payload object
@@ -35,14 +32,13 @@ export const CreateOrganizationForm = ({
     contacts: [] as Organization.IContact[],
     address: null,
     name: '',
-    id: '',
     organization_type: Organization.Type.UNSET_TYPE,
   });
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const action = createOrgAction({ ...org, id: makeOrgId(org.name) });
+    const action = createOrgAction(org);
     const txns = new Array(createOrgTransaction(action, signer));
     const batchListBytes = createBatch(txns, signer);
 

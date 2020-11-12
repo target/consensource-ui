@@ -1,9 +1,5 @@
 import { Transaction, TransactionHeader } from 'sawtooth-sdk/protobuf';
-import {
-  FAMILY_NAME,
-  FAMILY_VERSION,
-  createAgentStateAddress,
-} from 'services/addressing';
+import { FAMILY_NAME, FAMILY_VERSION } from 'services/addressing';
 import {
   createSigner,
   createNewPrivateKey,
@@ -11,6 +7,7 @@ import {
   hash,
   HashingAlgorithms,
 } from 'services/crypto';
+import { createAgentStateAddress } from '../agent';
 import { getTransactionIds, createTransaction } from '../transaction';
 
 describe('Transaction Protobuf', () => {
@@ -30,11 +27,12 @@ describe('Transaction Protobuf', () => {
     const signer = createSigner(createNewPrivateKey());
     const pubKey = signer.getPublicKey();
     const payload = 'test-payloadBytes';
+    const addresses = [createAgentStateAddress(signer)];
 
     const mockTransactionPayload = {
       payloadBytes: Buffer.from(payload),
-      inputs: [createAgentStateAddress(signer)],
-      outputs: [createAgentStateAddress(signer)],
+      inputs: addresses,
+      outputs: addresses,
     };
 
     const transactionHeaderBytes = {
