@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, makeStyles, createStyles, Theme } from '@material-ui/core';
 import { useSelectedRoute } from 'services/hooks';
-import { UnstyledLink } from '../UnstyledLink';
+import { UnstyledLink } from '../Links/UnstyledLink';
 
 const useStyles = makeStyles(({ spacing, palette }: Theme) =>
   createStyles({

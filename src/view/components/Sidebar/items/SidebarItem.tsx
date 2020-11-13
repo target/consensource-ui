@@ -7,7 +7,7 @@ import {
   makeStyles,
   createStyles,
 } from '@material-ui/core';
-import { UnstyledLink } from '../../UnstyledLink';
+import { UnstyledLink } from '../../Links/UnstyledLink';
 
 export interface SidebarItemProps {
   /**

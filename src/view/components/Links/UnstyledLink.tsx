@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
-import { Link, LinkProps } from 'react-router-dom';
+import { Link as RouterLink, LinkProps } from 'react-router-dom';
 import { makeStyles, createStyles } from '@material-ui/core';
+import Link from '@material-ui/core/Link';
 
 export interface UnstyledLinkProps extends LinkProps {
   to: string;
@@ -27,7 +28,7 @@ export const UnstyledLink: FC<UnstyledLinkProps> = ({
   const classes = useStyles();
 
   return (
-    <Link {...otherProps} to={{ pathname: to }} className={classes.link}>
+    <Link component={RouterLink} to={{ pathname: to }} className={classes.link}>
       {children}
     </Link>
   );

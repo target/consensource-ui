@@ -1,29 +1,12 @@
 import React from 'react';
-import { Grid, Typography, makeStyles, createStyles } from '@material-ui/core';
-import { UnstyledLink } from 'view/components';
+import { Grid, Typography } from '@material-ui/core';
 import { SubtitleText } from 'view/components/Claims/ClaimableDataPageHeader/SubtitleText';
 import { CertResData } from 'services/api';
+import { ThemedLink, useStyles } from 'view/components/Links/ThemedLink';
 
 export interface HeaderProps {
   certificate: CertResData;
 }
-
-// TODO: Make a generic styled link component
-const useStyles = makeStyles(({ palette }) =>
-  createStyles({
-    link: {
-      textDecoration: 'none',
-      color: 'inherit',
-    },
-    certName: {
-      borderBottom: `2px solid ${palette.primary.light}`,
-      cursor: 'pointer',
-      '&:hover': {
-        borderBottom: `2px solid ${palette.primary.main}`,
-      },
-    },
-  }),
-);
 
 export const GrantedToSubtitle = ({
   certificate: { factory_name, factory_id },
@@ -36,15 +19,15 @@ export const GrantedToSubtitle = ({
         <SubtitleText>Granted to:</SubtitleText>
       </Grid>
       <Grid item>
-        <UnstyledLink to={`/factories/${factory_id}`}>
+        <ThemedLink to={`/factories/${factory_id}`}>
           <Typography
             color="textSecondary"
             align="center"
-            className={classes.certName}
+            className={classes.name}
           >
             {factory_name}
           </Typography>
-        </UnstyledLink>
+        </ThemedLink>
       </Grid>
     </Grid>
   );

@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { ProfileMenu } from './ProfileMenu';
 import { NavbarLink } from './NavbarLink';
-import { UnstyledLink } from '../UnstyledLink';
+import { UnstyledLink } from '../Links/UnstyledLink';
 
 // Height of a "dense" toolbar
 export const NAVBAR_HEIGHT = 48;
