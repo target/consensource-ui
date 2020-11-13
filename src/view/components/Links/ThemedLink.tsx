@@ -27,11 +27,19 @@ export const useStyles = makeStyles(({ palette }) =>
  * Wrapper component around a `react-router-dom` `<Link />` that overrides
  * the default link styling to remove text decorations and color.
  */
-export const ThemedLink: FC<ThemedLinkProps> = ({ children, to }) => {
+export const ThemedLink: FC<ThemedLinkProps> = ({
+  children,
+  to,
+  ...otherProps
+}) => {
   const classes = useStyles();
 
   return (
-    <Link component={RouterLink} to={{ pathname: to }} className={classes.link}>
+    <Link
+      component={RouterLink}
+      to={{ pathname: to, state: { ...otherProps } }}
+      className={classes.link}
+    >
       {children}
     </Link>
   );

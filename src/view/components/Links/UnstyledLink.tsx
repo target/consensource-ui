@@ -28,7 +28,11 @@ export const UnstyledLink: FC<UnstyledLinkProps> = ({
   const classes = useStyles();
 
   return (
-    <Link component={RouterLink} to={{ pathname: to }} className={classes.link}>
+    <Link
+      component={RouterLink}
+      to={{ pathname: to, state: { ...otherProps } }}
+      className={classes.link}
+    >
       {children}
     </Link>
   );
