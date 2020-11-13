@@ -4,17 +4,29 @@ import {
   ICreateOrgActionStrict,
   createOrgTransaction,
   updateOrgAction,
-  IUpdateOrganizationActionStrict,
   updateOrgTransaction,
+  IContactStrict,
+  IFactoryAddressStrict,
 } from 'services/protobuf/organization';
-import { Organization } from 'services/protobuf/compiled';
+import {
+  createTransferAssertionAction,
+  createTransferAssertionActionTransaction,
+} from 'services/protobuf/assertion';
+import {
+  Organization,
+  IUpdateOrganizationAction,
+} from 'services/protobuf/compiled';
 import { VpnKey as Key } from '@material-ui/icons';
 import { Button, Typography, Grid, TextField } from '@material-ui/core';
 import { SelectOrganizationType } from 'view/forms/organization/SelectOrganizationType';
 import { createBatch } from 'services/protobuf/batch';
 import { useAuth } from 'services/hooks';
-import { FormErrMsg, TransactionFormProps } from 'view/forms/utils';
-import { postBatches, FactoryResData } from 'services/api';
+import {
+  FormErrMsg,
+  TransactionFormProps,
+  OrgTransactionFormProps,
+} from 'view/forms/utils';
+import { postBatches } from 'services/api';
 import { CreateContactForm } from './CreateContact';
 import { CreateFactoryAddressForm } from './CreateFactoryAddress';
 
@@ -67,19 +79,23 @@ export const CreateOrganizationForm = ({
 
     if (org.contacts.length === 0) {
       return (
-        <CreateContactForm
-          onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
-          submitLabel="Continue"
-        />
+        <form>
+          <CreateContactForm
+            onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
+            submitLabel="Continue"
+          />
+        </form>
       );
     }
 
     if (org.organization_type === Organization.Type.FACTORY && !org.address) {
       return (
-        <CreateFactoryAddressForm
-          onSubmit={(address) => setOrg({ ...org, address })}
-          submitLabel="Continue"
-        />
+        <form>
+          <CreateFactoryAddressForm
+            onSubmit={(address) => setOrg({ ...org, address })}
+            submitLabel="Continue"
+          />
+        </form>
       );
     }
 
@@ -124,26 +140,39 @@ export const CreateOrganizationForm = ({
 
   return getCurrentForm();
 };
-
+interface IUpdateOrganizationActionStrict extends IUpdateOrganizationAction {
+  contacts: NonNullable<IContactStrict[]>;
+  address: NonNullable<IFactoryAddressStrict>;
+}
 /**
  * One-part form used to build an `UpdateOrganizationAction` payload object
  */
-export const UpdateOrganizationForm = (
-  { setBatchStatusLink }: TransactionFormProps,
-  existing_org: FactoryResData,
-) => {
+export const UpdateOrganizationForm = ({
+  existing_org,
+  setBatchStatusLink,
+}: OrgTransactionFormProps) => {
   const { signer } = useAuth();
   const [errMsg, setErrMsg] = useState('');
   const [org, setOrg] = useState<IUpdateOrganizationActionStrict>({
-    contacts: existing_org.contacts as Organization.IContact[],
-    address: existing_org.address as Factory.IAddress,
+    contacts: existing_org.contacts as IContactStrict[],
+    address: existing_org.address as IFactoryAddressStrict,
   });
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
+    const txns = [];
+    if (existing_org.assertion_id) {
+      const transfer_action = createTransferAssertionAction({
+        assertion_id: existing_org.assertion_id,
+        new_owner_public_key: signer.getPublicKey().asHex(),
+      });
+      txns.push(
+        createTransferAssertionActionTransaction(transfer_action, signer),
+      );
+    }
 
     const action = updateOrgAction({ ...existing_org, ...org });
-    const txns = new Array(updateOrgTransaction(action, signer));
+    txns.push(updateOrgTransaction(action, signer, existing_org.id));
     const batchListBytes = createBatch(txns, signer);
 
     try {
@@ -168,22 +197,23 @@ export const UpdateOrganizationForm = (
         <Grid item>
           <TextField
             color="secondary"
-            value={org.name}
-            onChange={(e) => setOrg({ ...org, name: e.target.value })}
+            value={existing_org.name}
             label="Organization Name"
             id="org-name"
-            required
+            disabled
           />
         </Grid>
 
         <CreateContactForm
           onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
           submitLabel="Continue"
+          existing_contact={org.contacts[0]}
         />
 
         <CreateFactoryAddressForm
           onSubmit={(address) => setOrg({ ...org, address })}
           submitLabel="Continue"
+          existing_address={org.address}
         />
 
         <Grid item>
@@ -192,10 +222,10 @@ export const UpdateOrganizationForm = (
             type="submit"
             color="secondary"
             onClick={submit}
-            disabled={!org.name}
+            disabled={!signer || (!org.contacts && !org.address)}
             endIcon={<Key />}
           >
-            Create Organization
+            Claim Organization
           </Button>
         </Grid>
       </Grid>
