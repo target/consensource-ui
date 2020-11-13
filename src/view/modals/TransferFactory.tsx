@@ -9,9 +9,13 @@ import {
 } from '@material-ui/core';
 import { useBatchStatus } from 'services/hooks';
 import { UpdateOrganizationForm } from 'view/forms/organization';
-import { DialogProps } from './utils';
+import { OrgDialogProps } from './utils';
 
-export const TransferFactoryDialog = ({ open, handleClose }: DialogProps) => {
+export const TransferFactoryDialog = ({
+  open,
+  handleClose,
+  existing_org,
+}: OrgDialogProps) => {
   const { batchStatus, setBatchStatusLink } = useBatchStatus();
 
   return (
@@ -26,7 +30,15 @@ export const TransferFactoryDialog = ({ open, handleClose }: DialogProps) => {
           The data you are viewing is from a third party data source. This means
           that it has not been verified by the organization.
         </DialogContentText>
-        <UpdateOrganizationForm setBatchStatusLink={setBatchStatusLink} />
+        <UpdateOrganizationForm
+          existing_org={existing_org}
+          setBatchStatusLink={setBatchStatusLink}
+        />
+      </DialogContent>
+      <DialogContent>
+        <DialogContentText>
+          {batchStatus ? batchStatus.toString() : ''}
+        </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="secondary">
