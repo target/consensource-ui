@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Typography, makeStyles, createStyles } from '@material-ui/core';
 import { CertResData } from 'services/api';
-import { getLocaleFromUnix } from 'utils';
+import { getLocaleFromUnix, getUnixTimeSec } from 'utils';
 import {
   CheckIcon,
   WarningIcon,
@@ -51,8 +51,7 @@ const useStyles = makeStyles(({ palette }) =>
 const ValidToText = ({ validTo }: ValidToTextProps) => {
   const classes = useStyles();
 
-  const validToMs = validTo * 1000;
-  const isValid = validToMs >= Date.now();
+  const isValid = validTo >= getUnixTimeSec();
   const text = isValid ? 'Valid until' : 'Expired on';
 
   return (
@@ -68,7 +67,7 @@ const ValidToText = ({ validTo }: ValidToTextProps) => {
         <Typography
           variant="body1"
           className={classes.validToText}
-        >{`${text} ${getLocaleFromUnix(validToMs)}`}</Typography>
+        >{`${text} ${getLocaleFromUnix(validTo)}`}</Typography>
       </Grid>
     </Grid>
   );
