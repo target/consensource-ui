@@ -2,7 +2,7 @@ import React from 'react';
 import { CertResData } from 'services/api';
 import { List, ListItem, Tooltip } from '@material-ui/core';
 import { getLocaleFromUnix } from 'utils';
-import { ThemedLink, useStyles } from '../../../components/Links/ThemedLink';
+import { ThemedLink, useStyles } from 'view/components';
 
 export interface CertificatesCellProps {
   // TODO: Remove optional `certificates` once we fix backend issues

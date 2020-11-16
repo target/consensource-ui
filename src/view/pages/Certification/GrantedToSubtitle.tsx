@@ -1,8 +1,7 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import { SubtitleText } from 'view/components/Claims/ClaimableDataPageHeader/SubtitleText';
 import { CertResData } from 'services/api';
-import { ThemedLink, useStyles } from 'view/components/Links/ThemedLink';
+import { ThemedLink, useStyles, SubtitleText } from 'view/components';
 
 export interface HeaderProps {
   certificate: CertResData;
