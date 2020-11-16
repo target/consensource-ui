@@ -31,6 +31,7 @@ export const CreateContactForm = ({
 
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
+    console.log('CONTACTS ', contact);
     onSubmit(createOrgContact(contact));
   };
 
@@ -44,7 +45,10 @@ export const CreateContactForm = ({
           <TextField
             color="secondary"
             value={contact.name}
-            onChange={(e) => setContact({ ...contact, name: e.target.value })}
+            onChange={(e) => {
+              setContact({ ...contact, name: e.target.value });
+              if (existing_contact) onSubmit(createOrgContact(contact));
+            }}
             label="Name"
             id="contact-name"
             required
@@ -54,9 +58,10 @@ export const CreateContactForm = ({
           <TextField
             color="secondary"
             value={contact.phone_number}
-            onChange={(e) =>
-              setContact({ ...contact, phone_number: e.target.value })
-            }
+            onChange={(e) => {
+              setContact({ ...contact, phone_number: e.target.value });
+              if (existing_contact) onSubmit(createOrgContact(contact));
+            }}
             label="Phone Number"
             id="contact-phone-number"
             required
@@ -66,9 +71,10 @@ export const CreateContactForm = ({
           <TextField
             color="secondary"
             value={contact.language_code}
-            onChange={(e) =>
-              setContact({ ...contact, language_code: e.target.value })
-            }
+            onChange={(e) => {
+              setContact({ ...contact, language_code: e.target.value });
+              if (existing_contact) onSubmit(createOrgContact(contact));
+            }}
             label="Language Code"
             id="contact-language-code"
             required

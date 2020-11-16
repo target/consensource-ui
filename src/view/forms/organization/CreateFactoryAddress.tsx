@@ -34,6 +34,7 @@ export const CreateFactoryAddressForm = ({
    */
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
+    console.log('ADDRESS ', address);
     onSubmit(createFactoryAddress(address));
   };
 
@@ -47,9 +48,10 @@ export const CreateFactoryAddressForm = ({
           <TextField
             color="secondary"
             value={address.street_line_1}
-            onChange={(e) =>
-              setAddress({ ...address, street_line_1: e.target.value })
-            }
+            onChange={(e) => {
+              setAddress({ ...address, street_line_1: e.target.value });
+              if (existing_address) onSubmit(createFactoryAddress(address));
+            }}
             label="Street Line 1"
             id="street-line-1"
             required
@@ -59,9 +61,10 @@ export const CreateFactoryAddressForm = ({
           <TextField
             color="secondary"
             value={address.street_line_2}
-            onChange={(e) =>
-              setAddress({ ...address, street_line_2: e.target.value })
-            }
+            onChange={(e) => {
+              setAddress({ ...address, street_line_2: e.target.value });
+              if (existing_address) onSubmit(createFactoryAddress(address));
+            }}
             label="Street Line 2"
             id="street-line-2"
           />
@@ -70,7 +73,10 @@ export const CreateFactoryAddressForm = ({
           <TextField
             color="secondary"
             value={address.city}
-            onChange={(e) => setAddress({ ...address, city: e.target.value })}
+            onChange={(e) => {
+              setAddress({ ...address, city: e.target.value });
+              if (existing_address) onSubmit(createFactoryAddress(address));
+            }}
             label="City"
             id="city"
             required
@@ -80,9 +86,10 @@ export const CreateFactoryAddressForm = ({
           <TextField
             color="secondary"
             value={address.state_province || ''}
-            onChange={(e) =>
-              setAddress({ ...address, state_province: e.target.value })
-            }
+            onChange={(e) => {
+              setAddress({ ...address, state_province: e.target.value });
+              if (existing_address) onSubmit(createFactoryAddress(address));
+            }}
             label="State Province"
             id="state-province"
           />
@@ -91,9 +98,10 @@ export const CreateFactoryAddressForm = ({
           <TextField
             color="secondary"
             value={address.country}
-            onChange={(e) =>
-              setAddress({ ...address, country: e.target.value })
-            }
+            onChange={(e) => {
+              setAddress({ ...address, country: e.target.value });
+              if (existing_address) onSubmit(createFactoryAddress(address));
+            }}
             label="Country"
             id="country"
             required
@@ -103,9 +111,10 @@ export const CreateFactoryAddressForm = ({
           <TextField
             color="secondary"
             value={address.postal_code || ''}
-            onChange={(e) =>
-              setAddress({ ...address, postal_code: e.target.value })
-            }
+            onChange={(e) => {
+              setAddress({ ...address, postal_code: e.target.value });
+              if (existing_address) onSubmit(createFactoryAddress(address));
+            }}
             label="Postal Code"
             id="postal-code"
           />
