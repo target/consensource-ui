@@ -24,7 +24,9 @@ export const TransferFactoryDialog = ({
       aria-labelledby="transfer-factory-title"
       open={open}
     >
-      <DialogTitle>Confirm Factory Information</DialogTitle>
+      <DialogTitle>
+        <h2>Confirm Factory Information</h2>
+      </DialogTitle>
       <DialogContent>
         <DialogContentText>
           Claim this factory to manage address info, contact info, and more.
