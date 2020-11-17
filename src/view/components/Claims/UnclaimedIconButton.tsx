@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { InfoOutlined as InfoIcon } from '@material-ui/icons';
 import {
   Tooltip,
   IconButton,
@@ -9,6 +8,7 @@ import {
   Theme,
 } from '@material-ui/core';
 import { UnclaimedDialog } from 'view/modals';
+import { InfoOutlined as InfoIcon } from '../icons';
 
 const useStyles = makeStyles(({ palette }: Theme) =>
   createStyles({

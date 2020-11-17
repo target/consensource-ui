@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import { WarningIcon } from '../icons';
+import { Warning as WarningIcon } from '../icons';
 
 export interface WarningIconErrorProps {
   size?: 'small' | 'large';
