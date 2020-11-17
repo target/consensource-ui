@@ -9,7 +9,7 @@ import {
 } from '@material-ui/core';
 import { CertResData } from 'services/api';
 import { isDataClaimed } from 'utils';
-import { MoreInfoLinkButton } from './MoreInfoLinkButton';
+import { ButtonLink } from 'view/components';
 import { Header } from './Header';
 import { Body } from './Body';
 
@@ -18,7 +18,12 @@ export interface CertificationCardProps {
 }
 
 const useStyles = makeStyles(
-  createStyles({ cardContent: { paddingBottom: 0 } }),
+  createStyles({
+    cardContent: { paddingBottom: 0 },
+    moreInfoBtn: {
+      marginLeft: 'auto',
+    },
+  }),
 );
 
 export const CertificationCard = ({
@@ -51,7 +56,13 @@ export const CertificationCard = ({
       </CardContent>
 
       <CardActions>
-        <MoreInfoLinkButton certificationId={certification.id} />
+        <ButtonLink
+          color="secondary"
+          to={`/certifications/${certification.id}`}
+          className={classes.moreInfoBtn}
+        >
+          More Info
+        </ButtonLink>
       </CardActions>
     </Card>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FactoryResData } from 'services/api';
 import { Tooltip } from '@material-ui/core';
-import { ThemedLink, useStyles } from '../../../components/Links/ThemedLink';
+import { Link } from 'view/components';
 
 export interface FactoryNameCellProps {
   name: FactoryResData['name'];
@@ -9,12 +9,11 @@ export interface FactoryNameCellProps {
 }
 
 export const FactoryNameCell = ({ name, id }: FactoryNameCellProps) => {
-  const classes = useStyles();
   return (
-    <ThemedLink to={`factories/${id}`}>
+    <Link to={`factories/${id}`} color="secondary">
       <Tooltip placement="top" title="View factory profile">
-        <i className={classes.name}>{name}</i>
+        <i>{name}</i>
       </Tooltip>
-    </ThemedLink>
+    </Link>
   );
 };

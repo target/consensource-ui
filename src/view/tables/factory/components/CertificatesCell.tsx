@@ -2,7 +2,7 @@ import React from 'react';
 import { CertResData } from 'services/api';
 import { List, ListItem, Tooltip } from '@material-ui/core';
 import { getLocaleFromUnix } from 'utils';
-import { ThemedLink, useStyles } from 'view/components';
+import { Link } from 'view/components';
 
 export interface CertificatesCellProps {
   // TODO: Remove optional `certificates` once we fix backend issues
@@ -10,8 +10,6 @@ export interface CertificatesCellProps {
 }
 
 export const CertificatesCell = ({ certificates }: CertificatesCellProps) => {
-  const classes = useStyles();
-
   if (!certificates || !certificates.length) {
     return (
       <ListItem>
@@ -23,17 +21,17 @@ export const CertificatesCell = ({ certificates }: CertificatesCellProps) => {
   return (
     <List>
       {certificates.map(({ standard_name, id, valid_to }) => (
-        <ThemedLink to={`certifications/${id}`} key={id}>
+        <Link to={`certifications/${id}`} color="secondary" key={id}>
           <ListItem>
             <Tooltip
               placement="top"
               data-testid="cert-cell-tooltip"
               title={`Valid until ${getLocaleFromUnix(valid_to)}`}
             >
-              <i className={classes.name}>{standard_name}</i>
+              <i>{standard_name}</i>
             </Tooltip>
           </ListItem>
-        </ThemedLink>
+        </Link>
       ))}
     </List>
   );

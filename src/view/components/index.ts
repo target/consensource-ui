@@ -4,6 +4,5 @@ export * from './Claims';
 export * from './InfoItem';
 export * from './SequentialGrow';
 export * from './QueryStateIndicators';
-export * from './Links/ThemedLink';
-export * from './Links/UnstyledLink';
+export * from './Links';
 export * from './icons';
