@@ -40,7 +40,7 @@ const useStyles = makeStyles(({ palette }) =>
       padding: '18px 16px 16px 16px !important',
     },
     validToText: {
-      marginLeft: 5,
+      marginLeft: 12,
     },
     validToRow: {
       paddingLeft: 15,
