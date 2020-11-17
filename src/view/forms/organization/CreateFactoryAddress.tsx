@@ -34,90 +34,101 @@ export const CreateFactoryAddressForm = ({
    */
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log('ADDRESS ', address);
     onSubmit(createFactoryAddress(address));
   };
 
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>
-        <Typography variant="h6">Address Info</Typography>
+        <Typography variant="h5">Address</Typography>
       </Grid>
-      <Grid item>
-        <Grid item>
-          <TextField
-            color="secondary"
-            value={address.street_line_1}
-            onChange={(e) => {
-              setAddress({ ...address, street_line_1: e.target.value });
-              if (existing_address) onSubmit(createFactoryAddress(address));
-            }}
-            label="Street Line 1"
-            id="street-line-1"
-            required
-          />
+      <Grid container item spacing={2}>
+        <Grid container item justify="space-between" spacing={2}>
+          <Grid item xs={6}>
+            <TextField
+              color="secondary"
+              fullWidth
+              value={address.street_line_1}
+              onChange={(e) => {
+                setAddress({ ...address, street_line_1: e.target.value });
+                if (existing_address) onSubmit(createFactoryAddress(address));
+              }}
+              label="Street Line 1"
+              id="street-line-1"
+              required
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              color="secondary"
+              fullWidth
+              value={address.street_line_2}
+              onChange={(e) => {
+                setAddress({ ...address, street_line_2: e.target.value });
+                if (existing_address) onSubmit(createFactoryAddress(address));
+              }}
+              label="Street Line 2"
+              id="street-line-2"
+            />
+          </Grid>
         </Grid>
-        <Grid item>
-          <TextField
-            color="secondary"
-            value={address.street_line_2}
-            onChange={(e) => {
-              setAddress({ ...address, street_line_2: e.target.value });
-              if (existing_address) onSubmit(createFactoryAddress(address));
-            }}
-            label="Street Line 2"
-            id="street-line-2"
-          />
+        <Grid container item justify="space-between" spacing={2}>
+          <Grid item xs={6}>
+            <TextField
+              color="secondary"
+              fullWidth
+              value={address.city}
+              onChange={(e) => {
+                setAddress({ ...address, city: e.target.value });
+                if (existing_address) onSubmit(createFactoryAddress(address));
+              }}
+              label="City"
+              id="city"
+              required
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              color="secondary"
+              fullWidth
+              value={address.postal_code || ''}
+              onChange={(e) => {
+                setAddress({ ...address, postal_code: e.target.value });
+                if (existing_address) onSubmit(createFactoryAddress(address));
+              }}
+              label="Postal Code"
+              id="postal-code"
+            />
+          </Grid>
         </Grid>
-        <Grid item>
-          <TextField
-            color="secondary"
-            value={address.city}
-            onChange={(e) => {
-              setAddress({ ...address, city: e.target.value });
-              if (existing_address) onSubmit(createFactoryAddress(address));
-            }}
-            label="City"
-            id="city"
-            required
-          />
-        </Grid>
-        <Grid item>
-          <TextField
-            color="secondary"
-            value={address.state_province || ''}
-            onChange={(e) => {
-              setAddress({ ...address, state_province: e.target.value });
-              if (existing_address) onSubmit(createFactoryAddress(address));
-            }}
-            label="State Province"
-            id="state-province"
-          />
-        </Grid>
-        <Grid item>
-          <TextField
-            color="secondary"
-            value={address.country}
-            onChange={(e) => {
-              setAddress({ ...address, country: e.target.value });
-              if (existing_address) onSubmit(createFactoryAddress(address));
-            }}
-            label="Country"
-            id="country"
-            required
-          />
-        </Grid>
-        <Grid item>
-          <TextField
-            color="secondary"
-            value={address.postal_code || ''}
-            onChange={(e) => {
-              setAddress({ ...address, postal_code: e.target.value });
-              if (existing_address) onSubmit(createFactoryAddress(address));
-            }}
-            label="Postal Code"
-            id="postal-code"
-          />
+        <Grid container item justify="space-between" spacing={2}>
+          <Grid item xs={6}>
+            <TextField
+              color="secondary"
+              fullWidth
+              value={address.state_province || ''}
+              onChange={(e) => {
+                setAddress({ ...address, state_province: e.target.value });
+                if (existing_address) onSubmit(createFactoryAddress(address));
+              }}
+              label="State Province"
+              id="state-province"
+            />
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              color="secondary"
+              fullWidth
+              value={address.country}
+              onChange={(e) => {
+                setAddress({ ...address, country: e.target.value });
+                if (existing_address) onSubmit(createFactoryAddress(address));
+              }}
+              label="Country"
+              id="country"
+              required
+            />
+          </Grid>
         </Grid>
       </Grid>
 

@@ -24,11 +24,10 @@ export const TransferFactoryDialog = ({
       aria-labelledby="transfer-factory-title"
       open={open}
     >
-      <DialogTitle>Transfer Factory</DialogTitle>
+      <DialogTitle>Confirm Factory Information</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          The data you are viewing is from a third party data source. This means
-          that it has not been verified by the organization.
+          Claim this factory to manage address info, contact info, and more.
         </DialogContentText>
         <UpdateOrganizationForm
           existing_org={existing_org}

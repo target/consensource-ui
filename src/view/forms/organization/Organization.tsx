@@ -186,34 +186,38 @@ export const UpdateOrganizationForm = ({
   return (
     <form>
       <Grid container direction="column" spacing={2}>
-        <Grid item>
-          <FormErrMsg msg={errMsg} />
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
+            <FormErrMsg msg={errMsg} />
+          </Grid>
+
+          <Grid item>
+            <Typography variant="h5">Organization</Typography>
+          </Grid>
+
+          <Grid item>
+            <TextField
+              color="secondary"
+              fullWidth
+              value={existing_org.name}
+              label="Factory Name"
+              id="org-name"
+              disabled
+            />
+          </Grid>
         </Grid>
 
-        <Grid item>
-          <Typography variant="h6">Organization Info</Typography>
-        </Grid>
-
-        <Grid item>
-          <TextField
-            color="secondary"
-            value={existing_org.name}
-            label="Organization Name"
-            id="org-name"
-            disabled
-          />
-        </Grid>
-
-        <CreateContactForm
-          onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
-          submitLabel="Continue"
-          existing_contact={org.contacts[0]}
-        />
+        <Grid item />
 
         <CreateFactoryAddressForm
           onSubmit={(address) => setOrg({ ...org, address })}
           submitLabel="Continue"
           existing_address={org.address}
+        />
+        <CreateContactForm
+          onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
+          submitLabel="Continue"
+          existing_contact={org.contacts[0]}
         />
 
         <Grid item>
@@ -221,11 +225,11 @@ export const UpdateOrganizationForm = ({
             variant="contained"
             type="submit"
             color="secondary"
+            fullWidth
             onClick={submit}
             disabled={!signer || (!org.contacts && !org.address)}
-            endIcon={<Key />}
           >
-            Claim Organization
+            Claim Factory
           </Button>
         </Grid>
       </Grid>

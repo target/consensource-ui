@@ -31,16 +31,15 @@ export const CreateContactForm = ({
 
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log('CONTACTS ', contact);
     onSubmit(createOrgContact(contact));
   };
 
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>
-        <Typography variant="h6">Contact Info</Typography>
+        <Typography variant="h5">Contact</Typography>
       </Grid>
-      <Grid item>
+      <Grid container item spacing={2}>
         <Grid item>
           <TextField
             color="secondary"
