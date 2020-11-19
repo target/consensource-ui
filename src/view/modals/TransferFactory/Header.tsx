@@ -22,7 +22,7 @@ export const Header = ({ handleClose }: HeaderProps) => {
         alignItems="center"
         direction="column"
         xs={10}
-        spacing={2}
+        spacing={1}
       >
         <Grid item>
           <Typography variant="h3">Confirm Factory Information</Typography>
