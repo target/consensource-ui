@@ -69,6 +69,7 @@ export const CreateFactoryAddressForm = ({
               onChange={(e) => onChange(e, 'street_line_1')}
               label="Street Line 1"
               id="street-line-1"
+              variant="outlined"
               required
             />
           </Grid>
@@ -80,6 +81,7 @@ export const CreateFactoryAddressForm = ({
               onChange={(e) => onChange(e, 'street_line_2')}
               label="Street Line 2"
               id="street-line-2"
+              variant="outlined"
             />
           </Grid>
         </Grid>
@@ -92,6 +94,7 @@ export const CreateFactoryAddressForm = ({
               onChange={(e) => onChange(e, 'city')}
               label="City"
               id="city"
+              variant="outlined"
               required
             />
           </Grid>
@@ -103,6 +106,7 @@ export const CreateFactoryAddressForm = ({
               onChange={(e) => onChange(e, 'postal_code')}
               label="Postal Code"
               id="postal-code"
+              variant="outlined"
             />
           </Grid>
         </Grid>
@@ -115,6 +119,7 @@ export const CreateFactoryAddressForm = ({
               onChange={(e) => onChange(e, 'state_province')}
               label="State Province"
               id="state-province"
+              variant="outlined"
             />
           </Grid>
           <Grid item xs={6}>
@@ -125,6 +130,7 @@ export const CreateFactoryAddressForm = ({
               onChange={(e) => onChange(e, 'country')}
               label="Country"
               id="country"
+              variant="outlined"
               required
             />
           </Grid>

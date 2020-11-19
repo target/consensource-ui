@@ -210,6 +210,7 @@ export const UpdateOrganizationForm = ({
               value={existingOrg.name}
               label="Factory Name"
               id="org-name"
+              variant="outlined"
               disabled
             />
           </Grid>

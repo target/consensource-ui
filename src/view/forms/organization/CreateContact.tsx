@@ -64,6 +64,7 @@ export const CreateContactForm = ({
             onChange={(e) => onChange(e, 'name')}
             label="Name"
             id="contact-name"
+            variant="outlined"
             required
           />
         </Grid>
@@ -74,6 +75,7 @@ export const CreateContactForm = ({
             onChange={(e) => onChange(e, 'phone_number')}
             label="Phone Number"
             id="contact-phone-number"
+            variant="outlined"
             required
           />
         </Grid>
@@ -84,6 +86,7 @@ export const CreateContactForm = ({
             onChange={(e) => onChange(e, 'language_code')}
             label="Language Code"
             id="contact-language-code"
+            variant="outlined"
             required
           />
         </Grid>
