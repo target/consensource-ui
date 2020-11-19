@@ -5,17 +5,13 @@ import {
   createOrgTransaction,
   updateOrgAction,
   updateOrgTransaction,
-  IContactStrict,
-  IFactoryAddressStrict,
+  IUpdateOrganizationActionStrict,
 } from 'services/protobuf/organization';
 import {
   createTransferAssertionAction,
   createTransferAssertionActionTransaction,
 } from 'services/protobuf/assertion';
-import {
-  Organization,
-  IUpdateOrganizationAction,
-} from 'services/protobuf/compiled';
+import { Organization } from 'services/protobuf/compiled';
 import { hasOwnPropertySafe } from 'utils';
 import { VpnKey as Key } from '@material-ui/icons';
 import { Button, Typography, Grid, TextField } from '@material-ui/core';
@@ -30,12 +26,6 @@ import { CreateFactoryAddressForm } from './CreateFactoryAddress';
 
 export interface OrgTransactionFormProps extends TransactionFormProps {
   existingOrg: FactoryResData;
-}
-
-export interface IUpdateOrganizationActionStrict
-  extends IUpdateOrganizationAction {
-  contacts: NonNullable<IContactStrict[]>;
-  address: NonNullable<IFactoryAddressStrict>;
 }
 
 /**
@@ -159,8 +149,8 @@ export const UpdateOrganizationForm = ({
   const { signer } = useAuth();
   const [errMsg, setErrMsg] = useState('');
   const [org, setOrg] = useState<IUpdateOrganizationActionStrict>({
-    contacts: existingOrg.contacts as IContactStrict[],
-    address: existingOrg.address as IFactoryAddressStrict,
+    contacts: existingOrg.contacts,
+    address: existingOrg.address,
   });
 
   const submit = async (event: React.FormEvent) => {
@@ -221,7 +211,6 @@ export const UpdateOrganizationForm = ({
         <Grid item>
           <CreateFactoryAddressForm
             onSubmit={(address) => setOrg({ ...org, address })}
-            submitLabel="Continue"
             existingAddress={org.address}
           />
         </Grid>
@@ -229,7 +218,6 @@ export const UpdateOrganizationForm = ({
         <Grid item>
           <CreateContactForm
             onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
-            submitLabel="Continue"
             existingContact={org.contacts[0]}
           />
         </Grid>

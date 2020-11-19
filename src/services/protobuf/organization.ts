@@ -45,6 +45,12 @@ export interface ICreateOrgActionStrict extends ICreateOrganizationAction {
   name: NonNullable<ICreateOrganizationAction['name']>;
 }
 
+export interface IUpdateOrganizationActionStrict
+  extends IUpdateOrganizationAction {
+  contacts: NonNullable<IContactStrict[]>;
+  address: NonNullable<IFactoryAddressStrict>;
+}
+
 /**
  * Enforce that a `CreateOrganizationAction` has the minimum
  * required fields defined in `ICreateOrgActionStrict`
