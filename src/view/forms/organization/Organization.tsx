@@ -193,41 +193,48 @@ export const UpdateOrganizationForm = ({
 
   return (
     <form>
-      <Grid container direction="column" spacing={2}>
-        <Grid container direction="column" spacing={2}>
-          <Grid item>
-            <FormErrMsg msg={errMsg} />
-          </Grid>
+      <Grid container direction="column" spacing={3}>
+        <Grid item>
+          <Grid container direction="column" spacing={2}>
+            <Grid item>
+              <FormErrMsg msg={errMsg} />
+            </Grid>
 
-          <Grid item>
-            <Typography variant="h5">Organization</Typography>
-          </Grid>
+            <Grid item>
+              <Typography variant="h5">Organization</Typography>
+            </Grid>
 
-          <Grid item>
-            <TextField
-              color="secondary"
-              fullWidth
-              value={existingOrg.name}
-              label="Factory Name"
-              id="org-name"
-              variant="outlined"
-              disabled
-            />
+            <Grid item>
+              <TextField
+                color="secondary"
+                fullWidth
+                value={existingOrg.name}
+                label="Factory Name"
+                id="org-name"
+                variant="outlined"
+                disabled
+              />
+            </Grid>
           </Grid>
         </Grid>
 
-        <Grid item />
+        <Grid item>
+          <CreateFactoryAddressForm
+            onSubmit={(address) => setOrg({ ...org, address })}
+            submitLabel="Continue"
+            existingAddress={org.address}
+          />
+        </Grid>
 
-        <CreateFactoryAddressForm
-          onSubmit={(address) => setOrg({ ...org, address })}
-          submitLabel="Continue"
-          existingAddress={org.address}
-        />
-        <CreateContactForm
-          onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
-          submitLabel="Continue"
-          existingContact={org.contacts[0]}
-        />
+        <Grid item>
+          <CreateContactForm
+            onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
+            submitLabel="Continue"
+            existingContact={org.contacts[0]}
+          />
+        </Grid>
+
+        <Grid item />
 
         <Grid item>
           <Button

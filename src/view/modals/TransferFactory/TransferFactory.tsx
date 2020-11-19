@@ -3,25 +3,35 @@ import {
   DialogTitle,
   Dialog,
   DialogContent,
-  DialogContentText,
-  IconButton,
-  Grid,
+  makeStyles,
+  createStyles,
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
 import { useBatchStatus } from 'services/hooks';
 import { FactoryResData } from 'services/api';
 import { UpdateOrganizationForm } from 'view/forms/organization';
-import { DialogProps } from './utils';
+import { DialogProps } from '../utils';
+import { Header } from './Header';
 
 export interface TransferFactoryDialogProps extends DialogProps {
   existingOrg: FactoryResData;
 }
+
+const useStyles = makeStyles(({ spacing }) =>
+  createStyles({
+    container: {
+      padding: `${spacing(1)}px ${spacing(5)}px ${spacing(3)}px ${spacing(
+        5,
+      )}px`,
+    },
+  }),
+);
 
 export const TransferFactoryDialog = ({
   open,
   handleClose,
   existingOrg,
 }: TransferFactoryDialogProps) => {
+  const classes = useStyles();
   const { setBatchStatusLink } = useBatchStatus();
 
   return (
@@ -34,17 +44,9 @@ export const TransferFactoryDialog = ({
       open={open}
     >
       <DialogTitle>
-        <Grid container justify="space-between">
-          <h2>Confirm Factory Information</h2>
-          <IconButton aria-label="close" onClick={handleClose}>
-            <CloseIcon />
-          </IconButton>
-        </Grid>
+        <Header handleClose={handleClose} />
       </DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Claim this factory to manage address info, contact info, and more.
-        </DialogContentText>
+      <DialogContent classes={{ root: classes.container }}>
         <UpdateOrganizationForm
           existingOrg={existingOrg}
           setBatchStatusLink={setBatchStatusLink}
