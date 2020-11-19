@@ -79,293 +79,252 @@ exports[`<FactoriesTable /> filtering renders 1`] = `
           class="MUIDataTableFilter-filtersSelected"
         />
       </div>
-      <ul
-        class="MuiGridList-root"
-        style="margin: -17px;"
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4 MuiGrid-align-items-xs-center"
       >
-        <li
-          class="MuiGridListTile-root"
-          style="width: 50%; height: auto; padding: 17px;"
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MUIDataTableFilter-gridListTile"
         >
           <div
-            class="MuiGridListTile-tile MUIDataTableFilter-gridListTile"
+            class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <div
-              class="MuiFormControl-root MuiFormControl-fullWidth"
-            >
-              <div
-                class="MuiFormControl-root MuiTextField-root"
-              >
-                <label
-                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
-                  data-shrink="false"
-                  for="name"
-                  id="name-label"
-                >
-                  Name
-                </label>
-                <div
-                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
-                >
-                  <input
-                    aria-invalid="false"
-                    class="MuiInputBase-input MuiInput-input"
-                    id="name"
-                    type="text"
-                    value=""
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li
-          class="MuiGridListTile-root"
-          style="width: 50%; height: auto; padding: 17px;"
-        >
-          <div
-            class="MuiGridListTile-tile MUIDataTableFilter-gridListTile"
-          >
-            <div
-              class="MuiFormControl-root MuiFormControl-fullWidth"
-            >
-              <div />
-            </div>
-          </div>
-        </li>
-        <li
-          class="MuiGridListTile-root"
-          style="width: 50%; height: auto; padding: 17px;"
-        >
-          <div
-            class="MuiGridListTile-tile MUIDataTableFilter-gridListTile"
-          >
-            <div
-              class="MuiFormControl-root MuiFormControl-fullWidth"
+              class="MuiFormControl-root MuiTextField-root"
             >
               <label
                 class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
                 data-shrink="false"
+                for="name"
+                id="name-label"
               >
-                Countries
+                Name
               </label>
               <div
-                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-fullWidth MuiInput-fullWidth MuiInputBase-formControl MuiInput-formControl"
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
               >
-                <div
-                  aria-haspopup="listbox"
-                  aria-labelledby="mui-component-select-Countries"
-                  class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
-                  id="mui-component-select-Countries"
-                  role="button"
-                  tabindex="0"
-                >
-                  <span>
-                    ​
-                  </span>
-                </div>
                 <input
-                  aria-hidden="true"
-                  class="MuiSelect-nativeInput"
-                  name="Countries"
-                  tabindex="-1"
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiInput-input"
+                  id="name"
+                  type="text"
                   value=""
                 />
-                <svg
-                  aria-hidden="true"
-                  class="MuiSvgIcon-root MuiSelect-icon"
-                  focusable="false"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M7 10l5 5 5-5z"
-                  />
-                </svg>
               </div>
             </div>
           </div>
-        </li>
-        <li
-          class="MuiGridListTile-root"
-          style="width: 50%; height: auto; padding: 17px;"
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MUIDataTableFilter-gridListTile"
         >
           <div
-            class="MuiGridListTile-tile MUIDataTableFilter-gridListTile"
+            class="MuiFormControl-root MuiFormControl-fullWidth"
           >
-            <div
-              class="MuiFormControl-root MuiFormControl-fullWidth"
-            >
-              <div
-                class="MuiFormControl-root MuiTextField-root"
-              >
-                <label
-                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
-                  data-shrink="false"
-                  for="street-line-1"
-                  id="street-line-1-label"
-                >
-                  Street Line 1
-                </label>
-                <div
-                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
-                >
-                  <input
-                    aria-invalid="false"
-                    class="MuiInputBase-input MuiInput-input"
-                    id="street-line-1"
-                    type="text"
-                    value=""
-                  />
-                </div>
-              </div>
-            </div>
+            <div />
           </div>
-        </li>
-        <li
-          class="MuiGridListTile-root"
-          style="width: 50%; height: auto; padding: 17px;"
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MUIDataTableFilter-gridListTile"
         >
           <div
-            class="MuiGridListTile-tile MUIDataTableFilter-gridListTile"
+            class="MuiFormControl-root MuiFormControl-fullWidth"
           >
+            <label
+              class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
+              data-shrink="false"
+            >
+              Countries
+            </label>
             <div
-              class="MuiFormControl-root MuiFormControl-fullWidth"
+              class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-fullWidth MuiInput-fullWidth MuiInputBase-formControl MuiInput-formControl"
             >
               <div
-                class="MuiFormControl-root MuiTextField-root"
+                aria-haspopup="listbox"
+                aria-labelledby="mui-component-select-Countries"
+                class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
+                id="mui-component-select-Countries"
+                role="button"
+                tabindex="0"
               >
-                <label
-                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
-                  data-shrink="false"
-                  for="street-line-2"
-                  id="street-line-2-label"
-                >
-                  Street Line 2
-                </label>
-                <div
-                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
-                >
-                  <input
-                    aria-invalid="false"
-                    class="MuiInputBase-input MuiInput-input"
-                    id="street-line-2"
-                    type="text"
-                    value=""
-                  />
-                </div>
+                <span>
+                  ​
+                </span>
               </div>
+              <input
+                aria-hidden="true"
+                class="MuiSelect-nativeInput"
+                name="Countries"
+                tabindex="-1"
+                value=""
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSelect-icon"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 10l5 5 5-5z"
+                />
+              </svg>
             </div>
           </div>
-        </li>
-        <li
-          class="MuiGridListTile-root"
-          style="width: 50%; height: auto; padding: 17px;"
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MUIDataTableFilter-gridListTile"
         >
           <div
-            class="MuiGridListTile-tile MUIDataTableFilter-gridListTile"
+            class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <div
-              class="MuiFormControl-root MuiFormControl-fullWidth"
+              class="MuiFormControl-root MuiTextField-root"
             >
-              <div
-                class="MuiFormControl-root MuiTextField-root"
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
+                data-shrink="false"
+                for="street-line-1"
+                id="street-line-1-label"
               >
-                <label
-                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
-                  data-shrink="false"
-                  for="city"
-                  id="city-label"
-                >
-                  City
-                </label>
-                <div
-                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
-                >
-                  <input
-                    aria-invalid="false"
-                    class="MuiInputBase-input MuiInput-input"
-                    id="city"
-                    type="text"
-                    value=""
-                  />
-                </div>
+                Street Line 1
+              </label>
+              <div
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiInput-input"
+                  id="street-line-1"
+                  type="text"
+                  value=""
+                />
               </div>
             </div>
           </div>
-        </li>
-        <li
-          class="MuiGridListTile-root"
-          style="width: 50%; height: auto; padding: 17px;"
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MUIDataTableFilter-gridListTile"
         >
           <div
-            class="MuiGridListTile-tile MUIDataTableFilter-gridListTile"
+            class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <div
-              class="MuiFormControl-root MuiFormControl-fullWidth"
+              class="MuiFormControl-root MuiTextField-root"
             >
-              <div
-                class="MuiFormControl-root MuiTextField-root"
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
+                data-shrink="false"
+                for="street-line-2"
+                id="street-line-2-label"
               >
-                <label
-                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
-                  data-shrink="false"
-                  for="state/province"
-                  id="state/province-label"
-                >
-                  State/Province
-                </label>
-                <div
-                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
-                >
-                  <input
-                    aria-invalid="false"
-                    class="MuiInputBase-input MuiInput-input"
-                    id="state/province"
-                    type="text"
-                    value=""
-                  />
-                </div>
+                Street Line 2
+              </label>
+              <div
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiInput-input"
+                  id="street-line-2"
+                  type="text"
+                  value=""
+                />
               </div>
             </div>
           </div>
-        </li>
-        <li
-          class="MuiGridListTile-root"
-          style="width: 50%; height: auto; padding: 17px;"
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MUIDataTableFilter-gridListTile"
         >
           <div
-            class="MuiGridListTile-tile MUIDataTableFilter-gridListTile"
+            class="MuiFormControl-root MuiFormControl-fullWidth"
           >
             <div
-              class="MuiFormControl-root MuiFormControl-fullWidth"
+              class="MuiFormControl-root MuiTextField-root"
             >
-              <div
-                class="MuiFormControl-root MuiTextField-root"
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
+                data-shrink="false"
+                for="city"
+                id="city-label"
               >
-                <label
-                  class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
-                  data-shrink="false"
-                  for="postal-code"
-                  id="postal-code-label"
-                >
-                  Postal Code
-                </label>
-                <div
-                  class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
-                >
-                  <input
-                    aria-invalid="false"
-                    class="MuiInputBase-input MuiInput-input"
-                    id="postal-code"
-                    type="text"
-                    value=""
-                  />
-                </div>
+                City
+              </label>
+              <div
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiInput-input"
+                  id="city"
+                  type="text"
+                  value=""
+                />
               </div>
             </div>
           </div>
-        </li>
-      </ul>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MUIDataTableFilter-gridListTile"
+        >
+          <div
+            class="MuiFormControl-root MuiFormControl-fullWidth"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root"
+            >
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
+                data-shrink="false"
+                for="state/province"
+                id="state/province-label"
+              >
+                State/Province
+              </label>
+              <div
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiInput-input"
+                  id="state/province"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MUIDataTableFilter-gridListTile"
+        >
+          <div
+            class="MuiFormControl-root MuiFormControl-fullWidth"
+          >
+            <div
+              class="MuiFormControl-root MuiTextField-root"
+            >
+              <label
+                class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
+                data-shrink="false"
+                for="postal-code"
+                id="postal-code-label"
+              >
+                Postal Code
+              </label>
+              <div
+                class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+              >
+                <input
+                  aria-invalid="false"
+                  class="MuiInputBase-input MuiInput-input"
+                  id="postal-code"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div
         style="margin-top: 40px;"
       >

@@ -3,15 +3,11 @@
 exports[`<NavbarLink /> renders a selected link 1`] = `
 <div>
   <a
-    class="makeStyles-link"
+    class="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-link makeStyles-selected MuiTypography-body1 MuiTypography-colorPrimary"
     href="/test"
     target=""
   >
-    <p
-      class="MuiTypography-root makeStyles-link makeStyles-selected MuiTypography-body1"
-    >
-      label
-    </p>
+    label
   </a>
 </div>
 `;
@@ -19,15 +15,11 @@ exports[`<NavbarLink /> renders a selected link 1`] = `
 exports[`<NavbarLink /> renders an unselected link 1`] = `
 <div>
   <a
-    class="makeStyles-link"
+    class="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-link false MuiTypography-body1 MuiTypography-colorPrimary"
     href="/"
     target=""
   >
-    <p
-      class="MuiTypography-root makeStyles-link false MuiTypography-body1"
-    >
-      label
-    </p>
+    label
   </a>
 </div>
 `;

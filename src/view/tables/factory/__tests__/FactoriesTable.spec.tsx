@@ -4,7 +4,7 @@ import { render, screen, act } from 'utils/testing';
 import userEvent from '@testing-library/user-event';
 import { FactoryResData, PaginatedApiRes } from 'services/api';
 import { FactoriesTable, textLabels } from '..';
-import { baseFactoryTableCols, DEFAULT_CELL_VALUE } from '../columns';
+import { columns, DEFAULT_CELL_VALUE } from '../columns';
 import { FILTER_TIMEOUT_MS } from '../components';
 
 // Mocked since it makes an api call to populate the multiselect
@@ -126,10 +126,7 @@ describe('<FactoriesTable />', () => {
   });
 
   describe('filtering', () => {
-    const {
-      name: validFilterName,
-      label: validFilterLabel,
-    } = baseFactoryTableCols[0];
+    const { name: validFilterName, label: validFilterLabel } = columns[0];
 
     const filterVal = 'foo';
 
@@ -231,7 +228,7 @@ describe('<FactoriesTable />', () => {
   });
 
   describe('sorting', () => {
-    const { name: sortColName } = baseFactoryTableCols[0];
+    const { name: sortColName } = columns[0];
 
     it('when single clicking a column header, sets the query string to ascending for the column', () => {
       render(<FactoriesTable factories={mockFactories} searchParams={{}} />);
