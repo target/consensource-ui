@@ -13,7 +13,7 @@ import { DialogProps } from '../utils';
 import { Header } from './Header';
 
 export interface TransferFactoryDialogProps extends DialogProps {
-  existingOrg: FactoryResData;
+  factory: FactoryResData;
 }
 
 const useStyles = makeStyles(({ spacing }) =>
@@ -29,7 +29,7 @@ const useStyles = makeStyles(({ spacing }) =>
 export const TransferFactoryDialog = ({
   open,
   handleClose,
-  existingOrg,
+  factory,
 }: TransferFactoryDialogProps) => {
   const classes = useStyles();
   const { setBatchStatusLink } = useBatchStatus();
@@ -48,7 +48,7 @@ export const TransferFactoryDialog = ({
       </DialogTitle>
       <DialogContent classes={{ root: classes.container }}>
         <UpdateOrganizationForm
-          existingOrg={existingOrg}
+          existingOrg={factory}
           setBatchStatusLink={setBatchStatusLink}
         />
       </DialogContent>

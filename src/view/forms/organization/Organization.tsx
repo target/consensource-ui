@@ -12,7 +12,7 @@ import {
   createTransferAssertionActionTransaction,
 } from 'services/protobuf/assertion';
 import { Organization } from 'services/protobuf/compiled';
-import { hasOwnPropertySafe } from 'utils';
+import { isDataClaimed } from 'utils';
 import { VpnKey as Key } from '@material-ui/icons';
 import { Button, Typography, Grid, TextField } from '@material-ui/core';
 import { SelectOrganizationType } from 'view/forms/organization/SelectOrganizationType';
@@ -156,10 +156,7 @@ export const UpdateOrganizationForm = ({
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
     const txns = [];
-    if (
-      existingOrg.assertion_id &&
-      hasOwnPropertySafe(existingOrg, 'assertion_id')
-    ) {
+    if (existingOrg.assertion_id && !isDataClaimed(existingOrg)) {
       const transfer_action = createTransferAssertionAction({
         assertion_id: existingOrg.assertion_id,
         new_owner_public_key: getSignerPubKeyHex(signer),

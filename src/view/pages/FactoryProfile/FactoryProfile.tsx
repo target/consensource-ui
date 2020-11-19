@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import { Grid } from '@material-ui/core';
+import { isDataClaimed } from 'utils';
 import { ClaimableDataPageHeader, FullPageLoading } from 'view/components';
 import { fetchFactoryByOrgId, FactoryResData } from 'services/api';
 import { Contacts } from './Contacts';
@@ -42,7 +43,7 @@ export const FactoryProfile = ({ factoryId }: FactoryProfileProps) => {
             <Address address={factory.address} />
           </Grid>
 
-          <ClaimFactoryFab factory={factory} />
+          {!isDataClaimed(factory) && <ClaimFactoryFab factory={factory} />}
         </Grid>
       )}
     </FullPageLoading>
