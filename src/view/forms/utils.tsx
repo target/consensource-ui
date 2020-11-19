@@ -1,10 +1,14 @@
 import React from 'react';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, TextFieldProps } from '@material-ui/core';
 import { BatchStatusRes } from 'services/api';
 
 export interface TransactionFormProps {
   setBatchStatusLink: (statusLink: BatchStatusRes['link']) => void;
 }
+
+export type onChangeEvent = Parameters<
+  NonNullable<TextFieldProps['onChange']>
+>[0];
 
 /**
  * Helper function that checks if any values in `state` have not been set.

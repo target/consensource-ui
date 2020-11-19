@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
-import { hasEmptyFields } from 'view/forms/utils';
+import { hasEmptyFields, onChangeEvent } from 'view/forms/utils';
 import {
   createFactoryAddress,
   IFactoryAddressStrict,
 } from 'services/protobuf/organization';
 import { Factory } from 'services/protobuf/compiled';
-import {
-  Button,
-  Grid,
-  TextField,
-  TextFieldProps,
-  Typography,
-} from '@material-ui/core';
+import { Button, Grid, TextField, Typography } from '@material-ui/core';
 
 interface CreateFactoryAddressFormProps {
   onSubmit: (address: Factory.Address) => any;
@@ -43,10 +37,7 @@ export const CreateFactoryAddressForm = ({
     onSubmit(createFactoryAddress(address));
   };
 
-  const onChange = (
-    event: Parameters<NonNullable<TextFieldProps['onChange']>>[0],
-    key: keyof IFactoryAddressStrict,
-  ) => {
+  const onChange = (event: onChangeEvent, key: keyof IFactoryAddressStrict) => {
     setAddress({ ...address, [key]: event.target.value });
 
     if (existingAddress) {
