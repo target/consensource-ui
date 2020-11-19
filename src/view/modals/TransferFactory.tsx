@@ -4,48 +4,52 @@ import {
   Dialog,
   DialogContent,
   DialogContentText,
-  DialogActions,
-  Button,
+  IconButton,
+  Grid,
 } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import { useBatchStatus } from 'services/hooks';
+import { FactoryResData } from 'services/api';
 import { UpdateOrganizationForm } from 'view/forms/organization';
-import { OrgDialogProps } from './utils';
+import { DialogProps } from './utils';
+
+export interface TransferFactoryDialogProps extends DialogProps {
+  existingOrg: FactoryResData;
+}
 
 export const TransferFactoryDialog = ({
   open,
   handleClose,
-  existing_org,
-}: OrgDialogProps) => {
-  const { batchStatus, setBatchStatusLink } = useBatchStatus();
+  existingOrg,
+}: TransferFactoryDialogProps) => {
+  const { setBatchStatusLink } = useBatchStatus();
 
   return (
     <Dialog
       onClose={handleClose}
       aria-labelledby="transfer-factory-title"
+      scroll="body"
+      fullWidth
+      maxWidth="md"
       open={open}
     >
       <DialogTitle>
-        <h2>Confirm Factory Information</h2>
+        <Grid container justify="space-between">
+          <h2>Confirm Factory Information</h2>
+          <IconButton aria-label="close" onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+        </Grid>
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
           Claim this factory to manage address info, contact info, and more.
         </DialogContentText>
         <UpdateOrganizationForm
-          existing_org={existing_org}
+          existingOrg={existingOrg}
           setBatchStatusLink={setBatchStatusLink}
         />
       </DialogContent>
-      <DialogContent>
-        <DialogContentText>
-          {batchStatus ? batchStatus.toString() : ''}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="secondary">
-          CLOSE
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 };

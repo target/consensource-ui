@@ -5,12 +5,18 @@ import {
   IContactStrict,
 } from 'services/protobuf/organization';
 import { Organization } from 'services/protobuf/compiled';
-import { Grid, TextField, Button, Typography } from '@material-ui/core';
+import {
+  Grid,
+  TextField,
+  TextFieldProps,
+  Button,
+  Typography,
+} from '@material-ui/core';
 
 interface CreateContactFormProps {
   onSubmit: (contact: Organization.Contact) => any;
   submitLabel?: string;
-  existing_contact?: IContactStrict;
+  existingContact?: IContactStrict;
 }
 
 /**
@@ -19,10 +25,10 @@ interface CreateContactFormProps {
 export const CreateContactForm = ({
   onSubmit,
   submitLabel = 'Submit',
-  existing_contact,
+  existingContact,
 }: CreateContactFormProps) => {
   const [contact, setContact] = useState<IContactStrict>(
-    existing_contact || {
+    existingContact || {
       name: '',
       phone_number: '',
       language_code: '',
@@ -32,6 +38,17 @@ export const CreateContactForm = ({
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
     onSubmit(createOrgContact(contact));
+  };
+
+  const onChange = (
+    event: Parameters<NonNullable<TextFieldProps['onChange']>>[0],
+    key: keyof IContactStrict,
+  ) => {
+    setContact({ ...contact, [key]: event.target.value });
+
+    if (existingContact) {
+      submit(event);
+    }
   };
 
   return (
@@ -44,10 +61,7 @@ export const CreateContactForm = ({
           <TextField
             color="secondary"
             value={contact.name}
-            onChange={(e) => {
-              setContact({ ...contact, name: e.target.value });
-              if (existing_contact) onSubmit(createOrgContact(contact));
-            }}
+            onChange={(e) => onChange(e, 'name')}
             label="Name"
             id="contact-name"
             required
@@ -57,10 +71,7 @@ export const CreateContactForm = ({
           <TextField
             color="secondary"
             value={contact.phone_number}
-            onChange={(e) => {
-              setContact({ ...contact, phone_number: e.target.value });
-              if (existing_contact) onSubmit(createOrgContact(contact));
-            }}
+            onChange={(e) => onChange(e, 'phone_number')}
             label="Phone Number"
             id="contact-phone-number"
             required
@@ -70,10 +81,7 @@ export const CreateContactForm = ({
           <TextField
             color="secondary"
             value={contact.language_code}
-            onChange={(e) => {
-              setContact({ ...contact, language_code: e.target.value });
-              if (existing_contact) onSubmit(createOrgContact(contact));
-            }}
+            onChange={(e) => onChange(e, 'language_code')}
             label="Language Code"
             id="contact-language-code"
             required
@@ -82,7 +90,7 @@ export const CreateContactForm = ({
       </Grid>
 
       <Grid item>
-        {!!existing_contact || (
+        {!!existingContact || (
           <Button
             type="submit"
             color="secondary"

@@ -16,19 +16,27 @@ import {
   Organization,
   IUpdateOrganizationAction,
 } from 'services/protobuf/compiled';
+import { hasOwnPropertySafe } from 'utils';
 import { VpnKey as Key } from '@material-ui/icons';
 import { Button, Typography, Grid, TextField } from '@material-ui/core';
 import { SelectOrganizationType } from 'view/forms/organization/SelectOrganizationType';
 import { createBatch } from 'services/protobuf/batch';
 import { useAuth } from 'services/hooks';
-import {
-  FormErrMsg,
-  TransactionFormProps,
-  OrgTransactionFormProps,
-} from 'view/forms/utils';
-import { postBatches } from 'services/api';
+import { FormErrMsg, TransactionFormProps } from 'view/forms/utils';
+import { postBatches, FactoryResData } from 'services/api';
+import { getSignerPubKeyHex } from 'services/crypto';
 import { CreateContactForm } from './CreateContact';
 import { CreateFactoryAddressForm } from './CreateFactoryAddress';
+
+export interface OrgTransactionFormProps extends TransactionFormProps {
+  existingOrg: FactoryResData;
+}
+
+export interface IUpdateOrganizationActionStrict
+  extends IUpdateOrganizationAction {
+  contacts: NonNullable<IContactStrict[]>;
+  address: NonNullable<IFactoryAddressStrict>;
+}
 
 /**
  * Four-part form used to build a `CreateOrganizationAction` payload object
@@ -140,39 +148,39 @@ export const CreateOrganizationForm = ({
 
   return getCurrentForm();
 };
-interface IUpdateOrganizationActionStrict extends IUpdateOrganizationAction {
-  contacts: NonNullable<IContactStrict[]>;
-  address: NonNullable<IFactoryAddressStrict>;
-}
+
 /**
  * One-part form used to build an `UpdateOrganizationAction` payload object
  */
 export const UpdateOrganizationForm = ({
-  existing_org,
+  existingOrg,
   setBatchStatusLink,
 }: OrgTransactionFormProps) => {
   const { signer } = useAuth();
   const [errMsg, setErrMsg] = useState('');
   const [org, setOrg] = useState<IUpdateOrganizationActionStrict>({
-    contacts: existing_org.contacts as IContactStrict[],
-    address: existing_org.address as IFactoryAddressStrict,
+    contacts: existingOrg.contacts as IContactStrict[],
+    address: existingOrg.address as IFactoryAddressStrict,
   });
 
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
     const txns = [];
-    if (existing_org.assertion_id) {
+    if (
+      existingOrg.assertion_id &&
+      hasOwnPropertySafe(existingOrg, 'assertion_id')
+    ) {
       const transfer_action = createTransferAssertionAction({
-        assertion_id: existing_org.assertion_id,
-        new_owner_public_key: signer.getPublicKey().asHex(),
+        assertion_id: existingOrg.assertion_id,
+        new_owner_public_key: getSignerPubKeyHex(signer),
       });
       txns.push(
         createTransferAssertionActionTransaction(transfer_action, signer),
       );
     }
 
-    const action = updateOrgAction({ ...existing_org, ...org });
-    txns.push(updateOrgTransaction(action, signer, existing_org.id));
+    const action = updateOrgAction({ ...existingOrg, ...org });
+    txns.push(updateOrgTransaction(action, signer, existingOrg.id));
     const batchListBytes = createBatch(txns, signer);
 
     try {
@@ -199,7 +207,7 @@ export const UpdateOrganizationForm = ({
             <TextField
               color="secondary"
               fullWidth
-              value={existing_org.name}
+              value={existingOrg.name}
               label="Factory Name"
               id="org-name"
               disabled
@@ -212,12 +220,12 @@ export const UpdateOrganizationForm = ({
         <CreateFactoryAddressForm
           onSubmit={(address) => setOrg({ ...org, address })}
           submitLabel="Continue"
-          existing_address={org.address}
+          existingAddress={org.address}
         />
         <CreateContactForm
           onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
           submitLabel="Continue"
-          existing_contact={org.contacts[0]}
+          existingContact={org.contacts[0]}
         />
 
         <Grid item>
@@ -227,7 +235,7 @@ export const UpdateOrganizationForm = ({
             color="secondary"
             fullWidth
             onClick={submit}
-            disabled={!signer || (!org.contacts && !org.address)}
+            disabled={!org.contacts && !org.address}
           >
             Claim Factory
           </Button>

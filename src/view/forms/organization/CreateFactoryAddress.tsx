@@ -5,12 +5,18 @@ import {
   IFactoryAddressStrict,
 } from 'services/protobuf/organization';
 import { Factory } from 'services/protobuf/compiled';
-import { Button, Grid, TextField, Typography } from '@material-ui/core';
+import {
+  Button,
+  Grid,
+  TextField,
+  TextFieldProps,
+  Typography,
+} from '@material-ui/core';
 
 interface CreateFactoryAddressFormProps {
   onSubmit: (address: Factory.Address) => any;
   submitLabel?: string;
-  existing_address?: IFactoryAddressStrict;
+  existingAddress?: IFactoryAddressStrict;
 }
 
 /**
@@ -19,10 +25,10 @@ interface CreateFactoryAddressFormProps {
 export const CreateFactoryAddressForm = ({
   onSubmit,
   submitLabel = 'Submit',
-  existing_address,
+  existingAddress,
 }: CreateFactoryAddressFormProps) => {
   const [address, setAddress] = useState<IFactoryAddressStrict>(
-    existing_address || {
+    existingAddress || {
       street_line_1: '',
       city: '',
       country: '',
@@ -37,6 +43,17 @@ export const CreateFactoryAddressForm = ({
     onSubmit(createFactoryAddress(address));
   };
 
+  const onChange = (
+    event: Parameters<NonNullable<TextFieldProps['onChange']>>[0],
+    key: keyof IFactoryAddressStrict,
+  ) => {
+    setAddress({ ...address, [key]: event.target.value });
+
+    if (existingAddress) {
+      submit(event);
+    }
+  };
+
   return (
     <Grid container direction="column" spacing={2}>
       <Grid item>
@@ -49,10 +66,7 @@ export const CreateFactoryAddressForm = ({
               color="secondary"
               fullWidth
               value={address.street_line_1}
-              onChange={(e) => {
-                setAddress({ ...address, street_line_1: e.target.value });
-                if (existing_address) onSubmit(createFactoryAddress(address));
-              }}
+              onChange={(e) => onChange(e, 'street_line_1')}
               label="Street Line 1"
               id="street-line-1"
               required
@@ -63,10 +77,7 @@ export const CreateFactoryAddressForm = ({
               color="secondary"
               fullWidth
               value={address.street_line_2}
-              onChange={(e) => {
-                setAddress({ ...address, street_line_2: e.target.value });
-                if (existing_address) onSubmit(createFactoryAddress(address));
-              }}
+              onChange={(e) => onChange(e, 'street_line_2')}
               label="Street Line 2"
               id="street-line-2"
             />
@@ -78,10 +89,7 @@ export const CreateFactoryAddressForm = ({
               color="secondary"
               fullWidth
               value={address.city}
-              onChange={(e) => {
-                setAddress({ ...address, city: e.target.value });
-                if (existing_address) onSubmit(createFactoryAddress(address));
-              }}
+              onChange={(e) => onChange(e, 'city')}
               label="City"
               id="city"
               required
@@ -92,10 +100,7 @@ export const CreateFactoryAddressForm = ({
               color="secondary"
               fullWidth
               value={address.postal_code || ''}
-              onChange={(e) => {
-                setAddress({ ...address, postal_code: e.target.value });
-                if (existing_address) onSubmit(createFactoryAddress(address));
-              }}
+              onChange={(e) => onChange(e, 'postal_code')}
               label="Postal Code"
               id="postal-code"
             />
@@ -107,10 +112,7 @@ export const CreateFactoryAddressForm = ({
               color="secondary"
               fullWidth
               value={address.state_province || ''}
-              onChange={(e) => {
-                setAddress({ ...address, state_province: e.target.value });
-                if (existing_address) onSubmit(createFactoryAddress(address));
-              }}
+              onChange={(e) => onChange(e, 'state_province')}
               label="State Province"
               id="state-province"
             />
@@ -120,10 +122,7 @@ export const CreateFactoryAddressForm = ({
               color="secondary"
               fullWidth
               value={address.country}
-              onChange={(e) => {
-                setAddress({ ...address, country: e.target.value });
-                if (existing_address) onSubmit(createFactoryAddress(address));
-              }}
+              onChange={(e) => onChange(e, 'country')}
               label="Country"
               id="country"
               required
@@ -133,7 +132,7 @@ export const CreateFactoryAddressForm = ({
       </Grid>
 
       <Grid item>
-        {!!existing_address || (
+        {!!existingAddress || (
           <Button
             color="secondary"
             type="submit"

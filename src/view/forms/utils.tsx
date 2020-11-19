@@ -1,13 +1,9 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import { BatchStatusRes, FactoryResData } from 'services/api';
+import { BatchStatusRes } from 'services/api';
 
 export interface TransactionFormProps {
   setBatchStatusLink: (statusLink: BatchStatusRes['link']) => void;
-}
-
-export interface OrgTransactionFormProps extends TransactionFormProps {
-  existing_org: FactoryResData;
 }
 
 /**

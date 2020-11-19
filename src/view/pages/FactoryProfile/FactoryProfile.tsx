@@ -1,27 +1,18 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { Fab, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { ClaimableDataPageHeader, FullPageLoading } from 'view/components';
 import { fetchFactoryByOrgId, FactoryResData } from 'services/api';
-import { TransferFactoryDialog } from 'view/modals';
-import { useAuth } from 'services/hooks';
 import { Contacts } from './Contacts';
 import { Address } from './Address';
 import { Certifications } from './Certifications';
+import { ClaimFactoryFab } from './ClaimFactoryFab';
 
 export interface FactoryProfileProps {
   factoryId: FactoryResData['id'];
 }
 
 export const FactoryProfile = ({ factoryId }: FactoryProfileProps) => {
-  const { signer } = useAuth();
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
   const queryRes = useQuery('fetchFactoryByOrgId', () =>
     fetchFactoryByOrgId(factoryId, { expand: true }),
   );
@@ -50,24 +41,8 @@ export const FactoryProfile = ({ factoryId }: FactoryProfileProps) => {
           <Grid container item>
             <Address address={factory.address} />
           </Grid>
-          <Grid container item>
-            {!factory.assertion_id || (
-              <Fab
-                color="primary"
-                variant="extended"
-                aria-label="claim"
-                onClick={handleOpen}
-                disabled={!signer}
-              >
-                Claim this factory
-              </Fab>
-            )}
-            <TransferFactoryDialog
-              open={open}
-              handleClose={handleClose}
-              existing_org={factory}
-            />
-          </Grid>
+
+          <ClaimFactoryFab factory={factory} />
         </Grid>
       )}
     </FullPageLoading>
