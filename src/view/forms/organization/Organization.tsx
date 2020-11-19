@@ -5,17 +5,13 @@ import {
   createOrgTransaction,
   updateOrgAction,
   updateOrgTransaction,
-  IContactStrict,
-  IFactoryAddressStrict,
+  IUpdateOrganizationActionStrict,
 } from 'services/protobuf/organization';
 import {
   createTransferAssertionAction,
   createTransferAssertionActionTransaction,
 } from 'services/protobuf/assertion';
-import {
-  Organization,
-  IUpdateOrganizationAction,
-} from 'services/protobuf/compiled';
+import { Organization } from 'services/protobuf/compiled';
 import { isDataClaimed } from 'utils';
 import { VpnKey as Key } from '@material-ui/icons';
 import { Button, Typography, Grid, TextField } from '@material-ui/core';
@@ -30,12 +26,6 @@ import { CreateFactoryAddressForm } from './CreateFactoryAddress';
 
 export interface OrgTransactionFormProps extends TransactionFormProps {
   existingOrg: FactoryResData;
-}
-
-export interface IUpdateOrganizationActionStrict
-  extends IUpdateOrganizationAction {
-  contacts: NonNullable<IContactStrict[]>;
-  address: NonNullable<IFactoryAddressStrict>;
 }
 
 /**
@@ -159,8 +149,8 @@ export const UpdateOrganizationForm = ({
   const { signer } = useAuth();
   const [errMsg, setErrMsg] = useState('');
   const [org, setOrg] = useState<IUpdateOrganizationActionStrict>({
-    contacts: existingOrg.contacts as IContactStrict[],
-    address: existingOrg.address as IFactoryAddressStrict,
+    contacts: existingOrg.contacts,
+    address: existingOrg.address,
   });
 
   const submit = async (event: React.FormEvent) => {
@@ -190,41 +180,46 @@ export const UpdateOrganizationForm = ({
 
   return (
     <form>
-      <Grid container direction="column" spacing={2}>
-        <Grid container direction="column" spacing={2}>
-          <Grid item>
-            <FormErrMsg msg={errMsg} />
-          </Grid>
+      <Grid container direction="column" spacing={3}>
+        <Grid item>
+          <Grid container direction="column" spacing={2}>
+            <Grid item>
+              <FormErrMsg msg={errMsg} />
+            </Grid>
 
-          <Grid item>
-            <Typography variant="h5">Organization</Typography>
-          </Grid>
+            <Grid item>
+              <Typography variant="h5">Organization</Typography>
+            </Grid>
 
-          <Grid item>
-            <TextField
-              color="secondary"
-              fullWidth
-              value={existingOrg.name}
-              label="Factory Name"
-              id="org-name"
-              variant="outlined"
-              disabled
-            />
+            <Grid item>
+              <TextField
+                color="secondary"
+                fullWidth
+                value={existingOrg.name}
+                label="Factory Name"
+                id="org-name"
+                variant="outlined"
+                disabled
+              />
+            </Grid>
           </Grid>
         </Grid>
 
-        <Grid item />
+        <Grid item>
+          <CreateFactoryAddressForm
+            onSubmit={(address) => setOrg({ ...org, address })}
+            existingAddress={org.address}
+          />
+        </Grid>
 
-        <CreateFactoryAddressForm
-          onSubmit={(address) => setOrg({ ...org, address })}
-          submitLabel="Continue"
-          existingAddress={org.address}
-        />
-        <CreateContactForm
-          onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
-          submitLabel="Continue"
-          existingContact={org.contacts[0]}
-        />
+        <Grid item>
+          <CreateContactForm
+            onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
+            existingContact={org.contacts[0]}
+          />
+        </Grid>
+
+        <Grid item />
 
         <Grid item>
           <Button

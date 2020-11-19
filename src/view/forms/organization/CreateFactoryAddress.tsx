@@ -128,8 +128,8 @@ export const CreateFactoryAddressForm = ({
         </Grid>
       </Grid>
 
-      <Grid item>
-        {!!existingAddress || (
+      {!!existingAddress || (
+        <Grid item>
           <Button
             color="secondary"
             type="submit"
@@ -138,8 +138,8 @@ export const CreateFactoryAddressForm = ({
           >
             {submitLabel}
           </Button>
-        )}
-      </Grid>
+        </Grid>
+      )}
     </Grid>
   );
 };

@@ -83,8 +83,8 @@ export const CreateContactForm = ({
         </Grid>
       </Grid>
 
-      <Grid item>
-        {!!existingContact || (
+      {!!existingContact || (
+        <Grid item>
           <Button
             type="submit"
             color="secondary"
@@ -93,8 +93,8 @@ export const CreateContactForm = ({
           >
             {submitLabel}
           </Button>
-        )}
-      </Grid>
+        </Grid>
+      )}
     </Grid>
   );
 };
