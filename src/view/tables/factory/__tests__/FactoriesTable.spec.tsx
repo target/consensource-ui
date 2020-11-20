@@ -55,7 +55,7 @@ describe('<FactoriesTable />', () => {
         />,
       );
 
-      const firstRow = screen.getByTestId('MuiDataTableBodyCell-0-0');
+      const firstRow = screen.getByTestId('MuiDataTableBodyCell-4-0');
       const dataCell = firstRow.childNodes[1];
 
       expect(dataCell.textContent).toBe(DEFAULT_CELL_VALUE);
@@ -126,7 +126,7 @@ describe('<FactoriesTable />', () => {
   });
 
   describe('filtering', () => {
-    const { name: validFilterName, label: validFilterLabel } = columns[0];
+    const { name: validFilterName, label: validFilterLabel } = columns[2];
 
     const filterVal = 'foo';
 
@@ -228,21 +228,21 @@ describe('<FactoriesTable />', () => {
   });
 
   describe('sorting', () => {
-    const { name: sortColName } = columns[0];
+    const { name: sortColName } = columns[2];
 
     it('when single clicking a column header, sets the query string to ascending for the column', () => {
       render(<FactoriesTable factories={mockFactories} searchParams={{}} />);
-      userEvent.click(screen.getByTestId('headcol-0'));
+      userEvent.click(screen.getByTestId('headcol-2'));
 
       expect(mockHistoryPush).toHaveBeenCalledWith({
         search: `sort_dir=asc&sort_key=${sortColName}`,
       });
     });
 
-    it('when single double clicking a column header, sets the query string to descending for the column', () => {
+    it('when double clicking a column header, sets the query string to descending for the column', () => {
       render(<FactoriesTable factories={mockFactories} searchParams={{}} />);
-      userEvent.click(screen.getByTestId('headcol-0'));
-      userEvent.click(screen.getByTestId('headcol-0'));
+      userEvent.click(screen.getByTestId('headcol-2'));
+      userEvent.click(screen.getByTestId('headcol-2'));
 
       expect(mockHistoryPush).toHaveBeenCalledWith({
         search: `sort_dir=desc&sort_key=${sortColName}`,
