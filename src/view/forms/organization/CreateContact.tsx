@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { hasEmptyFields } from 'view/forms/utils';
-import {
-  createOrgContact,
-  IContactStrict,
-} from 'services/protobuf/organization';
-import { Organization } from 'services/protobuf/compiled';
+import { IContactStrict } from 'services/protobuf/organization';
 import { Grid, TextField, Button, Typography } from '@material-ui/core';
 
 interface CreateContactFormProps {
-  onSubmit: (contact: Organization.Contact) => any;
+  onSubmit?: (contact: IContactStrict) => void;
+  onChange?: (contact: IContactStrict) => void;
   submitLabel?: string;
+  existingContact?: IContactStrict;
 }
 
 /**
@@ -17,62 +15,83 @@ interface CreateContactFormProps {
  */
 export const CreateContactForm = ({
   onSubmit,
+  onChange,
   submitLabel = 'Submit',
+  existingContact,
 }: CreateContactFormProps) => {
-  const [contact, setContact] = useState<IContactStrict>({
-    name: '',
-    phone_number: '',
-    language_code: '',
-  });
+  const [contact, setContact] = useState<IContactStrict>(
+    existingContact || {
+      name: '',
+      phone_number: '',
+      language_code: '',
+    },
+  );
 
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit(createOrgContact(contact));
+
+    if (onSubmit) {
+      onSubmit(contact);
+    }
   };
 
-  return (
-    <form>
-      <Grid container direction="column" spacing={2}>
-        <Grid item>
-          <Typography variant="h6">Contact Info</Typography>
-        </Grid>
-        <Grid item>
-          <Grid item>
-            <TextField
-              color="secondary"
-              value={contact.name}
-              onChange={(e) => setContact({ ...contact, name: e.target.value })}
-              label="Name"
-              id="contact-name"
-              required
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              color="secondary"
-              value={contact.phone_number}
-              onChange={(e) =>
-                setContact({ ...contact, phone_number: e.target.value })
-              }
-              label="Phone Number"
-              id="contact-phone-number"
-              required
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              color="secondary"
-              value={contact.language_code}
-              onChange={(e) =>
-                setContact({ ...contact, language_code: e.target.value })
-              }
-              label="Language Code"
-              id="contact-language-code"
-              required
-            />
-          </Grid>
-        </Grid>
+  useEffect(() => {
+    /**
+     * The `onChange` handler for each input will keep the internal
+     * state of the form updated. If the parent also passes an `onChange`,
+     * call that function to keep the parent in sync.
+     */
+    if (onChange) {
+      onChange(contact);
+    }
+  }, [contact]);
 
+  return (
+    <Grid container direction="column" spacing={2}>
+      <Grid item>
+        <Typography variant="h5">Contact</Typography>
+      </Grid>
+      <Grid container item spacing={2}>
+        <Grid item>
+          <TextField
+            color="secondary"
+            value={contact.name}
+            onChange={(e) => setContact({ ...contact, name: e.target.value })}
+            label="Name"
+            id="contact-name"
+            variant="outlined"
+            required
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            color="secondary"
+            value={contact.phone_number}
+            onChange={(e) =>
+              setContact({ ...contact, phone_number: e.target.value })
+            }
+            label="Phone Number"
+            id="contact-phone-number"
+            variant="outlined"
+            required
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            color="secondary"
+            value={contact.language_code}
+            onChange={(e) =>
+              setContact({ ...contact, language_code: e.target.value })
+            }
+            label="Language Code"
+            id="contact-language-code"
+            variant="outlined"
+            required
+          />
+        </Grid>
+      </Grid>
+
+      {onSubmit && (
         <Grid item>
           <Button
             type="submit"
@@ -83,7 +102,7 @@ export const CreateContactForm = ({
             {submitLabel}
           </Button>
         </Grid>
-      </Grid>
-    </form>
+      )}
+    </Grid>
   );
 };
