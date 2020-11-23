@@ -12,7 +12,7 @@ exports[`<AuthedNavbar /> renders 1`] = `
         class="makeStyles-logoContainer"
       >
         <a
-          class="makeStyles-link"
+          class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorInherit"
           href="/"
         >
           <div
@@ -47,26 +47,18 @@ exports[`<AuthedNavbar /> renders 1`] = `
         </a>
       </div>
       <a
-        class="makeStyles-link"
-        href="http://consensource.io"
+        class="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-link false MuiTypography-body1 MuiTypography-colorPrimary"
+        href="/http://consensource.io"
         target="_blank"
       >
-        <p
-          class="MuiTypography-root makeStyles-link false MuiTypography-body1"
-        >
-          About
-        </p>
+        About
       </a>
       <a
-        class="makeStyles-link"
+        class="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-link false MuiTypography-body1 MuiTypography-colorPrimary"
         href="/search"
         target=""
       >
-        <p
-          class="MuiTypography-root makeStyles-link false MuiTypography-body1"
-        >
-          Search Factories
-        </p>
+        Search Factories
       </a>
       <div>
         <button
@@ -115,7 +107,7 @@ exports[`<UnauthedNavbar /> renders 1`] = `
         class="makeStyles-logoContainer"
       >
         <a
-          class="makeStyles-link"
+          class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorInherit"
           href="/"
         >
           <div
@@ -150,37 +142,25 @@ exports[`<UnauthedNavbar /> renders 1`] = `
         </a>
       </div>
       <a
-        class="makeStyles-link"
-        href="http://consensource.io"
+        class="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-link false MuiTypography-body1 MuiTypography-colorPrimary"
+        href="/http://consensource.io"
         target="_blank"
       >
-        <p
-          class="MuiTypography-root makeStyles-link false MuiTypography-body1"
-        >
-          About
-        </p>
+        About
       </a>
       <a
-        class="makeStyles-link"
+        class="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-link false MuiTypography-body1 MuiTypography-colorPrimary"
         href="/search"
         target=""
       >
-        <p
-          class="MuiTypography-root makeStyles-link false MuiTypography-body1"
-        >
-          Search Factories
-        </p>
+        Search Factories
       </a>
       <a
-        class="makeStyles-link"
+        class="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-link false MuiTypography-body1 MuiTypography-colorPrimary"
         href="/login"
         target=""
       >
-        <p
-          class="MuiTypography-root makeStyles-link false MuiTypography-body1"
-        >
-          Login
-        </p>
+        Login
       </a>
     </div>
   </header>

@@ -27,7 +27,7 @@ describe('<CertificatesCell />', () => {
 
       expect(screen.getByRole('link')).toHaveAttribute(
         'href',
-        `certifications/${id}`,
+        `/certifications/${id}`,
       );
     });
 
