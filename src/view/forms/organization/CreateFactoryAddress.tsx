@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import { hasEmptyFields, onChangeEvent } from 'view/forms/utils';
-import {
-  createFactoryAddress,
-  IFactoryAddressStrict,
-} from 'services/protobuf/organization';
-import { Factory } from 'services/protobuf/compiled';
+import { IFactoryAddressStrict } from 'services/protobuf/organization';
 import { Button, Grid, TextField, Typography } from '@material-ui/core';
 
 interface CreateFactoryAddressFormProps {
-  onSubmit: (address: Factory.Address) => any;
+  onSubmit: (address: IFactoryAddressStrict) => any;
   submitLabel?: string;
   existingAddress?: IFactoryAddressStrict;
 }
@@ -34,14 +30,14 @@ export const CreateFactoryAddressForm = ({
    */
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit(createFactoryAddress(address));
+    onSubmit(address);
   };
 
   const onChange = (event: onChangeEvent, key: keyof IFactoryAddressStrict) => {
     setAddress({ ...address, [key]: event.target.value });
 
     if (existingAddress) {
-      submit(event);
+      onSubmit({ ...address, [key]: event.target.value });
     }
   };
 

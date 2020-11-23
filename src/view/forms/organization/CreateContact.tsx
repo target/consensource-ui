@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import { hasEmptyFields, onChangeEvent } from 'view/forms/utils';
-import {
-  createOrgContact,
-  IContactStrict,
-} from 'services/protobuf/organization';
-import { Organization } from 'services/protobuf/compiled';
+import { IContactStrict } from 'services/protobuf/organization';
 import { Grid, TextField, Button, Typography } from '@material-ui/core';
 
 interface CreateContactFormProps {
-  onSubmit: (contact: Organization.Contact) => any;
+  onSubmit: (contact: IContactStrict) => any;
   submitLabel?: string;
   existingContact?: IContactStrict;
 }
@@ -31,14 +27,14 @@ export const CreateContactForm = ({
 
   const submit = (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit(createOrgContact(contact));
+    onSubmit(contact);
   };
 
   const onChange = (event: onChangeEvent, key: keyof IContactStrict) => {
     setContact({ ...contact, [key]: event.target.value });
 
     if (existingContact) {
-      submit(event);
+      onSubmit({ ...contact, [key]: event.target.value });
     }
   };
 
