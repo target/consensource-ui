@@ -1,13 +1,12 @@
 import React from 'react';
 import { useSelectedRoute } from 'services/hooks';
 import {
-  ListItem,
   ListItemText,
   ListItemIcon,
   makeStyles,
   createStyles,
 } from '@material-ui/core';
-import { UnstyledLink } from '../../UnstyledLink';
+import { ListItemLink } from '../../Links';
 
 export interface SidebarItemProps {
   /**
@@ -42,17 +41,16 @@ export const SidebarItem = ({ route, icon, label }: SidebarItemProps) => {
   const isSelected = useSelectedRoute(route);
 
   return (
-    <UnstyledLink to={route}>
-      <ListItem
-        button
-        selected={isSelected}
-        className={`${classes.listItem} ${
-          isSelected && classes.selectedListItem
-        }`}
-      >
-        <ListItemIcon>{icon}</ListItemIcon>
-        <ListItemText>{label}</ListItemText>
-      </ListItem>
-    </UnstyledLink>
+    <ListItemLink
+      to={route}
+      color="inherit"
+      selected={isSelected}
+      className={`${classes.listItem} ${
+        isSelected && classes.selectedListItem
+      }`}
+    >
+      <ListItemIcon>{icon}</ListItemIcon>
+      <ListItemText>{label}</ListItemText>
+    </ListItemLink>
   );
 };

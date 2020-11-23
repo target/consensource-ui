@@ -24,7 +24,7 @@ describe('<FactoryNameCell />', () => {
 
       expect(screen.getByRole('link')).toHaveAttribute(
         'href',
-        `factories/${id}`,
+        `/factories/${id}`,
       );
     });
 
