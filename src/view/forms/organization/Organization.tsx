@@ -28,6 +28,8 @@ export interface OrgTransactionFormProps extends TransactionFormProps {
   existingOrg: FactoryResData;
 }
 
+type CreateOrgFormStep = 'CONTACT' | 'ADDRESS' | 'ORG_DETAILS' | 'SELECT_ORG';
+
 /**
  * Four-part form used to build a `CreateOrganizationAction` payload object
  * - First form is the org type
@@ -40,7 +42,10 @@ export const CreateOrganizationForm = ({
   setBatchStatusLink,
 }: TransactionFormProps) => {
   const { signer } = useAuth();
+
+  const [formStep, setFormStep] = useState<CreateOrgFormStep>('SELECT_ORG');
   const [errMsg, setErrMsg] = useState('');
+
   const [org, setOrg] = useState<ICreateOrgActionStrict>({
     contacts: [] as Organization.IContact[],
     address: null,
@@ -64,79 +69,77 @@ export const CreateOrganizationForm = ({
   };
 
   const getCurrentForm = () => {
-    if (org.organization_type === Organization.Type.UNSET_TYPE) {
-      return (
-        <SelectOrganizationType
-          onSubmit={(organization_type) =>
-            setOrg({ ...org, organization_type })
-          }
-          submitLabel="Select Org Type"
-        />
-      );
-    }
-
-    if (org.contacts.length === 0) {
-      return (
-        <form>
+    switch (formStep) {
+      case 'SELECT_ORG':
+        return (
+          <SelectOrganizationType
+            onSubmit={() => setFormStep('CONTACT')}
+            onChange={(organization_type) =>
+              setOrg({ ...org, organization_type })
+            }
+            submitLabel="Select Org Type"
+          />
+        );
+      case 'CONTACT':
+        return (
           <CreateContactForm
-            onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
+            onSubmit={() => setFormStep('ADDRESS')}
+            onChange={(contacts) => setOrg({ ...org, contacts: [contacts] })}
             submitLabel="Continue"
           />
-        </form>
-      );
-    }
-
-    if (org.organization_type === Organization.Type.FACTORY && !org.address) {
-      return (
-        <form>
+        );
+      case 'ADDRESS':
+        return (
           <CreateFactoryAddressForm
-            onSubmit={(address) => setOrg({ ...org, address })}
+            onSubmit={() => setFormStep('ORG_DETAILS')}
+            onChange={(address) => setOrg({ ...org, address })}
             submitLabel="Continue"
           />
-        </form>
-      );
+        );
+      case 'ORG_DETAILS':
+        return (
+          <>
+            <Grid container direction="column" spacing={2}>
+              <Grid item>
+                <FormErrMsg msg={errMsg} />
+              </Grid>
+
+              <Grid item>
+                <Typography variant="h6">Organization Info</Typography>
+              </Grid>
+
+              <Grid item>
+                <TextField
+                  color="secondary"
+                  value={org.name}
+                  onChange={(e) => setOrg({ ...org, name: e.target.value })}
+                  label="Organization Name"
+                  id="org-name"
+                  required
+                />
+              </Grid>
+
+              <Grid item>
+                <Button
+                  variant="contained"
+                  type="submit"
+                  color="secondary"
+                  onClick={submit}
+                  disabled={!org.name}
+                  endIcon={<Key />}
+                >
+                  Create Organization
+                </Button>
+              </Grid>
+            </Grid>
+          </>
+        );
+      default:
+        throw new Error('Invalid form step');
     }
-
-    return (
-      <form>
-        <Grid container direction="column" spacing={2}>
-          <Grid item>
-            <FormErrMsg msg={errMsg} />
-          </Grid>
-
-          <Grid item>
-            <Typography variant="h6">Organization Info</Typography>
-          </Grid>
-
-          <Grid item>
-            <TextField
-              color="secondary"
-              value={org.name}
-              onChange={(e) => setOrg({ ...org, name: e.target.value })}
-              label="Organization Name"
-              id="org-name"
-              required
-            />
-          </Grid>
-
-          <Grid item>
-            <Button
-              variant="contained"
-              type="submit"
-              color="secondary"
-              onClick={submit}
-              disabled={!org.name}
-              endIcon={<Key />}
-            >
-              Create Organization
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
-    );
   };
 
-  return getCurrentForm();
+  return <form>{getCurrentForm()}</form>;
 };
 
 /**

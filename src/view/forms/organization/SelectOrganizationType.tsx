@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { OrgTypeStrings } from 'services/protobuf/organization';
 import {
   FormGroup,
@@ -11,12 +11,14 @@ import {
 import { Organization } from 'services/protobuf/compiled';
 
 interface SelectOrganizationTypeProps {
-  onSubmit: (orgType: Organization.Type) => void;
+  onSubmit?: (orgType: Organization.Type) => void;
+  onChange?: (orgType: Organization.Type) => void;
   submitLabel?: string;
 }
 
 export const SelectOrganizationType = ({
   onSubmit,
+  onChange,
   submitLabel = 'Submit',
 }: SelectOrganizationTypeProps) => {
   const [selectedOrgType, setSelectedOrgType] = useState<OrgTypeStrings>(
@@ -26,12 +28,30 @@ export const SelectOrganizationType = ({
   // Remove the UNSET_TYPE from list of orgs
   const orgTypes = Object.keys(Organization.Type).slice(1) as OrgTypeStrings[];
 
-  const submit = (event: React.FormEvent) => {
-    event.preventDefault();
-    onSubmit(Organization.Type[selectedOrgType]);
+  const getOrgEnumFromString = () => {
+    return Organization.Type[selectedOrgType];
   };
 
-  const onChange = (orgType: OrgTypeStrings) => {
+  const submit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (onSubmit) {
+      onSubmit(getOrgEnumFromString());
+    }
+  };
+
+  useEffect(() => {
+    /**
+     * The `onChange` handler for each input will keep the internal
+     * state of the form updated. If the parent also passes an `onChange`,
+     * call that function to keep the parent in sync.
+     */
+    if (onChange) {
+      onChange(getOrgEnumFromString());
+    }
+  }, [selectedOrgType]);
+
+  const handleChange = (orgType: OrgTypeStrings) => {
     if (orgType === selectedOrgType) {
       setSelectedOrgType('UNSET_TYPE');
     } else {
@@ -54,7 +74,7 @@ export const SelectOrganizationType = ({
                     <Checkbox
                       checked={selectedOrgType === orgType}
                       onChange={() => {
-                        onChange(orgType);
+                        handleChange(orgType);
                       }}
                       name={orgType}
                     />
@@ -66,15 +86,17 @@ export const SelectOrganizationType = ({
           </FormGroup>
         </Grid>
 
-        <Grid item>
-          <Button
-            color="secondary"
-            onClick={submit}
-            disabled={selectedOrgType === 'UNSET_TYPE'}
-          >
-            {submitLabel}
-          </Button>
-        </Grid>
+        {onSubmit && (
+          <Grid item>
+            <Button
+              color="secondary"
+              onClick={submit}
+              disabled={selectedOrgType === 'UNSET_TYPE'}
+            >
+              {submitLabel}
+            </Button>
+          </Grid>
+        )}
       </Grid>
     </form>
   );

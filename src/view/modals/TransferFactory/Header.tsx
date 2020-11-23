@@ -17,13 +17,7 @@ export const Header = ({ handleClose }: HeaderProps) => {
   return (
     <Grid container justify="space-between">
       {spacer}
-      <Grid
-        container
-        alignItems="center"
-        direction="column"
-        xs={10}
-        spacing={1}
-      >
+      <Grid container item alignItems="center" direction="column" xs={10}>
         <Grid item>
           <Typography variant="h3">Confirm Factory Information</Typography>
         </Grid>
