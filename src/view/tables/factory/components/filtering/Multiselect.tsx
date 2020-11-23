@@ -26,10 +26,13 @@ export const FilterMultiselect = ({
 }: FilterMultiselectProps) => {
   useInitialQueryVal(queryKey, onChange);
 
+  const labelId = `filter-model-${label}`;
+
   return (
     <>
-      <InputLabel>{label}</InputLabel>
+      <InputLabel id={labelId}>{label}</InputLabel>
       <Select
+        labelId={labelId}
         multiple
         fullWidth
         value={filterVals}

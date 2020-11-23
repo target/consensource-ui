@@ -126,8 +126,7 @@ describe('<FactoriesTable />', () => {
   });
 
   describe('filtering', () => {
-    const { name: validFilterName, label: validFilterLabel } = columns[2];
-
+    const { name: validFilterName, label: validFilterLabel } = columns[5];
     const filterVal = 'foo';
 
     it('renders', () => {

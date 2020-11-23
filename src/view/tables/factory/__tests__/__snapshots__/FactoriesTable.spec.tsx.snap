@@ -131,6 +131,7 @@ exports[`<FactoriesTable /> filtering renders 1`] = `
             <label
               class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated"
               data-shrink="false"
+              id="filter-model-Countries"
             >
               Countries
             </label>
@@ -139,7 +140,7 @@ exports[`<FactoriesTable /> filtering renders 1`] = `
             >
               <div
                 aria-haspopup="listbox"
-                aria-labelledby="mui-component-select-Countries"
+                aria-labelledby="filter-model-Countries mui-component-select-Countries"
                 class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiInputBase-input MuiInput-input"
                 id="mui-component-select-Countries"
                 role="button"
