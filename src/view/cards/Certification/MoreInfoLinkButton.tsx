@@ -23,7 +23,9 @@ export const MoreInfoLinkButton = ({
   return (
     <div className={classes.align}>
       <UnstyledLink to={`/certifications/${certificationId}`}>
-        <Button color="secondary">More Info</Button>
+        <Button color="secondary" aria-label="More Info" title="More Info">
+          More Info
+        </Button>
       </UnstyledLink>
     </div>
   );
