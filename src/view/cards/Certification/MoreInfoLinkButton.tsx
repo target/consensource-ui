@@ -1,7 +1,7 @@
 import React from 'react';
 import { CertResData } from 'services/api';
 import { Button, makeStyles, createStyles } from '@material-ui/core';
-import { Link } from 'view/components';
+import { ButtonLink } from 'view/components/Links';
 
 export interface MoreInfoLinkButtonProps {
   certificationId: CertResData['id'];
@@ -22,11 +22,11 @@ export const MoreInfoLinkButton = ({
 
   return (
     <div className={classes.align}>
-      <Link to={`/certifications/${certificationId}`}>
+      <ButtonLink to={`/certifications/${certificationId}`}>
         <Button color="secondary" aria-label="More Info" title="More Info">
           More Info
         </Button>
-      </Link>
+      </ButtonLink>
     </div>
   );
 };
