@@ -207,14 +207,14 @@ export const UpdateOrganizationForm = ({
 
         <Grid item>
           <CreateFactoryAddressForm
-            onSubmit={(address) => setOrg({ ...org, address })}
+            onChange={(address) => setOrg({ ...org, address })}
             existingAddress={org.address}
           />
         </Grid>
 
         <Grid item>
           <CreateContactForm
-            onSubmit={(contacts) => setOrg({ ...org, contacts: [contacts] })}
+            onChange={(contacts) => setOrg({ ...org, contacts: [contacts] })}
             existingContact={org.contacts[0]}
           />
         </Grid>
