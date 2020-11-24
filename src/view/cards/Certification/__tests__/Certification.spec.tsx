@@ -15,7 +15,7 @@ describe('<Certificates />', () => {
   it('Checks that the more info button works correctly', () => {
     render(<CertificationCard certification={CertificateData[0]} />);
     userEvent.click(screen.getByText('More Info'));
-    expect(screen.getByRole('button')).toHaveAttribute(
+    expect(screen.getByRole('button', { name: 'More Info' })).toHaveAttribute(
       'href',
       `/certifications/${CertificateData[0].id}`,
     );
@@ -25,7 +25,7 @@ describe('<Certificates />', () => {
     expect(screen.getByText('Expired on 8/18/2020'));
     expect(screen.getByText('Claimed'));
   });
-  it('Checks for valid expiration date is working and checks the unclaimed logic', () => {
+  it('Checks for valid expiration date and checks the unclaimed logic', () => {
     CertificateData[0].valid_to = 2217110400;
     const modified_data: any = CertificateData[0];
     modified_data.assertion_id = 5;
