@@ -47,9 +47,15 @@ export const Body = ({ validTo, isClaimed }: BodyProps) => {
 
   const isClaimedText = isClaimed ? 'Claimed' : 'Unclaimed';
   const isClaimedIcon = isClaimed ? (
-    <ClaimedIcon className={classes.success} />
+    <ClaimedIcon
+      className={classes.success}
+      titleAccess="claimed certificate"
+    />
   ) : (
-    <UnclaimedIcon className={classes.info} />
+    <UnclaimedIcon
+      className={classes.info}
+      titleAccess="unclaimed certificate"
+    />
   );
 
   const isValid = validTo >= getUnixTimeSec();
@@ -58,9 +64,9 @@ export const Body = ({ validTo, isClaimed }: BodyProps) => {
     ? `Valid until ${validToLocale}`
     : `Expired on ${validToLocale}`;
   const isValidIcon = isValid ? (
-    <CheckIcon className={classes.success} />
+    <CheckIcon className={classes.success} titleAccess="valid certificate" />
   ) : (
-    <WarningIcon color="error" />
+    <WarningIcon color="error" titleAccess="expired certificate" />
   );
 
   return (
