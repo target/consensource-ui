@@ -22,7 +22,9 @@ exports[`<Certificates /> renders 1`] = `
             >
               <h6
                 class="MuiTypography-root MuiTypography-h6 MuiTypography-alignCenter"
-              />
+              >
+                Test Standard
+              </h6>
             </div>
             <div
               class="MuiGrid-root MuiGrid-item"
@@ -107,7 +109,7 @@ exports[`<Certificates /> renders 1`] = `
                   <p
                     class="MuiTypography-root MuiTypography-body1"
                   >
-                    Expired on Invalid Date
+                    Expired on 8/18/2020
                   </p>
                 </div>
               </div>
@@ -119,31 +121,22 @@ exports[`<Certificates /> renders 1`] = `
     <div
       class="MuiCardActions-root MuiCardActions-spacing"
     >
-      <div
-        class="makeStyles-align"
+      <a
+        aria-disabled="false"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text makeStyles-moreInfoBtn MuiButton-textSecondary"
+        href="/certifications/a978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee4811"
+        role="button"
+        tabindex="0"
       >
-        <a
-          class="makeStyles-link"
-          href="/certifications/undefined"
+        <span
+          class="MuiButton-label"
         >
-          <button
-            aria-label="More Info"
-            class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary"
-            tabindex="0"
-            title="More Info"
-            type="button"
-          >
-            <span
-              class="MuiButton-label"
-            >
-              More Info
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
-          </button>
-        </a>
-      </div>
+          More Info
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </a>
     </div>
   </div>
 </div>
