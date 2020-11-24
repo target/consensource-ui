@@ -12,14 +12,25 @@ describe('<Certificates />', () => {
     );
     expect(container).toMatchSnapshot();
   });
-  it('Checks that the logic for expiration date is working and checks that the more info button works', () => {
+  it('Checks that the more info button works correctly', () => {
     render(<CertificationCard certification={CertificateData[0]} />);
-    expect(screen.getByText('Expired on 8/18/2020'));
-    expect(screen.getByText('Claimed'));
     userEvent.click(screen.getByText('More Info'));
     expect(screen.getByRole('button')).toHaveAttribute(
       'href',
       `/certifications/${CertificateData[0].id}`,
     );
+  });
+  it('Checks for expired date and checks the claimed logic', () => {
+    render(<CertificationCard certification={CertificateData[0]} />);
+    expect(screen.getByText('Expired on 8/18/2020'));
+    expect(screen.getByText('Claimed'));
+  });
+  it('Checks for valid expiration date is working and checks the unclaimed logic', () => {
+    CertificateData[0].valid_to = 2217110400;
+    const modified_data: any = CertificateData[0];
+    modified_data.assertion_id = 5;
+    render(<CertificationCard certification={modified_data} />);
+    expect(screen.getByText('Valid until 4/3/2040'));
+    expect(screen.getByText('Unclaimed'));
   });
 });
