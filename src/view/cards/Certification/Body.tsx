@@ -3,23 +3,19 @@ import { Grid, Typography, makeStyles, createStyles } from '@material-ui/core';
 import { CertResData } from 'services/api';
 import { getLocaleFromUnix, getUnixTimeSec } from 'utils';
 import {
-  CheckIcon,
-  WarningIcon,
-  ClaimedIconButton,
-  UnclaimedIconButton,
+  AssignmentTurnedInOutlined as CheckIcon,
+  Warning as WarningIcon,
+  VerifiedUserOutlined as ClaimedIcon,
+  InfoOutlined as UnclaimedIcon,
 } from 'view/components';
 
 export interface BodyProps {
   validTo: CertResData['valid_to'];
   isClaimed: boolean;
 }
-
-export interface ValidToTextProps {
-  validTo: BodyProps['validTo'];
-}
-
-export interface IsClaimedTextProps {
-  isClaimed: BodyProps['isClaimed'];
+export interface BodyRowProps {
+  text: string;
+  icon: JSX.Element;
 }
 
 const useStyles = makeStyles(({ palette }) =>
@@ -27,71 +23,52 @@ const useStyles = makeStyles(({ palette }) =>
     success: {
       color: palette.success.main,
     },
-    warning: {
-      color: palette.warning.main,
-    },
-    claimedText: {
-      paddingTop: 12.5,
-    },
-    claimedBtn: {
-      marginLeft: 2.5,
-    },
-    validToIcon: {
-      padding: '18px 16px 16px 16px !important',
-    },
-    validToText: {
-      marginLeft: 5,
-    },
-    validToRow: {
-      paddingLeft: 15,
+    info: {
+      color: palette.info.main,
     },
   }),
 );
 
-const ValidToText = ({ validTo }: ValidToTextProps) => {
-  const classes = useStyles();
-
-  const isValid = validTo >= getUnixTimeSec();
-  const text = isValid ? 'Valid until' : 'Expired on';
-
+const BodyRow = ({ icon, text }: BodyRowProps) => {
   return (
-    <Grid container item spacing={4} className={classes.validToRow}>
-      <Grid item xs={1} className={classes.validToIcon}>
-        {isValid ? (
-          <CheckIcon className={classes.success} />
-        ) : (
-          <WarningIcon color="error" />
-        )}
+    <Grid container item spacing={4}>
+      <Grid item xs={2}>
+        {icon}
       </Grid>
       <Grid item xs>
-        <Typography
-          variant="body1"
-          className={classes.validToText}
-        >{`${text} ${getLocaleFromUnix(validTo)}`}</Typography>
-      </Grid>
-    </Grid>
-  );
-};
-
-const IsClaimedText = ({ isClaimed }: IsClaimedTextProps) => {
-  const classes = useStyles();
-  const isClaimedText = isClaimed ? 'Claimed' : 'Unclaimed';
-
-  return (
-    <Grid container item spacing={6}>
-      <Grid item xs={2} className={classes.claimedBtn}>
-        {isClaimed ? <ClaimedIconButton /> : <UnclaimedIconButton />}
-      </Grid>
-      <Grid item xs>
-        <Typography variant="body1" className={classes.claimedText}>
-          {isClaimedText}
-        </Typography>
+        <Typography variant="body1">{text}</Typography>
       </Grid>
     </Grid>
   );
 };
 
 export const Body = ({ validTo, isClaimed }: BodyProps) => {
+  const classes = useStyles();
+
+  const isClaimedText = isClaimed ? 'Claimed' : 'Unclaimed';
+  const isClaimedIcon = isClaimed ? (
+    <ClaimedIcon
+      className={classes.success}
+      titleAccess="claimed certificate"
+    />
+  ) : (
+    <UnclaimedIcon
+      className={classes.info}
+      titleAccess="unclaimed certificate"
+    />
+  );
+
+  const isValid = validTo >= getUnixTimeSec();
+  const validToLocale = getLocaleFromUnix(validTo);
+  const isValidText = isValid
+    ? `Valid until ${validToLocale}`
+    : `Expired on ${validToLocale}`;
+  const isValidIcon = isValid ? (
+    <CheckIcon className={classes.success} titleAccess="valid certificate" />
+  ) : (
+    <WarningIcon color="error" titleAccess="expired certificate" />
+  );
+
   return (
     <Grid container direction="column" spacing={1}>
       <Grid item>
@@ -101,11 +78,11 @@ export const Body = ({ validTo, isClaimed }: BodyProps) => {
       </Grid>
 
       <Grid item>
-        <IsClaimedText isClaimed={isClaimed} />
+        <BodyRow text={isClaimedText} icon={isClaimedIcon} />
       </Grid>
 
       <Grid item>
-        <ValidToText validTo={validTo} />
+        <BodyRow text={isValidText} icon={isValidIcon} />
       </Grid>
     </Grid>
   );

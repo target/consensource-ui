@@ -60,6 +60,7 @@ export const CertificationCard = ({
           color="secondary"
           to={`/certifications/${certification.id}`}
           className={classes.moreInfoBtn}
+          title="More Info"
         >
           More Info
         </ButtonLink>
