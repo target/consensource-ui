@@ -28,23 +28,27 @@ describe('<CertificateCard />', () => {
     });
 
     it('renders an unclaimed certification with an unclaimed icon', () => {
-      const validCert: any = {
-        ...certificateData,
-        assertion_id: 5,
-      };
-
-      render(<CertificationCard certification={validCert} />);
+      render(
+        <CertificationCard
+          certification={{
+            ...certificateData[0],
+            assertion_id: 'test',
+          }}
+        />,
+      );
       expect(screen.getByTitle('unclaimed certificate')).toBeInTheDocument();
       expect(screen.getByText('Unclaimed'));
     });
 
     it('renders a valid certification with a check icon', () => {
-      const validCert: any = {
-        ...certificateData,
-        valid_to: 2217110400,
-      };
-
-      render(<CertificationCard certification={validCert} />);
+      render(
+        <CertificationCard
+          certification={{
+            ...certificateData[0],
+            valid_to: 2217110400,
+          }}
+        />,
+      );
       expect(screen.getByTitle('valid certificate')).toBeInTheDocument();
       expect(screen.getByText('Valid until 4/3/2040'));
     });
