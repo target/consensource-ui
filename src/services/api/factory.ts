@@ -19,12 +19,10 @@ export interface FactoryResData extends OrgResData {
 }
 
 /**
- * Allows for filtering on all fields of a factory address, and by
- * certifications.
+ * Allows for filtering on all fields of a factory address or by
+ * certifications or fuzzy text global search.
  */
-export type FactoryReqFilterParams = Partial<
-  Omit<FactoryResAddressData, 'country'>
-> & {
+export type FactoryReqFilterParams = Partial<FactoryResAddressData> & {
   /**
    * Overridden from `FactoryResAddressData` to allow for multiple countries
    */
@@ -37,7 +35,7 @@ export type FactoryReqFilterParams = Partial<
   /**
    * Used for full text searches on all address fields
    */
-  address?: string;
+  search?: string;
 };
 
 export type FactoryReqSortParams = SortingReq<FactoryReqFilterParams>;

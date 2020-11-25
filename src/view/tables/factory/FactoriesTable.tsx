@@ -152,10 +152,10 @@ export const FactoriesTable = ({
         page: offset / limit,
         count: factories.paging.total,
         searchText:
-          typeof searchParams.address === 'string' ? searchParams.address : '',
+          typeof searchParams.search === 'string' ? searchParams.search : '',
         rowsPerPage: limit,
         selectableRows: 'none',
-        searchPlaceholder: 'Search by name, certifications...',
+        searchPlaceholder: 'Search factories...',
         confirmFilters: true,
         customSearchRender: debounceSearchRender(500),
         customToolbar: () => <CopyTableLinkButton />,
@@ -172,7 +172,7 @@ export const FactoriesTable = ({
           updateSearchParams({ limit: val });
         },
         onSearchChange: (searchText) => {
-          updateSearchParams({ address: searchText || undefined });
+          updateSearchParams({ search: searchText || undefined });
         },
         onChangePage: (page) => {
           updateSearchParams({ offset: page * limit });
