@@ -2,7 +2,11 @@ import React from 'react';
 import { mockFactoryResWithCerts } from 'services/api/__mocks__';
 import { render, screen, act } from 'utils/testing';
 import userEvent from '@testing-library/user-event';
-import { FactoryResData, PaginatedApiRes } from 'services/api';
+import {
+  FactoryReqFilterParams,
+  FactoryResData,
+  PaginatedApiRes,
+} from 'services/api';
 import { FactoriesTable, textLabels } from '..';
 import { columns, DEFAULT_CELL_VALUE } from '../columns';
 import { FILTER_TIMEOUT_MS } from '../components';
@@ -93,31 +97,27 @@ describe('<FactoriesTable />', () => {
       expect(screen.queryByTitle('Search')).toBe(null);
     });
 
-    it('renders placeholder text', () => {
-      render(<FactoriesTable factories={mockFactories} searchParams={{}} />);
-
-      userEvent.click(screen.getByTitle('Search'));
-      expect(
-        screen.getByPlaceholderText('Search by name, certifications...'),
-      ).toBeInTheDocument();
-    });
-
     it('sets the search text to the search params address string', () => {
-      const address = 'address';
+      const search = 'address';
+      const searchParams = { search };
 
       render(
-        <FactoriesTable factories={mockFactories} searchParams={{ address }} />,
+        <FactoriesTable
+          factories={mockFactories}
+          searchParams={searchParams}
+        />,
       );
 
       userEvent.click(screen.getByTitle('Search'));
-      expect(screen.getByDisplayValue(address)).toBeInTheDocument();
+      expect(screen.getByDisplayValue(search)).toBeInTheDocument();
     });
 
-    it('sets the search text to an empty string if search params address is not a string', async () => {
-      const address = ['foo', 'bar'];
-
+    it('sets the search text to an empty string if search params search is not a string', async () => {
       render(
-        <FactoriesTable factories={mockFactories} searchParams={{ address }} />,
+        <FactoriesTable
+          factories={mockFactories}
+          searchParams={{ search: null }}
+        />,
       );
 
       userEvent.click(screen.getByTitle('Search'));
