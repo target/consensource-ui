@@ -16,7 +16,7 @@ export const WarningIconError: FC<WarningIconErrorProps> = ({
         <WarningIcon fontSize={size} color="error" titleAccess="error" />
       </Grid>
       <Grid item>
-        <Typography variant={size === 'small' ? 'body1' : 'h6'} color="error">
+        <Typography variant={size === 'small' ? 'body1' : 'h6'} color="initial">
           {children}
         </Typography>
       </Grid>

@@ -31,11 +31,8 @@ const useStyles = makeStyles(({ zIndex }) =>
       zIndex: zIndex.drawer + 1,
       color: '#fff',
     },
-    centered: {
-      position: 'absolute',
-      left: '50%',
-      top: '50%',
-      transform: 'translateY(-50%)',
+    warningPadding: {
+      padding: '390px 0 0 0',
     },
   }),
 );
@@ -60,7 +57,7 @@ export const FullPageLoading = <T extends QueryResult<any>>({
     <LoadingWithMinDisplay
       queryRes={queryRes}
       errorIndicator={
-        <div className={classes.centered}>
+        <div className={classes.warningPadding}>
           <WarningIconError size="large">{errorLabel}</WarningIconError>
         </div>
       }
