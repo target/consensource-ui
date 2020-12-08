@@ -50,7 +50,7 @@ exports[`<LoadingWithMinDisplay /> returns an error indicator renders a default 
       class="MuiGrid-root MuiGrid-item"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 MuiTypography-colorError"
+        class="MuiTypography-root MuiTypography-body1"
       />
     </div>
   </div>

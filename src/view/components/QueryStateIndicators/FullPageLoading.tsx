@@ -7,6 +7,7 @@ import {
   LoadingWithMinDisplayProps,
 } from './LoadingWithMinDisplay';
 import { WarningIconError } from './WarningIconError';
+import { NAVBAR_HEIGHT } from '../NavBar';
 
 export interface FullPageLoadingProps<T extends QueryResult<any>> {
   /**
@@ -31,11 +32,8 @@ const useStyles = makeStyles(({ zIndex }) =>
       zIndex: zIndex.drawer + 1,
       color: '#fff',
     },
-    centered: {
-      position: 'absolute',
-      left: '50%',
-      top: '50%',
-      transform: 'translateY(-50%)',
+    warningPadding: {
+      paddingTop: `calc(50vh - ${NAVBAR_HEIGHT}px)`,
     },
   }),
 );
@@ -60,7 +58,7 @@ export const FullPageLoading = <T extends QueryResult<any>>({
     <LoadingWithMinDisplay
       queryRes={queryRes}
       errorIndicator={
-        <div className={classes.centered}>
+        <div className={classes.warningPadding}>
           <WarningIconError size="large">{errorLabel}</WarningIconError>
         </div>
       }
