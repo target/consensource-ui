@@ -26,7 +26,7 @@ exports[`<WarningIconError /> renders 1`] = `
       class="MuiGrid-root MuiGrid-item"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 MuiTypography-colorError"
+        class="MuiTypography-root MuiTypography-body1"
       >
         test
       </p>
@@ -61,7 +61,7 @@ exports[`<WarningIconError /> renders with a size 1`] = `
       class="MuiGrid-root MuiGrid-item"
     >
       <p
-        class="MuiTypography-root MuiTypography-body1 MuiTypography-colorError"
+        class="MuiTypography-root MuiTypography-body1"
       >
         test
       </p>

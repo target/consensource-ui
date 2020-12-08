@@ -7,6 +7,7 @@ import {
   LoadingWithMinDisplayProps,
 } from './LoadingWithMinDisplay';
 import { WarningIconError } from './WarningIconError';
+import { NAVBAR_HEIGHT } from '../NavBar';
 
 export interface FullPageLoadingProps<T extends QueryResult<any>> {
   /**
@@ -32,7 +33,7 @@ const useStyles = makeStyles(({ zIndex }) =>
       color: '#fff',
     },
     warningPadding: {
-      padding: '390px 0 0 0',
+      paddingTop: `calc(50vh - ${NAVBAR_HEIGHT}px)`,
     },
   }),
 );

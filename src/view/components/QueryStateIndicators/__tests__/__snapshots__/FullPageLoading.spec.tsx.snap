@@ -50,7 +50,7 @@ exports[`<FullPageLoading /> renders a loading indicator with a label 1`] = `
 exports[`<FullPageLoading /> renders an error indicator with a label 1`] = `
 <div>
   <div
-    class="makeStyles-centered"
+    class="makeStyles-warningPadding"
   >
     <div
       class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-direction-xs-column MuiGrid-align-items-xs-center"
@@ -76,7 +76,7 @@ exports[`<FullPageLoading /> renders an error indicator with a label 1`] = `
         class="MuiGrid-root MuiGrid-item"
       >
         <h6
-          class="MuiTypography-root MuiTypography-h6 MuiTypography-colorError"
+          class="MuiTypography-root MuiTypography-h6"
         >
           error
         </h6>
