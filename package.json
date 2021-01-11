@@ -63,7 +63,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/styles": "^4.9.14",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "eventsource": "^1.0.7",
     "mobx": "^5.15.4",
     "mobx-react-lite": "^2.0.6",
