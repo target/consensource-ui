@@ -36,6 +36,11 @@ module.exports = {
     'no-plusplus': 'off',
     'react/prop-types': 'off',
     'react/jsx-props-no-spreading': 'off',
+    // Temp rule disabled to ignore React 17 updates
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
   },
   settings: {
     'import/resolver': {
